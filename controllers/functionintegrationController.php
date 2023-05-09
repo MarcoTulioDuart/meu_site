@@ -30,7 +30,7 @@ class functionintegrationController extends Controller
       $project_id = $_SESSION['project_id_proTSA'];
     }
 
-    //form 2: escolhe o ECU e filtra as funções por tipo
+    //form 2: escolhe o ECU 
 
     $list_ecu = new list_ecu();
     $type_ecu = new type_ecu();
@@ -41,21 +41,32 @@ class functionintegrationController extends Controller
       if (isset($_POST['name_ecu']) && !empty($_POST['name_ecu'])) { //quando o type ecu é escolhido
 
         $filters['name_ecu'] = $_POST['name_ecu']; //filtro para puxar somente as funções do ecu escolhido
-        $data['selected'] = $_POST['name_ecu'];
-        $data['list_ecu'] = $list_ecu->getAll($filters, $project_id); //pega a função de acordo com o ecu escolhido
 
         $ecu_id = $type_ecu->getId($filters); //pega o id especifico do ecu escolhido
         $_SESSION['ecu_project_proTSA'] = $ecu_id['id'];
+        header("Location: " . BASE_URL . "functionintegration?form=3");
       }
 
       //a função selecionada será cadastrada na action: select_function_ecu
     }
 
-    //form 3: Upload de especificações de funções
+    //form 3: filtra as funções por tipo
+
+    if (isset($_GET['form']) && $_GET['form'] == 3) {
+
+      $ecu_id = $_SESSION['ecu_project_proTSA'];
+      $data['name_ecu'] = $type_ecu->getName($ecu_id);
+      $filters['name_ecu'] = $data['name_ecu']['name'];
+
+      $data['list_ecu'] = $list_ecu->getAll($filters, $project_id); //pega a função de acordo com o ecu escolhido
+
+    }
+
+    //form 4: Upload de especificações de funções
 
     $list_integration_ecu = new list_integration_ecu();
 
-    if (isset($_GET['form']) && $_GET['form'] == 3) {
+    if (isset($_GET['form']) && $_GET['form'] == 4) {
 
       $function_id = $_SESSION['function_ecu'];
 
@@ -65,11 +76,11 @@ class functionintegrationController extends Controller
       //após os arquivos serem escolhidos, serão cadastrados na action: upload_file_ecu
     }
 
-    //form 4: Selecionar signals ligados a função ecu
+    //form 5: Selecionar signals ligados a função ecu
 
     $list_can = new list_can();
 
-    if (isset($_GET['form']) && $_GET['form'] == 4) {
+    if (isset($_GET['form']) && $_GET['form'] == 5) {
       $ecu_id = $_SESSION['ecu_project_proTSA'];
       $data['list_can_name'] = $list_can->getCanProject($project_id, $ecu_id); //Pega as rede cans que existem no projeto e que estão ligadas ao ecu escolhido
 
@@ -83,8 +94,8 @@ class functionintegrationController extends Controller
       }
     }
 
-    //form 5: apenas confirmação
-    if (isset($_GET['form']) && $_GET['form'] == 5) {
+    //form 6: apenas confirmação
+    if (isset($_GET['form']) && $_GET['form'] == 6) {
 
       $ecu_id = $_SESSION['ecu_project_proTSA'];
       $data['name_ecu'] = $type_ecu->getName($ecu_id);
@@ -92,9 +103,9 @@ class functionintegrationController extends Controller
       unset($_SESSION['function_ecu']);
     }
 
-    //form 6: Questionario sobre as funções
+    //form 7: Questionario sobre as funções
 
-    if (isset($_GET['form']) && $_GET['form'] == 6) {
+    if (isset($_GET['form']) && $_GET['form'] == 7) {
 
       $ecu_id = $_SESSION['ecu_project_proTSA'];
 
@@ -109,9 +120,9 @@ class functionintegrationController extends Controller
       //As respostas serão cadastradas na action: answer_questions
     }
 
-    //form 7:
+    //form 8:
 
-    if (isset($_GET['form']) && $_GET['form'] == 7) {
+    if (isset($_GET['form']) && $_GET['form'] == 8) {
       $function_classification = new function_classification;
 
       unset($_SESSION['ecu_project_proTSA']);
@@ -123,7 +134,6 @@ class functionintegrationController extends Controller
 
         $function_classification->add($integration_ecu_id, $score, $project_id);
       }
-
 
       $data['id_project'] = $project_id;
     }
@@ -146,7 +156,7 @@ class functionintegrationController extends Controller
 
   public function select_function_ecu()
   {
-    //form 2
+    //form 3
     $list_integration_ecu = new list_integration_ecu();
 
     if (isset($_POST['list_ecu_id']) && !empty($_POST['list_ecu_id'])) {
@@ -156,14 +166,14 @@ class functionintegrationController extends Controller
 
       $list_integration_ecu->add($list_ecu_id, $project_id); //cadastra os ecus selecionados nessa tabela
 
-      header("Location: " . BASE_URL . "functionintegration?form=3");
+      header("Location: " . BASE_URL . "functionintegration?form=4");
       exit;
     }
   }
 
   public function upload_file_ecu()
   {
-    //form 3
+    //form 4
     $list_integration_ecu = new list_integration_ecu();
     $site = new site();
 
@@ -179,14 +189,14 @@ class functionintegrationController extends Controller
 
       $list_integration_ecu->addFile($list_ecu_id, $file); //faz o cadastro do caminho do arquivo atravez do id do list_ecu
 
-      header("Location: " . BASE_URL . "functionintegration?form=4");
+      header("Location: " . BASE_URL . "functionintegration?form=5");
       exit;
     }
   }
 
   public function select_signal_can()
   {
-    //form 4
+    //form 5
     $list_integration_can = new list_integration_can();
 
     if (isset($_POST['can_id']) && !empty($_POST['can_id'])) {
@@ -198,13 +208,15 @@ class functionintegrationController extends Controller
         $function_id = $_SESSION['function_ecu'];
         $list_integration_can->add($list_can_id, $project_id, $function_id);
       }
-      header("Location: " . BASE_URL . "functionintegration?form=4");
+      header("Location: " . BASE_URL . "functionintegration?form=6");
       exit;
     }
   }
 
   public function answer_questions()
   {
+    //form 7
+
     $list_integration_ecu = new list_integration_ecu();
 
     if (isset($_POST['function_id']) && !empty($_POST['function_id'])) {
@@ -221,7 +233,7 @@ class functionintegrationController extends Controller
 
         $list_integration_ecu->answer_questions($question_1, $question_2, $question_3, $id_functions);
       }
-      header("Location: " . BASE_URL . "functionintegration?form=7");
+      header("Location: " . BASE_URL . "functionintegration?form=8");
       exit;
     }
   }

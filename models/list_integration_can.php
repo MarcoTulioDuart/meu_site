@@ -40,4 +40,10 @@ class list_integration_can extends Model
             return false;
         }
     }
+
+    //Sinais em comum entre as funções
+
+    public function commomMesages($project_id) {
+        
+    }
 }

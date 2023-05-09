@@ -20,7 +20,7 @@ class site extends Model
             $mail->Port       = 465; //Caso o SMTPSecure seja 'PHPMailer::ENCRYPTION_STARTTLS' use 587
 
             //Destinatário
-            $mail->setFrom('contato@advoce.com.br', 'ADVOCÊ'); //Quem está enviando
+            $mail->setFrom('contato@advoce.com.br', 'PROTSA'); //Quem está enviando
             $mail->addAddress($email, $name); //Quem recebe
 
             //Conteudo do email
@@ -51,7 +51,7 @@ class site extends Model
 
             //Destinatário
             $mail->setFrom($email, $name); //Quem está enviando
-            $mail->addAddress('contato@advoce.com.br', 'ADVOCÊ'); //Quem recebe
+            $mail->addAddress('contato@advoce.com.br', 'PROTSA'); //Quem recebe
 
             //Conteudo do email
             $mail->isHTML(true); //Se o email será em formato html

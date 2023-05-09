@@ -77,7 +77,7 @@
                             </form>
                         <?php endif; ?>
 
-                        <!-- FORM 2: Escolher ECUs e funções -->
+                        <!-- FORM 2: Escolher ECUs -->
 
                         <?php if (isset($_GET['form']) && $_GET['form'] == 2) : ?>
 
@@ -112,7 +112,7 @@
                                                     <select name="name_ecu" id="name_ecu" class="gui-input">
                                                         <?php foreach ($list_ecu_name as $value) : ?>
 
-                                                            <option value="<?= $value['t_name']; ?>" <?= (isset($selected) && $selected == $value['t_name']) ? "selected" : ""; ?>>
+                                                            <option value="<?= $value['t_name']; ?>">
                                                                 <?= $value['t_name']; ?>
                                                             </option>
 
@@ -130,16 +130,38 @@
                                     </div>
                                 </form>
 
+                                <div class="section text-center">
+                                    <a href="<?= BASE_URL; ?>functionintegration?form=3" class="btn fs14 btn-primary">Próximo</a>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
+                        <!-- FORM 3: Escolher funções -->
+
+                        <?php if (isset($_GET['form']) && $_GET['form'] == 3) : ?>
+
+                            <div class="panel-heading text-center pb25">
+
+                                <span class="panel-title pn">Selecionar Funções da ECU <?= $name_ecu['name']; ?></span><br>
+                                <span class="fa fa-circle"></span>
+                                <span class="fa fa-circle"></span>
+                                <span class="fa fa-circle-o"></span>
+                                <span class="fa fa-circle-o"></span>
+                                <span class="fa fa-circle-o"></span>
+                                <span class="fa fa-circle-o"></span>
+                                <span class="fa fa-circle-o"></span>
+
+                            </div>
+                            <div class="panel-body pn">
+
                                 <!-- FUNÇÃO ECU -->
 
                                 <form action="<?= BASE_URL; ?>functionintegration/select_function_ecu" method="post">
                                     <div class="section row">
-                                        <div class="col-md-10 ph10 mb5">
-                                            <div class="panel mb50" id="p5" data-panel-remove="false" data-panel-color="false" data-panel-fullscreen="false" data-panel-title="false" data-panel-collapse="false">
-                                                <div class="panel-heading">
-                                                    <span class="panel-title">Selecione as funções desejadas:</span>
-                                                </div>
-                                                <div class="panel-body panel-scroller scroller-sm pn mt20">
+                                        <div class="panel mb50" id="p5" data-panel-remove="false" data-panel-color="false" data-panel-fullscreen="false" data-panel-title="false" data-panel-collapse="false">
+                                            <div class="panel-body panel-scroller scroller-sm pn mt20">
+
+                                                <div class="col-md-10 ph10 mb5">
                                                     <div class="option-group field">
                                                         <?php if (isset($list_ecu)) : ?>
                                                             <select name="list_ecu_id" id="list_ecu_id" class="gui-input">
@@ -151,25 +173,28 @@
                                                             </select>
                                                         <?php endif; ?>
                                                     </div>
+
+                                                </div>
+                                                <div class="col-md-2 ph10 mb5">
+                                                    <label class="file">
+                                                        <button type="submit" class="button btn-primary">Escolher</button>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 ph10 mb5">
-                                            <label class="file">
-                                                <button type="submit" class="button btn-primary">Escolher</button>
-                                            </label>
-                                        </div>
+
                                     </div>
                                 </form>
                                 <div class="section text-center">
-                                    <a href="<?= BASE_URL; ?>functionintegration?form=3" class="btn fs14 btn-primary">Próximo</a>
+                                    <a href="<?= BASE_URL; ?>functionintegration?form=2" class="btn fs14 btn-primary">Anterior</a>
+                                    <a href="<?= BASE_URL; ?>functionintegration?form=4" class="btn fs14 btn-primary">Próximo</a>
                                 </div>
                             </div>
                         <?php endif; ?>
 
-                        <!-- FORM 3: Upload de especicações de funções-->
+                        <!-- FORM 4: Upload de especicações de funções-->
 
-                        <?php if (isset($_GET['form']) && $_GET['form'] == 3) : ?>
+                        <?php if (isset($_GET['form']) && $_GET['form'] == 4) : ?>
                             <div class="right">
                                 <div class="btn-group">
                                     <button type="button" class="dropdown-toggle btn btn-primary" data-toggle="dropdown" aria-expanded="false">
@@ -229,7 +254,7 @@
                                         </div>
                                     </div>
                                     <div class="section text-center">
-                                        <a href="<?= BASE_URL; ?>functionintegration?form=2" class="btn fs14 btn-primary">Anterior</a>
+                                        <a href="<?= BASE_URL; ?>functionintegration?form=3" class="btn fs14 btn-primary">Anterior</a>
                                         <button type="submit" class="btn fs14 btn-primary"><b>Próximo</b></button>
                                     </div>
                                 </form>
@@ -238,7 +263,7 @@
 
                         <!-- FORM 4: Selecionar CANs e signal names -->
 
-                        <?php if (isset($_GET['form']) && $_GET['form'] == 4) : ?>
+                        <?php if (isset($_GET['form']) && $_GET['form'] == 5) : ?>
                             <div class="right">
                                 <div class="btn-group">
                                     <button type="button" class="dropdown-toggle btn btn-primary" data-toggle="dropdown" aria-expanded="false">
@@ -270,7 +295,7 @@
                                 <div class="section">
                                     <label>Selecione um tipo de rede CAN:</label>
                                 </div>
-                                <form action="<?= BASE_URL; ?>functionintegration?form=4" method="POST">
+                                <form action="<?= BASE_URL; ?>functionintegration?form=5" method="POST">
 
                                     <!-- Redes CAN presentes no projeto -->
 
@@ -349,15 +374,15 @@
                                     </div>
                                 </form>
                                 <div class="section text-center">
-                                    <a href="<?= BASE_URL; ?>functionintegration?form=3" class="btn fs14 btn-primary">Anterior</a>
-                                    <a href="<?= BASE_URL; ?>functionintegration?form=5" class="btn fs14 btn-primary">Próximo</a>
+                                    <a href="<?= BASE_URL; ?>functionintegration?form=4" class="btn fs14 btn-primary">Anterior</a>
+                                    <a href="<?= BASE_URL; ?>functionintegration?form=6" class="btn fs14 btn-primary">Próximo</a>
                                 </div>
                             </div>
                         <?php endif; ?>
 
                         <!-- FORM 5: Confirmação de se existem mais cans para serem registradas -->
 
-                        <?php if (isset($_GET['form']) && $_GET['form'] == 5) : ?>
+                        <?php if (isset($_GET['form']) && $_GET['form'] == 6) : ?>
                             <div class="right">
                                 <div class="btn-group">
                                     <button type="button" class="dropdown-toggle btn btn-primary" data-toggle="dropdown" aria-expanded="false">
@@ -376,7 +401,7 @@
                                 </div>
                             </div>
                             <div class="panel-heading text-center pb25">
-                                <span class="panel-title pn">Todas as funções da ECU <?= $name_ecu['name'];?> foram selecionadas?</span><br>
+                                <span class="panel-title pn">Todas as funções da ECU <?= $name_ecu['name']; ?> foram selecionadas?</span><br>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
@@ -387,15 +412,15 @@
                             </div>
                             <div class="panel-body pn">
                                 <div class="section row text-center">
-                                    <a href="<?= BASE_URL; ?>functionintegration?form=6" class="btn fs14 btn-primary">Sim</a>
-                                    <a href="<?= BASE_URL; ?>functionintegration?form=2" class="btn fs14 btn-primary">Não</a>
+                                    <a href="<?= BASE_URL; ?>functionintegration?form=7" class="btn fs14 btn-primary">Sim</a>
+                                    <a href="<?= BASE_URL; ?>functionintegration?form=3" class="btn fs14 btn-primary">Não</a>
                                 </div>
                             </div>
                         <?php endif; ?>
 
-                        <!-- FORM 6: Tabela de funções registradas no modulo com questionário -->
+                        <!-- FORM 7: Tabela de funções registradas no modulo com questionário -->
 
-                        <?php if (isset($_GET['form']) && $_GET['form'] == 6) : ?>
+                        <?php if (isset($_GET['form']) && $_GET['form'] == 7) : ?>
                             <div class="panel-heading text-center pb25">
                                 <span class="panel-title pn">Responda o questionário sobre as funções</span><br>
                                 <span class="fa fa-circle"></span>
@@ -464,7 +489,7 @@
 
                                     </div>
                                     <div class="section text-center">
-                                        <a href="<?= BASE_URL; ?>functionintegration?form=5" class="btn fs14 btn-primary">Anterior</a>
+                                        <a href="<?= BASE_URL; ?>functionintegration?form=6" class="btn fs14 btn-primary">Anterior</a>
                                         <button type="submit" class="btn fs14 btn-primary"><b>Próximo</b></button>
                                     </div>
 
@@ -472,9 +497,9 @@
                             </div>
                         <?php endif; ?>
 
-                        <!-- FORM 7: Confirmação de se é necessário mais um ecu -->
+                        <!-- FORM 8: Confirmação de se é necessário mais um ecu -->
 
-                        <?php if (isset($_GET['form']) && $_GET['form'] == 7) : ?>
+                        <?php if (isset($_GET['form']) && $_GET['form'] == 8) : ?>
                             <div class="right">
                                 <div class="btn-group">
                                     <button type="button" class="dropdown-toggle btn btn-primary" data-toggle="dropdown" aria-expanded="false">
