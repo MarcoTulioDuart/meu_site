@@ -203,12 +203,12 @@ class functionintegrationController extends Controller
       $cans = $_POST['can_id'];
       for ($i = 0; $i < count($cans); $i++) {
 
-        $list_can_id = $cans[$i];
+        $data_can_id = $cans[$i];
         $project_id = $_SESSION['project_id_proTSA'];
         $function_id = $_SESSION['function_ecu'];
-        $list_integration_can->add($list_can_id, $project_id, $function_id);
+        $list_integration_can->add($data_can_id, $project_id, $function_id);
       }
-      header("Location: " . BASE_URL . "functionintegration?form=6");
+      header("Location: " . BASE_URL . "functionintegration?form=5");
       exit;
     }
   }

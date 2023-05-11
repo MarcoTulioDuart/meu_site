@@ -244,4 +244,12 @@ class adminController extends Controller
     header("Location: " . BASE_URL . "admin/add_can");
     exit;
   }
+
+  public function delete_link($id)
+  {
+    $useful_links = new useful_links();
+    $useful_links->deleteLink($id);
+    header("Location: " . BASE_URL . "admin/add_useful_links");
+    exit;
+  }
 }

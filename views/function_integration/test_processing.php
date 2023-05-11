@@ -261,7 +261,7 @@
                             </div>
                         <?php endif; ?>
 
-                        <!-- FORM 4: Selecionar CANs e signal names -->
+                        <!-- FORM 5: Selecionar CANs e signal names -->
 
                         <?php if (isset($_GET['form']) && $_GET['form'] == 5) : ?>
                             <div class="right">
@@ -354,7 +354,7 @@
                                                             <?php foreach ($list_can as $value) : ?>
                                                                 <?php if (!empty($value['signal_name'])) : ?>
                                                                     <label class="block mt20 option option-info">
-                                                                        <input type="checkbox" name="can_id[]" value="<?= $value['lc_id']; ?>">
+                                                                        <input type="checkbox" name="can_id[]" value="<?= $value['dc_id']; ?>">
                                                                         <span class="checkbox"></span>
                                                                         <span><?= $value['rede_can']; ?>: <?= $value['signal_name']; ?></span>
                                                                     </label>

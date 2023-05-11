@@ -62,7 +62,7 @@
                                                             <tbody>
                                                                 <?php if ($list == 0) : ?>
                                                                     <tr>
-                                                                        <td colspan="4" class="text-center">Ainda não foi cadastrado nenhum link.</td>
+                                                                        <td colspan="11" class="text-center">Ainda não foi cadastrado nenhum link.</td>
                                                                     </tr>
                                                                 <?php else : ?>
                                                                     <?php foreach ($list as $value) : ?>
@@ -72,7 +72,7 @@
                                                                             <td colspan="4"><?= $value['url']; ?></td>
                                                                             <td colspan="2">
                                                                                 <div class="section text-right mr25">
-                                                                                    <a href="<?= BASE_URL; ?>admin/delete_can/<?= $value['id']; ?>" class="btn btn-primary">
+                                                                                    <a href="<?= BASE_URL; ?>admin/delete_link/<?= $value['id']; ?>" class="btn btn-primary">
                                                                                         <span class="fs14 fa fa-trash"></span>
                                                                                     </a>
                                                                                 </div>

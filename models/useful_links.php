@@ -31,5 +31,18 @@ class useful_links extends Model
         }
     }
 
+    public function deleteLink($id) {
+        $sql = "DELETE FROM useful_links WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
 ?>
