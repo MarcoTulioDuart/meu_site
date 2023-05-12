@@ -14,13 +14,13 @@ class site extends Model
             $mail->isSMTP();
             $mail->Host       = 'br968.hostgator.com.br'; //Servidor SMTP
             $mail->SMTPAuth   = true; //SMTP autenticação
-            $mail->Username   = 'contato@advoce.com.br'; //SMTP username
+            $mail->Username   = 'contato@protsa.infocept.com.br'; //SMTP username
             $mail->Password   = 'infocept23'; //SMTP Senha
             $mail->SMTPSecure = 'ssl';
             $mail->Port       = 465; //Caso o SMTPSecure seja 'PHPMailer::ENCRYPTION_STARTTLS' use 587
 
             //Destinatário
-            $mail->setFrom('contato@advoce.com.br', 'PROTSA'); //Quem está enviando
+            $mail->setFrom('contato@protsa.infocept.com.br', 'PROTSA'); //Quem está enviando
             $mail->addAddress($email, $name); //Quem recebe
 
             //Conteudo do email
@@ -44,14 +44,14 @@ class site extends Model
             $mail->isSMTP();
             $mail->Host       = 'br968.hostgator.com.br'; //Servidor SMTP
             $mail->SMTPAuth   = true; //SMTP autenticação
-            $mail->Username   = 'contato@advoce.com.br'; //SMTP username
+            $mail->Username   = 'contato@protsa.infocept.com.br'; //SMTP username
             $mail->Password   = 'infocept23'; //SMTP Senha
             $mail->SMTPSecure = 'ssl';
             $mail->Port       = 465; //Caso o SMTPSecure seja 'PHPMailer::ENCRYPTION_STARTTLS' use 587
 
             //Destinatário
             $mail->setFrom($email, $name); //Quem está enviando
-            $mail->addAddress('contato@advoce.com.br', 'PROTSA'); //Quem recebe
+            $mail->addAddress('contato@protsa.infocept.com.br', 'PROTSA'); //Quem recebe
 
             //Conteudo do email
             $mail->isHTML(true); //Se o email será em formato html

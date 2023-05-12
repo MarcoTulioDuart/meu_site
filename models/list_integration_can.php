@@ -47,7 +47,7 @@ class list_integration_can extends Model
     {
         $sql = "SELECT DISTINCT c.signal_name, 
 
-        (SELECT GROUP_CONCAT(CONCAT_WS(': ', e.name, e.function_ecu) SEPARATOR ', ')
+        (SELECT GROUP_CONCAT(CONCAT_WS(': ', e.name, e.function_ecu) SEPARATOR '<br>➥ ')
         FROM list_integration_can
         INNER JOIN list_ecu AS le ON (le.id = function_id)
         INNER JOIN data_ecu AS e ON (e.id = le.data_ecu_id)

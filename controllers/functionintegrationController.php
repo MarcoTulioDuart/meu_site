@@ -125,8 +125,12 @@ class functionintegrationController extends Controller
     if (isset($_GET['form']) && $_GET['form'] == 8) {
       $function_classification = new function_classification;
 
+      $ecu_id = $_SESSION['ecu_project_proTSA'];
+
+      $name_ecu = $type_ecu->getName($ecu_id);
+      $counts = $list_integration_ecu->count_points($project_id, $name_ecu['name']);
+
       unset($_SESSION['ecu_project_proTSA']);
-      $counts = $list_integration_ecu->count_points($project_id);
 
       for ($i = 0; $i < count($counts); $i++) {
         $integration_ecu_id = $counts[$i]['lie_id'];
@@ -135,7 +139,36 @@ class functionintegrationController extends Controller
         $function_classification->add($integration_ecu_id, $score, $project_id);
       }
 
+      $classifica = $function_classification->getAll($project_id);
+
+      $first = 'true';
+
+      for ($i = 0; $i < count($classifica); $i++) {
+
+        $classification_id = $classifica[$i]['id'];
+        $score = $classifica[$i]['score'];
+
+        if ($first == 'true') {
+          $classification = "Função Cliente";
+          $function_classification->classification($classification, $classification_id);
+        } else if ($first == 'false' && $score == $classifica[0]['score']) {
+          $classification = "Função Cliente";
+          $function_classification->classification($classification, $classification_id);
+        } else {
+          $classification = "Função Serviço";
+        }
+
+        $function_classification->classification($classification, $classification_id);
+
+        $first = 'false';
+      }
+
       $data['id_project'] = $project_id;
+    }
+
+    //form 9:
+
+    if (isset($_GET['form']) && $_GET['form'] == 9) {
     }
 
     //template, view, data
@@ -268,8 +301,6 @@ class functionintegrationController extends Controller
       $_SESSION['project_id_proTSA'] = $_GET['project'];
     }
 
-
-
     //template, view, data
     $this->loadTemplate("home", "function_integration/test_results", $data);
   }
@@ -296,7 +327,7 @@ class functionintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'function_integration';
+    $data['page'] = 'first_result';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     //fim do básico
@@ -305,34 +336,24 @@ class functionintegrationController extends Controller
     $project_id = $_SESSION['project_id_proTSA'];
     $function_classification = new function_classification();
 
-    $classifica = $function_classification->getAll($project_id);
+    $data['classifica'] = $function_classification->getCustomer($project_id);
 
-    $first = 'true';
+    if(isset($_POST['function_id']) && !empty($_POST['function_id'])) {
+      $integration_ecu_id = $_POST['function_id'];
+      $classification = "Função Serviço";
 
-    for ($i = 0; $i < count($classifica); $i++) {
-
-      $classification_id = $classifica[$i]['id'];
-      $score = $classifica[$i]['score'];
-
-      if ($first == 'true') {
-        $classification = "Função Cliente";
-        $function_classification->classification($classification, $classification_id);
-      } else if ($first == 'false' && $score == $classifica[0]['score']) {
-        $classification = "Função Cliente";
-        $function_classification->classification($classification, $classification_id);
-      } else {
-        $classification = "Função Serviço";
-      }
-
-      $function_classification->classification($classification, $classification_id);
-    
-      $first = 'false';
+      $function_classification->correctCustomer($classification, $integration_ecu_id, $project_id);
+      header("Location: " . BASE_URL . "functionintegration/first_result");
+      exit;
     }
 
     $points = new points();
     $points_id = 1;
     $data['list_classification'] = $function_classification->getResult($project_id);
     $data['list_points'] = $points->get($points_id);
+
+    $list_integration_can = new list_integration_can();
+    $data['list_commom_signals'] = $list_integration_can->commomMessages($project_id);
 
     //template, view, data
     $this->loadTemplate("home", "function_integration/first_result", $data);

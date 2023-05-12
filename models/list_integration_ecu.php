@@ -108,15 +108,19 @@ class list_integration_ecu extends Model
         }
     }
 
-    public function count_points($project_id)
+    public function count_points($project_id, $name_ecu)
     {
         $sql = "SELECT lie.id AS lie_id, SUM(lie.question_1 + lie.question_2 + lie.question_3) AS score
         FROM list_integration_ecu AS lie
+        INNER JOIN list_ecu AS le ON (le.id = lie.list_ecu_id)
+        INNER JOIN data_ecu AS e ON (e.id = le.data_ecu_id)
         WHERE lie.project_id = :project_id
+        AND e.name LIKE :name_ecu
         GROUP BY lie.id
         ORDER BY score DESC";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":project_id", $project_id);
+        $sql->bindValue(":name_ecu", $name_ecu);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
