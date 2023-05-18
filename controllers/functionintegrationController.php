@@ -21,6 +21,9 @@ class functionintegrationController extends Controller
     $data['page'] = 'function_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
     //fim do básico
     $projects = new projects();
 
@@ -34,6 +37,7 @@ class functionintegrationController extends Controller
 
     $list_ecu = new list_ecu();
     $type_ecu = new type_ecu();
+
     if (isset($_GET['form']) && $_GET['form'] == 2) {
 
       $data['list_ecu_name'] = $list_ecu->getEcuProject($project_id); //Pega somente os types ecu que foram registrados no projeto
@@ -298,7 +302,7 @@ class functionintegrationController extends Controller
     }
 
     if (isset($_GET['project']) && !empty($_GET['project'])) {
-      $_SESSION['project_id_proTSA'] = $_GET['project'];
+      $_SESSION['integration_id_proTSA'] = $_GET['project'];
     }
 
     //template, view, data
@@ -310,7 +314,7 @@ class functionintegrationController extends Controller
     //form 1
 
     if (isset($_POST['project_id']) && !empty($_POST['project_id'])) {
-      $_SESSION['project_id_proTSA'] = addslashes($_POST['project_id']);
+      $_SESSION['integration_id_proTSA'] = addslashes($_POST['project_id']);
 
       header("Location: " . BASE_URL . "functionintegration/results");
       exit;
@@ -330,15 +334,18 @@ class functionintegrationController extends Controller
     $data['page'] = 'first_result';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
     //fim do básico
 
     //Primeiro resultado
-    $project_id = $_SESSION['project_id_proTSA'];
+    $project_id = $_SESSION['integration_id_proTSA'];
     $function_classification = new function_classification();
 
     $data['classifica'] = $function_classification->getCustomer($project_id);
 
-    if(isset($_POST['function_id']) && !empty($_POST['function_id'])) {
+    if (isset($_POST['function_id']) && !empty($_POST['function_id'])) {
       $integration_ecu_id = $_POST['function_id'];
       $classification = "Função Serviço";
 
@@ -355,10 +362,27 @@ class functionintegrationController extends Controller
     $list_integration_can = new list_integration_can();
     $data['list_commom_signals'] = $list_integration_can->commomMessages($project_id);
 
+    $list_participants = new list_participants();
+
+    $data['list_participants'] = $list_participants->getAll($project_id);
+
     //template, view, data
     $this->loadTemplate("home", "function_integration/first_result", $data);
   }
 
+  public function add_meeting()
+  {
+    $meetings = new meetings();
+    $project_id = $_SESSION['integration_id_proTSA'];
+    
+    if (!empty($_POST['title']) && !empty($_POST['date_meeting'])) {
+      $title = addslashes($_POST['title']);
+      $date_meeting = addslashes($_POST['date_meeting']);
+      $meetings->addMeeting($project_id, $title, $date_meeting);
+      header("Location: " . BASE_URL . "function_integration/second_result");
+      exit;
+    }
+  }
 
   public function second_result()
   {
@@ -374,12 +398,53 @@ class functionintegrationController extends Controller
     $data['page'] = 'function_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
     //fim do básico
 
     //Segundo resultado
+    $project_id = $_SESSION['integration_id_proTSA'];
+    $meetings = new meetings();
 
+    $data['list_meeting'] = $meetings->getAll($project_id);
 
     //template, view, data
     $this->loadTemplate("home", "function_integration/second_result", $data);
   }
+
+  public function response_meeting($id_meeting)
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'function_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
+    $meetings = new meetings();
+    $data['list'] = $meetings->get($id_meeting);
+
+    if (!empty($_POST['text'])) {
+
+      $text = addslashes($_POST['text']);
+
+      $meetings->meetingConcluded($id_meeting, $text);
+      header("Location: " . BASE_URL . "function_integration/second_result");
+      exit;
+    }
+
+    //template, view, data
+    $this->loadTemplate("home", "function_integration/response_meeting", $data);
+  }
+
 }

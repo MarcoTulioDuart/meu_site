@@ -6603,7 +6603,7 @@
             });
 
             //language
-            this.options.datetimepicker.language = this.options.datetimepicker.language || 'en';
+            this.options.datetimepicker.language = this.options.datetimepicker.language || 'pt-br';
 
             //store DPglobal
             this.dpg = $.fn.datetimepicker.DPGlobal;

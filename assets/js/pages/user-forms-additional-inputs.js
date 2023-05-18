@@ -109,7 +109,7 @@
         $('#daterangepicker2').daterangepicker(
             rangeOptions,
             function(start, end) {
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                $('#reportrange span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
             }
         );
 
@@ -117,7 +117,7 @@
         $('#inline-daterange').daterangepicker(
             rangeOptions,
             function(start, end) {
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                $('#reportrange span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
             }
         );
 
@@ -127,23 +127,23 @@
 
         // Init inline + range detection
         $('#datetimepicker3').datetimepicker({
-            defaultDate: "01/01/2016",
+            defaultDate: "01/01/2023",
             inline: true
         });
 
         // Init fields + disabled date
         $('#datetimepicker5').datetimepicker({
-            defaultDate: "01/01/2016",
+            defaultDate: "01/01/2023",
             pickDate: false
         });
         // Init fields + disabled date
         $('#datetimepicker6').datetimepicker({
-            defaultDate: "01/01/2016",
+            defaultDate: "01/01/2023",
             pickDate: false
         });
         // Init fields + disabled date
         $('#datetimepicker7').datetimepicker({
-            defaultDate: "01/01/2016",
+            defaultDate: "01/01/2023",
             pickDate: false,
             inline: true
         });

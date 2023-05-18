@@ -20,7 +20,10 @@ class systemController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
-
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
     $type_ecu = new type_ecu();
 
     $data['type_ecu'] = $type_ecu->getAll();
@@ -69,6 +72,11 @@ class systemController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
+
     $can = new data_can();
     $type_can = new type_can();
 
@@ -79,7 +87,7 @@ class systemController extends Controller
       $file->load($_FILES['library']['tmp_name']);
 
       $first_line = true;
-      
+
       $row = $file->getElementsByTagName("Table")->item(0)->getElementsByTagName("Row");
       foreach ($row as $value) {
         if ($first_line == false) {
@@ -115,6 +123,11 @@ class systemController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
+
     $parameters = new data_parameters();
     $type_parameters = new type_parameters();
 
@@ -164,6 +177,10 @@ class systemController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
 
     $vehicles = new vehicles();
 
@@ -206,6 +223,10 @@ class systemController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
 
     $useful_links = new useful_links();
     $data['list_useful_links'] = $useful_links->getAll();

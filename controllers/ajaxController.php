@@ -64,7 +64,6 @@ class ajaxController extends Controller
         'error'   => $exception->getMessage()
       ));
     }
-    
   }
   
   public function search_parameters()

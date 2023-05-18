@@ -20,6 +20,10 @@ class adminController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if(isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
 
     $ecu = new type_ecu();
 
@@ -57,6 +61,10 @@ class adminController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if(isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
 
     $can = new type_can();
     $data['list_type_can'] = $can->getAll();
@@ -93,6 +101,11 @@ class adminController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if(isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
+
     $parameters = new type_parameters();
     $data['list_type_parameters'] = $parameters->getAll();
 
@@ -129,6 +142,10 @@ class adminController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if(isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
 
     $useful_links = new useful_links();
     $data['list'] = $useful_links->getAll();
@@ -167,7 +184,9 @@ class adminController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
-
+    if(isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
     //fim do básico
 
     $points = new points();
@@ -193,7 +212,9 @@ class adminController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
-
+    if(isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
     //fim do básico
 
     $points = new points();

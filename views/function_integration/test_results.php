@@ -96,7 +96,7 @@
                                     </div>
 
                                     <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL;?>functionintegration/second_result" class="btn fs14 btn-primary" disabled>Segundo Resultado</a>
+                                        <a href="<?= BASE_URL;?>functionintegration/second_result" class="btn fs14 btn-primary">Segundo Resultado</a>
                                     </div>
 
                                     <div class="col-md-4 ph10 mb5">

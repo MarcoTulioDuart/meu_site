@@ -25,7 +25,7 @@
     <div class="content-left">
 
     </div>
-    <div class="content-right table-layout">
+    <div class="content-right table-layout" id="modal-content">
         <!-- Column Center -->
         <div class="chute chute-center pbn">
             <!-- Lists -->
@@ -144,6 +144,22 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="section row">
+                                        <div class="col-md-8">
+                                            <button class="btn btn-primary btn-bordered">Download</button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div id="animation-switcher" class="ph20">
+                                                <div class="col-xs-12 col-sm-4 text-right">
+                                                    <a class="holder-active" href="#modal-form">
+                                                        <button class="btn btn-primary btn-bordered" data-effect="mfp-zoomIn">
+                                                            Marcar reunião
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                         <?php endif; ?>
@@ -157,3 +173,74 @@
         <!-- /Column Center -->
     </div>
 </section>
+
+<div id="modal-form" class="popup-basic allcp-form mfp-with-anim mfp-hide">
+    <div class="panel">
+        <div class="panel-heading text-center">
+            <span class="panel-title">
+                Crie uma reunião
+            </span>
+        </div>
+        <!-- /Panel Heading -->
+        <form method="post" action="<?= BASE_URL; ?>functionintegration/add_meeting" id="form-order" enctype="multipart/form-data">
+            <div class="panel-body">
+                <div class="section row">
+                    <div class="col-md-12 ph10 mb5">
+                        <label for="title" class="field prepend-icon">
+                            <input type="text" name="title" id="title" class="gui-input" placeholder="Digite o tema da reunião">
+                            <span class="field-icon">
+                                <i class="fa fa-file"></i>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="section row text-center">
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <span class="field-icon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <h6 class="text-center mtn pt10 pb20">Escolha uma data e horário para a reunião</h6>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div id="datetimepicker3">
+                                <input type="text" name="date_meeting" class="form-control" style="max-width: 250px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="section row">
+                    <div class="col-md-12 ph10 mb5">
+                        <div class="panel mb50" id="p5" data-panel-remove="false" data-panel-color="false" data-panel-fullscreen="false" data-panel-title="false" data-panel-collapse="false">
+                            <div class="panel-heading text-center">
+                                <span class="">Selecione os Participantes da Reunião:</span>
+                            </div>
+                            <div class="panel-body panel-scroller scroller-sm pn mt20 mh-100">
+                                <div class="option-group field pl15">
+                                    <?php if (isset($list_participants)) : ?>
+                                        <?php foreach ($list_participants as $value) : ?>
+                                            <label class="block mt20 option option-info">
+                                                <input type="checkbox" name="participant_id[]" value="<?= $value['id']; ?>">
+                                                <span class="checkbox"></span>
+                                                <span><?= $value['responsibility']; ?>: <?= $value['full_name']; ?></span>
+                                            </label>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section text-center">
+                    <button type="submit" class="btn fs14 btn-primary">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- /Panel -->
+</div>

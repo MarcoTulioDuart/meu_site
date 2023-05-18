@@ -21,7 +21,9 @@ class function_classification extends Model
 
     public function getAll($project_id)
     {
-        $sql = "SELECT * FROM function_classification WHERE project_id = :project_id ORDER BY score DESC";
+        $sql = "SELECT * FROM function_classification 
+        WHERE project_id = :project_id 
+        ORDER BY score DESC";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":project_id", $project_id);
         $sql->execute();
@@ -36,7 +38,8 @@ class function_classification extends Model
 
     public function classification($classification, $id)
     {
-        $sql = "UPDATE function_classification SET classification = :classification WHERE id = :id";
+        $sql = "UPDATE function_classification SET classification = :classification 
+        WHERE id = :id";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":classification", $classification);
         $sql->bindValue(":id", $id);

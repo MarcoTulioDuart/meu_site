@@ -1101,7 +1101,7 @@
 		/*
 		* extend timepicker to datepicker
 		*/
-		datetimepicker: function (o) {
+		: function (o) {
 			o = o || {};
 			var tmp_args = arguments;
 

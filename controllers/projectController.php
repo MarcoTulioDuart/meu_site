@@ -26,8 +26,9 @@ class projectController extends Controller
 
     $ecu = new data_ecu();
     $type_ecu = new type_ecu();
-    $data['list_ecu_name'] = $type_ecu->getAll();
 
+    $data['list_ecu_name'] = $type_ecu->getAll();
+    
     if (isset($_GET['form']) && $_GET['form'] == 2) {
 
       if (isset($_POST['name_ecu']) && !empty($_POST['name_ecu'])) {
@@ -36,7 +37,7 @@ class projectController extends Controller
         $data['list_ecu'] = $ecu->getAll($filters);
 
         $ecu_id = $type_ecu->getId($filters);
-        $_SESSION['ecu_project_proTSA'] = $ecu_id['id'];
+        $_SESSION['ecu_project_proTSA'] = $ecu_id['id']; //id do ecu atual
       }
     }
 
@@ -44,47 +45,43 @@ class projectController extends Controller
 
     $can = new data_can();
     $type_can = new type_can();
-    $data['list_can_name'] = $type_can->getAll();
 
     if (isset($_GET['form']) && $_GET['form'] == 3) {
 
+      $data['list_can_name'] = $type_can->getAll();
       $data['form'] = "project_3";
-      if (isset($_POST['name_can']) && !empty($_POST['name_can'])) {
-        if (isset($_SESSION['name_can']) && !empty($_SESSION['name_can'])) {
-          unset($_SESSION['name_can']);
-        }
-        $_SESSION['name_can'] = $_POST['name_can'];
-        $filters['name_can'] = $_SESSION['name_can'];
-        $data['selected'] = $_SESSION['name_can'];
 
+      if (!empty($_GET['name_can'])) {
+
+        $filters['name_can'] = $_GET['name_can'];
+        $_SESSION['name_can'] = $_GET['name_can'];
         $data['list_can'] = $can->getAll($filters); //pegas as informações
+
       }
     }
 
     //form 4
 
     $parameters = new data_parameters();
-    $type_parameters = new type_parameters();
-    $data['list_parameters_name'] = $type_parameters->getAll();
 
     if (isset($_GET['form']) && $_GET['form'] == 4) {
       if (isset($_SESSION['name_can']) && !empty($_SESSION['name_can'])) {
         unset($_SESSION['name_can']);
       }
+      $ecu_id = $_SESSION['ecu_project_proTSA'];
+      $data['name_ecu'] = $type_ecu->getName($ecu_id);
+      $_SESSION['type_parameter'] = $data['name_ecu']['name'];
       $data['form'] = "project_4";
-      if (isset($_POST['type_parameter']) && !empty($_POST['type_parameter'])) {
-        $_SESSION['type_parameter'] = $_POST['type_parameter'];
-        $filters['type_parameter'] = $_SESSION['type_parameter'];
-        $data['selected'] = $_SESSION['type_parameter'];
+      
+      $filters['type_parameter'] = $data['name_ecu']['name'];
 
-        $data['list_paramters'] = $parameters->getAll($filters);
-      }
+      $data['list_paramters'] = $parameters->getAll($filters);
     }
 
     //form 5
 
     if (isset($_GET['form']) && $_GET['form'] == 5) {
-
+      unset($_SESSION['type_parameter']);
       unset($_SESSION['ecu_project_proTSA']);
     }
 
@@ -131,7 +128,9 @@ class projectController extends Controller
     $list_ecu = new list_ecu();
 
     if (isset($_POST['data_ecu_id']) && !empty($_POST['data_ecu_id'])) {
+
       $ecus = $_POST['data_ecu_id'];
+
       for ($i = 0; $i < count($ecus); $i++) {
 
         $ecu_id = $_SESSION['ecu_project_proTSA'];
@@ -159,7 +158,7 @@ class projectController extends Controller
 
         $list_can->add($can_id, $ecu_id, $project_id);
       }
-      header("Location: " . BASE_URL . "project?form=3");
+      header("Location: " . BASE_URL . "project?form=3&name_can=" . $_POST['name_can']);
       exit;
     }
   }

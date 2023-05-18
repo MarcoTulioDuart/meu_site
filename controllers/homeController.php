@@ -54,6 +54,10 @@ class homeController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
 
     //template, view, data
     $this->loadTemplate("home", "under_construction", $data);
@@ -65,7 +69,7 @@ class homeController extends Controller
 
     $data  = array();
     $filters = array();
-    
+
     $data['page'] = "register";
     $accounts = new accounts();
 
@@ -125,6 +129,10 @@ class homeController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
 
     //template, view, data
     $this->loadTemplate("home", "home", $data);
@@ -143,6 +151,10 @@ class homeController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if(isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
 
     if (isset($_POST['new_password']) && !empty($_POST['new_password'])) {
       $options = array('cost' => 11);
@@ -166,7 +178,8 @@ class homeController extends Controller
     $this->loadTemplate("home", "user/new_password", $data);
   }
 
-  public function forgot_password() {
+  public function forgot_password()
+  {
     $site = new site();
 
     if (isset($_POST['email']) && !empty($_POST['email'])) {
@@ -179,11 +192,10 @@ class homeController extends Controller
         header("Location: " . BASE_URL);
         exit;
       } else {
-        
+
         header("Location: " . BASE_URL);
         exit;
       }
-      
     }
   }
 
@@ -225,8 +237,10 @@ class homeController extends Controller
   { //action
 
     unset($_SESSION['proTSA_online']);
+    if(isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
     header("Location: " . BASE_URL);
     exit;
-
   }
 }

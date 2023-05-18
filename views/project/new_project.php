@@ -202,7 +202,8 @@
                                 <div class="section">
                                     <label>Selecione um tipo de rede CAN:</label>
                                 </div>
-                                <form action="<?= BASE_URL; ?>project?form=3" method="POST">
+                                <form action="<?= BASE_URL; ?>project?form=3" method="get">
+                                    <input type="hidden" name="form" value="3">
                                     <div class="section row">
                                         <div class="col-md-10 ph10 mb5">
                                             <label for="name_can" class="field select">
@@ -213,7 +214,7 @@
 
                                                         <?php foreach ($list_can_name as $value) : ?>
 
-                                                            <option value="<?= $value['name']; ?>" <?= (isset($selected) && $selected == $value['name']) ? "selected" : ""; ?>><?= $value['name']; ?></option>
+                                                            <option value="<?= $value['name']; ?>" <?= (isset($_GET['name_can']) && $_GET['name_can'] == $value['name']) ? "selected" : ""; ?>><?= $value['name']; ?></option>
 
                                                         <?php endforeach; ?>
 
@@ -249,6 +250,7 @@
                                                 <div class="panel-body panel-scroller scroller-sm pn mt20">
                                                     <div class="option-group field" id="show_signal">
                                                         <?php if (isset($list_can)) : ?>
+                                                            <input type="hidden" name="name_can" value="<?= $_GET['name_can']; ?>">
                                                             <?php foreach ($list_can as $value) : ?>
                                                                 <?php if (!empty($value['signal_name'])) : ?>
                                                                     <label class="block mt20 option option-info">
@@ -301,7 +303,7 @@
                                 </div>
                             </div>
                             <div class="panel-heading text-center pb25">
-                                <span class="panel-title pn">Selecionar base de dados de Parâmetros</span><br>
+                                <span class="panel-title pn">Selecionar base de dados de Parâmetros <?= $name_ecu['name']; ?></span><br>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
@@ -310,33 +312,6 @@
                                 <span class="fa fa-circle-o"></span>
                             </div>
                             <div class="panel-body pn">
-
-                                <form method="post" action="<?= BASE_URL; ?>project?form=4" id="form-order">
-                                    <div class="section row">
-                                        <div class="col-md-10 ph10 mb5">
-                                            <label for="type_parameter" class="field select">
-                                                <select name="type_parameter" id="type_parameter" class="gui-input">
-                                                    <?php if ($list_parameters_name == 0) : ?>
-                                                        <option selected>Ainda não há tipos de Parâmetros cadastrados</option>
-                                                    <?php else : ?>
-
-                                                        <?php foreach ($list_parameters_name as $value) : ?>
-
-                                                            <option value="<?= $value['name']; ?>" <?= (isset($selected) && $selected == $value['name']) ? "selected" : ""; ?>><?= $value['name']; ?></option>
-
-                                                        <?php endforeach; ?>
-
-                                                    <?php endif; ?>
-                                                </select>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-2 ph10 mb5">
-                                            <label class="file">
-                                                <button type="submit" class="button btn-primary">Escolher</button>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </form>
                                 <div class="section row">
                                     <div class="col-md-10 ph10 mb5">
                                         <label for="search_benennung" class="field prepend-icon">
@@ -357,14 +332,16 @@
                                                 </div>
                                                 <div class="panel-body panel-scroller scroller-sm pn mt20">
                                                     <div class="option-group field" id="show_benennung">
-                                                        <?php if (isset($list_paramters)) : ?>
+                                                        <?php if (isset($list_paramters) && !empty($list_paramters)) : ?>
                                                             <?php foreach ($list_paramters as $value) : ?>
                                                                 <label class="block mt20 option option-info">
                                                                     <input type="checkbox" name="paramter_id[]" value="<?= $value['id']; ?>">
                                                                     <span class="checkbox"></span>
-                                                                    <span><?= $value['type']; ?>: <?= $value['sachnummer']; ?> | <?= $value['benennung']; ?></span>
+                                                                    <span><?= $value['type']; ?>: <?= $value['benennung']; ?> | <?= $value['codebedingung']; ?></span>
                                                                 </label>
                                                             <?php endforeach; ?>
+                                                        <?php else : ?>
+                                                            <span>Não foram cadastrados parâmetros compatíveis com essa ECU.</span>
                                                         <?php endif; ?>
                                                     </div>
                                                 </div>

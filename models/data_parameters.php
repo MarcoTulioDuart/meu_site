@@ -35,10 +35,10 @@ class data_parameters extends Model
         }
 
         if (!empty($filters['search']) && !empty($filters['type_parameter'])) {
-            $where[] = "sachnummer LIKE :search OR benennung LIKE :search AND type LIKE :type";
+            $where[] = "benennung LIKE :search OR codebedingung LIKE :search AND type LIKE :type";
         }
 
-        $sql = "SELECT id, type, sachnummer, benennung FROM data_parameters WHERE " . implode(' AND ', $where) . " LIMIT 30";
+        $sql = "SELECT id, type, benennung, codebedingung FROM data_parameters WHERE " . implode(' AND ', $where) . " LIMIT 30";
         $sql = $this->db->prepare($sql);
         
         if (!empty($filters['type_parameter'])) {

@@ -32,6 +32,40 @@ class type_ecu extends Model
         }
     }
 
+    public function getAllExceptOne($filters) {
+        $array = array();
+
+        $where = array(
+            '1=1'
+        );
+
+        for ($i=0; $i < count($filters['name_ecu']); $i++) { 
+            if (!empty($filters['name_ecu'][$i])) {
+                $where[] = "name != :name" . $i;
+            }
+        }
+        
+
+        $sql = "SELECT * FROM type_ecu WHERE" . implode(' AND ', $where);
+        $sql = $this->db->prepare($sql);
+
+        for ($i=0; $i < count($filters['name_ecu']); $i++) { 
+            if (!empty($filters['name_ecu'][$i])) {
+                $sql->bindValue(":name" . $i, $filters['name_ecu'][$i]);
+            }
+        }
+        
+
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return 0;
+        }
+    }
+
     public function getId($filters) {
         $where = array(
             '1=1'
@@ -72,6 +106,7 @@ class type_ecu extends Model
         }
     }
 
+
     public function delete($id) {
         $sql = "DELETE FROM type_ecu WHERE id = :id";
         $sql = $this->db->prepare($sql);
@@ -86,4 +121,3 @@ class type_ecu extends Model
     }
 
 }
-?>
