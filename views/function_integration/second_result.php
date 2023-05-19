@@ -43,7 +43,10 @@
                                     </li>
                                     <li>
                                         <h6>
-                                            O segundo resultado só será liberado depois que a reunião com a equipe for marcada.
+                                            <ul>
+                                                <li>Se não houver reuniões listadas na tabela volte ao primeiro resultado e agende uma reunião.</li><br>
+                                                <li>A coluna 'status' na tabela indica se já foi registrado o resultado da reunião</li>
+                                            </ul>
                                         </h6>
                                     </li>
                                 </ul>
@@ -65,23 +68,36 @@
                                                                 <tr>
                                                                     <th>#</th>
                                                                     <th>Tema</th>
-                                                                    <th>Opções</th>
+                                                                    <th class="text-center">Status</th>
+                                                                    <th class="text-right">Opções</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 <?php if ($list_meeting == 0) : ?>
                                                                     <tr>
-                                                                        <td colspan="4" class="text-center">Nenhuma reunião foi registrada.</td>
+                                                                        <td colspan="8" class="text-center">Nenhuma reunião foi registrada.</td>
                                                                     </tr>
                                                                 <?php else : ?>
                                                                     <?php foreach ($list_meeting as $value) : ?>
                                                                         <tr>
                                                                             <td><?= $value['id']; ?></td>
                                                                             <td><?= $value['title']; ?></td>
+                                                                            <td class="text-center">
+                                                                                <?php if (!empty($value['text'])) {
+                                                                                    echo "Concluída";
+                                                                                } else {
+                                                                                    echo "Aguardando atualização...";
+                                                                                }
+                                                                                ?>
+                                                                            </td>
                                                                             <td>
                                                                                 <div class="section text-right">
-                                                                                    <a href="<?= BASE_URL; ?>functionintegration/response_meeting/<?= $value['id']; ?>" class="btn btn-primary">
-                                                                                        <span class="fs14 fa fa-eye"></span>
+                                                                                    <a href="<?= BASE_URL; ?>functionintegration/response_meeting/<?= $value['id']; ?>" class="btn btn-primary p10">
+                                                                                        <?php if (!empty($value['text'])) : ?>
+                                                                                            <span class="fs14 fa fa-check"></span>
+                                                                                        <?php else : ?>
+                                                                                            <span class="fs14 fa fa-edit"></span>
+                                                                                        <?php endif; ?>
                                                                                     </a>
                                                                                 </div>
                                                                             </td>
@@ -96,10 +112,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <hr>
-                            <div class="section text-center">
-                                <a href="<?= BASE_URL; ?>functionintegration/response_meeting" class="btn fs14 btn-primary">Adicionar Reunião</a>
                             </div>
                         </div>
 

@@ -23,6 +23,9 @@ class systemController extends Controller
     if (isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
     }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
     //fim do básico
     $type_ecu = new type_ecu();
 
@@ -75,6 +78,9 @@ class systemController extends Controller
     if (isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
     }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
     //fim do básico
 
     $can = new data_can();
@@ -125,6 +131,9 @@ class systemController extends Controller
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
     }
     //fim do básico
 
@@ -180,6 +189,9 @@ class systemController extends Controller
     if (isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
     }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
     //fim do básico
 
     $vehicles = new vehicles();
@@ -225,6 +237,9 @@ class systemController extends Controller
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
     }
     //fim do básico
 

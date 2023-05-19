@@ -32,6 +32,14 @@
         <!-- Datetimepicker CSS -->
         <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/js/plugins/datepicker/css/bootstrap-datetimepicker.css">
     <?php endif; ?>
+    <?php if ($viewData['page'] == 'edit_meeting') : ?>
+        <!-- X-edit CSS -->
+        <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/js/plugins/xeditable/css/bootstrap-editable.css">
+        <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/js/plugins/xeditable/inputs/address/address.css">
+        <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/js/plugins/xeditable/inputs/typeaheadjs/lib/typeahead.js-bootstrap.css">
+        <!-- Summernote -->
+        <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/js/plugins/summernote/summernote.css">
+    <?php endif; ?>
 
     <script src="<?= BASE_URL; ?>assets/js/pages/validation/jquery-3.6.2.min.js"></script>
     <script src="<?= BASE_URL; ?>assets/js/jquery/jquery-1.12.3.min.js"></script>
@@ -292,11 +300,11 @@
 
     <?php if ($viewData['page'] == 'new_password') : ?>
         <script src="<?= BASE_URL; ?>assets/js/pages/validation/new_password.js"></script>
-    <?php elseif ($viewData['form'] == 'project_3') : ?>
+    <?php elseif (isset($viewData['form']) && $viewData['form'] == 'project_3') : ?>
         <script src="<?= BASE_URL; ?>assets/js/search_can.js"></script>
-    <?php elseif ($viewData['form'] == 'project_4') : ?>
+    <?php elseif (isset($viewData['form']) && $viewData['form'] == 'project_4') : ?>
         <script src="<?= BASE_URL; ?>assets/js/search_parameter.js"></script>
-    <?php elseif ($viewData['page'] == 'first_result') : ?>
+    <?php elseif (isset($viewData['form']) && $viewData['page'] == 'first_result') : ?>
         <!-- Date/Month - Pickers -->
         <script src="<?= BASE_URL; ?>assets/js/plugins/globalize/globalize.min.js"></script>
         <script src="<?= BASE_URL; ?>assets/js/plugins/moment/moment.min.js"></script>
@@ -319,7 +327,25 @@
         <script src="<?= BASE_URL; ?>assets/js/plugins/jquerymask/jquery.maskedinput.min.js"></script>
         <!-- Theme Scripts -->
         <script src="<?= BASE_URL; ?>assets/js/pages/user-forms-additional-inputs.js"></script>
+
+    <?php elseif ($viewData['page'] == 'edit_meeting') : ?>
+        <!-- Summernote -->
+        <script src="<?= BASE_URL; ?>assets/js/plugins/summernote/summernote.min.js"></script>
+        <!-- Typeahead JS -->
+        <script src="<?= BASE_URL; ?>assets/js/plugins/xeditable/inputs/typeaheadjs/lib/typeahead.js"></script>
+        <!-- MarkDown JS -->
+        <script src="<?= BASE_URL; ?>assets/js/plugins/markdown/markdown.js"></script>
+        <script src="<?= BASE_URL; ?>assets/js/plugins/markdown/to-markdown.js"></script>
+        <script src="<?= BASE_URL; ?>assets/js/plugins/markdown/bootstrap-markdown.js"></script>
+        <!-- X-edit CSS -->
+        <script src="<?= BASE_URL; ?>assets/js/plugins/moment/moment.min.js"></script>
+        <script src="<?= BASE_URL; ?>assets/js/plugins/xeditable/js/bootstrap-editable.min.js"></script>
+        <script src="<?= BASE_URL; ?>assets/js/plugins/xeditable/inputs/address/address.js"></script>
+        <script src="<?= BASE_URL; ?>assets/js/plugins/xeditable/inputs/typeaheadjs/typeaheadjs.js"></script>
+        <!-- Theme Scripts -->
+        <script src="<?= BASE_URL; ?>assets/js/pages/user-forms-editors.js"></script>
     <?php endif; ?>
+
     <!-- AnimatedSVGIcons -->
     <script src="<?= BASE_URL; ?>assets/fonts/animatedsvgicons/js/snap.svg-min.js"></script>
     <script src="<?= BASE_URL; ?>assets/fonts/animatedsvgicons/js/svgicons-config.js"></script>

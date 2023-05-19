@@ -30,7 +30,7 @@
                 <div class="allcp-form tab-pane mw1000 mauto" id="order" role="tabpanel">
                     <div class="panel" id="shortcut">
 
-                        <?php if (!isset($_SESSION['project_id_proTSA']) || empty($_SESSION['project_id_proTSA'])) : ?>
+                        <?php if (!isset($_SESSION['integration_id_proTSA']) || empty($_SESSION['integration_id_proTSA'])) : ?>
                             <div class="panel-heading text-center">
                                 <span class="panel-title pn">Escolha um projeto Já processado</span><br>
                             </div>
@@ -68,7 +68,7 @@
                             </form>
                         <?php endif; ?>
 
-                        <?php if (isset($_SESSION['project_id_proTSA']) && !empty($_SESSION['project_id_proTSA'])) : ?>
+                        <?php if (isset($_SESSION['integration_id_proTSA']) && !empty($_SESSION['integration_id_proTSA'])) : ?>
                             <div class="right">
                                 <div class="btn-group">
                                     <button type="button" class="dropdown-toggle btn btn-primary" data-toggle="dropdown" aria-expanded="false">
@@ -100,7 +100,7 @@
                                     </div>
 
                                     <div class="col-md-4 ph10 mb5">
-                                        <a class="btn fs14 btn-primary" disabled>Casos de testes</a>
+                                        <a href="<?= BASE_URL;?>functionintegration/third_result" class="btn fs14 btn-primary">Casos de testes</a>
                                     </div>
                                 </div>
                             </div>

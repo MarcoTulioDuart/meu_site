@@ -23,6 +23,9 @@ class adminController extends Controller
     if(isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
     }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
     //fim do básico
 
     $ecu = new type_ecu();
@@ -64,6 +67,9 @@ class adminController extends Controller
     if(isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
     }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
     //fim do básico
 
     $can = new type_can();
@@ -103,6 +109,9 @@ class adminController extends Controller
     $data['info_user'] = $accounts->get($id);
     if(isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
     }
     //fim do básico
 
@@ -144,6 +153,9 @@ class adminController extends Controller
     $data['info_user'] = $accounts->get($id);
     if(isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
     }
     //fim do básico
 
@@ -187,6 +199,9 @@ class adminController extends Controller
     if(isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
     }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
     //fim do básico
 
     $points = new points();
@@ -214,6 +229,9 @@ class adminController extends Controller
     $data['info_user'] = $accounts->get($id);
     if(isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
     }
     //fim do básico
 

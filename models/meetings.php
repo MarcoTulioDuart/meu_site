@@ -5,7 +5,7 @@ class meetings extends Model
 
     public function addMeeting($project_id, $title, $date_meeting)
     {
-        $sql = "INSERT INTO meetings (project_id, title, date_meeting) VALUES(project_id, :title, :date_meeting)";
+        $sql = "INSERT INTO meetings (project_id, title, date_meeting) VALUES(:project_id, :title, :date_meeting)";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":project_id", $project_id);
         $sql->bindValue(":title", $title);

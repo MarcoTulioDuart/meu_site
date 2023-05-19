@@ -374,12 +374,30 @@ class functionintegrationController extends Controller
   {
     $meetings = new meetings();
     $project_id = $_SESSION['integration_id_proTSA'];
-    
+
     if (!empty($_POST['title']) && !empty($_POST['date_meeting'])) {
       $title = addslashes($_POST['title']);
       $date_meeting = addslashes($_POST['date_meeting']);
       $meetings->addMeeting($project_id, $title, $date_meeting);
-      header("Location: " . BASE_URL . "function_integration/second_result");
+
+      //$meeting_participants = addslashes($_POST['participant_id']);
+      $list_participants = new list_participants();
+      $site = new site();
+
+      $meeting_participants = $list_participants->getAllParticipants($project_id);
+
+      for ($i = 0; $i < count($meeting_participants); $i++) {
+        $name = $meeting_participants[$i]['full_name'];
+        $email = 'geovanna.fantuzzi@gmail.com';
+
+        $subject = "Uma reunião foi agendada!";
+        $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '.<br>
+        O tema da reunião será: ' . $title . '.<br>
+        Aguardamos sua presença na reunião!';
+        $site->sendMessage($email, $name, $subject, $message);
+      }
+
+      header("Location: " . BASE_URL . "functionintegration/second_result");
       exit;
     }
   }
@@ -395,7 +413,7 @@ class functionintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'function_integration';
+    $data['page'] = 'second_result';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
@@ -424,7 +442,7 @@ class functionintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'function_integration';
+    $data['page'] = 'edit_meeting';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
@@ -439,7 +457,7 @@ class functionintegrationController extends Controller
       $text = addslashes($_POST['text']);
 
       $meetings->meetingConcluded($id_meeting, $text);
-      header("Location: " . BASE_URL . "function_integration/second_result");
+      header("Location: " . BASE_URL . "functionintegration/second_result");
       exit;
     }
 
@@ -447,4 +465,34 @@ class functionintegrationController extends Controller
     $this->loadTemplate("home", "function_integration/response_meeting", $data);
   }
 
+  public function third_result()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'third_result';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
+
+    //terceiro resultado
+
+    $flowchart = new flowchart();
+    $project_id = $_SESSION['integration_id_proTSA'];
+
+
+    $data['flowchart'] = $flowchart->get($project_id);
+
+    //template, view, data
+    $this->loadTemplate("home", "function_integration/third_result", $data);
+  }
 }

@@ -212,7 +212,9 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-
+                <!-- 
+                    **Aguardar resposta do renato**
+                    
                 <div class="section row">
                     <div class="col-md-12 ph10 mb5">
                         <div class="panel mb50" id="p5" data-panel-remove="false" data-panel-color="false" data-panel-fullscreen="false" data-panel-title="false" data-panel-collapse="false">
@@ -221,21 +223,20 @@
                             </div>
                             <div class="panel-body panel-scroller scroller-sm pn mt20 mh-100">
                                 <div class="option-group field pl15">
-                                    <?php if (isset($list_participants)) : ?>
-                                        <?php foreach ($list_participants as $value) : ?>
+                                    <?php //if (isset($list_participants)) : ?>
+                                        <?php //foreach ($list_participants as $value) : ?>
                                             <label class="block mt20 option option-info">
-                                                <input type="checkbox" name="participant_id[]" value="<?= $value['id']; ?>">
+                                                <input type="checkbox" name="participant_id[]" value="<?php //$value['id']; ?>">
                                                 <span class="checkbox"></span>
-                                                <span><?= $value['responsibility']; ?>: <?= $value['full_name']; ?></span>
+                                                <span><?php //$value['responsibility']; ?>: <?php //$value['full_name']; ?></span>
                                             </label>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
+                                        <?php //endforeach; ?>
+                                    <?php //endif; ?>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
+                </div> -->
                 <div class="section text-center">
                     <button type="submit" class="btn fs14 btn-primary">Enviar</button>
                 </div>

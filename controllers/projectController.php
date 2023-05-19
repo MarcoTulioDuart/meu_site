@@ -21,14 +21,17 @@ class projectController extends Controller
     $data['page'] = 'project';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
-
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    
     //form 2
 
     $ecu = new data_ecu();
     $type_ecu = new type_ecu();
 
     $data['list_ecu_name'] = $type_ecu->getAll();
-    
+
     if (isset($_GET['form']) && $_GET['form'] == 2) {
 
       if (isset($_POST['name_ecu']) && !empty($_POST['name_ecu'])) {
@@ -72,7 +75,7 @@ class projectController extends Controller
       $data['name_ecu'] = $type_ecu->getName($ecu_id);
       $_SESSION['type_parameter'] = $data['name_ecu']['name'];
       $data['form'] = "project_4";
-      
+
       $filters['type_parameter'] = $data['name_ecu']['name'];
 
       $data['list_paramters'] = $parameters->getAll($filters);
@@ -213,6 +216,9 @@ class projectController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
 
     $projects = new projects();
 
@@ -235,6 +241,10 @@ class projectController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    //basico
 
     $projects = new projects();
 
@@ -290,6 +300,9 @@ class projectController extends Controller
     $accounts = new accounts();
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
 
     //template, view, data
     $this->loadTemplate("home", "project/test_results", $data);
