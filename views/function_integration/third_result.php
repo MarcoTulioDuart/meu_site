@@ -68,7 +68,7 @@
                                     <div class="col-md-12 ph10 mb5 text-center">
                                         <h6>Ainda não temos um fluxograma registrado, por favor envie o arquivo.</h6>
                                         <span class="text-muted">Caso ainda não tenha feito o fluxograma acesse o link recomendado a baixo.</span><br><br>
-                                        <a class="text-primary" href="http://" target="_blank">Criar Fluxograma</a>
+                                        <a class="text-primary" href="https://app.diagrams.net/" target="_blank">Criar Fluxograma</a>
                                     </div>
                                 </div>
                                 <div class="section row">

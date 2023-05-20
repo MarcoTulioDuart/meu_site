@@ -388,7 +388,7 @@ class functionintegrationController extends Controller
 
       for ($i = 0; $i < count($meeting_participants); $i++) {
         $name = $meeting_participants[$i]['full_name'];
-        $email = 'geovanna.fantuzzi@gmail.com';
+        $email = $meeting_participants[$i]['email'];
 
         $subject = "Uma reunião foi agendada!";
         $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '.<br>

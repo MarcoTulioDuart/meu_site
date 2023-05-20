@@ -304,7 +304,7 @@
         <script src="<?= BASE_URL; ?>assets/js/search_can.js"></script>
     <?php elseif (isset($viewData['form']) && $viewData['form'] == 'project_4') : ?>
         <script src="<?= BASE_URL; ?>assets/js/search_parameter.js"></script>
-    <?php elseif (isset($viewData['form']) && $viewData['page'] == 'first_result') : ?>
+    <?php elseif ($viewData['page'] == 'first_result') : ?>
         <!-- Date/Month - Pickers -->
         <script src="<?= BASE_URL; ?>assets/js/plugins/globalize/globalize.min.js"></script>
         <script src="<?= BASE_URL; ?>assets/js/plugins/moment/moment.min.js"></script>

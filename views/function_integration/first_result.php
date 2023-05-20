@@ -187,7 +187,7 @@
                 <div class="section row">
                     <div class="col-md-12 ph10 mb5">
                         <label for="title" class="field prepend-icon">
-                            <input type="text" name="title" id="title" class="gui-input" placeholder="Digite o tema da reunião">
+                            <input type="text" name="title" id="title" class="gui-input" placeholder="Digite o tema da reunião" required>
                             <span class="field-icon">
                                 <i class="fa fa-file"></i>
                             </span>
@@ -206,7 +206,7 @@
 
                         <div class="col-md-8">
                             <div id="datetimepicker3">
-                                <input type="text" name="date_meeting" class="form-control" style="max-width: 250px;">
+                                <input type="text" name="date_meeting" class="form-control" style="max-width: 250px;" required>
                             </div>
                         </div>
                     </div>
