@@ -43,7 +43,7 @@
                                     </li>
                                     <li>
                                         <h6>
-                                            O segundo resultado só será liberado depois que a reunião com a equipe for marcada.
+                                            O fluxograma será registrado apenas uma vez.
                                         </h6>
                                     </li>
                                 </ul>
@@ -53,39 +53,41 @@
                             <h4>Fluxograma</h4><br>
                         </div>
                         <div class="panel-body">
-                            <?php if (isset($flowchart) && $flowchart != 0) : ?>
-                                <div class="section row">
-                                    <div class="col-md-12 ph10 mb5">
-                                        <h6>Confirmamos que já há um fluxograma registrado! Gostaria de fazer o download do arquivo?</h6>
-
+                            <form action="<?= BASE_URL;?>functionintegration/third_result" method="post" enctype="multipart/form-data">
+                                <?php if (isset($flowchart) && $flowchart != 0) : ?>
+                                    <div class="section row">
+                                        <div class="col-md-12 ph10 mb5">
+                                            <h6>Confirmamos que já há um fluxograma registrado! Gostaria de fazer o download do arquivo?</h6>
+                                        </div>
+                                        <div class="section text-center">
+                                            <a href="<?= BASE_URL; ?><?= $flowchart['upload']; ?>" class="btn fs14 btn-primary" download>Download</a>
+                                        </div>
                                     </div>
-                                    <div class="section text-center">
-                                        <a href="e<?= BASE_URL; ?><?= $flowchart['upload'];?>" class="btn fs14 btn-primary" download>Download</a>
+                                <?php else : ?>
+                                    <div class="section row">
+                                        <div class="col-md-12 ph10 mb5 text-center">
+                                            <h6>Ainda não temos um fluxograma registrado, por favor envie o arquivo.</h6>
+                                            <span class="text-muted">Caso ainda não tenha feito o fluxograma acesse o link recomendado a baixo.</span><br><br>
+                                            <a class="text-primary" href="https://app.diagrams.net/" target="_blank">Criar Fluxograma</a>
+                                        </div>
                                     </div>
-                                </div>
-                            <?php else : ?>
-                                <div class="section row">
-                                    <div class="col-md-12 ph10 mb5 text-center">
-                                        <h6>Ainda não temos um fluxograma registrado, por favor envie o arquivo.</h6>
-                                        <span class="text-muted">Caso ainda não tenha feito o fluxograma acesse o link recomendado a baixo.</span><br><br>
-                                        <a class="text-primary" href="https://app.diagrams.net/" target="_blank">Criar Fluxograma</a>
+                                    <div class="section row">
+                                        <label class="field prepend-icon file mb20 mt10">
+
+                                            <input type="file" name="upload" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
+
+                                            <input type="text" id="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                                            <i class="fa fa-upload"></i>
+
+                                        </label>
                                     </div>
+                                <?php endif; ?>
+
+                                <hr>
+                                <div class="section text-center">
+                                    <a href="<?= BASE_URL; ?>functionintegration/third_result" class="btn fs14 btn-primary">Enviar</a>
                                 </div>
-                                <div class="section row">
-                                    <label class="field prepend-icon file mb20 mt10">
-
-                                        <input type="file" name="upload" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
-
-                                        <input type="text" id="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
-                                        <i class="fa fa-upload"></i>
-                                    </label>
-                                </div>
-                            <?php endif; ?>
-
-                            <hr>
-                            <div class="section text-center">
-                                <a href="<?= BASE_URL; ?>functionintegration/third_result" class="btn fs14 btn-primary">Enviar</a>
-                            </div>
+                            </form>
                         </div>
 
                     </div>

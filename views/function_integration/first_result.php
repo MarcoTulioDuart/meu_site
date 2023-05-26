@@ -146,7 +146,7 @@
                                     </div>
                                     <div class="section row">
                                         <div class="col-md-8">
-                                            <button class="btn btn-primary btn-bordered">Download</button>
+                                            <a href="<?= BASE_URL; ?>functionintegration/download_first_result" target="_blank" class="btn btn-primary btn-bordered">Preparar Download</a>
                                         </div>
                                         <div class="col-md-2">
                                             <div id="animation-switcher" class="ph20">
@@ -212,31 +212,14 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <!-- 
-                    **Aguardar resposta do renato**
-                    
+
                 <div class="section row">
-                    <div class="col-md-12 ph10 mb5">
-                        <div class="panel mb50" id="p5" data-panel-remove="false" data-panel-color="false" data-panel-fullscreen="false" data-panel-title="false" data-panel-collapse="false">
-                            <div class="panel-heading text-center">
-                                <span class="">Selecione os Participantes da Reunião:</span>
-                            </div>
-                            <div class="panel-body panel-scroller scroller-sm pn mt20 mh-100">
-                                <div class="option-group field pl15">
-                                    <?php //if (isset($list_participants)) : ?>
-                                        <?php //foreach ($list_participants as $value) : ?>
-                                            <label class="block mt20 option option-info">
-                                                <input type="checkbox" name="participant_id[]" value="<?php //$value['id']; ?>">
-                                                <span class="checkbox"></span>
-                                                <span><?php //$value['responsibility']; ?>: <?php //$value['full_name']; ?></span>
-                                            </label>
-                                        <?php //endforeach; ?>
-                                    <?php //endif; ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
+                    <h6 class="text-center mtn pt10 pb20">Convide outras pessoas para a reunião</h6>
+                    <h6 class="text-muted text-center">Digite corretamente seus emails no campo abaixo, separando por ' ; ' sem espaços.</h6>
+
+                    <input type="text" class="form-control" name="participant" id="participant" />
+                </div>
+
                 <div class="section text-center">
                     <button type="submit" class="btn fs14 btn-primary">Enviar</button>
                 </div>

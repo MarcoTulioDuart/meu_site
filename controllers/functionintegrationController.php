@@ -219,8 +219,7 @@ class functionintegrationController extends Controller
       $dir = "assets/upload/function_ecu/"; //endereço da pasta pra onde serão enviados os arquivos
 
       //envia os arquivo para a pasta determinada
-      $file = $site->uploadPdf($dir, $files); //é necessário enviar o indice do for para identificar qual dos arquivos do array está sendo registrado
-      //para identificar o arquivo no array não basta usar $files[$i], o certo é, por exemplo $files['tmp_name'][$i]
+      $file = $site->uploadPdf($dir, $files);
 
       $list_ecu_id = $_POST['list_ecu_id']; //pega o array de id's dos list_ecu
 
@@ -362,6 +361,8 @@ class functionintegrationController extends Controller
     $list_integration_can = new list_integration_can();
     $data['list_commom_signals'] = $list_integration_can->commomMessages($project_id);
 
+    //metting
+
     $list_participants = new list_participants();
 
     $data['list_participants'] = $list_participants->getAll($project_id);
@@ -378,9 +379,9 @@ class functionintegrationController extends Controller
     if (!empty($_POST['title']) && !empty($_POST['date_meeting'])) {
       $title = addslashes($_POST['title']);
       $date_meeting = addslashes($_POST['date_meeting']);
+
       $meetings->addMeeting($project_id, $title, $date_meeting);
 
-      //$meeting_participants = addslashes($_POST['participant_id']);
       $list_participants = new list_participants();
       $site = new site();
 
@@ -389,6 +390,20 @@ class functionintegrationController extends Controller
       for ($i = 0; $i < count($meeting_participants); $i++) {
         $name = $meeting_participants[$i]['full_name'];
         $email = $meeting_participants[$i]['email'];
+
+        $subject = "Uma reunião foi agendada!";
+        $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '.<br>
+        O tema da reunião será: ' . $title . '.<br>
+        Aguardamos sua presença na reunião!';
+        $site->sendMessage($email, $name, $subject, $message);
+      }
+
+      $participants = addslashes($_POST['participant']);
+      $emails = explode(';', $participants);
+
+      for ($i = 0; $i < count($emails); $i++) {
+        $name = ' ';
+        $email = $emails[$i];
 
         $subject = "Uma reunião foi agendada!";
         $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '.<br>
@@ -489,10 +504,56 @@ class functionintegrationController extends Controller
     $flowchart = new flowchart();
     $project_id = $_SESSION['integration_id_proTSA'];
 
-
     $data['flowchart'] = $flowchart->get($project_id);
+
+    if (isset($_FILES['upload']) && !empty($_FILES['upload'])) {
+      $site = new site();
+
+      $upload = $_FILES['upload']; //pega todos os campos que contem um arquivo enviado
+      $dir = "assets/upload/function_ecu/"; //endereço da pasta pra onde serão enviados os arquivos
+
+      //envia os arquivo para a pasta determinada
+      $file = $site->uploadPdf($dir, $upload); 
+
+      $flowchart->add($project_id, $file); //faz o cadastro do caminho do arquivo atravez do id do projeto
+
+      header("Location: " . BASE_URL . "functionintegration?form=5");
+      exit;
+    }
 
     //template, view, data
     $this->loadTemplate("home", "function_integration/third_result", $data);
+  }
+
+  public function download_first_result()
+  {
+    $data  = array();
+    $filters = array();
+
+    //Primeiro resultado
+    $project_id = $_SESSION['integration_id_proTSA'];
+    $function_classification = new function_classification();
+
+    $data['classifica'] = $function_classification->getCustomer($project_id);
+
+    if (isset($_POST['function_id']) && !empty($_POST['function_id'])) {
+      $integration_ecu_id = $_POST['function_id'];
+      $classification = "Função Serviço";
+
+      $function_classification->correctCustomer($classification, $integration_ecu_id, $project_id);
+      header("Location: " . BASE_URL . "functionintegration/first_result");
+      exit;
+    }
+
+    $points = new points();
+    $points_id = 1;
+    $data['list_classification'] = $function_classification->getResult($project_id);
+    $data['list_points'] = $points->get($points_id);
+
+    $list_integration_can = new list_integration_can();
+    $data['list_commom_signals'] = $list_integration_can->commomMessages($project_id);
+
+
+    $this->loadView("function_integration/download_first_result", $data);
   }
 }

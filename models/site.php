@@ -168,7 +168,7 @@ class site extends Model
         $tmp = explode('.', $file['name']); //captura a extesão do arquivo
         $extension = strtolower(end($tmp)); //coloca em minusculo
         if (array_search($extension, $upload['extension']) === false) {
-            setcookie("error", "Por favor, envie arquivos com as seguintes extensões: 'pdf'", 3600);
+            setcookie("error", "Por favor, envie arquivos com a seguintes extensões: 'pdf'", 3600);
             return "";
         }
 
