@@ -117,7 +117,7 @@
             </span>
         </div>
         <!-- /Panel Heading -->
-        <form method="post" action="<?= BASE_URL; ?>admin/add_useful_links" id="form-order" enctype="multipart/form-data">
+        <form method="post" action="<?= BASE_URL; ?>admin/add_useful_links" id="add_links" enctype="multipart/form-data">
             <div class="panel-body">
                 <div class="section row">
                     <div class="col-md-12 ph10 mb5">
@@ -146,3 +146,6 @@
     </div>
     <!-- /Panel -->
 </div>
+
+<!-- VALIDATION -->
+<script src="<?= BASE_URL ?>assets/js/pages/validation/admin.js"></script>

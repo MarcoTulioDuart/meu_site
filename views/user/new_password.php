@@ -54,7 +54,7 @@
                                     </div>
                                     <div class="col-md-6 ph10 mb5">
                                         <label for="c_new_password" class="field prepend-icon">
-                                            <input type="password" name="c_new_password" id="c_new_password" class="gui-input" placeholder="Confirme sua nova senha" required>
+                                            <input type="password" name="c_new_password" id="c_new_password" class="gui-input" placeholder="Confirme sua nova senha">
                                             <span class="field-icon">
                                                 <i class="fa fa-lock"></i>
                                             </span>

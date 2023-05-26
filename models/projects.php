@@ -18,6 +18,20 @@ class projects extends Model
         }
     }
 
+    public function check_name_exist($name)
+    {
+        $sql = "SELECT name FROM projects WHERE name = :name";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":name", $name);
+        $sql->execute();
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetch(PDO::FETCH_ASSOC);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function getAll($id) {
         $sql = "SELECT DISTINCT p.id, p.name AS pro_name, CONCAT(a.name, ' ', a.last_name) AS part_name
         FROM projects AS p

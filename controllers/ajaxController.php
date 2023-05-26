@@ -45,6 +45,25 @@ class ajaxController extends Controller
     }
   }
 
+  public function check_name_exist()
+  {
+    $array = array();
+    $projects = new projects();
+
+    if (isset($_POST['name']) && !empty($_POST['name'])) {
+      $name = addslashes($_POST['name']);
+
+      if ($projects->check_name_exist($name)) {
+
+        $array['retorno'] = 0;
+      } else {
+        $array['retorno'] = 'true';
+      }
+
+      print_r($array['retorno']);
+    }
+  }
+
   public function search_can()
   {
     

@@ -44,9 +44,9 @@
     <script src="<?= BASE_URL; ?>assets/js/pages/validation/jquery-3.6.2.min.js"></script>
     <script src="<?= BASE_URL; ?>assets/js/jquery/jquery-1.12.3.min.js"></script>
     <script src="<?= BASE_URL; ?>assets/js/jquery/jquery_ui/jquery-ui.min.js"></script>
-
     <script src="<?= BASE_URL; ?>assets/js/pages/validation/jquery.validate.js"></script>
     <script src="<?= BASE_URL; ?>assets/js/pages/validation/messages_pt_BR.js"></script>
+    
 </head>
 
 <body class="sales-stats-page sb-top sb-top-lg">
@@ -280,7 +280,7 @@
         <!-- Main Wrapper -->
         <section id="content_wrapper">
             <section class="content_container">
-                <?php $this->loadViewInTemplate($viewName, $viewData); ?>
+                <?php $this->loadViewInTemplate($viewName, $viewData); ?><!-- aqui chamamos nossa view -->
 
                 <footer id="content-footer">
                     <div class="row">

@@ -33,7 +33,7 @@
                         <div class="panel-heading text-center">
                             <span class="panel-title pn">Adicionar biblioteca CAN</span>
                         </div>
-                        <form method="post" action="<?= BASE_URL; ?>system/add_library_can" id="form-order" enctype="multipart/form-data">
+                        <form method="post" action="<?= BASE_URL; ?>system/add_library_can" id="add_can" enctype="multipart/form-data">
                             <div class="panel-body pn">
                                 <div class="section row">
                                     <div class="col-md-12 ph10 mb5">
@@ -69,3 +69,6 @@
         </div>
     </div>
 </section>
+
+<!-- VALIDATION -->
+<script src="<?= BASE_URL ?>assets/js/pages/validation/system.js"></script>

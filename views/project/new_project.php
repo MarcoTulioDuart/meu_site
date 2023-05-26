@@ -103,7 +103,7 @@
                                 <div class="section">
                                     <label>Selecione uma ECU:</label>
                                 </div>
-                                <form action="<?= BASE_URL; ?>project?form=2" method="POST">
+                                <form action="<?= BASE_URL; ?>project?form=2" method="POST" id="form-order-2">
                                     <div class="section row">
                                         <div class="col-md-10 ph10 mb5">
                                             <label for="name_ecu" class="field select">
@@ -131,7 +131,7 @@
                                         </div>
                                     </div>
                                 </form>
-                                <form action="<?= BASE_URL; ?>project/select_function_ecu" method="post">
+                                <form action="<?= BASE_URL; ?>project/select_function_ecu" method="post" id="">
                                     <div class="section row">
                                         <div class="col-md-10 ph10 mb5">
                                             <div class="panel mb50" id="p5" data-panel-remove="false" data-panel-color="false" data-panel-fullscreen="false" data-panel-title="false" data-panel-collapse="false">
@@ -202,7 +202,7 @@
                                 <div class="section">
                                     <label>Selecione um tipo de rede CAN:</label>
                                 </div>
-                                <form action="<?= BASE_URL; ?>project?form=3" method="get">
+                                <form action="<?= BASE_URL; ?>project?form=3" method="get" id="form-order-3">
                                     <input type="hidden" name="form" value="3">
                                     <div class="section row">
                                         <div class="col-md-10 ph10 mb5">
@@ -239,7 +239,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <form action="<?= BASE_URL; ?>project/select_signal_can" method="post">
+                                <form action="<?= BASE_URL; ?>project/select_signal_can" method="post" id="form-order-4">
                                     <div class="section row">
                                         <div class="col-md-10 ph10 mb5">
                                             <div class="panel mb50" id="p5" data-panel-remove="false" data-panel-color="false" data-panel-fullscreen="false" data-panel-title="false" data-panel-collapse="false">
@@ -303,7 +303,7 @@
                                 </div>
                             </div>
                             <div class="panel-heading text-center pb25">
-                                <span class="panel-title pn">Selecionar base de dados de Parâmetros <?= $name_ecu['name']; ?></span><br>
+                                <span class="panel-title pn">Selecionar base de dados de Parâmetros <?//= $name_ecu['name']; ?></span><br>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
@@ -322,7 +322,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <form action="<?= BASE_URL; ?>project/select_parameters" method="post">
+                                <form action="<?= BASE_URL; ?>project/select_parameters" method="post" id="form-order-5">
                                     <div class="section row">
                                         <div class="col-md-10 ph10 mb5">
                                             <div class="panel mb50" id="p5" data-panel-remove="false" data-panel-color="false" data-panel-fullscreen="false" data-panel-title="false" data-panel-collapse="false">
@@ -408,7 +408,7 @@
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
                             </div>
-                            <form method="post" action="<?= BASE_URL; ?>project/select_participants" id="form-order">
+                            <form method="post" action="<?= BASE_URL; ?>project/select_participants" id="form-order-6">
                                 <div class="panel-body pn">
                                     <div class="section row">
                                         <div class="col-md-12 ph10 mb5">
@@ -456,3 +456,6 @@
         <!-- /Column Center -->
     </div>
 </section>
+
+<!-- js -->
+<script src="<?= BASE_URL ?>assets/js/pages/validation/new_project.js"></script>
