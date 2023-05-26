@@ -247,10 +247,13 @@
                                                     <span class="panel-title">Selecione os Signal names desejados:</span>
                                                     <span class="ml10" id="loading"></span>
                                                 </div>
+                                                <?php if (isset($_GET['name_can']) && !empty($_GET['name_can'])) : ?>
+                                                    <input type="hidden" name="name_can" value="<?= $_GET['name_can']; ?>">
+                                                <?php endif; ?>
+                                                
                                                 <div class="panel-body panel-scroller scroller-sm pn mt20">
                                                     <div class="option-group field" id="show_signal">
                                                         <?php if (isset($list_can)) : ?>
-                                                            <input type="hidden" name="name_can" value="<?= $_GET['name_can']; ?>">
                                                             <?php foreach ($list_can as $value) : ?>
                                                                 <?php if (!empty($value['signal_name'])) : ?>
                                                                     <label class="block mt20 option option-info">

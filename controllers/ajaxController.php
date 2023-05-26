@@ -66,7 +66,6 @@ class ajaxController extends Controller
 
   public function search_can()
   {
-    
     header('Content-Type: application/json; charset=uft-8');
     try {
       $filters = array();
