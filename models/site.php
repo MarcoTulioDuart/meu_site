@@ -143,7 +143,7 @@ class site extends Model
         $upload['size'] = 1024 * 1024 * 2; // 2Mb
 
         // Array com as extensões permitidas
-        $upload['extension'] = array('pdf');
+        $upload['extension'] = array('pdf', 'drawio', 'png', 'svg', 'html', 'xml');
 
         // Renomeia o arquivo? (Se true, o arquivo será salvo como .jpg e um nome único)
         $upload['rename'] = false;
@@ -168,7 +168,7 @@ class site extends Model
         $tmp = explode('.', $file['name']); //captura a extesão do arquivo
         $extension = strtolower(end($tmp)); //coloca em minusculo
         if (array_search($extension, $upload['extension']) === false) {
-            setcookie("error", "Por favor, envie arquivos com a seguintes extensões: 'pdf'", 3600);
+            setcookie("error", "Por favor, envie arquivos com a seguintes extensões: 'pdf, drawio, png, svg, html, xml'", 3600);
             return "";
         }
 

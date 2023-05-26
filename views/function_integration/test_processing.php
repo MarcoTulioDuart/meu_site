@@ -295,8 +295,9 @@
                                 <div class="section">
                                     <label>Selecione um tipo de rede CAN:</label>
                                 </div>
-                                <form action="<?= BASE_URL; ?>functionintegration?form=5" method="POST">
+                                <form action="<?= BASE_URL; ?>functionintegration?form=5" method="GET">
 
+                                    <input type="hidden" name="form" value="5" />
                                     <!-- Redes CAN presentes no projeto -->
 
                                     <div class="section row">
@@ -306,10 +307,9 @@
                                                     <?php if ($list_can_name == 0) : ?>
                                                         <option selected>Ainda não há tipos de Redes CANs cadastradas</option>
                                                     <?php else : ?>
-
                                                         <?php foreach ($list_can_name as $value) : ?>
 
-                                                            <option value="<?= $value['dc_rede_can']; ?>" <?= (isset($selected) && $selected == $value['dc_rede_can']) ? "selected" : ""; ?>><?= $value['dc_rede_can']; ?></option>
+                                                            <option value="<?= $value['dc_rede_can']; ?>" <?= (isset($_GET['name_can']) && $_GET['name_can'] == $value['dc_rede_can']) ? "selected" : ""; ?>><?= $value['dc_rede_can']; ?></option>
 
                                                         <?php endforeach; ?>
 
@@ -339,6 +339,20 @@
                                     </div>
                                 </div>
 
+                                <?php if (isset($_COOKIE["success_all_signal_can"])) : ?>
+                                    <div class="section row">
+                                        <div class="col-md-10 ph10 mb5">
+                                            <div class="text-center">
+                                                <div class="alert alert-alert alert-dismissable mb30 alert-block p15">
+                                                    <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                                                    <h3 class="mtn fs20 text-white">Sucesso</h3>
+                                                    <p><?= $_COOKIE["success_all_signal_can"]; ?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+
                                 <form action="<?= BASE_URL; ?>functionintegration/select_signal_can" method="post">
                                     <!-- Checkbox dos signal cans filtrados -->
                                     <div class="section row">
@@ -348,9 +362,12 @@
                                                     <span class="panel-title">Selecione os Signal names desejados:</span>
                                                     <span class="ml10" id="loading"></span>
                                                 </div>
+
                                                 <div class="panel-body panel-scroller scroller-sm pn mt20">
+
                                                     <div class="option-group field" id="show_signal">
                                                         <?php if (isset($list_can)) : ?>
+                                                            <a class="mt-20 text-primary" href="<?= BASE_URL; ?>functionintegration/select_all_signal_can?name_can=<?= $_GET['name_can']; ?>">Selecionar todos</a>
                                                             <?php foreach ($list_can as $value) : ?>
                                                                 <?php if (!empty($value['signal_name'])) : ?>
                                                                     <label class="block mt20 option option-info">
@@ -359,7 +376,6 @@
                                                                         <span><?= $value['rede_can']; ?>: <?= $value['signal_name']; ?></span>
                                                                     </label>
                                                                 <?php endif; ?>
-
                                                             <?php endforeach; ?>
                                                         <?php endif; ?>
                                                     </div>

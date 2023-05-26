@@ -88,10 +88,9 @@ class functionintegrationController extends Controller
       $ecu_id = $_SESSION['ecu_project_proTSA'];
       $data['list_can_name'] = $list_can->getCanProject($project_id, $ecu_id); //Pega as rede cans que existem no projeto e que estão ligadas ao ecu escolhido
 
-      if (isset($_POST['name_can']) && !empty($_POST['name_can'])) { //quando a rede can é escolhida
+      if (isset($_GET['name_can']) && !empty($_GET['name_can'])) { //quando a rede can é escolhida
 
-        $filters['name_can'] = $_POST['name_can'];
-        $data['selected'] = $_POST['name_can'];
+        $filters['name_can'] = $_GET['name_can'];
 
         $data['list_can'] = $list_can->getAllInProject($filters, $ecu_id, $project_id); //pegas os signals filtrando por rede can, projeto, ecu e pesquisa: caso seja usada
         //Os checkbox escolhidos seram cadastrados na action: select_signal_can
@@ -170,10 +169,6 @@ class functionintegrationController extends Controller
       $data['id_project'] = $project_id;
     }
 
-    //form 9:
-
-    if (isset($_GET['form']) && $_GET['form'] == 9) {
-    }
 
     //template, view, data
     $this->loadTemplate("home", "function_integration/test_processing", $data);
@@ -247,6 +242,30 @@ class functionintegrationController extends Controller
       header("Location: " . BASE_URL . "functionintegration?form=5");
       exit;
     }
+  }
+
+  public function select_all_signal_can()
+  {
+    //form 5
+    $filters = array();
+    $list_can = new list_can();
+    $list_integration_can = new list_integration_can();
+
+    $filters['name_can'] = $_GET['name_can'];
+    $ecu_id = $_SESSION['ecu_project_proTSA'];
+    $project_id = $_SESSION['project_id_proTSA'];
+
+    $cans = $list_can->getAllInProject($filters, $ecu_id, $project_id);
+
+    for ($i = 0; $i < count($cans); $i++) {
+
+      $data_can_id = $cans[$i]['dc_id'];
+      $function_id = $_SESSION['function_ecu'];
+      $list_integration_can->add($data_can_id, $project_id, $function_id);
+    }
+    setcookie("success_all_signal_can", "Todos os signal names desta rede can foram cadastrados comm sucesso.", time() + 100);
+    header("Location: " . BASE_URL . "functionintegration?form=5&name_can=" . $_GET['name_can']);
+    exit;
   }
 
   public function answer_questions()
@@ -513,7 +532,7 @@ class functionintegrationController extends Controller
       $dir = "assets/upload/function_ecu/"; //endereço da pasta pra onde serão enviados os arquivos
 
       //envia os arquivo para a pasta determinada
-      $file = $site->uploadPdf($dir, $upload); 
+      $file = $site->uploadPdf($dir, $upload);
 
       $flowchart->add($project_id, $file); //faz o cadastro do caminho do arquivo atravez do id do projeto
 
