@@ -13,13 +13,25 @@
             <li class="breadcrumb-icon breadcrumb-link">
                 <a href="<?= BASE_URL; ?>functionintegration/results">Resultados de integração entre Funções</a>
             </li>
-            <li class="breadcrumb-current-item">Segundo resultado</li>
+            <li class="breadcrumb-current-item">Terceiro resultado</li>
         </ol>
     </div>
 </header>
 
 <!-- /Topbar -->
-
+<?php if (isset($_COOKIE["error"])) : ?>
+    <div class="section row">
+        <div class="col-md-10 ph10 mb5">
+            <div class="text-center">
+                <div class="alert alert-danger alert-dismissable mb30 alert-block p15">
+                    <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h3 class="mtn fs20 text-white">Sucesso</h3>
+                    <p><?= $_COOKIE["error"]; ?></p>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
 <!-- Content -->
 <section id="content" class="animated fadeIn pt35">
     <div class="content-left">
@@ -53,11 +65,12 @@
                             <h4>Fluxograma</h4><br>
                         </div>
                         <div class="panel-body">
-                            <form action="<?= BASE_URL;?>functionintegration/third_result" method="post" enctype="multipart/form-data">
+                            <form action="<?= BASE_URL; ?>functionintegration/third_result" method="post" enctype="multipart/form-data">
                                 <?php if (isset($flowchart) && $flowchart != 0) : ?>
                                     <div class="section row">
                                         <div class="col-md-12 ph10 mb5">
-                                            <h6>Confirmamos que já há um fluxograma registrado! Gostaria de fazer o download do arquivo?</h6>
+                                            <h5 class="text-center">Confirmamos que já há um fluxograma registrado!</h5>
+                                            <h6 class="text-center pb15">Gostaria de fazer o download do arquivo?</h6>
                                         </div>
                                         <div class="section text-center">
                                             <a href="<?= BASE_URL; ?><?= $flowchart['upload']; ?>" class="btn fs14 btn-primary" download>Download</a>
@@ -74,19 +87,19 @@
                                     <div class="section row">
                                         <label class="field prepend-icon file mb20 mt10">
 
-                                            <input type="file" name="upload" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
+                                            <input type="file" name="flowchart_upload" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
 
                                             <input type="text" id="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
                                             <i class="fa fa-upload"></i>
 
                                         </label>
                                     </div>
+                                    <hr>
+                                    <div class="section text-center">
+                                        <button type="submit" class="btn fs14 btn-primary">Enviar</button>
+                                    </div>
                                 <?php endif; ?>
 
-                                <hr>
-                                <div class="section text-center">
-                                    <a href="<?= BASE_URL; ?>functionintegration/third_result" class="btn fs14 btn-primary">Enviar</a>
-                                </div>
                             </form>
                         </div>
 

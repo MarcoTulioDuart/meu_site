@@ -214,11 +214,27 @@
                 </div>
 
                 <div class="section row">
-                    <h6 class="text-center mtn pt10 pb20">Convide outras pessoas para a reunião</h6>
+                    <h6 class="text-center mtn pt10 pb10">Convide outras pessoas para a reunião</h6>
                     <h6 class="text-muted text-center">Digite corretamente seus emails no campo abaixo, separando por ' ; ' sem espaços.</h6>
-
-                    <input type="text" class="form-control" name="participant" id="participant" />
+                    <label for="participant" class="field prepend-icon">
+                        <input type="text" name="participant" id="participant" class="gui-input">
+                        <span class="field-icon">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                    </label>
                 </div>
+
+                <div class="section row">
+                    <h6 class="text-center mtn pt10 pb10">Onde será feita a reunião?</h6>
+                    <h6 class="text-muted text-center">Cole o link da reunião.</h6>
+                    <label for="link" class="field prepend-icon">
+                        <input type="text" name="link" id="link" class="gui-input" required>
+                        <span class="field-icon">
+                            <i class="fa fa-link"></i>
+                        </span>
+                    </label>
+                </div>
+                
 
                 <div class="section text-center">
                     <button type="submit" class="btn fs14 btn-primary">Enviar</button>

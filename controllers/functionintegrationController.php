@@ -398,6 +398,7 @@ class functionintegrationController extends Controller
     if (!empty($_POST['title']) && !empty($_POST['date_meeting'])) {
       $title = addslashes($_POST['title']);
       $date_meeting = addslashes($_POST['date_meeting']);
+      $link = addslashes($_POST['link']);
 
       $meetings->addMeeting($project_id, $title, $date_meeting);
 
@@ -413,6 +414,8 @@ class functionintegrationController extends Controller
         $subject = "Uma reunião foi agendada!";
         $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '.<br>
         O tema da reunião será: ' . $title . '.<br>
+        Para participar da reunião <a href="' . $link . '" target="_blank">Clique aqui</a>
+        Aconselhamos que salve este email até o dia da reunião
         Aguardamos sua presença na reunião!';
         $site->sendMessage($email, $name, $subject, $message);
       }
@@ -525,18 +528,18 @@ class functionintegrationController extends Controller
 
     $data['flowchart'] = $flowchart->get($project_id);
 
-    if (isset($_FILES['upload']) && !empty($_FILES['upload'])) {
+    if (isset($_FILES['flowchart_upload']) && !empty($_FILES['flowchart_upload'])) {
       $site = new site();
 
-      $upload = $_FILES['upload']; //pega todos os campos que contem um arquivo enviado
-      $dir = "assets/upload/function_ecu/"; //endereço da pasta pra onde serão enviados os arquivos
+      $upload = $_FILES['flowchart_upload']; //pega todos os campos que contem um arquivo enviado
+      $dir = "assets/upload/flowchart/"; //endereço da pasta pra onde serão enviados os arquivos
 
       //envia os arquivo para a pasta determinada
       $file = $site->uploadPdf($dir, $upload);
 
       $flowchart->add($project_id, $file); //faz o cadastro do caminho do arquivo atravez do id do projeto
 
-      header("Location: " . BASE_URL . "functionintegration?form=5");
+      header("Location: " . BASE_URL . "functionintegration/third_result");
       exit;
     }
 
