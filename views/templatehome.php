@@ -34,11 +34,6 @@
     <?php endif; ?>
     <?php if ($viewData['page'] == 'edit_meeting') : ?>
         <!-- X-edit CSS -->
-        <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/js/plugins/xeditable/css/bootstrap-editable.css">
-        <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/js/plugins/xeditable/inputs/address/address.css">
-        <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/js/plugins/xeditable/inputs/typeaheadjs/lib/typeahead.js-bootstrap.css">
-        <!-- Summernote -->
-        <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/js/plugins/summernote/summernote.css">
     <?php endif; ?>
 
     <script src="<?= BASE_URL; ?>assets/js/pages/validation/jquery-3.6.2.min.js"></script>
@@ -328,22 +323,6 @@
         <!-- Theme Scripts -->
         <script src="<?= BASE_URL; ?>assets/js/pages/user-forms-additional-inputs.js"></script>
 
-    <?php elseif ($viewData['page'] == 'edit_meeting') : ?>
-        <!-- Summernote -->
-        <script src="<?= BASE_URL; ?>assets/js/plugins/summernote/summernote.min.js"></script>
-        <!-- Typeahead JS -->
-        <script src="<?= BASE_URL; ?>assets/js/plugins/xeditable/inputs/typeaheadjs/lib/typeahead.js"></script>
-        <!-- MarkDown JS -->
-        <script src="<?= BASE_URL; ?>assets/js/plugins/markdown/markdown.js"></script>
-        <script src="<?= BASE_URL; ?>assets/js/plugins/markdown/to-markdown.js"></script>
-        <script src="<?= BASE_URL; ?>assets/js/plugins/markdown/bootstrap-markdown.js"></script>
-        <!-- X-edit CSS -->
-        <script src="<?= BASE_URL; ?>assets/js/plugins/moment/moment.min.js"></script>
-        <script src="<?= BASE_URL; ?>assets/js/plugins/xeditable/js/bootstrap-editable.min.js"></script>
-        <script src="<?= BASE_URL; ?>assets/js/plugins/xeditable/inputs/address/address.js"></script>
-        <script src="<?= BASE_URL; ?>assets/js/plugins/xeditable/inputs/typeaheadjs/typeaheadjs.js"></script>
-        <!-- Theme Scripts -->
-        <script src="<?= BASE_URL; ?>assets/js/pages/user-forms-editors.js"></script>
     <?php endif; ?>
 
     <!-- AnimatedSVGIcons -->

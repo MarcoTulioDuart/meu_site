@@ -558,15 +558,6 @@ class functionintegrationController extends Controller
 
     $data['classifica'] = $function_classification->getCustomer($project_id);
 
-    if (isset($_POST['function_id']) && !empty($_POST['function_id'])) {
-      $integration_ecu_id = $_POST['function_id'];
-      $classification = "Função Serviço";
-
-      $function_classification->correctCustomer($classification, $integration_ecu_id, $project_id);
-      header("Location: " . BASE_URL . "functionintegration/first_result");
-      exit;
-    }
-
     $points = new points();
     $points_id = 1;
     $data['list_classification'] = $function_classification->getResult($project_id);
@@ -577,5 +568,18 @@ class functionintegrationController extends Controller
 
 
     $this->loadView("function_integration/download_first_result", $data);
+  }
+  
+  public function download_second_result($id_meeting)
+  {
+    $data  = array();
+    $filters = array();
+
+    //fim do básico
+    $meetings = new meetings();
+    $data['list'] = $meetings->get($id_meeting);
+
+
+    $this->loadView("function_integration/download_second_result", $data);
   }
 }
