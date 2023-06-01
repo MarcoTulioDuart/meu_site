@@ -24,7 +24,7 @@ class projectController extends Controller
     if (isset($_SESSION['integration_id_proTSA'])) {
       unset($_SESSION['integration_id_proTSA']);
     }
-    
+
     //form 2
 
     $ecu = new data_ecu();
@@ -184,6 +184,31 @@ class projectController extends Controller
       exit;
     }
   }
+
+
+  public function select_all_parameters()
+  {
+    //form 5
+    $filters = array();
+    $parameters = new data_parameters();
+    $list_parameters = new list_parameters();
+
+    $filters['type_parameter'] = $_SESSION['type_parameter'];
+
+    $param = $parameters->getAll($filters);
+    for ($i = 0; $i < count($param); $i++) {
+
+      $parameters_id = $param[$i]['id'];
+      $ecu_id = $_SESSION['ecu_project_proTSA'];
+      $project_id = $_SESSION['project_proTSA'];
+
+      $list_parameters->add($parameters_id, $ecu_id, $project_id);
+    }
+    setcookie("success_all_parameters", "Todos os parâmetros do tipo " . $_SESSION['type_parameter'] . " foram cadastrados com sucesso.", time() + 100);
+    header("Location: " . BASE_URL . "project?form=5");
+    exit;
+  }
+
 
   public function select_participants()
   {

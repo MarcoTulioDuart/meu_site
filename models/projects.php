@@ -37,7 +37,7 @@ class projects extends Model
         FROM projects AS p
         LEFT JOIN list_participants AS lpa ON (p.id = lpa.project_id)
         LEFT JOIN accounts AS a ON (a.id = lpa.participant_id)
-        WHERE lpa.participant_id = :id OR p.admin_project = :id";
+        WHERE lpa.participant_id = :id";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":id", $id);
         $sql->execute();

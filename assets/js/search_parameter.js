@@ -45,8 +45,8 @@ $(document).ready(function () {
                 return `
                     <label class="block mt20 option option-info">
                         <input type="checkbox" name="paramter_id[]" value="${item.id}">
-                        <span class="checkbox"></span>
-                        <span>${item.type}: ${item.benennung} | ${item.codebedingung}</span>
+                        <span class="checkbox mb5"></span>
+                        <span style="line-height: 2em;">${item.type}: ${item.benennung} | ${item.codebedingung}</span>
                     </label>
                 `;
             });

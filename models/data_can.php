@@ -25,7 +25,7 @@ class data_can extends Model
         WHERE a.signal_name = b.signal_name
         AND b.rede_can = :rede_can
         AND a.signal_function = b.signal_function
-        AND a.id < b.id ";
+        AND a.id < b.id";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":rede_can", $rede_can);
         $sql->execute();
@@ -52,7 +52,7 @@ class data_can extends Model
             $where[] = "rede_can LIKE :rede_can AND signal_name LIKE :search";
         }
 
-        $sql = "SELECT id, rede_can, signal_name FROM data_can WHERE " . implode(' AND ', $where) . " LIMIT 30";
+        $sql = "SELECT id, rede_can, signal_name, signal_function FROM data_can WHERE " . implode(' AND ', $where) . " LIMIT 30";
         $sql = $this->db->prepare($sql);
 
         if (!empty($filters['name_can'])) {

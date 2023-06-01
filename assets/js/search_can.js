@@ -45,8 +45,8 @@ $(document).ready(function () {
                 return `
                     <label class="block mt20 option option-info">
                         <input type="checkbox" name="can_id[]" value="${item.id}">
-                        <span class="checkbox"></span>
-                        <span>${item.rede_can}: ${item.signal_name}</span>
+                        <span class="checkbox mb5"></span>
+                        <span style="line-height: 2em;">${item.rede_can}: ${item.signal_name} | ${item.signal_function}</span>
                     </label>
                 `;
             });

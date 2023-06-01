@@ -250,16 +250,17 @@
                                                 <?php if (isset($_GET['name_can']) && !empty($_GET['name_can'])) : ?>
                                                     <input type="hidden" name="name_can" value="<?= $_GET['name_can']; ?>">
                                                 <?php endif; ?>
-                                                
+
                                                 <div class="panel-body panel-scroller scroller-sm pn mt20">
                                                     <div class="option-group field" id="show_signal">
                                                         <?php if (isset($list_can)) : ?>
+                                                            <span class="text-muted">Rede Can: Signal Name | Signal Function</span>
                                                             <?php foreach ($list_can as $value) : ?>
                                                                 <?php if (!empty($value['signal_name'])) : ?>
                                                                     <label class="block mt20 option option-info">
                                                                         <input type="checkbox" name="can_id[]" value="<?= $value['id']; ?>">
-                                                                        <span class="checkbox"></span>
-                                                                        <span><?= $value['rede_can']; ?>: <?= $value['signal_name']; ?></span>
+                                                                        <span class="checkbox mb5"></span>
+                                                                        <span style="line-height: 2em;"><?= $value['rede_can']; ?>: <?= $value['signal_name']; ?> | <?= $value['signal_function']; ?></span>
                                                                     </label>
                                                                 <?php endif; ?>
 
@@ -306,7 +307,7 @@
                                 </div>
                             </div>
                             <div class="panel-heading text-center pb25">
-                                <span class="panel-title pn">Selecionar base de dados de Parâmetros <?//= $name_ecu['name']; ?></span><br>
+                                <span class="panel-title pn">Selecionar base de dados de Parâmetros <?= $name_ecu['name']; ?></span><br>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
@@ -325,6 +326,7 @@
                                         </label>
                                     </div>
                                 </div>
+
                                 <form action="<?= BASE_URL; ?>project/select_parameters" method="post" id="form-order-5">
                                     <div class="section row">
                                         <div class="col-md-10 ph10 mb5">
@@ -336,11 +338,12 @@
                                                 <div class="panel-body panel-scroller scroller-sm pn mt20">
                                                     <div class="option-group field" id="show_benennung">
                                                         <?php if (isset($list_paramters) && !empty($list_paramters)) : ?>
+                                                            <a class="text-primary fs16" href="<?= BASE_URL; ?>project/select_all_parameters">Selecionar todos</a>
                                                             <?php foreach ($list_paramters as $value) : ?>
                                                                 <label class="block mt20 option option-info">
                                                                     <input type="checkbox" name="paramter_id[]" value="<?= $value['id']; ?>">
-                                                                    <span class="checkbox"></span>
-                                                                    <span><?= $value['type']; ?>: <?= $value['benennung']; ?> | <?= $value['codebedingung']; ?></span>
+                                                                    <span class="checkbox mb5"></span>
+                                                                    <span style="line-height: 2em;"><?= $value['type']; ?>: <?= $value['benennung']; ?> | <?= $value['codebedingung']; ?></span>
                                                                 </label>
                                                             <?php endforeach; ?>
                                                         <?php else : ?>
@@ -393,6 +396,15 @@
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle-o"></span>
                             </div>
+                            <?php if (isset($_COOKIE["success_all_parameters"])) : ?>
+                                <div class="text-center">
+                                    <div class="alert alert-alert alert-dismissable mb30 alert-block p15">
+                                        <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <h3 class="mtn fs20 text-white">Sucesso</h3>
+                                        <p><?= $_COOKIE["success_all_parameters"]; ?></p>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                             <div class="panel-body pn">
                                 <div class="section row text-center">
                                     <a href="<?= BASE_URL; ?>project?form=6" class="btn fs14 btn-primary">Sim</a>

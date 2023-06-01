@@ -263,7 +263,7 @@ class functionintegrationController extends Controller
       $function_id = $_SESSION['function_ecu'];
       $list_integration_can->add($data_can_id, $project_id, $function_id);
     }
-    setcookie("success_all_signal_can", "Todos os signal names desta rede can foram cadastrados comm sucesso.", time() + 100);
+    setcookie("success_all_signal_can", "Todos os signal names desta rede can foram cadastrados com sucesso.", time() + 100);
     header("Location: " . BASE_URL . "functionintegration?form=5&name_can=" . $_GET['name_can']);
     exit;
   }
