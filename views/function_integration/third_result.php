@@ -65,7 +65,7 @@
                             <h4>Fluxograma</h4><br>
                         </div>
                         <div class="panel-body">
-                            <form action="<?= BASE_URL; ?>functionintegration/third_result" method="post" enctype="multipart/form-data">
+                            <form action="<?= BASE_URL; ?>functionintegration/third_result" id="fluxograma" method="post" enctype="multipart/form-data">
                                 <?php if (isset($flowchart) && $flowchart != 0) : ?>
                                     <div class="section row">
                                         <div class="col-md-12 ph10 mb5">
@@ -112,3 +112,4 @@
         <!-- /Column Center -->
     </div>
 </section>
+<script src="<?= BASE_URL ?>assets/js/pages/validation/function-integration.js"></script>

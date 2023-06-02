@@ -244,3 +244,4 @@
     </div>
     <!-- /Panel -->
 </div>
+<script src="<?= BASE_URL ?>assets/js/pages/validation/function-integration.js"></script>
