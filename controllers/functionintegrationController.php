@@ -547,30 +547,129 @@ class functionintegrationController extends Controller
     $this->loadTemplate("home", "function_integration/third_result", $data);
   }
 
+  public function header_first_result()
+  {
+    $data  = array();
+
+    $this->loadView("function_integration/first_download/header_download", $data);
+  }
+
+  
+  public function footer_first_result()
+  {
+    $data  = array();
+
+    $this->loadView("function_integration/first_download/footer_download", $data);
+  }
+
   public function download_first_result()
   {
     $data  = array();
-    $filters = array();
 
-    //Primeiro resultado
+    //Primeiro Pdf Download
+    $site = new site();
+
+    //Dados
     $project_id = $_SESSION['integration_id_proTSA'];
     $function_classification = new function_classification();
 
-    $data['classifica'] = $function_classification->getCustomer($project_id);
-
     $points = new points();
     $points_id = 1;
-    $data['list_classification'] = $function_classification->getResult($project_id);
-    $data['list_points'] = $points->get($points_id);
+    $list_classification = $function_classification->getResult($project_id);
+    $list_points = $points->get($points_id);
 
     $list_integration_can = new list_integration_can();
-    $data['list_commom_signals'] = $list_integration_can->commomMessages($project_id);
+    $list_commom_signals = $list_integration_can->commomMessages($project_id);
 
+    //view
 
-    $this->loadView("function_integration/download_first_result", $data);
+    $pdf = file_get_contents(BASE_URL . "functionintegration/header_first_result");
+    $pdf .= '<div class="panel-heading text-center">';
+    $pdf .= '<h4>As funções foram Classificadas:</h4>';
+    $pdf .= '</div>';
+    $pdf .= '<div class="panel-body mtn">';
+
+    foreach ($list_classification as $key => $value) {
+      $pdf .= '<div class="section row text-center">';
+      $pdf .= '<div class="col-md-12">';
+
+      $pdf .= '<h5 class="'; 
+      if ($value['fc_classification'] == "Função Cliente") {
+        $pdf .= 'text-primary';
+      } else {
+        $pdf .= 'text-system';
+      }
+      $pdf .= '">';
+      $pdf .= $value['fc_classification'] . ' : ' . $value['e_function']; 
+      $pdf .= '</h5>';
+      $pdf .= '<p class="text-muted">Pontuação: ' . number_format($value['fc_score'], 1, ",", ".") . '</p>';
+      $pdf .= '</div>';
+      $pdf .= '</div>';
+      $pdf .= '<div class="section row mtn">';
+      $pdf .= '<div class="tab-block">';
+      $pdf .= '<h6 class="text-center mtn mb20">Sinais relacionados com a Função</h6>';
+      $pdf .= '<div class="tab-content mh-200">';
+      $pdf .= '<p class="ph20">' . $value['signals'] . '</p>';
+      $pdf .= '</div>';
+      $pdf .= '</div>';
+      $pdf .= '</div>';
+      $pdf .= '<div class="section row">';
+      $pdf .= '<div class="tab-block">';
+      $pdf .= '<h6 class="text-center mtn mb20">Descrição da função</h6>';
+      $pdf .= '<div class="tab-content">';
+      $pdf .= '<ul>';
+      $pdf .= '<li class="p5 pb10">';
+      if ($value['question_1'] == $list_points['point_question_1']) {
+        $pdf .= 'Função série';
+      } else {
+        $pdf .= 'Função opcional';
+      }
+      $pdf .= '</li>';
+      $pdf .= '<li class="p5 pb10">';
+      if ($value['question_2'] == $list_points['point_question_2']) {
+        $pdf .= 'Há indicação no painel de instrumentos';
+      } else {
+        $pdf .= 'Não há indicação no painel de instrumentos';
+      }
+      $pdf .= '</li>';
+      $pdf .= '<li class="p5 pb10">';
+      if ($value['question_3'] == $list_points['point_question_3']) {
+        $pdf .= 'Há impacto em homologação';
+      } else {
+        $pdf .= 'Não há impacto em homologação';
+      }
+      $pdf .= '</li>';
+      $pdf .= '</ul>';
+      $pdf .= '</div>';
+      $pdf .= '</div>';
+      $pdf .= '</div>';
+      $pdf .= '<hr>';
+    }
+
+    $pdf .= '<div class="section row mtn">';
+    $pdf .= '<div class="tab-block">';
+    $pdf .= '<h6 class="text-center mtn mb20">Mensagens em comum:</h6>';
+    $pdf .= '<p class="text-center text-muted">Nome do sinal ➠ ECU: Função</p>';
+    $pdf .= '<div class="tab-content">';
+    if (isset($list_commom_signals) && !empty($list_commom_signals)) {
+      foreach ($list_commom_signals as $key => $value) {
+        $pdf .= '<p class="ph20 pb10">♦ ' . $value['signal_name'] . ' ➠ <span class="text-right">' . $value['commom_functions'] . '</span></p>';
+      }
+    }else {
+      $pdf .= '<p class="text-center">Não foram encontradas mensagens em comum</p>';
+    }
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+
+    $pdf .= file_get_contents(BASE_URL . "functionintegration/footer_first_result");
+
+    $name_file = 'primeiro-resultado.pdf';
+    $site->create_PDF($pdf, $name_file);
   }
-  
-  public function download_second_result($id_meeting)
+
+  public function view_second_result($id_meeting)
   {
     $data  = array();
     $filters = array();
@@ -579,7 +678,20 @@ class functionintegrationController extends Controller
     $meetings = new meetings();
     $data['list'] = $meetings->get($id_meeting);
 
-
     $this->loadView("function_integration/download_second_result", $data);
+  }
+
+
+  public function download_second_result($id_meeting)
+  {
+    $data  = array();
+    //segundo Pdf Download
+    $site = new site();
+
+    $pdf = file_get_contents(BASE_URL . "functionintegration/view_second_result/$id_meeting");
+    $name_file = 'segundo-resultado.pdf';
+    $site->create_PDF($pdf, $name_file);
+    header("Location: " . BASE_URL . "functionintegration/response_meeting");
+    exit;
   }
 }

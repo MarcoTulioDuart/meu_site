@@ -4,6 +4,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+use Mpdf\Mpdf\Mpdf;
+
 class site extends Model
 {
     public function sendMessage($email, $name, $subject, $message)
@@ -244,5 +246,13 @@ class site extends Model
         $string = preg_replace("/ /", "_", $string);
         $string = strtolower($string);
         return $string;
+    }
+
+    public function create_PDF($pdf, $name_file) {
+        
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->WriteHTML($pdf);
+        $mpdf->Output($name_file, 'D');
+
     }
 }

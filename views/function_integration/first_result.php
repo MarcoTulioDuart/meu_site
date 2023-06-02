@@ -138,9 +138,13 @@
                                             <h6 class="text-center mtn mb20">Mensagens em comum:</h6>
                                             <p class="text-center text-muted">Nome do sinal ➠ ECU: Função</p>
                                             <div class="tab-content mh-200">
-                                                <?php foreach ($list_commom_signals as $key => $value) : ?>
-                                                    <p class="ph20 pb10">♦ <?= $value['signal_name']; ?> ➠ <span class="text-right"><?= $value['commom_functions']; ?></span></p>
-                                                <?php endforeach; ?>
+                                                <?php if (isset($list_commom_signals) && !empty($list_commom_signals)) : ?>
+                                                    <?php foreach ($list_commom_signals as $key => $value) : ?>
+                                                        <p class="ph20 pb10">♦ <?= $value['signal_name']; ?> ➠ <span class="text-right"><?= $value['commom_functions']; ?></span></p>
+                                                    <?php endforeach; ?>
+                                                <?php else : ?>
+                                                    <p class="text-center">Não foram encontradas mensagens em comum</p>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -148,6 +152,7 @@
                                         <div class="col-md-8">
                                             <a href="<?= BASE_URL; ?>functionintegration/download_first_result" target="_blank" class="btn btn-primary btn-bordered">Preparar Download</a>
                                         </div>
+
                                         <div class="col-md-2">
                                             <div id="animation-switcher" class="ph20">
                                                 <div class="col-xs-12 col-sm-4 text-right">
@@ -234,7 +239,7 @@
                         </span>
                     </label>
                 </div>
-                
+
 
                 <div class="section text-center">
                     <button type="submit" class="btn fs14 btn-primary">Enviar</button>
