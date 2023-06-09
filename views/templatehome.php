@@ -147,7 +147,7 @@
                         </ul>
                     </li>
                     <li class="<?= ($viewData['page'] == 'function_integration') ? 'active' : ''; ?>">
-                        <a class="accordion-toggle" href="<?= BASE_URL; ?>fintegration">
+                        <a class="accordion-toggle">
                             <span class="caret"></span>
                             <span class="sb-menu-icon fa fa-tasks"></span>
                             <span class="sidebar-title">Int. Funções</span>
@@ -181,7 +181,10 @@
                         </a>
                         <ul class="nav sub-nav">
                             <li>
-                                <a href="<?= BASE_URL; ?>home/under_construction">Integração entre Sinais CAN</a>
+                                <a href="<?= BASE_URL; ?>signalintegration">Integração entre Sinais CAN</a>
+                            </li>
+                            <li>
+                                <a href="<?= BASE_URL; ?>signalintegration/results">Resultados de Testes</a>
                             </li>
                         </ul>
                     </li>
