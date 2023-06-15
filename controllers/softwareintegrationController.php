@@ -106,10 +106,39 @@ class softwareintegrationController extends Controller
     $data  = array();
     $data_hardware = new data_hardware();
     $accounts = new accounts();
+    $data_ecu = new data_ecu();
 
     $data['page'] = 'software_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
+    if (isset($_FILES['files']) && !empty($_FILES['files'])) {
+      $software_integrations = new software_integrations();
+      $ecu_id = $_POST['ecu_id'];
+      $software_integrations_id = $_POST['ecu_id'];
+
+      echo "<pre>";
+      print_r($_POST);
+      print_r(($_FILES));
+      exit;
+
+      $site = new site();
+
+      $upload = $_FILES['uploader']; //pega todos os campos que contem um arquivo enviado
+      $dir = "assets/upload/flowchart/softwareintegration/"; //endereço da pasta pra onde serão enviados os arquivos
+
+      //envia os arquivo para a pasta determinada
+      $file = $site->uploadPdf($dir, $upload);
+
+     
+     
+      $software_integrations->diagram_hardwares_add($software_integrations_id, $ecu_id, $diagram); //cadastra os ecus selecionados nessa tabela
+     
+      header("Location: " . BASE_URL . "softwareintegration/uploadDiagramHardware?software_integrations_id=" . $_GET['software_integrations_id'] . "&ecu_id=" . $ecu_id);
+      exit;
+    }else{
+      echo "tem nao";
+    }
 
     if (isset($_GET['software_integrations_id']) && isset($_GET['ecu_id'])) {
         $data['list_hardware'] = $data_hardware->getAll();
@@ -119,19 +148,8 @@ class softwareintegrationController extends Controller
       header("Location: " . BASE_URL . "softwareintegration");
       exit;
     }
-
-    if (isset($_GET['ecu_id']) && !empty($_GET['ecu_id'])) {
-      $software_integrations = new software_integrations();
-      $ecu_id = $_GET['ecu_id'];
-      $software_integrations_id = $_GET['ecu_id'];
-      $diagram = upload($_FILES['files']);//continuar aqui
-
-     
-      $software_integrations->diagram_hardwares_add($software_integrations_id, $ecu_id, $diagram); //cadastra os ecus selecionados nessa tabela
-     
-      header("Location: " . BASE_URL . "softwareintegration/uploadDiagramHardware?software_integrations_id=" . $_GET['software_integrations_id'] . "&ecu_id=" . $ecu_id);
-      exit;
-    }
+    $data['info_ecu'] = $data_ecu->get($_GET['ecu_id']);
+  
 
     
 
