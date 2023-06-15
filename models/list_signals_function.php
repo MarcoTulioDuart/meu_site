@@ -18,7 +18,8 @@ class list_signals_function extends Model
         }
     }
 
-    public function get($integration_signals_id, $list_ecu_id) {
+    public function get($integration_signals_id, $list_ecu_id)
+    {
         $sql = "SELECT ls.id AS ls_id, e.function_ecu AS e_function_ecu, e.name AS e_name
         FROM list_signals_function AS ls
         INNER JOIN list_ecu AS le ON (le.id = ls.list_ecu_id)
@@ -37,7 +38,8 @@ class list_signals_function extends Model
         }
     }
 
-    public function getAll($integration_signals_id) {
+    public function getAll($integration_signals_id)
+    {
         $sql = "SELECT ls.id AS ls_id, e.function_ecu AS function_ecu, e.name AS e_name
         FROM list_signals_function AS ls
         INNER JOIN list_ecu AS le ON (le.id = ls.list_ecu_id)
@@ -73,7 +75,7 @@ class list_signals_function extends Model
             return false;
         }
     }
-    
+
     public function mainFunction($list_ecu_id, $integration_signals_id, $main_function)
     {
         $sql = "UPDATE list_signals_function 
@@ -92,5 +94,44 @@ class list_signals_function extends Model
             return false;
         }
     }
-    
+
+    public function getMainFunction($integration_signals_id)
+    {
+        $sql = "SELECT le.id AS le_id, e.name AS e_name, e.function_ecu AS e_function
+        FROM list_signals_function AS lsf
+        INNER JOIN list_ecu AS le ON (le.id = lsf.list_ecu_id)
+        INNER JOIN data_ecu AS e ON (e.id = le.data_ecu_id)
+        WHERE lsf.main_function = 1
+        AND lsf.integration_signals_id = :integration_signals_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":integration_signals_id", $integration_signals_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetch(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return false;
+        }
+    }
+
+    public function getCommomFunction($integration_signals_id)
+    {
+        $sql = "SELECT le.id AS le_id, e.name AS e_name, e.function_ecu AS e_function
+        FROM list_signals_function AS lsf
+        INNER JOIN list_ecu AS le ON (le.id = lsf.list_ecu_id)
+        INNER JOIN data_ecu AS e ON (e.id = le.data_ecu_id)
+        WHERE lsf.main_function = 2
+        AND lsf.integration_signals_id = :integration_signals_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":integration_signals_id", $integration_signals_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetch(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return false;
+        }
+    }
 }

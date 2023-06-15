@@ -31,6 +31,46 @@ class signalintegrationController extends Controller
 
     $data['list_projects'] = $projects->getAll($id);
 
+    //template, view, data
+    $this->loadTemplate("home", "signal_integration/choose_project", $data);
+  }
+
+  public function choose_project()
+  {
+    //form 1
+
+    if (isset($_POST['project_id']) && !empty($_POST['project_id'])) {
+
+      $integration_signals = new integration_signals();
+      $project_id = addslashes($_POST['project_id']);
+      $_SESSION['project_signals_id_proTSA'] = $project_id;
+
+      $integration_signals->add($project_id);
+      header("Location: " . BASE_URL . "signalintegration/select_function_processing?form=2");
+      exit;
+    }
+  }
+
+  public function select_function_processing()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'function_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
+
+
     if (isset($_SESSION['project_signals_id_proTSA']) && !empty($_SESSION['project_signals_id_proTSA'])) {
       $project_id = $_SESSION['project_signals_id_proTSA'];
     }
@@ -50,7 +90,7 @@ class signalintegrationController extends Controller
 
         $ecu_id = $type_ecu->getId($filters); //pega o id especifico do ecu escolhido
         $_SESSION['ecu_project_proTSA'] = $ecu_id['id']; //Armazena o id em uma session
-        header("Location: " . BASE_URL . "signalintegration?form=3");
+        header("Location: " . BASE_URL . "signalintegration/select_function_processing?form=3");
       }
     }
 
@@ -66,6 +106,7 @@ class signalintegrationController extends Controller
       //a função escolhida será cadastrada na action: select_function_ecu
     }
 
+
     //form 4: Descrição de função
 
     $list_signals_function = new list_signals_function();
@@ -77,6 +118,66 @@ class signalintegrationController extends Controller
       $data['list_signals_ecu'] = $list_signals_function->get($integration_signals_id, $function_id);
 
       //o arquivo escolhido, será cadastrado na action: description_ecu
+    }
+
+    $this->loadTemplate("home", "signal_integration/select_function_processing", $data);
+  }
+
+  public function select_function_ecu()
+  {
+    //form 3
+    $list_signals_function = new list_signals_function();
+
+    if (isset($_POST['list_ecu_id']) && !empty($_POST['list_ecu_id'])) {
+      $list_ecu_id = $_POST['list_ecu_id'];
+      $_SESSION['function_ecu'] = $list_ecu_id;
+      $integration_signals_id = $_SESSION['signals_id_proTSA']; //id do teste
+
+      $list_signals_function->add($list_ecu_id, $integration_signals_id); //cadastra os ecus selecionados nessa tabela
+
+      header("Location: " . BASE_URL . "signalintegration/select_function_processing?form=4");
+      exit;
+    }
+  }
+
+  public function description_ecu()
+  {
+    //form 4
+    $list_signals_function = new list_signals_function();
+
+    if (isset($_POST['description']) && !empty($_POST['description'])) {
+      $list_ecu_id = $_SESSION['function_ecu'];
+      $integration_signals_id = $_SESSION['signals_id_proTSA']; //id do teste
+      $description = $_POST['description'];
+
+      $list_signals_function->addDescription($list_ecu_id, $integration_signals_id, $description); //cadastra os ecus selecionados nessa tabela
+
+      header("Location: " . BASE_URL . "signalintegration/signal_processing?form=5");
+      exit;
+    }
+  }
+
+  public function signal_processing()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'function_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
+
+    if (isset($_SESSION['project_signals_id_proTSA']) && !empty($_SESSION['project_signals_id_proTSA'])) {
+      $project_id = $_SESSION['project_signals_id_proTSA'];
     }
 
     //form 5: Selecionar can e os sinais de entrada
@@ -97,6 +198,7 @@ class signalintegrationController extends Controller
     }
 
     //form 6: Questionario de disponibilidade
+
     $list_signals_can = new list_signals_can();
 
     if (isset($_GET['form']) && $_GET['form'] == 6) {
@@ -123,92 +225,8 @@ class signalintegrationController extends Controller
       }
     }
 
-    //form 9: apenas confirmação
-
-    if (isset($_GET['form']) && $_GET['form'] == 9) {
-
-      $ecu_id = $_SESSION['ecu_project_proTSA'];
-      $data['name_ecu'] = $type_ecu->getName($ecu_id);
-
-      unset($_SESSION['function_ecu']);
-    }
-
-    //form 10: apenas confirmação
-
-    if (isset($_GET['form']) && $_GET['form'] == 10) {
-
-      unset($_SESSION['ecu_project_proTSA']);
-    }
-
-    //form 11: filtra as funções por tipo
-
-    if (isset($_GET['form']) && $_GET['form'] == 11) {
-
-      $integration_signals_id = $_SESSION['signals_id_proTSA'];
-
-      $data['list_function'] = $list_signals_function->getAll($integration_signals_id); //pega a função de acordo com o ecu escolhido
-      //a função escolhida será cadastrada na action: select_function_ecu
-    }
-
-    //form 12: filtra as funções por tipo
-
-    if (isset($_GET['form']) && $_GET['form'] == 11) {
-
-      unset($_SESSION['signals_id_proTSA']);
-    }
-
     //template, view, data
-    $this->loadTemplate("home", "signal_integration/test_processing", $data);
-  }
-
-  public function choose_project()
-  {
-    //form 1
-
-    if (isset($_POST['project_id']) && !empty($_POST['project_id'])) {
-
-      $integration_signals = new integration_signals();
-      $project_id = addslashes($_POST['project_id']);
-      $_SESSION['project_signals_id_proTSA'] = $project_id;
-
-      $integration_signals->add($project_id);
-      header("Location: " . BASE_URL . "signalintegration?form=2");
-      exit;
-    }
-  }
-
-  public function select_function_ecu()
-  {
-    //form 3
-    $list_signals_function = new list_signals_function();
-
-    if (isset($_POST['list_ecu_id']) && !empty($_POST['list_ecu_id'])) {
-      $list_ecu_id = $_POST['list_ecu_id'];
-      $_SESSION['function_ecu'] = $list_ecu_id;
-      $integration_signals_id = $_SESSION['signals_id_proTSA']; //id do teste
-
-      $list_signals_function->add($list_ecu_id, $integration_signals_id); //cadastra os ecus selecionados nessa tabela
-
-      header("Location: " . BASE_URL . "signalintegration?form=4");
-      exit;
-    }
-  }
-
-  public function description_ecu()
-  {
-    //form 4
-    $list_signals_function = new list_signals_function();
-
-    if (isset($_POST['description']) && !empty($_POST['description'])) {
-      $list_ecu_id = $_SESSION['function_ecu'];
-      $integration_signals_id = $_SESSION['signals_id_proTSA']; //id do teste
-      $description = $_POST['description'];
-
-      $list_signals_function->addDescription($list_ecu_id, $integration_signals_id, $description); //cadastra os ecus selecionados nessa tabela
-
-      header("Location: " . BASE_URL . "signalintegration?form=5");
-      exit;
-    }
+    $this->loadTemplate("home", "signal_integration/signal_processing", $data);
   }
 
   public function select_signal_can()
@@ -226,29 +244,7 @@ class signalintegrationController extends Controller
         $input_or_output = $_GET['input_or_output'];
         $list_signals_can->add($data_can_id, $list_ecu_id, $integration_signals_id, $input_or_output);
       }
-      header("Location: " . BASE_URL . "signalintegration?form=5&name_can=" . $_GET['name_can']);
-      exit;
-    }
-  }
-
-
-  public function select_output_signal()
-  {
-    //form 7
-    $list_signals_can = new list_signals_can();
-
-    if (isset($_POST['can_id']) && !empty($_POST['can_id'])) {
-      $cans = $_POST['can_id'];
-      for ($i = 0; $i < count($cans); $i++) {
-
-        $data_can_id = $cans[$i];
-        $integration_signals_id = $_SESSION['signals_id_proTSA'];
-        $list_ecu_id = $_SESSION['function_ecu'];
-        $input_or_output = $_GET['input_or_output'];
-        $list_signals_can->add($data_can_id, $list_ecu_id, $integration_signals_id, $input_or_output);
-      }
-
-      header("Location: " . BASE_URL . "signalintegration?form=9");
+      header("Location: " . BASE_URL . "signalintegration/signal_processing?form=5&name_can=" . $_GET['name_can']);
       exit;
     }
   }
@@ -275,34 +271,7 @@ class signalintegrationController extends Controller
     }
     setcookie("success_all_signal_can", "Todos os signal names desta rede can foram cadastrados com sucesso.", time() + 50);
 
-    header("Location: " . BASE_URL . "signalintegration?form=5&name_can=" . $_GET['name_can']);
-    exit;
-  }
-
-  
-  public function select_all_output_signal()
-  {
-    //form 5
-    $filters = array();
-    $list_can = new list_can();
-    $list_signals_can = new list_signals_can();
-
-    $filters['name_can'] = $_GET['name_can'];
-    $ecu_id = $_SESSION['ecu_project_proTSA'];
-    $project_id = $_SESSION['project_signals_id_proTSA'];
-    $integration_signals_id = $_SESSION['signals_id_proTSA'];
-
-    $cans = $list_can->getAllInProject($filters, $ecu_id, $project_id);
-    $input_or_output = $_GET['input_or_output'];
-    for ($i = 0; $i < count($cans); $i++) {
-
-      $data_can_id = $cans[$i]['dc_id'];
-      $list_ecu_id = $_SESSION['function_ecu'];
-      $list_signals_can->add($data_can_id, $list_ecu_id, $integration_signals_id, $input_or_output);
-    }
-    setcookie("success_all_signal_can", "Todos os signal names desta rede can foram cadastrados com sucesso.", time() + 50);
-
-    header("Location: " . BASE_URL . "signalintegration?form=9");
+    header("Location: " . BASE_URL . "signalintegration/signal_processing?form=5&name_can=" . $_GET['name_can']);
     exit;
   }
 
@@ -325,9 +294,56 @@ class signalintegrationController extends Controller
         $list_signals_can->answer_questions($integration_signals_id, $data_can_id, $list_ecu_id, $available_type);
       }
 
-      header("Location: " . BASE_URL . "signalintegration?form=7");
+      header("Location: " . BASE_URL . "signalintegration/signal_processing?form=7");
       exit;
     }
+  }
+
+  public function select_output_signal()
+  {
+    //form 7
+    $list_signals_can = new list_signals_can();
+
+    if (isset($_POST['can_id']) && !empty($_POST['can_id'])) {
+      $cans = $_POST['can_id'];
+      for ($i = 0; $i < count($cans); $i++) {
+
+        $data_can_id = $cans[$i];
+        $integration_signals_id = $_SESSION['signals_id_proTSA'];
+        $list_ecu_id = $_SESSION['function_ecu'];
+        $input_or_output = $_GET['input_or_output'];
+        $list_signals_can->add($data_can_id, $list_ecu_id, $integration_signals_id, $input_or_output);
+      }
+
+      header("Location: " . BASE_URL . "signalintegration/signal_processing?form=7");
+      exit;
+    }
+  }
+
+  public function select_all_output_signal()
+  {
+    //form 7
+    $filters = array();
+    $list_can = new list_can();
+    $list_signals_can = new list_signals_can();
+
+    $filters['name_can'] = $_GET['name_can'];
+    $ecu_id = $_SESSION['ecu_project_proTSA'];
+    $project_id = $_SESSION['project_signals_id_proTSA'];
+    $integration_signals_id = $_SESSION['signals_id_proTSA'];
+
+    $cans = $list_can->getAllInProject($filters, $ecu_id, $project_id);
+    $input_or_output = $_GET['input_or_output'];
+    for ($i = 0; $i < count($cans); $i++) {
+
+      $data_can_id = $cans[$i]['dc_id'];
+      $list_ecu_id = $_SESSION['function_ecu'];
+      $list_signals_can->add($data_can_id, $list_ecu_id, $integration_signals_id, $input_or_output);
+    }
+    setcookie("success_all_signal_can", "Todos os signal names desta rede can foram cadastrados com sucesso.", time() + 50);
+
+    header("Location: " . BASE_URL . "signalintegration/signal_processing?form=7");
+    exit;
   }
 
   public function add_comment()
@@ -341,15 +357,77 @@ class signalintegrationController extends Controller
 
       $integration_signals->addComment($integration_signals_id, $comment); //cadastra os ecus selecionados nessa tabela
 
-      header("Location: " . BASE_URL . "signalintegration?form=9");
+      header("Location: " . BASE_URL . "signalintegration/confirmations?form=9");
       exit;
     }
   }
 
+  public function confirmations()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'function_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
+
+    $type_ecu = new type_ecu();
+
+    //form 9: apenas confirmação
+
+    if (isset($_GET['form']) && $_GET['form'] == 9) {
+
+      $ecu_id = $_SESSION['ecu_project_proTSA'];
+      $data['name_ecu'] = $type_ecu->getName($ecu_id);
+
+      unset($_SESSION['function_ecu']);
+    }
+
+    //form 10: apenas confirmação
+
+    if (isset($_GET['form']) && $_GET['form'] == 10) {
+
+      unset($_SESSION['ecu_project_proTSA']);
+    }
+
+    //template, view, data
+    $this->loadTemplate("home", "signal_integration/confirmations", $data);
+  }
+
   public function select_main_function()
   {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'function_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //fim do básico
+
     //form 11
+    $integration_signals_id = $_SESSION['signals_id_proTSA']; //id do teste
     $list_signals_function = new list_signals_function();
+
+    $data['list_function'] = $list_signals_function->getAll($integration_signals_id);
 
     if (isset($_POST['main_function']) && !empty($_POST['main_function'])) {
       $integration_signals_id = $_SESSION['signals_id_proTSA']; //id do teste
@@ -358,8 +436,97 @@ class signalintegrationController extends Controller
 
       $list_signals_function->mainFunction($list_ecu_id, $integration_signals_id, $main_function); //cadastra os ecus selecionados nessa tabela
 
-      header("Location: " . BASE_URL . "signalintegration?form=12");
+      header("Location: " . BASE_URL . "signalintegration/results");
       exit;
     }
+
+    //template, view, data
+    $this->loadTemplate("home", "signal_integration/main_function", $data);
+  }
+
+  public function results()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'function_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+
+    //fim do básico
+
+    $integration_signals = new integration_signals();
+
+    if (!isset($_GET['signal_integration_id_proTSA']) || empty($_GET['signal_integration_id_proTSA'])) {
+
+      $data['list_integration_signals'] = $integration_signals->getAll();
+    }
+
+    if (isset($_GET['signal_integration_id_proTSA']) && !empty($_GET['signal_integration_id_proTSA'])) {
+      $_SESSION['signal_integration_id_proTSA'] = $_GET['signal_integration_id_proTSA'];
+    }
+
+    //template, view, data
+    $this->loadTemplate("home", "signal_integration/results", $data);
+  }
+
+  public function choose_test()
+  {
+
+    if (isset($_POST['signal_id']) && !empty($_POST['signal_id'])) {
+      $_SESSION['signal_integration_id_proTSA'] = addslashes($_POST['signal_id']);
+
+      header("Location: " . BASE_URL . "signalintegration/results");
+      exit;
+    }
+  }
+
+  public function first_result($signal_integration_id)
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'function_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+
+    //fim do básico
+
+    $list_signals_can = new list_signals_can();
+    $list_signals_function = new list_signals_function();
+
+    //Função de teste principal
+
+    $data['main_function'] = $list_signals_function->getMainFunction($signal_integration_id);
+    $le_main_id = $data['main_function']['le_id'];
+    $data['signals_main'] = $list_signals_can->getSignalsFunction($le_main_id, $signal_integration_id);
+
+    //Função de teste comum
+
+    $data['commom_function'] = $list_signals_function->getCommomFunction($signal_integration_id);
+    $le_commom_id = $data['commom_function']['le_id'];
+    $data['signals_commom'] = $list_signals_can->getSignalsFunction($le_commom_id, $signal_integration_id);
+
+
+    //template, view, data
+    $this->loadTemplate("home", "signal_integration/first_result", $data);
   }
 }

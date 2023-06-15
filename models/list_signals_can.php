@@ -19,7 +19,7 @@ class list_signals_can extends Model
             return false;
         }
     }
-    
+
     public function getAll($integration_signals_id, $list_ecu_id,)
     {
         $array = array();
@@ -43,7 +43,8 @@ class list_signals_can extends Model
     }
 
 
-    public function answer_questions($integration_signals_id, $id, $list_ecu_id, $available_type) {
+    public function answer_questions($integration_signals_id, $id, $list_ecu_id, $available_type)
+    {
         $sql = "UPDATE list_signals_can SET available_type = :available_type 
         WHERE integration_signals_id = :integration_signals_id
         AND id = :id
@@ -62,4 +63,31 @@ class list_signals_can extends Model
         }
     }
 
+    public function getSignalsFunction($le_id, $integration_signals_id)
+    {
+        $sql = "SELECT c.rede_can, c.signal_name AS c_signal_name, c.signal_function AS c_signal_function, lsc.available_type AS lsc_available_type
+        FROM list_signals_can AS lsc
+        INNER JOIN data_can AS c ON (c.id = lsc.data_can_id)
+        WHERE lsc.input_or_output = 1
+        AND lsc.list_ecu_id = :le_id
+        AND lsc.integration_signals_id = :integration_signals_id
+        AND c.signal_name IN (
+		SELECT ca.signal_name 
+		FROM list_signals_can AS lsca
+        INNER JOIN data_can AS ca ON (ca.id = lsca.data_can_id)
+        WHERE lsca.input_or_output = 1
+		GROUP BY ca.signal_name
+		HAVING COUNT(*) > 1)";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":le_id", $le_id);
+        $sql->bindValue(":integration_signals_id", $integration_signals_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return false;
+        }
+    }
 }

@@ -165,7 +165,7 @@
                         </ul>
                     </li>
                     <li class="<?= ($viewData['page'] == 'software_integration') ? 'active' : ''; ?>">
-                        <a class="accordion-toggle" href="<?= BASE_URL; ?>home/under_construction">
+                        <a class="accordion-toggle">
                             <span class="caret"></span>
                             <span class="sb-menu-icon fa fa-desktop"></span>
                             <span class="sidebar-title">Int. Softwares</span>
@@ -181,7 +181,7 @@
                         </ul>
                     </li>
                     <li class="<?= ($viewData['page'] == 'provider_list') ? 'active' : ''; ?>">
-                        <a class="accordion-toggle" href="<?= BASE_URL; ?>home/under_construction">
+                        <a class="accordion-toggle">
                             <span class="caret"></span>
                             <span class="sb-menu-icon fa fa-rss"></span>
                             <span class="sidebar-title">Int. Sinais</span>
@@ -372,6 +372,7 @@
     <!-- Magnific Popup Plugin -->
     <script src="<?= BASE_URL; ?>assets/js/plugins/magnific/jquery.magnific-popup.min.js"></script>
 
+    <script src="<?= BASE_URL; ?>assets/js/pages/tables-basic.js"></script>
 
 
 </body>
