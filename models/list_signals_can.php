@@ -20,11 +20,12 @@ class list_signals_can extends Model
         }
     }
 
-    public function getAll($integration_signals_id, $list_ecu_id,)
+    public function getAll($integration_signals_id, $list_ecu_id)
     {
         $array = array();
 
-        $sql = "SELECT ls.id AS ls_id, c.signal_name AS c_name
+        $sql = "SELECT ls.id AS ls_id, c.signal_name AS c_name, c.signal_function AS c_function, 
+        c.rede_can AS c_rede_can, ls.status AS ls_status, ls.comment AS ls_comment
         FROM list_signals_can AS ls
         INNER JOIN data_can AS c ON (c.id = ls.data_can_id)
         WHERE ls.integration_signals_id = :integration_signals_id 
@@ -86,6 +87,24 @@ class list_signals_can extends Model
         if ($sql->rowCount() > 0) {
             $array = $sql->fetchAll(PDO::FETCH_ASSOC);
             return $array;
+        } else {
+            return false;
+        }
+    }
+
+    public function editStatus($id, $status, $comment)
+    {
+        $sql = "UPDATE list_signals_can SET status = :status, comment = :comment 
+        WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->bindValue(":status", $status);
+        $sql->bindValue(":comment", $comment);
+
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
         } else {
             return false;
         }

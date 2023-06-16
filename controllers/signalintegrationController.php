@@ -501,7 +501,7 @@ class signalintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'function_integration';
+    $data['page'] = 'first_result';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
@@ -515,18 +515,258 @@ class signalintegrationController extends Controller
 
     //Função de teste principal
 
-    $data['main_function'] = $list_signals_function->getMainFunction($signal_integration_id);
-    $le_main_id = $data['main_function']['le_id'];
-    $data['signals_main'] = $list_signals_can->getSignalsFunction($le_main_id, $signal_integration_id);
+    $data['main_function'] = $list_signals_function->getMainFunction($signal_integration_id); //pega a função principal do teste
+    $le_main_id = $data['main_function']['le_id']; //id da função principal
+    $data['all_signals_main'] = $list_signals_can->getAll($signal_integration_id, $le_main_id); //pega todos os sinais da função principal
+    $data['signals_main'] = $list_signals_can->getSignalsFunction($le_main_id, $signal_integration_id); //pega só os sinais em comum da função principal com a comum
 
     //Função de teste comum
 
-    $data['commom_function'] = $list_signals_function->getCommomFunction($signal_integration_id);
-    $le_commom_id = $data['commom_function']['le_id'];
-    $data['signals_commom'] = $list_signals_can->getSignalsFunction($le_commom_id, $signal_integration_id);
+    $data['commom_function'] = $list_signals_function->getCommomFunction($signal_integration_id); //pega a função comum do teste
+    $le_commom_id = $data['commom_function']['le_id']; //id da função comum
+    $data['all_signals_commom'] = $list_signals_can->getAll($signal_integration_id, $le_commom_id); //pega todos os sinais da função comum
+    $data['signals_commom'] = $list_signals_can->getSignalsFunction($le_commom_id, $signal_integration_id); //pega só os sinais em comum da função comum com a principal
 
 
     //template, view, data
     $this->loadTemplate("home", "signal_integration/first_result", $data);
   }
+
+  public function update_status()
+  {
+    $list_signals_can = new list_signals_can();
+    $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
+    if (isset($_POST['c_id']) && !empty($_POST['c_id'])) {
+
+      $c_id = $_POST['c_id'];
+      $status = $_POST['status'];
+      $comment =  $_POST['comment'];
+
+      for ($i = 0; $i < count($c_id); $i++) {
+
+        $list_signals_can->editStatus($c_id[$i], $status[$i], $comment[$i]);
+      }
+      header("Location: " . BASE_URL . "signalintegration/first_result/$signal_integration_id");
+      exit;
+    }
+  }
+
+  public function view_first_result()
+  {
+    $data  = array();
+    $filters = array();
+
+    //fim do básico
+
+    $list_signals_can = new list_signals_can();
+    $list_signals_function = new list_signals_function();
+
+    //Função de teste principal
+
+    $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
+
+    $data['main_function'] = $list_signals_function->getMainFunction($signal_integration_id); //pega a função principal do teste
+    $le_main_id = $data['main_function']['le_id']; //id da função principal
+    $data['all_signals_main'] = $list_signals_can->getAll($signal_integration_id, $le_main_id); //pega todos os sinais da função principal
+    $data['signals_main'] = $list_signals_can->getSignalsFunction($le_main_id, $signal_integration_id); //pega só os sinais em comum da função principal com a comum
+
+    //Função de teste comum
+
+    $data['commom_function'] = $list_signals_function->getCommomFunction($signal_integration_id); //pega a função comum do teste
+    $le_commom_id = $data['commom_function']['le_id']; //id da função comum
+    $data['all_signals_commom'] = $list_signals_can->getAll($signal_integration_id, $le_commom_id); //pega todos os sinais da função comum
+    $data['signals_commom'] = $list_signals_can->getSignalsFunction($le_commom_id, $signal_integration_id); //pega só os sinais em comum da função comum com a principal
+
+    $this->loadView("signal_integration/download_first_result/first_download", $data);
+  }
+
+  public function header_first_result()
+  {
+    $data  = array();
+
+    $this->loadView("signal_integration/download_first_result/header_first", $data);
+  }
+
+  public function footer_first_result()
+  {
+    $data  = array();
+
+    $this->loadView("signal_integration/download_first_result/footer_first", $data);
+  }
+
+  public function first_download()
+  {
+
+    $site = new site();
+
+    //Dados
+    $list_signals_can = new list_signals_can();
+    $list_signals_function = new list_signals_function();
+
+    //Função de teste principal
+
+    $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
+
+    $main_function = $list_signals_function->getMainFunction($signal_integration_id); //pega a função principal do teste
+    $le_main_id = $main_function['le_id']; //id da função principal
+    $data['all_signals_main'] = $list_signals_can->getAll($signal_integration_id, $le_main_id); //pega todos os sinais da função principal
+    $signals_main = $list_signals_can->getSignalsFunction($le_main_id, $signal_integration_id); //pega só os sinais em comum da função principal com a comum
+
+    //Função de teste comum
+
+    $commom_function = $list_signals_function->getCommomFunction($signal_integration_id); //pega a função comum do teste
+    $le_commom_id = $commom_function['le_id']; //id da função comum
+    $data['all_signals_commom'] = $list_signals_can->getAll($signal_integration_id, $le_commom_id); //pega todos os sinais da função comum
+    $signals_commom = $list_signals_can->getSignalsFunction($le_commom_id, $signal_integration_id); //pega só os sinais em comum da função comum com a principal
+    //View
+
+    $pdf = file_get_contents(BASE_URL . "signalintegration/header_first_result");
+    $pdf .= '<div class="panel mn pn">';
+    $pdf .= '<div class="panel-heading text-center">';
+    $pdf .= '<span class="panel-title">Resultado de comparação:</span>';
+    $pdf .= '</div>';
+    $pdf .= '<div class="panel-body">';
+    $pdf .= '<div class="section row">';
+    $pdf .= '<div class="col-sm-6 col-md-6 col-xs-6 text-center">';
+    $pdf .= '<h6>Função Comum:' . $commom_function['e_function'] . '</h6>';
+    $pdf .= '</div>';
+    $pdf .= '<div class="col-sm-6 col-md-6 col-xs-6 text-center">';
+    $pdf .= '<h6>Função Principal:' . $main_function['e_function'] . '</h6>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+    $pdf .= '<div class="panel" id="spy5">';
+    $pdf .= '<div class="panel-body pn">';
+    $pdf .= '<div class="col-md-5 col-xs-5">';
+    $pdf .= '<div class="table-responsive">';
+    $pdf .= '<table class="table table-striped btn-gradient-grey mbn">';
+    $pdf .= '<thead>';
+    $pdf .= '<tr class="alert text-center">';
+    $pdf .= '<th class="text-center">Nome do sinal</th>';
+    $pdf .= '<th class="text-center">Descrição</th>';
+    $pdf .= '<th class="text-center">Disponibilidade</th>';
+    $pdf .= '</tr>';
+    $pdf .= '</thead>';
+    $pdf .= '<tbody>';
+
+    foreach ($signals_commom as $key => $value) {
+      $pdf .= '<tr>';
+      $pdf .= '<td class="text-center">' . $value['c_signal_name'] . '</td>';
+      $pdf .= '<td class="text-center">' . $value['c_signal_function'] . '</td>';
+      $pdf .= '<td class="text-center">';
+      if ($value['lsc_available_type'] == 1) {
+        $pdf .= 'Sim';
+      } else {
+        $pdf .= 'Não';
+      }
+      $pdf .= '</td>';
+      $pdf .= '</tr>';
+    }
+    $pdf .= '</tbody>';
+    $pdf .= '</table>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+
+    $pdf .= '<div class="col-md-2 col-xs-2">';
+    $pdf .= '<div class="table-responsive">';
+    $pdf .= '<table class="table table-striped btn-gradient-grey mbn">';
+    $pdf .= '<thead>';
+    $pdf .= '<tr class="alert text-center">';
+    $pdf .= '<th class="text-center">Status de Match</th>';
+    $pdf .= '</tr>';
+    $pdf .= '</thead>';
+    $pdf .= '<tbody>';
+
+    foreach ($signals_main as $key => $value) {
+      $pdf .= '<tr>';
+      $pdf .= '<td class="text-center">';
+      if ($signals_main[$key]['lsc_available_type'] == $signals_commom[$key]['lsc_available_type']) {
+        $pdf .= '=';
+      } else {
+        $pdf .= '≠';
+      }
+
+      $pdf .= '</td>';
+      $pdf .= '</tr>';
+    }
+
+    $pdf .= '</tbody>';
+    $pdf .= '</table>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+
+    $pdf .= '<div class="col-md-5 col-xs-5">';
+    $pdf .= '<div class="table-responsive">';
+    $pdf .= '<table class="table table-striped btn-gradient-grey mbn">';
+    $pdf .= '<thead>';
+    $pdf .= '<tr class="alert text-center">';
+    $pdf .= '<th class="text-center">Nome do sinal</th>';
+    $pdf .= '<th class="text-center">Descrição</th>';
+    $pdf .= '<th class="text-center">Disponibilidade</th>';
+    $pdf .= '</tr>';
+    $pdf .= '</thead>';
+    $pdf .= '<tbody>';
+
+    foreach ($signals_main as $key => $value) {
+      $pdf .= '<tr>';
+      $pdf .= '<td class="text-center">' . $value['c_signal_name'] . '</td>';
+      $pdf .= '<td class="text-center">' . $value['c_signal_function'] . '</td>';
+      $pdf .= '<td class="text-center">';
+      if ($value['lsc_available_type'] == 1) {
+        $pdf .= 'Sim';
+      } else {
+        $pdf .= 'Não';
+      }
+      $pdf .= '</td>';
+      $pdf .= '</tr>';
+    }
+    $pdf .= '</tbody>';
+    $pdf .= '</table>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+
+    $pdf .= file_get_contents(BASE_URL . "signalintegration/footer_first_result");
+
+    //Criar PDF
+
+    $name_file = 'primeiro-resultado-Modulo-3.pdf';
+    $site->create_PDF($pdf, $name_file);
+  }
+
+  public function second_result($signal_integration_id)
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'first_result';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+
+    //fim do básico
+
+    $list_signals_can = new list_signals_can();
+    $list_signals_function = new list_signals_function();
+    //Função de teste principal
+
+    $data['main_function'] = $list_signals_function->getMainFunction($signal_integration_id); //pega a função principal do teste
+    $le_main_id = $data['main_function']['le_id']; //id da função principal
+    $data['signals_main'] = $list_signals_can->getAll($signal_integration_id, $le_main_id); //pega só os sinais em comum da função principal com a comum
+
+    //template, view, data
+    $this->loadTemplate("home", "signal_integration/second_result", $data);
+  }
+
+  
 }

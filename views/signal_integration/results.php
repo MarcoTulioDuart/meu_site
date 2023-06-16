@@ -80,7 +80,7 @@
                                         </li>
                                         <li>
                                             <h6>
-                                                O segundo resultado só será liberado depois que a reunião com a equipe for marcada.
+                                                O segundo resultado só poderá ser gerado após a coleta de trace da Can no primeiro resultado.
                                             </h6>
                                         </li>
                                     </ul>
@@ -96,11 +96,7 @@
                                     </div>
 
                                     <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL;?>signalintegration/second_result" class="btn fs14 btn-primary" disabled>Em Breve...</a>
-                                    </div>
-
-                                    <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL;?>signalintegration/third_result" class="btn fs14 btn-primary" disabled>Em Breve...</a>
+                                        <a href="<?= BASE_URL;?>signalintegration/second_result/<?= $_SESSION['signal_integration_id_proTSA']; ?>" class="btn fs14 btn-primary">Segundo Resultado</a>
                                     </div>
                                 </div>
                             </div>

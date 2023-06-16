@@ -45,12 +45,46 @@
                                     </div>
                                 </div>
                                 <div class="section row mtn">
-                                    <div class="tab-block">
-                                        <h6 class="text-center mtn mb20">Sinais relacionados com a Função</h6>
-                                        <div class="tab-content mh-200">
-                                            <p class="ph20"></p>
+                                    <form action="<?= BASE_URL; ?>signalintegration/update_status" method="post">
+                                        <div class="tab-block ">
+                                            <h6 class="text-center mtn mb20">Sinais relacionados com a Função</h6>
+                                            <p class="text-muted text-center">Informe o status de todos os sinais</p>
+                                            <div class="tab-content mh-500">
+                                                <?php foreach ($all_signals_main as $key => $value) : ?>
+                                                    <div class="col-md-8 col-xs-8">
+                                                        <p class="pv20 pl20">
+                                                            <?= $value['c_rede_can']; ?>: <?= $value['c_name']; ?>
+                                                        </p>
+                                                    </div>
+                                                    <input type="hidden" name="c_id[]" value="<?= $value['ls_id']; ?>">
+                                                    <div class="col-md-4 col-xs-4">
+                                                        <div class="section">
+                                                            <label class="field select">
+                                                                <select name="status[]" id="status">
+                                                                    <option value="null" <?= ($value['ls_status'] == "null" || empty($value['ls_status'])) ? "selected" : ""; ?>>Escolha o status</option>
+                                                                    <option value="valid" <?= ($value['ls_status'] == "valid") ? "selected" : ""; ?>>Valido</option>
+                                                                    <option value="invalid" <?= ($value['ls_status'] == "invalid") ? "selected" : ""; ?>>Invalido</option>
+                                                                    <option value="error" <?= ($value['ls_status'] == "error") ? "selected" : ""; ?>>Erro</option>
+                                                                    <option value="not sure" <?= ($value['ls_status'] == "not sure") ? "selected" : ""; ?>>Não sei</option>
+                                                                    <option value="out of range" <?= ($value['ls_status'] == "out of range") ? "selected" : ""; ?>>Fora de alcance</option>
+                                                                </select>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="section row text-center">
+                                                        <div class="col-md-12">
+                                                            <textarea name="comment[]" id="comment" class="gui-textarea" cols="20" rows="10" placeholder="Escreva um comentário caso o status seja diferente de válido"><?= (!empty($value['ls_comment'])) ? $value['ls_comment'] : ""; ?></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                <?php endforeach; ?>
+
+                                            </div>
                                         </div>
-                                    </div>
+                                        <div class="section row text-center mt20">
+                                            <button class="btn btn-primary btn-bordered" type="submit">Enviar</button>
+                                        </div>
+                                    </form>
                                 </div>
                                 <hr>
                                 <div class="section row text-center">
@@ -59,12 +93,46 @@
                                     </div>
                                 </div>
                                 <div class="section row mtn">
-                                    <div class="tab-block">
-                                        <h6 class="text-center mtn mb20">Sinais relacionados com a Função</h6>
-                                        <div class="tab-content mh-200">
-                                            <p class="ph20"></p>
+                                    <form action="<?= BASE_URL; ?>signalintegration/update_status" method="post">
+                                        <div class="tab-block">
+                                            <h6 class="text-center mtn mb20">Sinais relacionados com a Função</h6>
+                                            <p class="text-muted text-center">Informe o status de todos os sinais</p>
+                                            <div class="tab-content mh-200">
+                                                <?php foreach ($all_signals_commom as $key => $value) : ?>
+                                                    <div class="col-md-8 col-xs-8">
+                                                        <p class="pv20 pl20">
+                                                            <?= $value['c_rede_can']; ?>: <?= $value['c_name']; ?>
+                                                        </p>
+                                                    </div>
+                                                    <input type="hidden" name="c_id[]" value="<?= $value['ls_id']; ?>">
+                                                    <div class="col-md-4 col-xs-4">
+                                                        <div class="section">
+                                                            <label class="field select">
+                                                                <select name="status[]" id="status">
+                                                                    <option value="null" <?= ($value['ls_status'] == "null" || empty($value['ls_status'])) ? "selected" : ""; ?>>Escolha o status</option>
+                                                                    <option value="valid" <?= ($value['ls_status'] == "valid") ? "selected" : ""; ?>>Valido</option>
+                                                                    <option value="invalid" <?= ($value['ls_status'] == "invalid") ? "selected" : ""; ?>>Invalido</option>
+                                                                    <option value="error" <?= ($value['ls_status'] == "error") ? "selected" : ""; ?>>Erro</option>
+                                                                    <option value="not sure" <?= ($value['ls_status'] == "not sure") ? "selected" : ""; ?>>Não sei</option>
+                                                                    <option value="out of range" <?= ($value['ls_status'] == "out of range") ? "selected" : ""; ?>>Fora de alcance</option>
+                                                                </select>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="section row text-center">
+                                                        <div class="col-md-12">
+                                                            <textarea name="comment[]" id="comment" class="gui-textarea" cols="20" rows="10" placeholder="Escreva um comentário caso o status seja diferente de válido"><?= (!empty($value['ls_comment'])) ? $value['ls_comment'] : ""; ?></textarea>
+                                                        </div>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            </div>
                                         </div>
-                                    </div>
+
+                                        <div class="section row text-center mt20">
+                                            <button class="btn btn-primary btn-bordered" type="submit">Enviar</button>
+                                        </div>
+                                    </form>
                                 </div>
                                 <hr>
                                 <div class="section row mtn">
@@ -116,6 +184,7 @@
 
             <div class="panel" id="spy5">
                 <div class="panel-body pn mt20">
+
                     <!-- Função comum -->
                     <div class="col-md-5 col-xs-5">
                         <div class="table-responsive">
@@ -145,6 +214,7 @@
                             </table>
                         </div>
                     </div>
+
                     <!-- Comparação -->
                     <div class="col-md-2 col-xs-2">
                         <div class="table table-responsive">
@@ -158,7 +228,12 @@
                                     <?php foreach ($signals_main as $key => $value) : ?>
                                         <tr>
                                             <td class="text-center">
-                                                Em Breve...
+                                                <?php if ($signals_main[$key]['lsc_available_type'] == $signals_commom[$key]['lsc_available_type']) {
+                                                    echo "=";
+                                                } else {
+                                                    echo "≠";
+                                                }
+                                                ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -166,7 +241,9 @@
                             </table>
                         </div>
                     </div>
+
                     <!-- Função principal -->
+
                     <div class="col-md-5 col-xs-5">
                         <div class="table-responsive">
                             <table class="table table-striped btn-gradient-grey mbn">
@@ -196,6 +273,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="section row text-center">
+                <a class="btn btn-primary btn-bordered" href="<?= BASE_URL; ?>signalintegration/first_download" target="_blank">Download</a>
             </div>
         </div>
     </div>
