@@ -29,10 +29,26 @@
             <div class="row">
                 <div class="allcp-form tab-pane mw1000 mauto" id="order" role="tabpanel">
                     <div class="panel" id="shortcut">
-
+                        <div class="right">
+                            <div class="btn-group">
+                                <button type="button" class="dropdown-toggle btn btn-primary" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-lightbulb-o fs24"></i>
+                                </button>
+                                <ul class="dropdown-menu bg-primary p15 w200">
+                                    <li>
+                                        <h5><b>Dica:</b></h5>
+                                    </li>
+                                    <li>
+                                        <h6>
+                                            Se o projeto precisar de mais de uma rede CAN, primeiro envie todas os signal names necessários de uma vez, e depois escolha outra rede.
+                                        </h6>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         <!-- FORM 1: Escolha de projeto -->
                         <div class="panel-heading text-center pb25">
-                            <span class="panel-title pn">Upload diagrama de blocos com Hardwares que fazem interfaces com a ECU <-NAME-> </span><br>
+                            <span class="panel-title pn">Upload diagrama de blocos com Hardwares que fazem interfaces com a ecu <strong> <u> <?= $info_ecu['name']; ?> </u></strong></span><br>
                             <span class="fa fa-circle"></span>
                             <span class="fa fa-circle"></span>
                             <span class="fa fa-circle"></span>
@@ -42,7 +58,7 @@
                             <span class="fa fa-circle-o"></span>
                         </div>
                         <div class="panel-body pn">
-                            <form action="<?= BASE_URL; ?>functionintegration/uploadDiagramHardware" id="pdf-upload" method="post" enctype="multipart/form-data">
+                            <form action="<?= BASE_URL; ?>softwareintegration/uploadDiagramHardware" method="post" enctype="multipart/form-data">
 
                                 <!-- Campos de upload de acordo com as funções selecionadas no form anterior -->
 
@@ -54,7 +70,7 @@
                                                 <input type="hidden" name="ecu_id" value="<?= $_GET['ecu_id'] ?>">
                                                 <label class="field prepend-icon file mb20 mt10">
 
-                                                    <input type="file" name="files" class="gui-file" onchange="document.getElementById('uploader').value = this.value;" accept="application/pdf">
+                                                    <input type="file" name="files" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
 
                                                     <input type="text" id="uploader" name="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
                                                     <i class="fa fa-upload"></i>
@@ -65,8 +81,7 @@
                                     </div>
                                 </div>
                                 <div class="section text-center">
-                                    <a href="<?= BASE_URL; ?>functionintegration?form=3" class="btn fs14 btn-primary">Anterior</a>
-                                    <button type="submit" class="btn fs14 btn-primary"><b>Próximo</b></button>
+                                    <button type="submit" class="btn btn-primary"><b>Próximo</b></button>
                                 </div>
                             </form>
                         </div>
@@ -78,4 +93,3 @@
             <!-- /Column Center -->
         </div>
 </section>
-<script src="<?= BASE_URL ?>assets/js/pages/validation/function-integration.js"></script>

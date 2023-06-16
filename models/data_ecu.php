@@ -65,5 +65,20 @@ class data_ecu extends Model
         }
     }
 
+    public function get($id)
+    {
+        $sql = "SELECT * FROM data_ecu WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetch(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return [];
+        }
+    }
+
 }
 ?>
