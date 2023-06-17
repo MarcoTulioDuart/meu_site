@@ -665,7 +665,7 @@ class functionintegrationController extends Controller
 
     $pdf .= file_get_contents(BASE_URL . "functionintegration/footer_first_result");
 
-    $name_file = 'primeiro-resultado.pdf';
+    $name_file = 'primeiro-resultado-Modulo-1.pdf';
     $site->create_PDF($pdf, $name_file);
   }
 
