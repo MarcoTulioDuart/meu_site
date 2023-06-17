@@ -51,6 +51,24 @@ class software_integrations extends Model
         }
     }
 
+    public function releases_software_add($software_integrations_id, $ecu_id, $releases_date, $releases_function)
+    {
+        $sql = "INSERT INTO releases_softwares (software_integrations_id, ecu_id, releases_date, releases_function) VALUES (:software_integrations_id, :ecu_id, :releases_date, :releases_function)";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":software_integrations_id", $software_integrations_id);
+        $sql->bindValue(":ecu_id", $ecu_id);
+        $sql->bindValue(":releases_date", $releases_date);
+        $sql->bindValue(":releases_function", $releases_function);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $software_integrations_id = $this->db->lastInsertId();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 
 }

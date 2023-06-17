@@ -115,29 +115,22 @@ class softwareintegrationController extends Controller
     if (isset($_FILES['files']) && !empty($_FILES['files'])) {
       $software_integrations = new software_integrations();
       $ecu_id = $_POST['ecu_id'];
-      $software_integrations_id = $_POST['ecu_id'];
-
-      echo "<pre>";
-      print_r($_POST);
-      print_r(($_FILES));
-      exit;
+      $software_integrations_id = $_POST['software_integrations_id'];
 
       $site = new site();
 
-      $upload = $_FILES['uploader']; //pega todos os campos que contem um arquivo enviado
-      $dir = "assets/upload/flowchart/softwareintegration/"; //endereço da pasta pra onde serão enviados os arquivos
+      $upload = $_FILES['files']; //pega todos os campos que contem um arquivo enviado
+      $dir = "assets/upload/softwareintegration/flowchart/"; //endereço da pasta pra onde serão enviados os arquivos
 
       //envia os arquivo para a pasta determinada
-      $file = $site->uploadPdf($dir, $upload);
+      $diagram = $site->uploadPdf($dir, $upload);
 
      
      
       $software_integrations->diagram_hardwares_add($software_integrations_id, $ecu_id, $diagram); //cadastra os ecus selecionados nessa tabela
      
-      header("Location: " . BASE_URL . "softwareintegration/uploadDiagramHardware?software_integrations_id=" . $_GET['software_integrations_id'] . "&ecu_id=" . $ecu_id);
+      header("Location: " . BASE_URL . "softwareintegration/releasesSoftware?software_integrations_id=" . $_GET['software_integrations_id'] . "&ecu_id=" . $ecu_id);
       exit;
-    }else{
-      echo "tem nao";
     }
 
     if (isset($_GET['software_integrations_id']) && isset($_GET['ecu_id'])) {
@@ -155,4 +148,68 @@ class softwareintegrationController extends Controller
 
     $this->loadTemplate("home", "software_integration/type_hardware_processing", $data);
   }
+
+  public function releasesSoftware(){
+    $data  = array();
+    $accounts = new accounts();
+    $data_ecu = new data_ecu();
+
+    $data['page'] = 'software_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if(isset($_GET['ecu_id'])){
+      $data['info_ecu'] = $data_ecu->get($_GET['ecu_id']);
+    }
+    
+
+    if (isset($_POST['ecu_id']) && !empty($_POST['software_integrations_id'])) {
+      $software_integrations = new software_integrations();
+      $ecu_id = $_POST['ecu_id'];
+      $software_integrations_id = $_POST['software_integrations_id'];
+      $releases_date = $_POST['releases_date'];
+      $releases_function  = $_POST['releases_function'];     
+    
+      foreach($releases_date as $key => $item){
+        $software_integrations->releases_software_add($software_integrations_id, $ecu_id, $item, $releases_function[$key]);
+      }
+
+      header("Location: " . BASE_URL . "softwareintegration/integrationPlan?software_integrations_id=" . $software_integrations_id . "&ecu_id=" . $ecu_id);
+      exit;
+    }
+  
+    
+    $this->loadTemplate("home", "software_integration/releases_software", $data);
+  }
+
+  public function integrationPlan(){
+    $data  = array();
+    $accounts = new accounts();
+    $data_ecu = new data_ecu();
+
+    $data['page'] = 'software_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if(isset($_GET['ecu_id'])){
+      $data['info_ecu'] = $data_ecu->get($_GET['ecu_id']);
+    }
+    
+
+    if (isset($_POST['ecu_id']) && !empty($_POST['software_integrations_id'])) {
+      $software_integrations = new software_integrations();
+      $ecu_id = $_POST['ecu_id'];
+      $software_integrations_id = $_POST['software_integrations_id'];
+      $releases_date = $_POST['releases_date'];
+      $releases_function  = $_POST['releases_function'];     
+    
+      foreach($releases_date as $key => $item){
+        $software_integrations->releases_software_add($software_integrations_id, $ecu_id, $item, $releases_function[$key]);
+      }
+
+      
+    }
+  
+    
+    $this->loadTemplate("home", "software_integration/integration_plan", $data);
+  }
+
 }

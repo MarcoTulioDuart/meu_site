@@ -40,7 +40,23 @@
                                     </li>
                                     <li>
                                         <h6>
-                                            Se o projeto precisar de mais de uma rede CAN, primeiro envie todas os signal names necessários de uma vez, e depois escolha outra rede.
+                                            <ul>
+                                                <li><span style="background-color:#70AD47">ECU = VERDE</span>  </li>
+                                                <li><span style="background-color:#4472C4"> SENSORES: AZUL</span></li>
+                                                <li><span style="background-color:#7F7F7F">ATUADOR:  CINZA</span></li>
+                                                <li><span style="background-color:#000000">CHICHOTE ELÉTRICO:PRETO</span></li>
+                                                <li><span style="background-color:#4472C4">CHICHOTE PNEUMÁTICO: AZUL</span></li>
+                                                <li>
+                                                    <a style="color: white;" href="<?= BASE_URL; ?>assets/upload/flowchart/example_flowchart_hardware.png" download>
+                                                        Clique para baixar.
+                                                    </a>
+                                                </li>
+                                            </ul>
+
+
+
+
+
                                         </h6>
                                     </li>
                                 </ul>
@@ -59,7 +75,12 @@
                         </div>
                         <div class="panel-body pn">
                             <form action="<?= BASE_URL; ?>softwareintegration/uploadDiagramHardware" method="post" enctype="multipart/form-data">
-
+                                <div class="section row">
+                                    <div class="col-md-12 ph10 mb5 text-center">
+                                        <span class="text-muted">Caso ainda não tenha feito o fluxograma acesse o link recomendado a baixo. Leia as dicas, para instruções de cores.</span><br><br>
+                                        <a class="text-primary" href="https://app.diagrams.net/" target="_blank">Criar Fluxograma</a>
+                                    </div>
+                                </div>
                                 <!-- Campos de upload de acordo com as funções selecionadas no form anterior -->
 
                                 <div class="section row">
