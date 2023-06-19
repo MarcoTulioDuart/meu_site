@@ -44,7 +44,7 @@
                                                 <li><span style="background-color:#70AD47">ECU = VERDE</span>  </li>
                                                 <li><span style="background-color:#4472C4"> SENSORES: AZUL</span></li>
                                                 <li><span style="background-color:#7F7F7F">ATUADOR:  CINZA</span></li>
-                                                <li><span style="background-color:#000000">CHICHOTE ELÉTRICO:PRETO</span></li>
+                                                <li><span style="background-color:#000000; color:white">CHICHOTE ELÉTRICO:PRETO</span></li>
                                                 <li><span style="background-color:#4472C4">CHICHOTE PNEUMÁTICO: AZUL</span></li>
                                                 <li>
                                                     <a style="color: white;" href="<?= BASE_URL; ?>assets/upload/flowchart/example_flowchart_hardware.png" download>
