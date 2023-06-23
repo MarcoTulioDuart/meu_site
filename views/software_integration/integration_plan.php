@@ -38,6 +38,23 @@
             <div class="row">
                 <div class="allcp-form tab-pane mw900 mauto" id="order" role="tabpanel">
                     <div class="panel" id="shortcut">
+                        <div class="right">
+                            <div class="btn-group">
+                                <button type="button" class="dropdown-toggle btn btn-primary" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-lightbulb-o fs24"></i>
+                                </button>
+                                <ul class="dropdown-menu bg-primary p15 w200">
+                                    <li>
+                                        <h5><b>Dica:</b></h5>
+                                    </li>
+                                    <li>
+                                        <h6>
+                                            A data digitada deve ser maior do que a data de disponibilidade dos equipamentos, caso contrário o item conflitante deve aparecer no template para o WS.
+                                        </h6>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="panel-heading text-center">
                             <span class="panel-title pn">Plano de integração entre ECUs</span><br>
                             <span class="fa fa-circle"></span>
@@ -47,7 +64,9 @@
                             <span class="fa fa-circle-o"></span>
                             <span class="fa fa-circle-o"></span>
                         </div>
-                        <form action="<?= BASE_URL; ?>softwareintegration/releasesSoftware" method="post">
+                        <form action="<?= BASE_URL; ?>softwareintegration/integrationPlan" method="post">
+                            <input type="hidden" name="software_integrations_id" value="<?= $_GET['software_integrations_id'] ?>">
+                            <input type="hidden" name="ecu_id" value="<?= $_GET['ecu_id'] ?>">
                             <div class="row text-center">
                                 <div class="col-md-12 ph10 mb5">
                                     <label for="physical_resources">
@@ -59,11 +78,11 @@
                             </div>
                             <div class="row text-center mt-1 mb5">
                                 <div class="col-md-6 ph10 mb5">
-                                    <label for="physical_resources_availability">
+                                    <label for="available_resources">
                                         Todos os recursos estão/estarão disponíveis?
-                                        <select name="physical_resources_availability" id="physical_resources_availability">
-                                            <option value="sim">Sim</option>
-                                            <option value="não">Não</option>
+                                        <select name="available_resources" id="available_resources">
+                                            <option value="1">Sim</option>
+                                            <option value="0">Não</option>
                                         </select>
 
                                     </label>
@@ -79,7 +98,7 @@
                                 <div class="col-md-6 hide" id="col_physical_resources">
                                     <label for="test_date">
                                         Detalhe qual item está pendente:
-                                        <input type="text" name="physical_resources" id="physical_resources" class="gui-input" placeholder="" value="">
+                                        <input type="text" name="pending_item" id="physical_resources" class="gui-input" placeholder="" value="">
                                     </label>
                                 </div>
 
@@ -109,25 +128,23 @@
 <!-- js -->
 <script src="<?= BASE_URL ?>assets/js/pages/validation/new_project.js"></script>
 <script>
-   
-$("#physical_resources_availability " ).on( "change", function() {
-    let option = $(this).val();
-    if(option == "sim"){
-        replaceClass("col_test_date", "hide", "show");
-        replaceClass("col_physical_resources", "show" , "hide");
-    }else{
-        replaceClass("col_test_date", "show", "hide");
-        replaceClass("col_physical_resources", "hide" , "show");
-    }
-} );
+    $("#physical_resources_availability ").on("change", function() {
+        let option = $(this).val();
+        if (option == "sim") {
+            replaceClass("col_test_date", "hide", "show");
+            replaceClass("col_physical_resources", "show", "hide");
+        } else {
+            replaceClass("col_test_date", "show", "hide");
+            replaceClass("col_physical_resources", "hide", "show");
+        }
+    });
 
 
-function replaceClass(id, oldClass, newClass) {
-    var elem = $(`#${id}`);
-    if (elem.hasClass(oldClass)) {
-        elem.removeClass(oldClass);
+    function replaceClass(id, oldClass, newClass) {
+        var elem = $(`#${id}`);
+        if (elem.hasClass(oldClass)) {
+            elem.removeClass(oldClass);
+        }
+        elem.addClass(newClass);
     }
-    elem.addClass(newClass);
-}
- 
 </script>
