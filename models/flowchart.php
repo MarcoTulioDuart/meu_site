@@ -35,4 +35,18 @@ class flowchart extends Model
         }
     }
 
+    public function edit($project_id, $upload) {
+        $sql = "UPDATE flowchart SET upload = :upload WHERE project_id = :project_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":project_id", $project_id);
+        $sql->bindValue(":upload", $upload);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

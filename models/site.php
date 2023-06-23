@@ -31,6 +31,90 @@ class site extends Model
             $mail->Body    = $message; //A mensagem do body pode ser feita com tags html <b>in bold!</b>
             // $mail->AltBody = 'A mensagem não possui estilização em html, mas as chances do email não se tornar um spam são maiores';
             $mail->CharSet = 'UTF-8';
+
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function sendMessegeFirst($email, $name, $subject, $message, $especifications, $firt_result)
+    {
+        $mail = new PHPMailer(true);
+        try {
+            //Configurações do servidor
+            $mail->isSMTP();
+            $mail->Host       = 'br968.hostgator.com.br'; //Servidor SMTP
+            $mail->SMTPAuth   = true; //SMTP autenticação
+            $mail->Username   = 'contato@protsa.infocept.com.br'; //SMTP username
+            $mail->Password   = 'infocept23'; //SMTP Senha
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port       = 465; //Caso o SMTPSecure seja 'PHPMailer::ENCRYPTION_STARTTLS' use 587
+
+            //Destinatário
+            $mail->setFrom('contato@protsa.infocept.com.br', 'PROTSA'); //Quem está enviando
+            $mail->addAddress($email, $name); //Quem recebe
+
+            //Conteudo do email
+            $mail->isHTML(true); //Se o email será em formato html
+            $mail->Subject = $subject;
+            $mail->Body    = $message; //A mensagem do body pode ser feita com tags html <b>in bold!</b>
+            // $mail->AltBody = 'A mensagem não possui estilização em html, mas as chances do email não se tornar um spam são maiores';
+            $mail->CharSet = 'UTF-8';
+
+            //Especificações de funções
+
+            $especificationsPath = $especifications['tmp_name']; // Caminho temporário do arquivo enviado
+            $especificationsName = $especifications['name']; // Nome original do arquivo enviado
+
+            $mail->addAttachment($especificationsPath, $especificationsName); // Adiciona o arquivo como anexo
+
+            //Paginá de primeiro resultado
+
+            $firt_resultPath = $firt_result['tmp_name']; // Caminho temporário do arquivo enviado
+            $firt_resultName = $firt_result['name']; // Nome original do arquivo enviado
+
+            $mail->addAttachment($firt_resultPath, $firt_resultName); // Adiciona o arquivo como anexo
+
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function sendMessageAttachment($email, $name, $subject, $message, $attachment)
+    {
+        $mail = new PHPMailer(true);
+        try {
+            //Configurações do servidor
+            $mail->isSMTP();
+            $mail->Host       = 'br968.hostgator.com.br'; //Servidor SMTP
+            $mail->SMTPAuth   = true; //SMTP autenticação
+            $mail->Username   = 'contato@protsa.infocept.com.br'; //SMTP username
+            $mail->Password   = 'infocept23'; //SMTP Senha
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port       = 465; //Caso o SMTPSecure seja 'PHPMailer::ENCRYPTION_STARTTLS' use 587
+
+            //Destinatário
+            $mail->setFrom('contato@protsa.infocept.com.br', 'PROTSA'); //Quem está enviando
+            $mail->addAddress($email, $name); //Quem recebe
+
+            //Conteudo do email
+            $mail->isHTML(true); //Se o email será em formato html
+            $mail->Subject = $subject;
+            $mail->Body    = $message; //A mensagem do body pode ser feita com tags html <b>in bold!</b>
+            // $mail->AltBody = 'A mensagem não possui estilização em html, mas as chances do email não se tornar um spam são maiores';
+            $mail->CharSet = 'UTF-8';
+
+            //Arquivo para ser anexado
+
+            $filePath = $attachment['tmp_name']; // Caminho temporário do arquivo enviado
+            $fileName = $attachment['name']; // Nome original do arquivo enviado
+
+            $mail->addAttachment($filePath, $fileName); // Adiciona o arquivo como anexo
+
             $mail->send();
             return true;
         } catch (Exception $e) {
@@ -67,8 +151,8 @@ class site extends Model
             return false;
         }
     }
-    
-    function uploadImg($dir, $file)
+
+    public function uploadImg($dir, $file)
     {
 
         if (!file_exists($dir)) {
@@ -135,7 +219,7 @@ class site extends Model
         }
     }
 
-    function uploadPdf($dir, $file)
+    public function uploadPdf($dir, $file)
     {
 
         if (!file_exists($dir)) {
@@ -159,7 +243,7 @@ class site extends Model
 
         // Verifica se houve algum erro com o upload. Se sim, exibe a mensagem do erro
         if ($file['error'] != 0) {
-            setcookie("error", "Não foi possível fazer o upload, erro:<br />" . $upload['errors'][$file['error']], 3600);
+            setcookie("error", "Não foi possível fazer o upload, erro:<br />" . $upload['errors'][$file['error']], time() + 100);
             return "";
         }
 
@@ -170,14 +254,14 @@ class site extends Model
         $tmp = explode('.', $file['name']); //captura a extesão do arquivo
         $extension = strtolower(end($tmp)); //coloca em minusculo
         if (array_search($extension, $upload['extension']) === false) {
-            setcookie("error", "Por favor, envie arquivos com a seguintes extensões: 'pdf, drawio, png, svg, html, xml'", 3600);
+            setcookie("error", "Por favor, envie arquivos com a seguintes extensões: 'pdf, drawio, png, svg, html, xml'", time() + 100);
             return "";
         }
 
         // Faz a verificação do tamanho do arquivo
         else if ($upload['size'] < $file['size']) {
-            setcookie("error", "O arquivo enviado é muito grande, envie arquivos de até 2Mb.", 3600);
-            return "";
+            setcookie("error", "O arquivo enviado é muito grande, envie arquivos de até 2Mb.", time() + 100);
+            return '';
         }
 
         // O arquivo passou em todas as verificações, hora de tentar movê-lo para a pasta
@@ -196,10 +280,29 @@ class site extends Model
                 return $dir . $final_name; //o caminho que a imagem foi salva
             } else {
                 // Não foi possível fazer o upload, provavelmente a pasta está incorreta
-                setcookie("error", "Não foi possível enviar o arquivo, tente novamente", 3600);
+                setcookie("error", "Não foi possível enviar o arquivo, tente novamente", time() + 100);
                 return "";
             }
         }
+    }
+
+    public function deleteDirectory($dir)
+    {
+        if (!file_exists($dir)) {
+            return;
+        }
+
+        $files = glob($dir . '/*');
+
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                unlink($file);
+            } elseif (is_dir($file)) {
+                rmdir($file);
+            }
+        }
+
+        rmdir($dir);
     }
 
     public static function elapsed_time($time)
@@ -227,7 +330,7 @@ class site extends Model
     }
 
 
-    function slug_generator($string)
+    public function slug_generator($string)
     { //gerador de slug(nickname)
         $string = preg_replace("/[áàâãä]/", "a", $string);
         $string = preg_replace("/[ÁÀÂÃÄ]/", "A", $string);
@@ -248,11 +351,11 @@ class site extends Model
         return $string;
     }
 
-    public function create_PDF($pdf, $name_file) {
-        
+    public function create_PDF($pdf, $name_file)
+    {
+
         $mpdf = new \Mpdf\Mpdf();
         $mpdf->WriteHTML($pdf);
         $mpdf->Output($name_file, 'D');
-
     }
 }

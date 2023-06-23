@@ -37,7 +37,7 @@
     <div class="content-left">
 
     </div>
-    <div class="content-right table-layout">
+    <div class="content-right table-layout" id="modal-content">
         <!-- Column Center -->
         <div class="chute chute-center pbn">
             <!-- Lists -->
@@ -65,18 +65,51 @@
                             <h4>Fluxograma</h4><br>
                         </div>
                         <div class="panel-body">
-                            <form action="<?= BASE_URL; ?>functionintegration/third_result" id="fluxograma" method="post" enctype="multipart/form-data">
-                                <?php if (isset($flowchart) && $flowchart != 0) : ?>
-                                    <div class="section row">
-                                        <div class="col-md-12 ph10 mb5">
+
+                            <?php if (!empty($flowchart) && $flowchart != 0) : ?>
+                                <!-- Quando já existe Fluxograma -->
+                                <div class="section">
+                                    <form action="<?= BASE_URL; ?>functionintegration/edit_flowchart" method="post">
+                                        <div class="ph10 mb5">
                                             <h5 class="text-center">Confirmamos que já há um fluxograma registrado!</h5>
                                             <h6 class="text-center pb15">Gostaria de fazer o download do arquivo?</h6>
                                         </div>
                                         <div class="section text-center">
                                             <a href="<?= BASE_URL; ?><?= $flowchart['upload']; ?>" class="btn fs14 btn-primary" download>Download</a>
                                         </div>
+                                        <div class="section text-center mt35">
+                                            <h5 class="text-center">Se precisar você também pode Atualizar o arquivo</h5>
+                                        </div>
+                                        <div class="section row">
+                                            <label class="field prepend-icon file mb20 mt10">
+
+                                                <input type="file" name="flowchart_update" class="gui-file" onchange="document.getElementById('uploader2').value = this.value;">
+
+                                                <input type="text" id="uploader2" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                                                <i class="fa fa-upload"></i>
+
+                                            </label>
+                                        </div>
+                                        <div class="section text-center">
+                                            <button type="submit" class="btn fs14 btn-primary">Atualizar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="section row pt35">
+                                    <div id="animation-switcher" class="ph20">
+                                        <div class="col-xs-12 col-sm-12 text-center">
+                                            <a class="holder-active" href="#modal-form">
+                                                <button class="btn btn-primary btn-bordered" data-effect="mfp-zoomIn">
+                                                    <b>Enviar Fluxograma</b>
+                                                </button>
+                                            </a>
+                                        </div>
                                     </div>
-                                <?php else : ?>
+                                </div>
+
+                            <?php else : ?>
+                                <!-- Quando não houver Fluxograma -->
+                                <form action="<?= BASE_URL; ?>functionintegration/third_result" id="fluxograma" method="post" enctype="multipart/form-data">
                                     <div class="section row">
                                         <div class="col-md-12 ph10 mb5 text-center">
                                             <h6>Ainda não temos um fluxograma registrado, por favor envie o arquivo.</h6>
@@ -98,9 +131,10 @@
                                     <div class="section text-center">
                                         <button type="submit" class="btn fs14 btn-primary">Enviar</button>
                                     </div>
-                                <?php endif; ?>
+                                </form>
 
-                            </form>
+                            <?php endif; ?>
+
                         </div>
 
                     </div>
@@ -112,4 +146,66 @@
         <!-- /Column Center -->
     </div>
 </section>
+<div id="modal-form" class="popup-basic allcp-form mfp-with-anim mfp-hide">
+    <div class="panel">
+        <div class="panel-heading text-center">
+            <span class="panel-title">
+                Envie o Fluxograma para a sua equipe
+            </span>
+        </div>
+        <!-- /Panel Heading -->
+        <form method="post" action="<?= BASE_URL; ?>functionintegration/send_flowchart" id="form-order" enctype="multipart/form-data">
+            <div class="panel-body">
+                <div class="section row text-center">
+                    <h6 class="text-muted">
+                        <span class="fs16 mr10">
+                            <i class="fa fa-lightbulb-o"></i>
+                        </span>
+                        Se desejar enviar o email de forma padrão, apenas clique em enviar
+                    </h6>
+                </div>
+                <div class="section row">
+                    <h6 class="text-center mtn pt10 pb10">Envie o email para outras pessoas</h6>
+                    <h6 class="text-muted text-center">Digite corretamente seus emails no campo abaixo, separando por ' ; ' sem espaços.</h6>
+                    <label for="participant" class="field prepend-icon">
+                        <input type="text" name="participant" id="participant" class="gui-input">
+                        <span class="field-icon">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="section row">
+                    <h6 class="text-center mtn pt10 pb10">Deseja fazer um comentário ou recomendação?</h6>
+                    <h6 class="text-muted text-center">A mensagem digitada aparecerá abaixo do texto padrão.</h6>
+                    <label for="recommendation" class="field prepend-icon">
+                        <textarea type="text" name="recommendation" id="recommendation" class="gui-textarea"></textarea>
+                        <span class="field-icon">
+                            <i class="fa fa-list"></i>
+                        </span>
+                    </label>
+                </div>
+                
+                <div class="section">
+                    <h6 class="text-center">Envie o arquivo do resultado que você baixou *</h6>
+                    <div class="section row">
+                        <label class="field prepend-icon file mb20 mt10">
+
+                            <input type="file" name="pdf_result" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
+
+                            <input type="text" id="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                            <i class="fa fa-upload"></i>
+
+                        </label>
+                    </div>
+                </div>
+
+                <div class="section text-center">
+                    <button type="submit" class="btn fs14 btn-primary">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- /Panel -->
+</div>
 <script src="<?= BASE_URL ?>assets/js/pages/validation/function-integration.js"></script>

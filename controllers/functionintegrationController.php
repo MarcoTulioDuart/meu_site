@@ -206,22 +206,27 @@ class functionintegrationController extends Controller
   public function upload_file_ecu()
   {
     //form 4
+    $project_id = $_SESSION['project_id_proTSA'];
     $list_integration_ecu = new list_integration_ecu();
     $site = new site();
 
     if (isset($_FILES['files']) && !empty($_FILES['files'])) {
       $files = $_FILES['files']; //pega todos os campos que contem um arquivo enviado
-      $dir = "assets/upload/function_ecu/"; //endereço da pasta pra onde serão enviados os arquivos
+
+      $dir = "assets/upload/function_ecu/project_" . $project_id . '/'; //endereço da pasta pra onde serão enviados os arquivos
 
       //envia os arquivo para a pasta determinada
-      $file = $site->uploadPdf($dir, $files);
+      if ($file = $site->uploadPdf($dir, $files)) {
+        $list_ecu_id = $_POST['list_ecu_id']; //pega o array de id's dos list_ecu
 
-      $list_ecu_id = $_POST['list_ecu_id']; //pega o array de id's dos list_ecu
+        $list_integration_ecu->addFile($list_ecu_id, $file); //faz o cadastro do caminho do arquivo atravez do id do list_ecu
 
-      $list_integration_ecu->addFile($list_ecu_id, $file); //faz o cadastro do caminho do arquivo atravez do id do list_ecu
-
-      header("Location: " . BASE_URL . "functionintegration?form=5");
-      exit;
+        header("Location: " . BASE_URL . "functionintegration?form=5");
+        exit;
+      } else {
+        header("Location: " . BASE_URL . "functionintegration?form=4");
+        exit;
+      }
     }
   }
 
@@ -380,14 +385,52 @@ class functionintegrationController extends Controller
     $list_integration_can = new list_integration_can();
     $data['list_commom_signals'] = $list_integration_can->commomMessages($project_id);
 
-    //metting
-
-    $list_participants = new list_participants();
-
-    $data['list_participants'] = $list_participants->getAll($project_id);
-
     //template, view, data
     $this->loadTemplate("home", "function_integration/first_result", $data);
+  }
+
+  public function download_especifications()
+  {
+    $project_id = $_SESSION['integration_id_proTSA'];
+    // Diretório onde os arquivos estão armazenados
+    $dir = 'assets/upload/function_ecu/project_' . $project_id . '/';
+
+    // Nome do arquivo compactado
+    $zipFile = 'especificacoes-de-funcoes.zip';
+
+    // Cria um novo objeto ZipArchive
+    $zip = new ZipArchive();
+
+    // Abre o arquivo ZIP para escrever
+    if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+      // Obtém a lista de arquivos no diretório
+
+      $files = scandir($dir);
+
+      // Adiciona cada arquivo ao arquivo ZIP
+      foreach ($files as $file) {
+        // Ignora diretórios e arquivos ocultos
+        if (!is_dir($file) && !in_array($file, ['.', '..'])) {
+          $zip->addFile($dir . $file, $file);
+        }
+      }
+
+      // Fecha o arquivo ZIP
+      $zip->close();
+
+      // Define os cabeçalhos para o download do arquivo compactado
+      header('Content-Type: application/zip');
+      header('Content-Disposition: attachment; filename="' . $zipFile . '"');
+      header('Content-Length: ' . filesize($zipFile));
+
+      // Envia o arquivo compactado para o usuário
+      readfile($zipFile);
+
+      // Exclui o arquivo compactado após o download
+      unlink($zipFile);
+    } else {
+      echo 'Falha ao criar o arquivo ZIP.';
+    }
   }
 
   public function add_meeting()
@@ -402,36 +445,61 @@ class functionintegrationController extends Controller
 
       $meetings->addMeeting($project_id, $title, $date_meeting);
 
-      $list_participants = new list_participants();
-      $site = new site();
 
+      $site = new site();
+      $list_participants = new list_participants();
       $meeting_participants = $list_participants->getAllParticipants($project_id);
+
+      $firt_result = $_FILES['pdf_first_result'];
+
+      $especifications = $_FILES['especifications'];
+
 
       for ($i = 0; $i < count($meeting_participants); $i++) {
         $name = $meeting_participants[$i]['full_name'];
         $email = $meeting_participants[$i]['email'];
 
         $subject = "Uma reunião foi agendada!";
-        $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '.<br>
-        O tema da reunião será: ' . $title . '.<br>
+        $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
+        O tema da reunião será: ' . $title . '. <br>
+        Os arquivos em anexo contém os resultados da etapa de Integração entre funções - Classificação de funções (Cliente e Serviço), Mensagens das funções, Descrição das funções e Mensagens em comum. <br>
         Para participar da reunião <a href="' . $link . '" target="_blank">Clique aqui</a>
-        Aconselhamos que salve este email até o dia da reunião
-        Aguardamos sua presença na reunião!';
-        $site->sendMessage($email, $name, $subject, $message);
+        Aconselhamos que salve este email até o dia da reunião. <br>';
+
+        if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+          $recommendation = addslashes($_POST['recommendation']);
+
+          $message .= $recommendation . '<br>';
+        }
+
+        $message .= 'Aguardamos sua presença na reunião!';
+
+        $site->sendMessegeFirst($email, $name, $subject, $message, $especifications, $firt_result);
       }
 
-      $participants = addslashes($_POST['participant']);
-      $emails = explode(';', $participants);
+      if (isset($_POST['participant']) && !empty($_POST['participant'])) {
+        $participants = addslashes($_POST['participant']);
+        $emails = explode(';', $participants);
 
-      for ($i = 0; $i < count($emails); $i++) {
-        $name = ' ';
-        $email = $emails[$i];
+        for ($i = 0; $i < count($emails); $i++) {
+          $name = ' ';
+          $email = $emails[$i];
 
-        $subject = "Uma reunião foi agendada!";
-        $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '.<br>
-        O tema da reunião será: ' . $title . '.<br>
-        Aguardamos sua presença na reunião!';
-        $site->sendMessage($email, $name, $subject, $message);
+          $subject = "Uma reunião foi agendada!";
+          $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
+          O tema da reunião será: ' . $title . '. <br>
+          Para participar da reunião <a href="' . $link . '" target="_blank">Clique aqui</a>
+          Aconselhamos que salve este email até o dia da reunião <br>';
+
+          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+            $recommendation = addslashes($_POST['recommendation']);
+
+            $message .= $recommendation . '<br>';
+          }
+
+          $message .= 'Aguardamos sua presença na reunião!';
+          $site->sendMessegeFirst($email, $name, $subject, $message, $especifications, $firt_result);
+        }
       }
 
       header("Location: " . BASE_URL . "functionintegration/second_result");
@@ -502,6 +570,59 @@ class functionintegrationController extends Controller
     $this->loadTemplate("home", "function_integration/response_meeting", $data);
   }
 
+  public function send_sencond_result()
+  {
+    $site = new site();
+    $project_id = $_SESSION['integration_id_proTSA'];
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+      $list_participants = new list_participants();
+      $meeting_participants = $list_participants->getAllParticipants($project_id);
+
+      $attachment = $_FILES['pdf_result'];
+
+      for ($i = 0; $i < count($meeting_participants); $i++) {
+        $name = $meeting_participants[$i]['full_name'];
+        $email = $meeting_participants[$i]['email'];
+
+        $subject = "Relatório de reunião!";
+        $message = 'O arquivo em anexo contém a ata da reunião realizada para o teste de Integração entre funções.';
+
+        if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+          $recommendation = addslashes($_POST['recommendation']);
+
+          $message .= '<br>' . $recommendation;
+        }
+
+        $site->sendMessageAttachment($email, $name, $subject, $message, $attachment);
+      }
+
+      if (isset($_POST['participant']) && !empty($_POST['participant'])) {
+        $participants = addslashes($_POST['participant']);
+        $emails = explode(';', $participants);
+
+        for ($i = 0; $i < count($emails); $i++) {
+          $name = ' ';
+          $email = $emails[$i];
+
+          $subject = "Relatório de reunião!";
+          $message = 'O arquivo em anexo contém a ata da reunião realizada para o teste de Integração entre funções.';
+
+          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+            $recommendation = addslashes($_POST['recommendation']);
+
+            $message .= '<br>' . $recommendation;
+          }
+
+          $site->sendMessageAttachment($email, $name, $subject, $message, $attachment);
+        }
+      }
+
+      header("Location: " . BASE_URL . "functionintegration/third_result");
+      exit;
+    }
+  }
   public function third_result()
   {
     //básico
@@ -532,7 +653,7 @@ class functionintegrationController extends Controller
       $site = new site();
 
       $upload = $_FILES['flowchart_upload']; //pega todos os campos que contem um arquivo enviado
-      $dir = "assets/upload/flowchart/"; //endereço da pasta pra onde serão enviados os arquivos
+      $dir = "assets/upload/flowchart/project_" . $project_id . "/"; //endereço da pasta pra onde serão enviados os arquivos
 
       //envia os arquivo para a pasta determinada
       $file = $site->uploadPdf($dir, $upload);
@@ -547,6 +668,86 @@ class functionintegrationController extends Controller
     $this->loadTemplate("home", "function_integration/third_result", $data);
   }
 
+  public function edit_flowchart()
+  {
+    $data  = array();
+    $flowchart = new flowchart();
+
+    $project_id = $_SESSION['integration_id_proTSA'];
+
+    if (isset($_FILES['flowchart_update']) && !empty($_FILES['flowchart_update'])) {
+      $site = new site();
+
+      $dir = "assets/upload/flowchart/project_" . $project_id . "/"; //endereço da pasta pra onde serão enviados os arquivos
+
+      $site->deleteDirectory($dir);
+
+      $upload = $_FILES['flowchart_update']; //pega todos os campos que contem um arquivo enviado
+
+      //envia os arquivo para a pasta determinada
+      $file = $site->uploadPdf($dir, $upload);
+
+      $flowchart->edit($project_id, $file);
+
+      header("Location: " . BASE_URL . "functionintegration/third_result");
+      exit;
+    }
+  }
+
+  public function send_flowchart()
+  {
+    $site = new site();
+    $project_id = $_SESSION['integration_id_proTSA'];
+
+    $attachment = $_FILES['pdf_result'];
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+      $list_participants = new list_participants();
+      $meeting_participants = $list_participants->getAllParticipants($project_id);
+
+      for ($i = 0; $i < count($meeting_participants); $i++) {
+        $name = $meeting_participants[$i]['full_name'];
+        $email = $meeting_participants[$i]['email'];
+
+        $subject = "Fluxograma";
+        $message = 'O arquivo em anexo contém o fluxograma de teste para o teste de Integração entre funções.';
+
+        if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+          $recommendation = addslashes($_POST['recommendation']);
+
+          $message .= '<br>' . $recommendation;
+        }
+
+        $site->sendMessageAttachment($email, $name, $subject, $message, $attachment);
+      }
+
+      if (isset($_POST['participant']) && !empty($_POST['participant'])) {
+        $participants = addslashes($_POST['participant']);
+        $emails = explode(';', $participants);
+
+        for ($i = 0; $i < count($emails); $i++) {
+          $name = ' ';
+          $email = $emails[$i];
+
+          $subject = "Fluxograma";
+          $message = 'O arquivo em anexo contém o fluxograma de teste para o teste de Integração entre funções.';
+
+          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+            $recommendation = addslashes($_POST['recommendation']);
+
+            $message .= '<br>' . $recommendation;
+          }
+
+          $site->sendMessageAttachment($email, $name, $subject, $message, $attachment);
+        }
+      }
+
+      header("Location: " . BASE_URL . "functionintegration/third_result");
+      exit;
+    }
+  }
+
   public function header_first_result()
   {
     $data  = array();
@@ -554,7 +755,7 @@ class functionintegrationController extends Controller
     $this->loadView("function_integration/first_download/header_download", $data);
   }
 
-  
+
   public function footer_first_result()
   {
     $data  = array();
@@ -593,14 +794,14 @@ class functionintegrationController extends Controller
       $pdf .= '<div class="section row text-center">';
       $pdf .= '<div class="col-md-12">';
 
-      $pdf .= '<h5 class="'; 
+      $pdf .= '<h5 class="';
       if ($value['fc_classification'] == "Função Cliente") {
         $pdf .= 'text-primary';
       } else {
         $pdf .= 'text-system';
       }
       $pdf .= '">';
-      $pdf .= $value['fc_classification'] . ' : ' . $value['e_function']; 
+      $pdf .= $value['fc_classification'] . ' : ' . $value['e_function'];
       $pdf .= '</h5>';
       $pdf .= '<p class="text-muted">Pontuação: ' . number_format($value['fc_score'], 1, ",", ".") . '</p>';
       $pdf .= '</div>';
@@ -655,7 +856,7 @@ class functionintegrationController extends Controller
       foreach ($list_commom_signals as $key => $value) {
         $pdf .= '<p class="ph20 pb10">♦ ' . $value['signal_name'] . ' ➠ <span class="text-right">' . $value['commom_functions'] . '</span></p>';
       }
-    }else {
+    } else {
       $pdf .= '<p class="text-center">Não foram encontradas mensagens em comum</p>';
     }
     $pdf .= '</div>';

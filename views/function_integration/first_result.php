@@ -148,17 +148,19 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="section text-center mb40">
+                                        <a href="<?= BASE_URL; ?>functionintegration/download_first_result" class="btn btn-primary btn-bordered">Download do resultado</a>
+                                    </div>
                                     <div class="section row">
                                         <div class="col-md-8">
-                                            <a href="<?= BASE_URL; ?>functionintegration/download_first_result" target="_blank" class="btn btn-primary btn-bordered">Preparar Download</a>
+                                            <a href="<?= BASE_URL; ?>functionintegration/download_especifications" class="btn btn-primary btn-bordered">Download das especificações</a>
                                         </div>
-
                                         <div class="col-md-2">
                                             <div id="animation-switcher" class="ph20">
                                                 <div class="col-xs-12 col-sm-4 text-right">
                                                     <a class="holder-active" href="#modal-form">
                                                         <button class="btn btn-primary btn-bordered" data-effect="mfp-zoomIn">
-                                                            Marcar reunião
+                                                            <b>Marcar reunião</b>
                                                         </button>
                                                     </a>
                                                 </div>
@@ -190,9 +192,12 @@
         <form method="post" action="<?= BASE_URL; ?>functionintegration/add_meeting" id="form-order" enctype="multipart/form-data">
             <div class="panel-body">
                 <div class="section row">
+                    <h6 class="text-muted text-center">É obrigatório preencher os campos com asterisco.</h6>
+                </div>
+                <div class="section row">
                     <div class="col-md-12 ph10 mb5">
                         <label for="title" class="field prepend-icon">
-                            <input type="text" name="title" id="title" class="gui-input" placeholder="Digite o tema da reunião" required>
+                            <input type="text" name="title" id="title" class="gui-input" placeholder="Digite o tema da reunião *" required>
                             <span class="field-icon">
                                 <i class="fa fa-file"></i>
                             </span>
@@ -206,7 +211,7 @@
                             <span class="field-icon">
                                 <i class="fa fa-calendar"></i>
                             </span>
-                            <h6 class="text-center mtn pt10 pb20">Escolha uma data e horário para a reunião</h6>
+                            <h6 class="text-center mtn pt10 pb20">Escolha uma data e horário para a reunião *</h6>
                         </div>
 
                         <div class="col-md-8">
@@ -230,7 +235,7 @@
                 </div>
 
                 <div class="section row">
-                    <h6 class="text-center mtn pt10 pb10">Onde será feita a reunião?</h6>
+                    <h6 class="text-center mtn pt10 pb10">Onde será feita a reunião? *</h6>
                     <h6 class="text-muted text-center">Cole o link da reunião.</h6>
                     <label for="link" class="field prepend-icon">
                         <input type="text" name="link" id="link" class="gui-input" required>
@@ -240,6 +245,42 @@
                     </label>
                 </div>
 
+                <div class="section row">
+                    <h6 class="text-center mtn pt10 pb10">Deseja fazer um comentário ou recomendação?</h6>
+                    <h6 class="text-muted text-center">A mensagem digitada aparecerá abaixo do link de reunião no email.</h6>
+                    <label for="recommendation" class="field prepend-icon">
+                        <textarea type="text" name="recommendation" id="recommendation" class="gui-textarea"></textarea>
+                        <span class="field-icon">
+                            <i class="fa fa-list"></i>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="section">
+                    <h6 class="text-center">Envie os arquivos necessários para a reunião *</h6>
+                    <div class="section row">
+                        <h6 class="text-center text-muted">Selecione o arquivo ZIP das especificações de funções que você baixou</h6>
+                        <label class="field prepend-icon file mb20 mt10">
+
+                            <input type="file" name="especifications" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
+
+                            <input type="text" id="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                            <i class="fa fa-upload"></i>
+
+                        </label>
+                    </div>
+                    <div class="section row">
+                        <h6 class="text-center text-muted">Selecione o PDF do primeiro resultado que vocÊ baixou</h6>
+                        <label class="field prepend-icon file mb20 mt10">
+
+                            <input type="file" name="pdf_first_result" class="gui-file" onchange="document.getElementById('uploader2').value = this.value;">
+
+                            <input type="text" id="uploader2" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                            <i class="fa fa-upload"></i>
+
+                        </label>
+                    </div>
+                </div>
 
                 <div class="section text-center">
                     <button type="submit" class="btn fs14 btn-primary">Enviar</button>

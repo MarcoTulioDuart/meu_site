@@ -28,7 +28,7 @@
     <div class="content-left">
 
     </div>
-    <div class="content-right table-layout">
+    <div class="content-right table-layout" id="modal-content">
         <!-- Column Center -->
         <div class="chute chute-center pbn">
             <!-- Lists -->
@@ -51,13 +51,24 @@
                                             <?= $list['text']; ?>
                                         <?php endif; ?>
                                     </textarea>
-                                        
+
                                 </div>
                                 <div class="section text-center">
                                     <button type="submit" class="btn fs14 btn-primary"><b>Atualizar</b></button>
                                     <a href="<?= BASE_URL; ?>functionintegration/download_second_result/<?= $list['id']; ?>" target="_blank" class="btn fs14 ml15 btn-primary">Download</a>
                                 </div>
                             </form>
+                            <div class="section text-center">
+                                <div id="animation-switcher" class="ph20">
+                                    <div class="col-xs-12 col-sm-12 text-center">
+                                        <a class="holder-active" href="#modal-form">
+                                            <button class="btn btn-primary btn-bordered" data-effect="mfp-zoomIn">
+                                                <b>Enviar Resultado</b>
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -69,7 +80,60 @@
         <!-- /Column Center -->
     </div>
 </section>
+<div id="modal-form" class="popup-basic allcp-form mfp-with-anim mfp-hide">
+    <div class="panel">
+        <div class="panel-heading text-center">
+            <span class="panel-title">
+                Envie o Resultado para a sua equipe
+            </span>
+        </div>
+        <!-- /Panel Heading -->
+        <form method="post" action="<?= BASE_URL; ?>functionintegration/send_sencond_result" id="form-order" enctype="multipart/form-data">
+            <div class="panel-body">
+                <div class="section row">
+                    <h6 class="text-center mtn pt10 pb10">Envie o email para outras pessoas</h6>
+                    <h6 class="text-muted text-center">Digite corretamente seus emails no campo abaixo, separando por ' ; ' sem espaços.</h6>
+                    <label for="participant" class="field prepend-icon">
+                        <input type="text" name="participant" id="participant" class="gui-input">
+                        <span class="field-icon">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                    </label>
+                </div>
 
+                <div class="section row">
+                    <h6 class="text-center mtn pt10 pb10">Deseja fazer um comentário ou recomendação?</h6>
+                    <h6 class="text-muted text-center">A mensagem digitada aparecerá abaixo do texto padrão.</h6>
+                    <label for="recommendation" class="field prepend-icon">
+                        <textarea type="text" name="recommendation" id="recommendation" class="gui-textarea"></textarea>
+                        <span class="field-icon">
+                            <i class="fa fa-list"></i>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="section">
+                    <h6 class="text-center">Envie o arquivo do resultado que você baixou *</h6>
+                    <div class="section row">
+                        <label class="field prepend-icon file mb20 mt10">
+
+                            <input type="file" name="pdf_result" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
+
+                            <input type="text" id="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                            <i class="fa fa-upload"></i>
+
+                        </label>
+                    </div>
+                </div>
+
+                <div class="section text-center">
+                    <button type="submit" class="btn fs14 btn-primary">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- /Panel -->
+</div>
 <script src="<?= BASE_URL; ?>assets/ckeditor/build/ckeditor.js"></script>
 <script>
     ClassicEditor

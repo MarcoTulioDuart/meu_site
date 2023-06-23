@@ -77,6 +77,7 @@ class list_signals_can extends Model
 		FROM list_signals_can AS lsca
         INNER JOIN data_can AS ca ON (ca.id = lsca.data_can_id)
         WHERE lsca.input_or_output = 1
+        AND lsca.integration_signals_id = :integration_signals_id
 		GROUP BY ca.signal_name
 		HAVING COUNT(*) > 1)";
         $sql = $this->db->prepare($sql);

@@ -76,6 +76,26 @@ class homeController extends Controller
     $data['page'] = "register";
     $accounts = new accounts();
 
+    
+    if (isset($_GET['invite']) && !empty($_GET['invite']) && !empty($_POST['login'])) {
+      $name = addslashes($_POST['name']);
+      $last_name = addslashes($_POST['last_name']);
+      $login = addslashes($_POST['login']);
+      $company_id = addslashes($_POST['company_id']);
+      $options = array('cost' => 11);
+      $password = password_hash(addslashes($_POST['password']), PASSWORD_DEFAULT, $options);
+      $responsibility = addslashes($_POST['responsibility']);
+      $project_id = $_GET['invite']; //id do projeto mandado na url pelo email
+
+      if ($accounts->addInvite($name, $last_name, $login, $password, $responsibility, $company_id, $project_id)) {
+        header("Location: " . BASE_URL . "project/user_projects");
+        exit;
+      } else {
+        header("Location: " . BASE_URL . "home/register");
+        exit;
+      }
+    }
+
     if (!empty($_POST['company_id']) && !empty($_POST['login']) && !empty($_POST['password'])) {
       $name = addslashes($_POST['name']);
       $last_name = addslashes($_POST['last_name']);
@@ -91,25 +111,6 @@ class homeController extends Controller
         exit;
       } else {
         setcookie("error_register", "Não foi possível completar o seu cadastro, verifique se as informações estão corretas", 1000);
-        header("Location: " . BASE_URL . "home/register");
-        exit;
-      }
-    }
-
-    if (isset($_GET['invite']) && !empty($_GET['invite']) && !empty($_POST['login'])) {
-      $name = addslashes($_POST['name']);
-      $last_name = addslashes($_POST['last_name']);
-      $login = addslashes($_POST['login']);
-      $company_id = addslashes($_POST['company_id']);
-      $options = array('cost' => 11);
-      $password = password_hash(addslashes($_POST['password']), PASSWORD_DEFAULT, $options);
-      $responsibility = addslashes($_POST['responsibility']);
-      $project_id = $_GET['invite']; //id do projeto mandado na url pelo email
-
-      if ($accounts->addInvite($name, $last_name, $login, $password, $responsibility, $company_id, $project_id)) {
-        header("Location: " . BASE_URL . "project/user_projects");
-        exit;
-      } else {
         header("Location: " . BASE_URL . "home/register");
         exit;
       }

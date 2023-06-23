@@ -32,11 +32,25 @@ class list_integration_ecu extends Model
         }
     }
 
+    public function getAllFile($project_id) {
+        $sql = "SELECT file FROM list_integration_ecu WHERE project_id = :project_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":project_id", $project_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return 0;
+        }
+    }
+
     public function getAll($project_id, $e_name)
     {
         $array = array();
 
-        $sql = "SELECT li.id AS li_id, e.name AS e_name, e.function_ecu AS e_function_ecu
+        $sql = "SELECT li.id AS li_id, e.name AS e_name, e.function_ecu AS e_function_ecu, li.file AS li_file
         FROM list_integration_ecu AS li
         INNER JOIN list_ecu AS le ON (le.id = li.list_ecu_id)
         INNER JOIN data_ecu AS e ON (e.id = le.data_ecu_id)

@@ -234,6 +234,15 @@
                                                     <span class="panel-title">Escolha os arquivos correspondentes a cada função:</span>
                                                 </div>
                                                 <div class="panel-body panel-scroller scroller-sm pn mt20">
+                                                    <?php if (isset($_COOKIE["error"])) : ?>
+                                                        <div class="text-center">
+                                                            <div class="alert alert-alert alert-dismissable mb30 alert-block p15">
+                                                                <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                                                                <h3 class="mtn fs20 text-white">Sucesso</h3>
+                                                                <p><?= $_COOKIE["error"]; ?></p>
+                                                            </div>
+                                                        </div>
+                                                    <?php endif; ?>
                                                     <?php if (isset($list_integration_ecu)) : ?>
 
                                                         <input type="hidden" name="list_ecu_id" value="<?= $list_integration_ecu['li_id']; ?>">

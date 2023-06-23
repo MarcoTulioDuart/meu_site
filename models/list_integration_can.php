@@ -48,18 +48,22 @@ class list_integration_can extends Model
         $sql = "SELECT DISTINCT c.signal_name, 
 
         (SELECT GROUP_CONCAT(CONCAT_WS(': ', e.name, e.function_ecu) SEPARATOR '<br>➥ ')
-        FROM list_integration_can
-        INNER JOIN list_ecu AS le ON (le.id = function_id)
+        FROM list_integration_can AS lica
+        INNER JOIN list_ecu AS le ON (le.id = lica.function_id)
         INNER JOIN data_ecu AS e ON (e.id = le.data_ecu_id)
-        WHERE list_can_id = lic.list_can_id) AS commom_functions
+        INNER JOIN data_can AS ca ON (ca.id = lica.list_can_id)
+        WHERE lica.project_id = :project_id
+		AND ca.signal_name = c.signal_name) AS commom_functions
         
         FROM list_integration_can AS lic
         INNER JOIN data_can AS c ON (c.id = lic.list_can_id)
         WHERE lic.project_id = :project_id
-        AND list_can_id IN (
-        SELECT list_can_id
-        FROM list_integration_can
-        GROUP BY list_can_id
+        AND c.signal_name IN (
+        SELECT cb.signal_name
+        FROM list_integration_can AS licb
+        INNER JOIN data_can AS cb ON (cb.id = licb.list_can_id)
+        WHERE licb.project_id = :project_id
+        GROUP BY cb.signal_name
         HAVING COUNT(*) > 1)";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":project_id", $project_id);

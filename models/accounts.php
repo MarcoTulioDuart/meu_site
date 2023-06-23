@@ -44,6 +44,7 @@ class accounts extends Model
             } else {
                 return false;
             }
+
         } else {
             return false;
         }
