@@ -5,6 +5,10 @@ class softwareintegrationController extends Controller
   public function __construct()
   {
     parent::__construct();
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
   }
 
   public function index()
@@ -113,7 +117,7 @@ class softwareintegrationController extends Controller
     $data['info_user'] = $accounts->get($id);
 
     if (isset($_FILES['files']) && !empty($_FILES['files'])) {
-      $software_integrations = new software_integrations();
+      $diagram_hardware = new diagram_hardware();
       $ecu_id = $_POST['ecu_id'];
       $software_integrations_id = $_POST['software_integrations_id'];
 
@@ -127,7 +131,7 @@ class softwareintegrationController extends Controller
 
      
      
-      $software_integrations->diagram_hardwares_add($software_integrations_id, $ecu_id, $diagram); //cadastra os ecus selecionados nessa tabela
+      $diagram_hardware->add($software_integrations_id, $ecu_id, $diagram); //cadastra os ecus selecionados nessa tabela
      
       header("Location: " . BASE_URL . "softwareintegration/releasesSoftware?software_integrations_id=" . $software_integrations_id . "&ecu_id=" . $ecu_id);
       exit;
@@ -264,9 +268,50 @@ class softwareintegrationController extends Controller
       header("Location: " . BASE_URL . "softwareintegration/chooseProjectResults");
       exit;
     }
-   
-
-
     $this->loadTemplate("home", "software_integration/result/choose_result", $data);
   }
+
+  public function first_result()
+  {   
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+    $diagram_hardware = new diagram_hardware();
+    $software_integrations = new software_integrations();
+
+    $data['page'] = 'software_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if(!isset($_GET['project_id']) || empty($_GET['project_id'])){
+      header("Location: " . BASE_URL . "softwareintegration/chooseProjectResults");
+      exit;
+    } 
+
+    $data['info_software_integrations'] = $software_integrations->getByProjectId($_GET['project_id']);
+   
+    $data['info_diagram_hardware'] = $diagram_hardware->getBySoftwareIntegrationsId($data['info_software_integrations']['id']);
+
+    if (isset($_FILES['flowchart_upload']) && !empty($_FILES['flowchart_upload'])) {
+      $site = new site();
+
+      $upload = $_FILES['flowchart_upload']; //pega todos os campos que contem um arquivo enviado
+      $dir = "assets/upload/softwareintegration/flowchart/"; //endereço da pasta pra onde serão enviados os arquivos
+
+      //envia os arquivo para a pasta determinada
+      $file = $site->uploadPdf($dir, $upload);
+
+      $diagram_hardware->add($data['info_software_integrations']['id'], $data['info_software_integrations']['ecu_id'], $file); 
+
+      header("Location: " . BASE_URL . "softwareintegration/first_result?project_id=" . $_GET['project_id']);
+      exit;
+    }
+
+    
+
+    //template, view, data
+    $this->loadTemplate("home", "software_integration/result/first_result", $data);
+  }
+
+
+
 }

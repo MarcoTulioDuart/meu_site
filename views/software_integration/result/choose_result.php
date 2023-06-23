@@ -29,39 +29,20 @@
                 <div class="panel" id="shortcut">
 
 
-                    <div class="right">
-                        <div class="btn-group">
-                            <button type="button" class="dropdown-toggle btn btn-primary" data-toggle="dropdown" aria-expanded="false">
-                                <i class="fa fa-lightbulb-o fs24"></i>
-                            </button>
-                            <ul class="dropdown-menu bg-primary p15 w200">
-                                <li>
-                                    <h5><b>Dica:</b></h5>
-                                </li>
-                                <li>
-                                    <h6>
-                                        O segundo resultado só será liberado depois que a reunião com a equipe for marcada.
-                                    </h6>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    
                     <div class="panel-heading text-center">
                         <span class="panel-title">O que deseja Fazer?</span><br>
                     </div>
                     <div class="panel-body mt10">
                         <div class="section row text-center">
-                            <div class="col-md-4 ph10 mb5">
-                                <a href="http://localhost/protsa/functionintegration/first_result" class="btn fs14 btn-primary">Primeiro Resultado</a>
+                            <div class="col-md-6 ph10 mb5">
+                                <a href="<?= BASE_URL; ?>softwareintegration/first_result?project_id=<?= $_GET['project_id']; ?>"  class="btn fs14 btn-primary" title="Definir diagrama de blocos com Hardwares que fazem interfaces com cada uma das ECUs.">Primeiro Resultado</a>
                             </div>
 
-                            <div class="col-md-4 ph10 mb5">
-                                <a href="http://localhost/protsa/functionintegration/second_result" class="btn fs14 btn-primary">Segundo Resultado</a>
+                            <div class="col-md-6 ph10 mb5">
+                                <a href="<?= BASE_URL; ?>softwareintegration/second_result?project_id=<?= $_GET['project_id']; ?>" class="btn fs14 btn-primary" title="Releases dos Software">Segundo Resultado</a>
                             </div>
 
-                            <div class="col-md-4 ph10 mb5">
-                                <a href="http://localhost/protsa/functionintegration/third_result" class="btn fs14 btn-primary">Casos de testes</a>
-                            </div>
                         </div>
                     </div>
 
