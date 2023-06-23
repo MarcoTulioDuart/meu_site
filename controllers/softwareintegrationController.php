@@ -5,6 +5,10 @@ class softwareintegrationController extends Controller
   public function __construct()
   {
     parent::__construct();
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
   }
 
   public function index()
@@ -113,7 +117,7 @@ class softwareintegrationController extends Controller
     $data['info_user'] = $accounts->get($id);
 
     if (isset($_FILES['files']) && !empty($_FILES['files'])) {
-      $software_integrations = new software_integrations();
+      $diagram_hardware = new diagram_hardware();
       $ecu_id = $_POST['ecu_id'];
       $software_integrations_id = $_POST['software_integrations_id'];
 
@@ -127,9 +131,9 @@ class softwareintegrationController extends Controller
 
      
      
-      $software_integrations->diagram_hardwares_add($software_integrations_id, $ecu_id, $diagram); //cadastra os ecus selecionados nessa tabela
+      $diagram_hardware->add($software_integrations_id, $ecu_id, $diagram); //cadastra os ecus selecionados nessa tabela
      
-      header("Location: " . BASE_URL . "softwareintegration/releasesSoftware?software_integrations_id=" . $_GET['software_integrations_id'] . "&ecu_id=" . $ecu_id);
+      header("Location: " . BASE_URL . "softwareintegration/releasesSoftware?software_integrations_id=" . $software_integrations_id . "&ecu_id=" . $ecu_id);
       exit;
     }
 
@@ -157,18 +161,14 @@ class softwareintegrationController extends Controller
     $data['page'] = 'software_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
-    if(isset($_GET['ecu_id'])){
-      $data['info_ecu'] = $data_ecu->get($_GET['ecu_id']);
-    }
-    
 
-    if (isset($_POST['ecu_id']) && !empty($_POST['software_integrations_id'])) {
+   if (isset($_POST['ecu_id']) && !empty($_POST['software_integrations_id'])) {
       $software_integrations = new software_integrations();
       $ecu_id = $_POST['ecu_id'];
       $software_integrations_id = $_POST['software_integrations_id'];
       $releases_date = $_POST['releases_date'];
       $releases_function  = $_POST['releases_function'];     
-    
+
       foreach($releases_date as $key => $item){
         $software_integrations->releases_software_add($software_integrations_id, $ecu_id, $item, $releases_function[$key]);
       }
@@ -176,6 +176,13 @@ class softwareintegrationController extends Controller
       header("Location: " . BASE_URL . "softwareintegration/integrationPlan?software_integrations_id=" . $software_integrations_id . "&ecu_id=" . $ecu_id);
       exit;
     }
+
+    if(isset($_GET['ecu_id'])){
+      $data['info_ecu'] = $data_ecu->get($_GET['ecu_id']);
+    }
+    
+
+    
   
     
     $this->loadTemplate("home", "software_integration/releases_software", $data);
@@ -185,6 +192,7 @@ class softwareintegrationController extends Controller
     $data  = array();
     $accounts = new accounts();
     $data_ecu = new data_ecu();
+    $integration_plan = new integration_plan();
 
     $data['page'] = 'software_integration';
     $id = $_SESSION['proTSA_online'];
@@ -198,12 +206,15 @@ class softwareintegrationController extends Controller
       $software_integrations = new software_integrations();
       $ecu_id = $_POST['ecu_id'];
       $software_integrations_id = $_POST['software_integrations_id'];
-      $releases_date = $_POST['releases_date'];
-      $releases_function  = $_POST['releases_function'];     
-    
-      foreach($releases_date as $key => $item){
-        $software_integrations->releases_software_add($software_integrations_id, $ecu_id, $item, $releases_function[$key]);
-      }
+      $physical_resources = addslashes($_POST['physical_resources']);
+      $available_resources  = $_POST['available_resources'];  
+      $test_date  = (isset($_POST['test_date'])) ? addslashes($_POST['test_date']) : "";
+      $pending_item = (isset($_POST['pending_item'])) ? addslashes($_POST['pending_item']) : "";
+
+      
+      $integration_plan->add($software_integrations_id, $ecu_id, $physical_resources, $available_resources, $test_date, $pending_item);
+      header("Location: " . BASE_URL . "softwareintegration/finalStep");
+      exit;
 
       
     }
@@ -211,5 +222,96 @@ class softwareintegrationController extends Controller
     
     $this->loadTemplate("home", "software_integration/integration_plan", $data);
   }
+
+  public function finalStep(){
+    $data  = array();
+    $accounts = new accounts();
+    $data['page'] = 'software_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+
+
+    $this->loadTemplate("home", "software_integration/final_step", $data);
+  }
+
+  public function chooseProjectResults(){
+    $data  = array();
+    $accounts = new accounts();
+    $projects = new projects();
+    $data['page'] = 'software_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    $data['list_projects'] = $projects->getAll($id);
+
+
+    if(isset($_GET['project_id']) && !empty($_GET['project_id'])){
+      header("Location: " . BASE_URL . "softwareintegration/chooseResult?project_id=" . $_GET['project_id']);
+      exit;
+    }
+   
+   
+
+
+    $this->loadTemplate("home", "software_integration/result/choose_project", $data);
+  }
+
+  public function chooseResult(){
+    $data  = array();
+    $accounts = new accounts();
+    $projects = new projects();
+    $data['page'] = 'software_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id); 
+    
+    if(!isset($_GET['project_id']) || empty($_GET['project_id'])){
+      header("Location: " . BASE_URL . "softwareintegration/chooseProjectResults");
+      exit;
+    }
+    $this->loadTemplate("home", "software_integration/result/choose_result", $data);
+  }
+
+  public function first_result()
+  {   
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+    $diagram_hardware = new diagram_hardware();
+    $software_integrations = new software_integrations();
+
+    $data['page'] = 'software_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if(!isset($_GET['project_id']) || empty($_GET['project_id'])){
+      header("Location: " . BASE_URL . "softwareintegration/chooseProjectResults");
+      exit;
+    } 
+
+    $data['info_software_integrations'] = $software_integrations->getByProjectId($_GET['project_id']);
+   
+    $data['info_diagram_hardware'] = $diagram_hardware->getBySoftwareIntegrationsId($data['info_software_integrations']['id']);
+
+    if (isset($_FILES['flowchart_upload']) && !empty($_FILES['flowchart_upload'])) {
+      $site = new site();
+
+      $upload = $_FILES['flowchart_upload']; //pega todos os campos que contem um arquivo enviado
+      $dir = "assets/upload/softwareintegration/flowchart/"; //endereço da pasta pra onde serão enviados os arquivos
+
+      //envia os arquivo para a pasta determinada
+      $file = $site->uploadPdf($dir, $upload);
+
+      $diagram_hardware->add($data['info_software_integrations']['id'], $data['info_software_integrations']['ecu_id'], $file); 
+
+      header("Location: " . BASE_URL . "softwareintegration/first_result?project_id=" . $_GET['project_id']);
+      exit;
+    }
+
+    
+
+    //template, view, data
+    $this->loadTemplate("home", "software_integration/result/first_result", $data);
+  }
+
+
 
 }

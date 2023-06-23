@@ -29,7 +29,7 @@
 <!-- Content -->
 <section id="content" class="animated fadeIn pt35">
     <div class="content-left">
-
+        
     </div>
     <div class="content-right table-layout">
         <!-- Column Center -->
@@ -38,6 +38,7 @@
             <div class="row">
                 <div class="allcp-form tab-pane mw900 mauto" id="order" role="tabpanel">
                     <div class="panel" id="shortcut">
+                        
                         <div class="panel-heading text-center">
                             <span class="panel-title pn">Plano de releases dos softwares e função base/referência da ecu <strong> <u> <?= $info_ecu['name']; ?> </u></strong></span><br>
                             <span class="fa fa-circle"></span>
@@ -94,7 +95,7 @@
 
                             </div>
                             <div class="section text-center">
-                                <button type="submit" class="btn fs14 btn-primary"><b>Próximo</b></button>
+                                <button type="submit" class="btn fs14 btn-primary"><b>Cadastrar</b></button>
                             </div>
 
                         </form>

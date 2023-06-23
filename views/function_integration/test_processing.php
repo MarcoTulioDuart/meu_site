@@ -529,7 +529,7 @@
                                         </li>
                                         <li>
                                             <h6>
-                                                Caso já tenha selecionado todos os dados necessários para o modulo, clique em 'sim' para ir pra fase de teste de resultados, se não, clique em 'não' para voltar para a estapa de escolha de ECU.
+                                                Caso já tenha selecionado todos os dados necessários para o modulo, clique em 'sim' para ir pra fase de teste de resultados, se não, clique em 'não' para voltar para a etapa de escolha de ECU.
                                             </h6>
                                         </li>
                                     </ul>

@@ -175,7 +175,7 @@
                                 <a href="<?= BASE_URL; ?>softwareintegration">Integração entre Softwares</a>
                             </li>
                             <li>
-                                <a href="<?= BASE_URL; ?>softwareintegration/results">Resultados de Testes</a>
+                                <a href="<?= BASE_URL; ?>softwareintegration/chooseProjectResults">Resultados de Testes</a>
                             </li>
 
                         </ul>
