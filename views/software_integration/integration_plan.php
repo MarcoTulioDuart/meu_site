@@ -128,9 +128,10 @@
 <!-- js -->
 <script src="<?= BASE_URL ?>assets/js/pages/validation/new_project.js"></script>
 <script>
-    $("#physical_resources_availability ").on("change", function() {
+    $("#available_resources ").on("change", function() {
         let option = $(this).val();
-        if (option == "sim") {
+        console.log(option);
+        if (option == "1") {
             replaceClass("col_test_date", "hide", "show");
             replaceClass("col_physical_resources", "show", "hide");
         } else {

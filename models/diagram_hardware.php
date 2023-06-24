@@ -35,6 +35,21 @@ class diagram_hardware extends Model
         }
     }
 
+    public function edit($id, $file)
+    {
+        $sql = "UPDATE diagram_hardware SET diagram = :diagram WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->bindValue(":diagram", $file);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
  
 
 

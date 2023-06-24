@@ -300,7 +300,13 @@ class softwareintegrationController extends Controller
       //envia os arquivo para a pasta determinada
       $file = $site->uploadPdf($dir, $upload);
 
-      $diagram_hardware->add($data['info_software_integrations']['id'], $data['info_software_integrations']['ecu_id'], $file); 
+      if($_POST['action_crud']){
+        $diagram_hardware->edit($data['info_diagram_hardware']['id'], $file); 
+      }else{
+        $diagram_hardware->add($data['info_software_integrations']['id'], $data['info_software_integrations']['ecu_id'], $file); 
+      }
+
+      
 
       header("Location: " . BASE_URL . "softwareintegration/first_result?project_id=" . $_GET['project_id']);
       exit;
