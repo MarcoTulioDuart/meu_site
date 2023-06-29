@@ -67,7 +67,7 @@
                         <div class="panel-body">
                             <form action="<?= BASE_URL; ?>softwareintegration/first_result?project_id=1" id="fluxograma" method="post" enctype="multipart/form-data">
                                 <?php if (isset($info_diagram_hardware) && $info_diagram_hardware != 0) : ?>
-                                    <input type="hidden" name="project_id">
+                                    
                                     <div class="section row">
                                         <div class="col-md-12 ph10 mb5">
                                             <h5 class="text-center">Confirmamos que já há um fluxograma registrado!</h5>
@@ -76,6 +76,27 @@
                                         <div class="section text-center">
                                             <a href="<?= BASE_URL; ?><?= $info_diagram_hardware['diagram']; ?>" class="btn fs14 btn-primary" download>Download</a>
                                         </div>
+                                    </div>
+                                    <div class="section row">
+                                        <div class="col-md-12 ph10 mb5 text-center">
+                                            <h6>Para Atualizar envio o arquivo novamente.</h6>
+                                            <a class="text-primary" href="https://app.diagrams.net/" target="_blank">Criar Fluxograma</a>
+                                        </div>
+                                    </div>
+                                    <div class="section row">
+                                        <input type="hidden" name="action_crud" value="edit">
+                                        <label class="field prepend-icon file mb20 mt10">
+
+                                            <input type="file" name="flowchart_upload" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
+
+                                            <input type="text" id="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                                            <i class="fa fa-upload"></i>
+
+                                        </label>
+                                    </div>
+                                    <hr>
+                                    <div class="section text-center">
+                                        <button type="submit" class="btn fs14 btn-primary">Atualizar</button>
                                     </div>
                                 <?php else : ?>
                                     <div class="section row">
