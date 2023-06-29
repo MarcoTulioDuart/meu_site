@@ -38,13 +38,14 @@
 </head>
 
 <body class="mn pn">
+<section id="content">
     <section class="content_container mn pn">
         <!-- Content -->
             <!-- Lists -->
             <div class="row mn pn">
                 <div class="allcp-form mn pn" id="order" role="tabpanel">
                     <div class="panel mn pn">
-                        <div class="panel-heading text-center">
-                            <span class="panel-title">Resultado de comparação:</span>
+                        <div class="panel-heading text-center pbn mbn">
+                            <span class="panel-title mbn pbn">Segundo Resultado</span>
                         </div>
-                        <div class="panel-body mrn prn">
+                        <div class="panel-body mn prn">

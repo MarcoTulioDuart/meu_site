@@ -84,7 +84,7 @@
                                 <hr>
                                 <div class="section row mtn text-center">
                                     <div class="col-md-6 col-xs-6 mt20 ph20">
-                                        <a class="btn btn-primary btn-bordered" href="<?= BASE_URL; ?>signalintegration/second_download" target="_blank" disabled>Download</a>
+                                        <a class="btn btn-primary btn-bordered" href="<?= BASE_URL; ?>signalintegration/second_download" target="_blank">Download</a>
                                     </div>
                                     <div class="col-md-6 col-xs-6">
                                         <div id="animation-switcher" class="ph20">
@@ -110,7 +110,7 @@
     </div>
 </section>
 
-<div id="modal-form" class="popup-basic allcp-form mfp-with-anim mfp-hide mw700">
+<div id="modal-form" class="popup-basic allcp-form mfp-with-anim mfp-hide mw500">
     <div class="panel">
         <div class="panel-heading text-center">
             <span class="panel-title">
@@ -120,9 +120,62 @@
         <!-- /Panel Heading -->
         <div class="panel-body">
 
-            <div class="section row text-center">
-                <h6>Em Breve...</h6>
+            <div class="section row">
+                <h6 class="text-muted text-center">É obrigatório preencher os campos com asterisco.</h6>
             </div>
+            <form action="<?= BASE_URL; ?>signalintegration/send_report" method="post" enctype="multipart/form-data">
+                <div class="section row">
+                    <h6 class="text-center mtn pt10 pb10">Envie para outras pessoas Além da sua equipe</h6>
+                    <h6 class="text-muted text-center">Digite corretamente seus emails no campo abaixo, separando por ' ; ' sem espaços.</h6>
+                    <label for="participant" class="field prepend-icon">
+                        <input type="text" name="participant" id="participant" class="gui-input">
+                        <span class="field-icon">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="section row">
+                    <h6 class="text-center mtn pt10 pb10">Deseja fazer um comentário ou recomendação?</h6>
+                    <h6 class="text-muted text-center">A mensagem digitada aparecerá abaixo da mensagem padrão no email.</h6>
+                    <label for="recommendation" class="field prepend-icon">
+                        <textarea type="text" name="recommendation" id="recommendation" class="gui-textarea"></textarea>
+                        <span class="field-icon">
+                            <i class="fa fa-list"></i>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="section">
+                    <h6 class="text-center">Envie os arquivos necessários *</h6>
+                    <div class="section row">
+                        <h6 class="text-center text-muted">Selecione o primeiro resultado que você baixou</h6>
+                        <label class="field prepend-icon file mb20 mt10">
+
+                            <input type="file" name="pdf_first_result" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
+
+                            <input type="text" id="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                            <i class="fa fa-upload"></i>
+
+                        </label>
+                    </div>
+                    <div class="section row">
+                        <h6 class="text-center text-muted">Selecione o segundo resultado que você baixou</h6>
+                        <label class="field prepend-icon file mb20 mt10">
+
+                            <input type="file" name="pdf_second_result" class="gui-file" onchange="document.getElementById('uploader2').value = this.value;">
+
+                            <input type="text" id="uploader2" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                            <i class="fa fa-upload"></i>
+
+                        </label>
+                    </div>
+                </div>
+
+                <div class="section text-center">
+                    <button type="submit" class="btn fs14 btn-primary">Enviar</button>
+                </div>
+            </form>
         </div>
     </div>
     <!-- /Panel -->

@@ -24,6 +24,9 @@ class signalintegrationController extends Controller
     if (isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
     }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
     //fim do básico
 
     //form 1: escolha de projeto
@@ -67,6 +70,9 @@ class signalintegrationController extends Controller
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
     }
     //fim do básico
 
@@ -173,6 +179,9 @@ class signalintegrationController extends Controller
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
     }
     //fim do básico
 
@@ -379,6 +388,9 @@ class signalintegrationController extends Controller
     if (isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
     }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
     //fim do básico
 
     $type_ecu = new type_ecu();
@@ -421,6 +433,9 @@ class signalintegrationController extends Controller
     if (isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
     }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
     //fim do básico
 
     //form 11
@@ -460,6 +475,9 @@ class signalintegrationController extends Controller
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
     }
 
     //fim do básico
@@ -507,7 +525,9 @@ class signalintegrationController extends Controller
     if (isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
     }
-
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
     //fim do básico
 
     $list_signals_can = new list_signals_can();
@@ -551,35 +571,6 @@ class signalintegrationController extends Controller
     }
   }
 
-  public function view_first_result()
-  {
-    $data  = array();
-    $filters = array();
-
-    //fim do básico
-
-    $list_signals_can = new list_signals_can();
-    $list_signals_function = new list_signals_function();
-
-    //Função de teste principal
-
-    $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
-
-    $data['main_function'] = $list_signals_function->getMainFunction($signal_integration_id); //pega a função principal do teste
-    $le_main_id = $data['main_function']['le_id']; //id da função principal
-    $data['all_signals_main'] = $list_signals_can->getAll($signal_integration_id, $le_main_id); //pega todos os sinais da função principal
-    $data['signals_main'] = $list_signals_can->getSignalsFunction($le_main_id, $signal_integration_id); //pega só os sinais em comum da função principal com a comum
-
-    //Função de teste comum
-
-    $data['commom_function'] = $list_signals_function->getCommomFunction($signal_integration_id); //pega a função comum do teste
-    $le_commom_id = $data['commom_function']['le_id']; //id da função comum
-    $data['all_signals_commom'] = $list_signals_can->getAll($signal_integration_id, $le_commom_id); //pega todos os sinais da função comum
-    $data['signals_commom'] = $list_signals_can->getSignalsFunction($le_commom_id, $signal_integration_id); //pega só os sinais em comum da função comum com a principal
-
-    $this->loadView("signal_integration/download_first_result/first_download", $data);
-  }
-
   public function header_first_result()
   {
     $data  = array();
@@ -621,26 +612,22 @@ class signalintegrationController extends Controller
     //View
 
     $pdf = file_get_contents(BASE_URL . "signalintegration/header_first_result");
-    $pdf .= '<div class="panel mn pn">';
-    $pdf .= '<div class="panel-heading text-center">';
-    $pdf .= '<span class="panel-title">Resultado de comparação:</span>';
+
+    $pdf .= '<div class="section row mrn prn">';
+    $pdf .= '<div class="col-sm-5 col-md-5 col-xs-5 text-center">';
+    $pdf .= '<h6>Função Comum: ' . $commom_function['e_function'] . '</h6>';
     $pdf .= '</div>';
-    $pdf .= '<div class="panel-body">';
-    $pdf .= '<div class="section row">';
-    $pdf .= '<div class="col-sm-6 col-md-6 col-xs-6 text-center">';
-    $pdf .= '<h6>Função Comum:' . $commom_function['e_function'] . '</h6>';
-    $pdf .= '</div>';
-    $pdf .= '<div class="col-sm-6 col-md-6 col-xs-6 text-center">';
-    $pdf .= '<h6>Função Principal:' . $main_function['e_function'] . '</h6>';
+    $pdf .= '<div class="col-sm-2 col-md-2 col-xs-2"></div>';
+    $pdf .= '<div class="col-sm-5 col-md-5 col-xs-5 text-right mrn prn">';
+    $pdf .= '<h6>Função Principal: ' . $main_function['e_function'] . '</h6>';
     $pdf .= '</div>';
     $pdf .= '</div>';
     $pdf .= '<div class="panel" id="spy5">';
     $pdf .= '<div class="panel-body pn">';
-    $pdf .= '<div class="col-md-5 col-xs-5">';
-    $pdf .= '<div class="table-responsive">';
+    $pdf .= '<div class="col-sm-5 col-md-5 col-xs-5 mn pn">';
     $pdf .= '<table class="table table-striped btn-gradient-grey mbn">';
     $pdf .= '<thead>';
-    $pdf .= '<tr class="alert text-center">';
+    $pdf .= '<tr class="ph15">';
     $pdf .= '<th class="text-center">Nome do sinal</th>';
     $pdf .= '<th class="text-center">Descrição</th>';
     $pdf .= '<th class="text-center">Disponibilidade</th>';
@@ -664,13 +651,11 @@ class signalintegrationController extends Controller
     $pdf .= '</tbody>';
     $pdf .= '</table>';
     $pdf .= '</div>';
-    $pdf .= '</div>';
 
-    $pdf .= '<div class="col-md-2 col-xs-2">';
-    $pdf .= '<div class="table-responsive">';
+    $pdf .= '<div class="col-sm-1 col-md-1 col-xs-1 mn pr25 pl25">';
     $pdf .= '<table class="table table-striped btn-gradient-grey mbn">';
     $pdf .= '<thead>';
-    $pdf .= '<tr class="alert text-center">';
+    $pdf .= '<tr class="ph15">';
     $pdf .= '<th class="text-center">Status de Match</th>';
     $pdf .= '</tr>';
     $pdf .= '</thead>';
@@ -680,9 +665,9 @@ class signalintegrationController extends Controller
       $pdf .= '<tr>';
       $pdf .= '<td class="text-center">';
       if ($signals_main[$key]['lsc_available_type'] == $signals_commom[$key]['lsc_available_type']) {
-        $pdf .= '=';
+        $pdf .= '<span class="fs14"> = </span>';
       } else {
-        $pdf .= '≠';
+        $pdf .= '<span class="fs14"> ≠ </span>';
       }
 
       $pdf .= '</td>';
@@ -692,13 +677,11 @@ class signalintegrationController extends Controller
     $pdf .= '</tbody>';
     $pdf .= '</table>';
     $pdf .= '</div>';
-    $pdf .= '</div>';
 
-    $pdf .= '<div class="col-md-5 col-xs-5">';
-    $pdf .= '<div class="table-responsive">';
+    $pdf .= '<div class="col-sm-5 col-md-5 col-xs-5 mn pn">';
     $pdf .= '<table class="table table-striped btn-gradient-grey mbn">';
     $pdf .= '<thead>';
-    $pdf .= '<tr class="alert text-center">';
+    $pdf .= '<tr class="ph15">';
     $pdf .= '<th class="text-center">Nome do sinal</th>';
     $pdf .= '<th class="text-center">Descrição</th>';
     $pdf .= '<th class="text-center">Disponibilidade</th>';
@@ -724,19 +707,16 @@ class signalintegrationController extends Controller
     $pdf .= '</div>';
     $pdf .= '</div>';
     $pdf .= '</div>';
-    $pdf .= '</div>';
-    $pdf .= '</div>';
-    $pdf .= '</div>';
 
     $pdf .= file_get_contents(BASE_URL . "signalintegration/footer_first_result");
 
     //Criar PDF
 
     $name_file = 'primeiro-resultado-Modulo-3.pdf';
-    $site->create_PDF($pdf, $name_file);
+    $site->create_PDF_landscape($pdf, $name_file);
   }
 
-  public function second_result($signal_integration_id)
+  public function second_result()
   {
     //básico
     if (!isset($_SESSION['proTSA_online'])) {
@@ -750,12 +730,16 @@ class signalintegrationController extends Controller
     $data['page'] = 'first_result';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['project_proTSA'])) {
       unset($_SESSION['project_proTSA']);
     }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
 
     //fim do básico
-
+    $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
     $list_signals_can = new list_signals_can();
     $list_signals_function = new list_signals_function();
     //Função de teste principal
@@ -768,5 +752,144 @@ class signalintegrationController extends Controller
     $this->loadTemplate("home", "signal_integration/second_result", $data);
   }
 
-  
+
+  public function header_second_result()
+  {
+    $data  = array();
+
+    $this->loadView("signal_integration/download_second_result/header_second", $data);
+  }
+
+  public function second_download()
+  {
+
+    $site = new site();
+
+    //Dados
+    $list_signals_can = new list_signals_can();
+    $list_signals_function = new list_signals_function();
+    $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
+
+    //Função de teste principal
+
+    $main_function = $list_signals_function->getMainFunction($signal_integration_id); //pega a função principal do teste
+    $le_main_id = $main_function['le_id']; //id da função principal
+    $signals_main = $list_signals_can->getAll($signal_integration_id, $le_main_id); //pega só os sinais em comum da função principal com a comum
+
+    $pdf = file_get_contents(BASE_URL . "signalintegration/header_second_result");
+
+    $pdf .= '<div class="panel mn pn">';
+    $pdf .= '<div class="panel-body pn mn">';
+    $pdf .= '<div class="table-responsive mtn pn">';
+    $pdf .= '<table class="table table-striped btn-gradient-grey mtn">';
+    $pdf .= '<thead class="mtn">';
+    $pdf .= '<tr class="mtn ph15">';
+    $pdf .= '<th class="text-center">Nome do sinal</th>';
+    $pdf .= '<th class="text-center">Descrição</th>';
+    $pdf .= '<th class="text-center">Status</th>';
+    $pdf .= '<th class="text-center">Comentário</th>';
+    $pdf .= '<th class="text-center">Recomendação</th>';
+    $pdf .= '</tr>';
+    $pdf .= '</thead>';
+    $pdf .= '<tbody>';
+
+    foreach ($signals_main as $key => $value) {
+      $pdf .= '<tr class="ph15">';
+      $pdf .= '<td class="text-center ph15">' . $value['c_name'] . '</td>';
+      $pdf .= '<td class="text-center ph15">' . $value['c_function'] . '</td>';
+      $pdf .= '<td class="text-center ph15">';
+      if ($value['ls_status'] == "null" || empty($value['ls_status'])) {
+        $pdf .= 'Sem status';
+      } else {
+        $pdf .= $value['ls_status'];
+      }
+      $pdf .= '</td>';
+      $pdf .= '<td class="text-center ph15">';
+      if (empty($value['ls_comment'])) {
+        $pdf .= 'Sem comentário';
+      } else {
+        $pdf .= $value['ls_comment'];
+      }
+      $pdf .= '</td>';
+      $pdf .= '<td class="text-center ph15">';
+      if ($value['ls_status'] == "valid") {
+        $pdf .= 'Prossiga com os testes';
+      } else if ($value['ls_status'] == "null" || empty($value['ls_status'])) {
+        $pdf .= 'O status não foi classificado, retorne ao primeira resultado e selecione o status do sinal';
+      } else {
+        $pdf .= 'Contatar o especialista responsável pelo sinal CAN';
+      }
+      $pdf .= '</td>';
+      $pdf .= '</tr>';
+    }
+    $pdf .= '</tbody>';
+    $pdf .= '</table>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+
+    $pdf .= file_get_contents(BASE_URL . "signalintegration/footer_first_result");
+
+    //Criar PDF
+
+    $name_file = 'segundo-resultado-Modulo-3.pdf';
+    $site->create_PDF_landscape($pdf, $name_file);
+  }
+
+  public function send_report()
+  {
+    $site = new site();
+    $integration_signals = new integration_signals();
+    $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
+    $project_id = $integration_signals->get($signal_integration_id);
+
+    $first_attachment = $_FILES['pdf_first_result'];
+    $second_attachment = $_FILES['pdf_second_result'];
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+      $list_participants = new list_participants();
+      $meeting_participants = $list_participants->getAllParticipants($project_id['lis_project_id']);
+
+      for ($i = 0; $i < count($meeting_participants); $i++) {
+        $name = $meeting_participants[$i]['full_name'];
+        $email = $meeting_participants[$i]['email'];
+
+        $subject = "Relatório de Integração de sinais";
+        $message = 'O arquivo em anexo contém os resultados de teste para o teste de Integração entre Sinais.';
+
+        if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+          $recommendation = addslashes($_POST['recommendation']);
+
+          $message .= '<br>' . $recommendation;
+        }
+
+        $site->sendMessegeTwoAttachment($email, $name, $subject, $message, $first_attachment, $second_attachment);
+      }
+
+      if (isset($_POST['participant']) && !empty($_POST['participant'])) {
+        $participants = addslashes($_POST['participant']);
+        $emails = explode(';', $participants);
+
+        for ($i = 0; $i < count($emails); $i++) {
+          $name = ' ';
+          $email = $emails[$i];
+
+          $subject = "Relatório de Integração de sinais";
+          $message = 'O arquivo em anexo contém os resultados de teste para o teste de Integração entre Sinais.';
+
+          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+            $recommendation = addslashes($_POST['recommendation']);
+
+            $message .= '<br>' . $recommendation;
+          }
+
+          $site->sendMessegeTwoAttachment($email, $name, $subject, $message, $first_attachment, $second_attachment);
+        }
+      }
+
+      header("Location: " . BASE_URL . "signalintegration/second_result");
+      exit;
+    }
+  }
 }

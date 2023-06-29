@@ -68,8 +68,17 @@
 
                             <?php if (!empty($flowchart) && $flowchart != 0) : ?>
                                 <!-- Quando já existe Fluxograma -->
+                                <?php if (isset($_COOKIE["success_update_flowchart"])) : ?>
+                                    <div class="text-center">
+                                        <div class="alert alert-alert alert-dismissable mb30 alert-block p15">
+                                            <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h3 class="mtn fs20 text-white">Sucesso</h3>
+                                            <p><?= $_COOKIE["success_update_flowchart"]; ?></p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                                 <div class="section">
-                                    <form action="<?= BASE_URL; ?>functionintegration/edit_flowchart" method="post">
+                                    <form action="<?= BASE_URL; ?>functionintegration/edit_flowchart" method="post" enctype="multipart/form-data">
                                         <div class="ph10 mb5">
                                             <h5 class="text-center">Confirmamos que já há um fluxograma registrado!</h5>
                                             <h6 class="text-center pb15">Gostaria de fazer o download do arquivo?</h6>
@@ -185,7 +194,7 @@
                         </span>
                     </label>
                 </div>
-                
+
                 <div class="section">
                     <h6 class="text-center">Envie o arquivo do resultado que você baixou *</h6>
                     <div class="section row">

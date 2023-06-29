@@ -39,7 +39,7 @@ class site extends Model
         }
     }
 
-    public function sendMessegeFirst($email, $name, $subject, $message, $especifications, $firt_result)
+    public function sendMessegeTwoAttachment($email, $name, $subject, $message, $first_attachment, $second_attachment)
     {
         $mail = new PHPMailer(true);
         try {
@@ -65,17 +65,17 @@ class site extends Model
 
             //Especificações de funções
 
-            $especificationsPath = $especifications['tmp_name']; // Caminho temporário do arquivo enviado
-            $especificationsName = $especifications['name']; // Nome original do arquivo enviado
+            $first_attachment_Path = $first_attachment['tmp_name']; // Caminho temporário do arquivo enviado
+            $first_attachment_Name = $first_attachment['name']; // Nome original do arquivo enviado
 
-            $mail->addAttachment($especificationsPath, $especificationsName); // Adiciona o arquivo como anexo
+            $mail->addAttachment($first_attachment_Path, $first_attachment_Name); // Adiciona o arquivo como anexo
 
             //Paginá de primeiro resultado
 
-            $firt_resultPath = $firt_result['tmp_name']; // Caminho temporário do arquivo enviado
-            $firt_resultName = $firt_result['name']; // Nome original do arquivo enviado
+            $second_attachment_Path = $second_attachment['tmp_name']; // Caminho temporário do arquivo enviado
+            $second_attachment_Name = $second_attachment['name']; // Nome original do arquivo enviado
 
-            $mail->addAttachment($firt_resultPath, $firt_resultName); // Adiciona o arquivo como anexo
+            $mail->addAttachment($second_attachment_Path, $second_attachment_Name); // Adiciona o arquivo como anexo
 
             $mail->send();
             return true;
@@ -355,6 +355,17 @@ class site extends Model
     {
 
         $mpdf = new \Mpdf\Mpdf();
+        $mpdf->WriteHTML($pdf);
+        $mpdf->Output($name_file, 'D');
+    }
+
+    
+    public function create_PDF_landscape($pdf, $name_file)
+    {
+
+        $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'L' // Define a orientação como paisagem
+        ]);
         $mpdf->WriteHTML($pdf);
         $mpdf->Output($name_file, 'D');
     }

@@ -35,7 +35,7 @@ class integration_signals extends Model
     }
 
     public function getAll() {
-        $sql = "SELECT lis.id, p.name
+        $sql = "SELECT lis.id, p.name, lis.project_id AS lis_project_id
         FROM integration_signals AS lis
         INNER JOIN projects AS p ON (p.id = lis.project_id)";
         $sql = $this->db->prepare($sql);
@@ -49,4 +49,20 @@ class integration_signals extends Model
         }
     }
 
+    public function get($id) {
+        $sql = "SELECT lis.id, p.name, lis.project_id AS lis_project_id
+        FROM integration_signals AS lis
+        INNER JOIN projects AS p ON (p.id = lis.project_id)
+        WHERE lis.id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetch(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return 0;
+        }
+    }
 }

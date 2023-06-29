@@ -445,7 +445,6 @@ class functionintegrationController extends Controller
 
       $meetings->addMeeting($project_id, $title, $date_meeting);
 
-
       $site = new site();
       $list_participants = new list_participants();
       $meeting_participants = $list_participants->getAllParticipants($project_id);
@@ -453,7 +452,6 @@ class functionintegrationController extends Controller
       $firt_result = $_FILES['pdf_first_result'];
 
       $especifications = $_FILES['especifications'];
-
 
       for ($i = 0; $i < count($meeting_participants); $i++) {
         $name = $meeting_participants[$i]['full_name'];
@@ -474,7 +472,7 @@ class functionintegrationController extends Controller
 
         $message .= 'Aguardamos sua presença na reunião!';
 
-        $site->sendMessegeFirst($email, $name, $subject, $message, $especifications, $firt_result);
+        $site->sendMessegeTwoAttachment($email, $name, $subject, $message, $especifications, $firt_result);
       }
 
       if (isset($_POST['participant']) && !empty($_POST['participant'])) {
@@ -498,7 +496,7 @@ class functionintegrationController extends Controller
           }
 
           $message .= 'Aguardamos sua presença na reunião!';
-          $site->sendMessegeFirst($email, $name, $subject, $message, $especifications, $firt_result);
+          $site->sendMessegeTwoAttachment($email, $name, $subject, $message, $especifications, $firt_result);
         }
       }
 
@@ -689,6 +687,7 @@ class functionintegrationController extends Controller
 
       $flowchart->edit($project_id, $file);
 
+      setcookie("success_update_flowchart", "Seu fluxograma foi atualizado com sucesso.", time() + 100);
       header("Location: " . BASE_URL . "functionintegration/third_result");
       exit;
     }
