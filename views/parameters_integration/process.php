@@ -1,0 +1,186 @@
+<!-- New Project -->
+<header id="topbar" class="breadcrumb_style_2">
+    <div class="topbar-left">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-icon breadcrumb-active">
+                <a href="<?= BASE_URL; ?>home/home_page">
+                    <span class="fa fa-circle-o"></span>
+                </a>
+            </li>
+            <li class="breadcrumb-icon breadcrumb-link">
+                <a href="<?= BASE_URL; ?>home/home_page">Início</a>
+            </li>
+            <li class="breadcrumb-current-item">Integridade de Parâmetros</li>
+            <li class="breadcrumb-current-item">Selecionar Veículos</li>
+        </ol>
+    </div>
+</header>
+
+<!-- /Topbar -->
+
+<!-- Content -->
+<section id="content" class="animated fadeIn pt35">
+    <div class="content-left">
+
+    </div>
+    <div class="content-right table-layout">
+        <!-- Column Center -->
+        <div class="chute chute-center pbn">
+            <!-- Lists -->
+            <div class="row">
+                <div class="allcp-form tab-pane mw1000 mauto" id="order" role="tabpanel">
+                    <div class="panel" id="shortcut">
+
+                        <!-- FORM 1: Escolha de projeto -->
+                        <div class="panel-heading text-center">
+                            <span class="panel-title pn">Definição de veículos de referência</span><br>
+                            <span class="fa fa-circle"></span>
+                            <span class="fa fa-circle"></span>
+                        </div>
+
+                        <form method="post" action="<?= BASE_URL; ?>parametersintegration/definition_vehicles" id="form-order">
+                            <div class="panel-body pn">
+                                <!-- Primeira pergunta -->
+                                <div class="section row">
+                                    <h5 class="text-center">Qual é o veículo mais vendido pela empresa e possui o sistema / função a ser testado?</h5>
+                                </div>
+                                <div class="section row">
+                                    <div class="col-md-12 ph10 mb5">
+                                        <label for="vehicle" class="field select">
+
+                                            <?php if ($list_vehicles == 0) : ?>
+                                                <p class="gui-input text-center">Não há veículos cadastrados no site.</p>
+                                            <?php else : ?>
+                                                <select name="vehicle" id="vehicle" class="gui-input">
+
+                                                    <?php foreach ($list_vehicles as $value) : ?>
+
+                                                        <option value="<?= $value['id']; ?>"><?= $value['vehicle']; ?></option>
+
+                                                    <?php endforeach; ?>
+
+                                                </select>
+                                            <?php endif; ?>
+
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- Segunda pergunta -->
+                                <div class="section row">
+                                    <h5 class="text-center">Qual é o veículo que recebe mais reclamações em relação ao sistema / função a ser testado?</h5>
+                                </div>
+                                <div class="section row">
+                                    <div class="col-md-12 ph10 mb5">
+                                        <label for="vehicle" class="field select">
+
+                                            <?php if ($list_vehicles == 0) : ?>
+                                                <p class="gui-input text-center">Não há veículos cadastrados no site.</p>
+                                            <?php else : ?>
+                                                <select name="vehicle" id="vehicle" class="gui-input">
+
+                                                    <?php foreach ($list_vehicles as $value) : ?>
+
+                                                        <option value="<?= $value['id']; ?>"><?= $value['vehicle']; ?></option>
+
+                                                    <?php endforeach; ?>
+
+                                                </select>
+                                            <?php endif; ?>
+
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- Terceira pergunta -->
+                                <div class="section row">
+                                    <h5 class="text-center">Qual é o veículo possui a maior quantidade de sistemas / funções que ser homologadas?</h5>
+                                </div>
+                                <div class="section row">
+                                    <div class="col-md-12 ph10 mb5">
+                                        <label for="vehicle" class="field select">
+
+                                            <?php if ($list_vehicles == 0) : ?>
+                                                <p class="gui-input text-center">Não há veículos cadastrados no site.</p>
+                                            <?php else : ?>
+                                                <select name="vehicle" id="vehicle" class="gui-input">
+
+                                                    <?php foreach ($list_vehicles as $value) : ?>
+
+                                                        <option value="<?= $value['id']; ?>"><?= $value['vehicle']; ?></option>
+
+                                                    <?php endforeach; ?>
+
+                                                </select>
+                                            <?php endif; ?>
+
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- Quarta pergunta -->
+                                <div class="section row">
+                                    <h5 class="text-center">Qual é o veículo espera-se maior dificuldade em termos de parametrização e/ou integração de Software?</h5>
+                                </div>
+                                <div class="section row">
+                                    <div class="col-md-12 ph10 mb5">
+                                        <label for="vehicle" class="field select">
+
+                                            <?php if ($list_vehicles == 0) : ?>
+                                                <p class="gui-input text-center">Não há veículos cadastrados no site.</p>
+                                            <?php else : ?>
+                                                <select name="vehicle" id="vehicle" class="gui-input">
+
+                                                    <?php foreach ($list_vehicles as $value) : ?>
+
+                                                        <option value="<?= $value['id']; ?>"><?= $value['vehicle']; ?></option>
+
+                                                    <?php endforeach; ?>
+
+                                                </select>
+                                            <?php endif; ?>
+
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- Quinta pergunta -->
+                                <div class="section row">
+                                    <h5 class="text-center">Qual veículo é novo em termos de aplicação ou aplicação severa?</h5>
+                                    <span class="text-center text-muted">EX: Caminhão para bombeiros, implementação de terceiro eixo fora da fábrica, aplicação em mineração.</span>
+                                </div>
+                                <div class="section row">
+                                    <div class="col-md-12 ph10 mb5">
+                                        <label for="vehicle" class="field select">
+
+                                            <?php if ($list_vehicles == 0) : ?>
+                                                <p class="gui-input text-center">Não há veículos cadastrados no site.</p>
+                                            <?php else : ?>
+                                                <select name="vehicle" id="vehicle" class="gui-input">
+
+                                                    <?php foreach ($list_vehicles as $value) : ?>
+
+                                                        <option value="<?= $value['id']; ?>"><?= $value['vehicle']; ?></option>
+
+                                                    <?php endforeach; ?>
+
+                                                </select>
+                                            <?php endif; ?>
+
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="section text-center">
+                                    <?php if ($list_vehicles != 0) : ?>
+                                        <button type="submit" class="btn fs14 btn-primary">Próximo</button>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <!-- /Panel Body -->
+                        </form>
+
+                    </div>
+                    <!-- /Panel -->
+                </div>
+            </div>
+
+        </div>
+        <!-- /Column Center -->
+    </div>
+</section>

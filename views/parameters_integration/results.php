@@ -30,24 +30,24 @@
                 <div class="allcp-form tab-pane mw1000 mauto" id="order" role="tabpanel">
                     <div class="panel" id="shortcut">
 
-                        <?php if (!isset($_SESSION['signal_integration_id_proTSA']) || empty($_SESSION['signal_integration_id_proTSA'])) : ?>
+                        <?php if (!isset($_SESSION['parameters_id_proTSA']) || empty($_SESSION['parameters_id_proTSA'])) : ?>
                             <div class="panel-heading text-center">
                                 <span class="panel-title pn">Escolha um projeto Já processado</span><br>
                             </div>
-                            <form method="post" action="<?= BASE_URL; ?>signalintegration/choose_test" id="form-order">
+                            <form method="post" action="<?= BASE_URL; ?>parametersintegration/choose_test" id="form-order">
                                 <div class="panel-body pn">
                                     <div class="section row">
                                         <div class="col-md-12 ph10 mb5">
                                             <label for="signal_id" class="field select">
 
-                                                <?php if ($list_integration_signals == 0) : ?>
+                                                <?php if ($list_parameters_integration == 0) : ?>
                                                     <p class="gui-input text-center">Você ainda não processou as informações de nunhum projeto</p>
                                                 <?php else : ?>
-                                                    <select name="signal_id" id="signal_id" class="gui-input">
+                                                    <select name="parameters_id" id="parameters_id" class="gui-input">
 
-                                                        <?php foreach ($list_integration_signals as $value) : ?>
+                                                        <?php foreach ($list_parameters_integration as $value) : ?>
 
-                                                            <option value="<?= $value['id']; ?>">Processo <?= $value['id']; ?>: <?= $value['name']; ?></option>
+                                                            <option value="<?= $value['pi_id']; ?>">Processo <?= $value['pi_id']; ?>: <?= $value['pro_name']; ?></option>
 
                                                         <?php endforeach; ?>
 
@@ -59,7 +59,7 @@
                                     </div>
                                     <!-- /section -->
                                     <div class="section text-center">
-                                        <?php if ($list_integration_signals != 0) : ?>
+                                        <?php if ($list_parameters_integration != 0) : ?>
                                             <button type="submit" class="btn fs14 btn-primary">Próximo</button>
                                         <?php endif; ?>
                                     </div>
@@ -68,7 +68,7 @@
                             </form>
                         <?php endif; ?>
 
-                        <?php if (isset($_SESSION['signal_integration_id_proTSA']) && !empty($_SESSION['signal_integration_id_proTSA'])) : ?>
+                        <?php if (isset($_SESSION['parameters_id_proTSA']) && !empty($_SESSION['parameters_id_proTSA'])) : ?>
                             <div class="right">
                                 <div class="btn-group">
                                     <button type="button" class="dropdown-toggle btn btn-primary" data-toggle="dropdown" aria-expanded="false">
@@ -92,11 +92,15 @@
                             <div class="panel-body mt10">
                                 <div class="section row text-center">
                                     <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL;?>signalintegration/first_result" class="btn fs14 btn-primary">Primeiro Resultado</a>
+                                        <a href="<?= BASE_URL;?>parametersintegration/first_result" class="btn fs14 btn-primary">Primeiro Resultado</a>
                                     </div>
 
                                     <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL;?>signalintegration/second_result" class="btn fs14 btn-primary">Segundo Resultado</a>
+                                        <a href="<?= BASE_URL;?>parametersintegration/second_result" class="btn fs14 btn-primary">Segundo Resultado</a>
+                                    </div>
+
+                                    <div class="col-md-4 ph10 mb5">
+                                        <a href="<?= BASE_URL;?>parametersintegration/second_process" class="btn fs14 btn-primary">Segundo Teste</a>
                                     </div>
                                 </div>
                             </div>

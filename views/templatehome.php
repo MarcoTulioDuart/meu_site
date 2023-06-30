@@ -180,7 +180,7 @@
 
                         </ul>
                     </li>
-                    <li class="<?= ($viewData['page'] == 'provider_list') ? 'active' : ''; ?>">
+                    <li class="<?= ($viewData['page'] == 'signal_integration') ? 'active' : ''; ?>">
                         <a class="accordion-toggle">
                             <span class="caret"></span>
                             <span class="sb-menu-icon fa fa-rss"></span>
@@ -195,15 +195,18 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="<?= ($viewData['page'] == 'service_list') ? 'active' : ''; ?>">
-                        <a class="accordion-toggle" href="<?= BASE_URL; ?>home/under_construction">
+                    <li class="<?= ($viewData['page'] == 'parameters_integration') ? 'active' : ''; ?>">
+                        <a class="accordion-toggle">
                             <span class="caret"></span>
                             <span class="sb-menu-icon fa fa-compass"></span>
                             <span class="sidebar-title">Int. Parâmetros</span>
                         </a>
                         <ul class="nav sub-nav">
                             <li>
-                                <a href="<?= BASE_URL; ?>home/under_construction">Integridades de Parâmetros</a>
+                                <a href="<?= BASE_URL; ?>parametersintegration">Integridades de Parâmetros</a>
+                            </li>
+                            <li>
+                                <a href="<?= BASE_URL; ?>parametersintegration/results">Resultados de Testes</a>
                             </li>
                         </ul>
                     </li>

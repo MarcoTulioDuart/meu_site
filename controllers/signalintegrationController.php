@@ -18,7 +18,7 @@ class signalintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'function_integration';
+    $data['page'] = 'signal_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
@@ -65,7 +65,7 @@ class signalintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'function_integration';
+    $data['page'] = 'signal_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
@@ -174,7 +174,7 @@ class signalintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'function_integration';
+    $data['page'] = 'signal_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
@@ -382,7 +382,7 @@ class signalintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'function_integration';
+    $data['page'] = 'signal_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
@@ -427,7 +427,7 @@ class signalintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'function_integration';
+    $data['page'] = 'signal_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
@@ -470,7 +470,7 @@ class signalintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'function_integration';
+    $data['page'] = 'signal_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
