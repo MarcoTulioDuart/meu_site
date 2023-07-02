@@ -213,7 +213,7 @@ class softwareintegrationController extends Controller
 
       
       $integration_plan->add($software_integrations_id, $ecu_id, $physical_resources, $available_resources, $test_date, $pending_item);
-      header("Location: " . BASE_URL . "softwareintegration/finalStep");
+      header("Location: " . BASE_URL . "softwareintegration/finalStep?software_integrations_id=" . $software_integrations_id);
       exit;
 
       
@@ -226,9 +226,11 @@ class softwareintegrationController extends Controller
   public function finalStep(){
     $data  = array();
     $accounts = new accounts();
+    $software_integrations = new software_integrations();
     $data['page'] = 'software_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+    $data['info_software_integrations'] = $software_integrations->get($_GET['software_integrations_id']);
 
 
 

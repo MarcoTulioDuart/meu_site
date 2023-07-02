@@ -79,13 +79,13 @@
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
-                                <span class="fa fa-circle-o"></span>
+                                <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle-o"></span>
                             </div>
                             <div class="panel-body pn">
                                 <div class="section row text-center">
                                     <a href="<?= BASE_URL; ?>softwareintegration/chooseProjectResults" class="btn fs14 btn-primary">Sim</a>
-                                    <a href="<?= BASE_URL; ?>softwareintegration" class="btn fs14 btn-primary">Não</a>
+                                    <a href="<?= BASE_URL; ?>softwareintegration?project_id=<?= $info_software_integrations['project_id']; ?>" class="btn fs14 btn-primary">Não</a>
                                 </div>
                             </div>
                         
