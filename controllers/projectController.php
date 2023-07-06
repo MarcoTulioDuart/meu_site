@@ -288,6 +288,7 @@ class projectController extends Controller
     $site = new site();
 
     if (!empty($_POST['email']) && !empty($_POST['name'])) {
+      
       $name = addslashes($_POST['name']);
       $email = addslashes($_POST['email']);
 
@@ -296,13 +297,13 @@ class projectController extends Controller
       <a href="' . BASE_URL . 'home/register?invite=' . $project_id . '">Participar</a>';
 
       if ($site->sendMessage($email, $name, $subject, $message)) {
-        setcookie("invitation_sent_failed", "", -200);
-        setcookie("invitation_sent_success", "Seu convite foi enviado com sucesso!", 200);
+        setcookie("invitation_sent_failed", "", time() - 100);
+        setcookie("invitation_sent_success", "Seu convite foi enviado com sucesso!", time() + 100);
         header("Location: " . BASE_URL . "project/project_view/" . $project_id);
         exit;
       } else {
-        setcookie("invitation_sent_success", "", -200);
-        setcookie("invitation_sent_failed", "Infelizmente seu convite não pode ser enviado, veja se os campos foram preenchidos corretamente ou entre em contato com o suporte do site", 200);
+        setcookie("invitation_sent_success", "", time() - 100);
+        setcookie("invitation_sent_failed", "Infelizmente seu convite não pode ser enviado, veja se os campos foram preenchidos corretamente ou entre em contato com o suporte do site", time() + 100);
         header("Location: " . BASE_URL . "project/project_view/" . $project_id);
         exit;
       }
@@ -341,11 +342,13 @@ class projectController extends Controller
     $list_parameters = new list_parameters();
     $list_participants = new list_participants();
 
-    $projects->delete($id);
+    //confirmar se ao deletar um projeto os demais testes em modulos feitos com esse projeto devem ser excluídos.
+    
     $list_ecu->delete($id);
     $list_can->delete($id);
     $list_parameters->delete($id);
     $list_participants->delete($id);
+    $projects->delete($id);
 
     header("Location: " . BASE_URL . "project/user_projects");
     exit;

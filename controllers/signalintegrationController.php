@@ -508,7 +508,7 @@ class signalintegrationController extends Controller
     }
   }
 
-  public function first_result($signal_integration_id)
+  public function first_result()
   {
     //básico
     if (!isset($_SESSION['proTSA_online'])) {
@@ -532,6 +532,7 @@ class signalintegrationController extends Controller
 
     $list_signals_can = new list_signals_can();
     $list_signals_function = new list_signals_function();
+    $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
 
     //Função de teste principal
 

@@ -215,8 +215,10 @@ class functionintegrationController extends Controller
 
       $dir = "assets/upload/function_ecu/project_" . $project_id . '/'; //endereço da pasta pra onde serão enviados os arquivos
 
+      $location = "Location: " . BASE_URL . "functionintegration?form=5";
+      
       //envia os arquivo para a pasta determinada
-      if ($file = $site->uploadPdf($dir, $files)) {
+      if ($file = $site->uploadPdf($dir, $files, $location)) {
         $list_ecu_id = $_POST['list_ecu_id']; //pega o array de id's dos list_ecu
 
         $list_integration_ecu->addFile($list_ecu_id, $file); //faz o cadastro do caminho do arquivo atravez do id do list_ecu
@@ -653,8 +655,9 @@ class functionintegrationController extends Controller
       $upload = $_FILES['flowchart_upload']; //pega todos os campos que contem um arquivo enviado
       $dir = "assets/upload/flowchart/project_" . $project_id . "/"; //endereço da pasta pra onde serão enviados os arquivos
 
+      $location = "Location: " . BASE_URL . "functionintegration/third_result";
       //envia os arquivo para a pasta determinada
-      $file = $site->uploadPdf($dir, $upload);
+      $file = $site->uploadPdf($dir, $upload, $location);
 
       $flowchart->add($project_id, $file); //faz o cadastro do caminho do arquivo atravez do id do projeto
 
@@ -677,13 +680,14 @@ class functionintegrationController extends Controller
       $site = new site();
 
       $dir = "assets/upload/flowchart/project_" . $project_id . "/"; //endereço da pasta pra onde serão enviados os arquivos
-
-      $site->deleteDirectory($dir);
-
+      
       $upload = $_FILES['flowchart_update']; //pega todos os campos que contem um arquivo enviado
 
+      $location = "Location: " . BASE_URL . "functionintegration/third_result";
+      $delete = true; // Este parametro só é enviado quando se usa uma substituição de arquivo
+      
       //envia os arquivo para a pasta determinada
-      $file = $site->uploadPdf($dir, $upload);
+      $file = $site->uploadPdf($dir, $upload, $location, $delete);
 
       $flowchart->edit($project_id, $file);
 

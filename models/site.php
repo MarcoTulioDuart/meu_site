@@ -219,8 +219,11 @@ class site extends Model
         }
     }
 
-    public function uploadPdf($dir, $file)
-    {
+    public function uploadPdf($dir, $file, $location, $delete = false)
+    {   
+        if ($delete == true && file_exists($dir)) {
+            $this->deleteDirectory($dir);
+        }
 
         if (!file_exists($dir)) {
             mkdir($dir, 0777, true);
@@ -244,7 +247,8 @@ class site extends Model
         // Verifica se houve algum erro com o upload. Se sim, exibe a mensagem do erro
         if ($file['error'] != 0) {
             setcookie("error", "Não foi possível fazer o upload, erro:<br />" . $upload['errors'][$file['error']], time() + 100);
-            return "";
+            header($location);
+            exit;
         }
 
         // Caso script chegue a esse ponto, não houve erro com o upload e o PHP pode continuar
@@ -255,13 +259,15 @@ class site extends Model
         $extension = strtolower(end($tmp)); //coloca em minusculo
         if (array_search($extension, $upload['extension']) === false) {
             setcookie("error", "Por favor, envie arquivos com a seguintes extensões: 'pdf, drawio, png, svg, html, xml'", time() + 100);
-            return "";
+            header($location);
+            exit;
         }
 
         // Faz a verificação do tamanho do arquivo
         else if ($upload['size'] < $file['size']) {
             setcookie("error", "O arquivo enviado é muito grande, envie arquivos de até 2Mb.", time() + 100);
-            return '';
+            header($location);
+            exit;
         }
 
         // O arquivo passou em todas as verificações, hora de tentar movê-lo para a pasta
@@ -281,7 +287,8 @@ class site extends Model
             } else {
                 // Não foi possível fazer o upload, provavelmente a pasta está incorreta
                 setcookie("error", "Não foi possível enviar o arquivo, tente novamente", time() + 100);
-                return "";
+                header($location);
+                exit;
             }
         }
     }
@@ -359,7 +366,7 @@ class site extends Model
         $mpdf->Output($name_file, 'D');
     }
 
-    
+
     public function create_PDF_landscape($pdf, $name_file)
     {
 

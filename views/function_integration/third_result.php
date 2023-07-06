@@ -19,19 +19,7 @@
 </header>
 
 <!-- /Topbar -->
-<?php if (isset($_COOKIE["error"])) : ?>
-    <div class="section row">
-        <div class="col-md-10 ph10 mb5">
-            <div class="text-center">
-                <div class="alert alert-danger alert-dismissable mb30 alert-block p15">
-                    <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h3 class="mtn fs20 text-white">Sucesso</h3>
-                    <p><?= $_COOKIE["error"]; ?></p>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
+
 <!-- Content -->
 <section id="content" class="animated fadeIn pt35">
     <div class="content-left">
@@ -67,13 +55,29 @@
                         <div class="panel-body">
 
                             <?php if (!empty($flowchart) && $flowchart != 0) : ?>
+
                                 <!-- Quando já existe Fluxograma -->
+
                                 <?php if (isset($_COOKIE["success_update_flowchart"])) : ?>
                                     <div class="text-center">
                                         <div class="alert alert-alert alert-dismissable mb30 alert-block p15">
                                             <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
                                             <h3 class="mtn fs20 text-white">Sucesso</h3>
                                             <p><?= $_COOKIE["success_update_flowchart"]; ?></p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <?php if (isset($_COOKIE["error"])) : ?>
+                                    <div class="section row">
+                                        <div class="col-md-10 ph10 mb5">
+                                            <div class="text-center">
+                                                <div class="alert alert-danger alert-dismissable mb30 alert-block p15">
+                                                    <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                                                    <h3 class="mtn fs20 text-white">Falha</h3>
+                                                    <p><?= $_COOKIE["error"]; ?></p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 <?php endif; ?>
@@ -117,7 +121,9 @@
                                 </div>
 
                             <?php else : ?>
+
                                 <!-- Quando não houver Fluxograma -->
+
                                 <form action="<?= BASE_URL; ?>functionintegration/third_result" id="fluxograma" method="post" enctype="multipart/form-data">
                                     <div class="section row">
                                         <div class="col-md-12 ph10 mb5 text-center">
