@@ -10,7 +10,7 @@
             <li class="breadcrumb-icon breadcrumb-link">
                 <a href="<?= BASE_URL; ?>home/home_page">Início</a>
             </li>
-            <li class="breadcrumb-current-item">Resultado de integração entre Funções</li>
+            <li class="breadcrumb-current-item">Resultado de integração entre Parâmetros</li>
         </ol>
     </div>
 </header>
@@ -38,7 +38,7 @@
                                 <div class="panel-body pn">
                                     <div class="section row">
                                         <div class="col-md-12 ph10 mb5">
-                                            <label for="signal_id" class="field select">
+                                            <label for="parameters_id" class="field select">
 
                                                 <?php if ($list_parameters_integration == 0) : ?>
                                                     <p class="gui-input text-center">Você ainda não processou as informações de nunhum projeto</p>

@@ -8,6 +8,7 @@ class list_parameters_vehicles extends Model
         $sql = "INSERT INTO list_parameters_vehicles (parameters_integration_id, project_id, vehicle_id, total_score) VALUES (:parameters_integration_id, :project_id, :vehicle_id, :total_score)";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":parameters_integration_id", $parameters_integration_id);
+        $sql->bindValue(":project_id", $project_id);
         $sql->bindValue(":vehicle_id", $vehicle_id);
         $sql->bindValue(":total_score", $total_score);
         $sql->execute();
@@ -34,6 +35,25 @@ class list_parameters_vehicles extends Model
 
         if ($sql->rowCount() > 0) {
             return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function get($vehicle_id, $parameters_integration_id)
+    {
+        $sql = "SELECT vehicle_id, total_score AS current_score
+        FROM list_parameters_vehicles
+        WHERE parameters_integration_id = :parameters_integration_id
+        AND vehicle_id = :vehicle_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":vehicle_id", $vehicle_id);
+        $sql->bindValue(":parameters_integration_id", $parameters_integration_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetch(PDO::FETCH_ASSOC);
+            return $array;
         } else {
             return false;
         }

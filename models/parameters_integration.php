@@ -21,7 +21,7 @@ class parameters_integration extends Model
     public function getAll() {
         $sql = "SELECT pi.id AS pi_id, p.id AS pro_id, p.name AS pro_name
         FROM parameters_integration AS pi
-        INNER JOIN project AS p ON (p.id = pi.project_id)";
+        INNER JOIN projects AS p ON (p.id = pi.project_id)";
         $sql = $this->db->prepare($sql);
         $sql->execute();
 

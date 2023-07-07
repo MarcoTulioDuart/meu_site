@@ -53,12 +53,12 @@ class parametersintegrationController extends Controller
 
     if (isset($_POST['project_id']) && !empty($_POST['project_id'])) {
 
-      $integration_signals = new integration_signals();
+      $parameters_integration = new parameters_integration();
       $project_id = addslashes($_POST['project_id']);
       $_SESSION['parameters_project_id_proTSA'] = $project_id;
 
-      $integration_signals->add($project_id);
-      header("Location: " . BASE_URL . "parametersintegration/definition_vehicles");
+      $parameters_integration->add($project_id);
+      header("Location: " . BASE_URL . "parametersintegration/definition_vehicles?question=1");
       exit;
     }
   }
@@ -102,6 +102,50 @@ class parametersintegrationController extends Controller
 
   public function add_point_vehicle()
   {
+    $list_parameters_vehicles = new list_parameters_vehicles();
+    $points = new points();
+
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA']; //id do processo
+    $project_id = $_SESSION['parameters_project_id_proTSA']; //id do projeto sendo processado
+    $vehicle_id = $_POST['vehicle_id'];
+
+    $scores = $points->get(2); //pega a pontuação registrada de cada questão
+
+    $question = 'point_question_' . $_GET['question']; //gera o nome de acordo com a questão
+
+    //echo $question . ": <br>";
+    //echo $scores[$question];
+    //exit;
+
+    if ($vehicle = $list_parameters_vehicles->get($vehicle_id, $parameters_integration_id)) {
+      //true = se o veículo existe (Atualizar)
+
+      //echo "Pontuação atual do veículo: ";
+      //echo $vehicle['current_score'];
+      //exit;
+
+      $total_score = $scores[$question] + $vehicle['current_score'];
+
+      $list_parameters_vehicles->edit($parameters_integration_id, $project_id, $vehicle_id, $total_score);
+      
+      if ($_GET['question'] == 5) {
+        header("Location: " . BASE_URL . "parametersintegration/first_result");
+      } else {
+        header("Location: " . BASE_URL . "parametersintegration/definition_vehicles?question=" . $_GET['question'] + 1);
+      }
+      exit;
+    } else {
+      //false = se não existe o veículo (Adicionar)
+
+      $list_parameters_vehicles->add($parameters_integration_id, $project_id, $vehicle_id, $scores[$question]);
+
+      if ($_GET['question'] == 5) {
+        header("Location: " . BASE_URL . "parametersintegration/first_result");
+      } else {
+        header("Location: " . BASE_URL . "parametersintegration/definition_vehicles?question=" . $_GET['question'] + 1);
+      }
+      exit;
+    }
   }
 
   public function results()
@@ -241,7 +285,8 @@ class parametersintegrationController extends Controller
     $this->loadTemplate("home", "signal_integration/second_result", $data);
   }
 
-  public function second_process() {
+  public function second_process()
+  {
     //básico
     if (!isset($_SESSION['proTSA_online'])) {
       header("Location: " . BASE_URL);
