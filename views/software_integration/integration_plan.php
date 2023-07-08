@@ -100,6 +100,10 @@
                                         Detalhe qual item está pendente:
                                         <input type="text" name="pending_item" id="physical_resources" class="gui-input" placeholder="" value="">
                                     </label>
+                                    <label for="test_date">
+                                        Insira o e-mail que deseja enviar:
+                                        <input type="text" name="pending_item" id="physical_resources" class="gui-input" placeholder="" value="">
+                                    </label>
                                 </div>
 
                             </div>
