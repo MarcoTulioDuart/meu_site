@@ -58,8 +58,24 @@ class list_parameters_vehicles extends Model
             return false;
         }
     }
+    public function getAllProcess($parameters_integration_id)
+    {
+        $sql = "SELECT lpv.total_score, v.family, v.vehicle AS name_vehicle
+        FROM list_parameters_vehicles AS lpv
+        INNER JOIN vehicles AS v ON (v.id = lpv.vehicle_id)
+        WHERE parameters_integration_id = :parameters_integration_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":parameters_integration_id", $parameters_integration_id);
+        $sql->execute();
 
-    public function getAll($project_id)
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return 0;
+        }
+    }
+    public function getAllProject($project_id)
     {
         $sql = "SELECT lpv.total_score, v.family, v.vehicle
         FROM list_parameters_vehicles AS lpv

@@ -47,7 +47,9 @@
 
                                                         <?php foreach ($list_parameters_integration as $value) : ?>
 
-                                                            <option value="<?= $value['pi_id']; ?>">Processo <?= $value['pi_id']; ?>: <?= $value['pro_name']; ?></option>
+                                                            <option value="<?= $value['pi_id']; ?>">
+                                                                Processo <?= $value['pi_id']; ?>: <?= $value['pro_name']; ?>
+                                                            </option>
 
                                                         <?php endforeach; ?>
 
@@ -92,16 +94,19 @@
                             <div class="panel-body mt10">
                                 <div class="section row text-center">
                                     <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL;?>parametersintegration/first_result" class="btn fs14 btn-primary">Primeiro Resultado</a>
+                                        <a href="<?= BASE_URL; ?>parametersintegration/first_result" class="btn fs14 btn-primary">Primeiro Resultado</a>
                                     </div>
 
                                     <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL;?>parametersintegration/second_result" class="btn fs14 btn-primary">Segundo Resultado</a>
+                                        <a href="<?= BASE_URL; ?>parametersintegration/second_result" class="btn fs14 btn-primary">Segundo Resultado</a>
                                     </div>
 
                                     <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL;?>parametersintegration/second_process" class="btn fs14 btn-primary">Segundo Teste</a>
+                                        <a href="<?= BASE_URL; ?>parametersintegration/second_process" class="btn fs14 btn-primary">Segundo Teste</a>
                                     </div>
+                                </div>
+                                <div class="section text-center">
+                                    <a href="<?= BASE_URL; ?>parametersintegration/parameters_value" class="btn fs14 btn-primary">Segundo Resultado</a>
                                 </div>
                             </div>
 

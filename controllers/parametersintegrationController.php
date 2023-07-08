@@ -107,27 +107,19 @@ class parametersintegrationController extends Controller
 
     $parameters_integration_id = $_SESSION['parameters_id_proTSA']; //id do processo
     $project_id = $_SESSION['parameters_project_id_proTSA']; //id do projeto sendo processado
-    $vehicle_id = $_POST['vehicle_id'];
+    $vehicle_id = $_POST['vehicle'];
 
     $scores = $points->get(2); //pega a pontuação registrada de cada questão
 
     $question = 'point_question_' . $_GET['question']; //gera o nome de acordo com a questão
 
-    //echo $question . ": <br>";
-    //echo $scores[$question];
-    //exit;
-
     if ($vehicle = $list_parameters_vehicles->get($vehicle_id, $parameters_integration_id)) {
       //true = se o veículo existe (Atualizar)
-
-      //echo "Pontuação atual do veículo: ";
-      //echo $vehicle['current_score'];
-      //exit;
 
       $total_score = $scores[$question] + $vehicle['current_score'];
 
       $list_parameters_vehicles->edit($parameters_integration_id, $project_id, $vehicle_id, $total_score);
-      
+
       if ($_GET['question'] == 5) {
         header("Location: " . BASE_URL . "parametersintegration/first_result");
       } else {
@@ -205,7 +197,7 @@ class parametersintegrationController extends Controller
     }
   }
 
-  public function first_result($signal_integration_id)
+  public function first_result()
   {
     //básico
     if (!isset($_SESSION['proTSA_online'])) {
@@ -219,34 +211,105 @@ class parametersintegrationController extends Controller
     $data['page'] = 'first_result';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
     }
     if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
     }
     //fim do básico
 
-    $list_signals_can = new list_signals_can();
-    $list_signals_function = new list_signals_function();
+    $list_parameters_vehicles = new list_parameters_vehicles();
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
 
-    //Função de teste principal
-
-    $data['main_function'] = $list_signals_function->getMainFunction($signal_integration_id); //pega a função principal do teste
-    $le_main_id = $data['main_function']['le_id']; //id da função principal
-    $data['all_signals_main'] = $list_signals_can->getAll($signal_integration_id, $le_main_id); //pega todos os sinais da função principal
-    $data['signals_main'] = $list_signals_can->getSignalsFunction($le_main_id, $signal_integration_id); //pega só os sinais em comum da função principal com a comum
-
-    //Função de teste comum
-
-    $data['commom_function'] = $list_signals_function->getCommomFunction($signal_integration_id); //pega a função comum do teste
-    $le_commom_id = $data['commom_function']['le_id']; //id da função comum
-    $data['all_signals_commom'] = $list_signals_can->getAll($signal_integration_id, $le_commom_id); //pega todos os sinais da função comum
-    $data['signals_commom'] = $list_signals_can->getSignalsFunction($le_commom_id, $signal_integration_id); //pega só os sinais em comum da função comum com a principal
-
+    $data['list_classification_vehicles'] = $list_parameters_vehicles->getAllProcess($parameters_integration_id);
 
     //template, view, data
-    $this->loadTemplate("home", "signal_integration/first_result", $data);
+    $this->loadTemplate("home", "parameters_integration/first_result", $data);
+  }
+
+  public function header_first_result()
+  {
+    $data  = array();
+
+    $this->loadView("parameters_integration/first_download/header", $data);
+  }
+
+  public function footer_first_result()
+  {
+    $data  = array();
+
+    $this->loadView("parameters_integration/first_download/footer", $data);
+  }
+
+  public function download_first_result()
+  {
+    $list_parameters_vehicles = new list_parameters_vehicles();
+    $site = new site();
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
+
+    $list_vehicles = $list_parameters_vehicles->getAllProcess($parameters_integration_id);
+
+    $pdf = file_get_contents(BASE_URL . "parametersintegration/header_first_result");
+
+    $pdf .= '<div class="section row mtn">';
+    $pdf .= '<div class="tab-block">';
+    $pdf .= '<div class="tab-content">';
+    foreach ($list_vehicles as $key => $value) {
+      $pdf .= '<p class="ph20 pb10 fs20 text-center ' . ($key == 0) ? "text-primary" : "" . '">';
+      $pdf .= $key + 1 . 'º ' . $value['name_vehicle'] . '</p>';
+      $pdf .= '<p class="text-center mb20">Total: ' . $value['total_score'] . ' pts</p>';
+    }
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+
+    $pdf .= file_get_contents(BASE_URL . "parametersintegration/footer_first_result");
+    //Criar PDF
+
+    $name_file = 'primeiro-resultado-Modulo-4.pdf';
+    $site->create_PDF_landscape($pdf, $name_file);
+  }
+
+  public function parameters_value() {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'first_result';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
+      unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
+
+    //template, view, data
+    $this->loadTemplate("home", "parameters_integration/parameters_value", $data);
   }
 
   public function second_result()
@@ -265,24 +328,23 @@ class parametersintegrationController extends Controller
     $data['info_user'] = $accounts->get($id);
 
     if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
     }
     if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
     }
-
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
     //fim do básico
-    $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
-    $list_signals_can = new list_signals_can();
-    $list_signals_function = new list_signals_function();
-    //Função de teste principal
 
-    $data['main_function'] = $list_signals_function->getMainFunction($signal_integration_id); //pega a função principal do teste
-    $le_main_id = $data['main_function']['le_id']; //id da função principal
-    $data['signals_main'] = $list_signals_can->getAll($signal_integration_id, $le_main_id); //pega só os sinais em comum da função principal com a comum
 
     //template, view, data
-    $this->loadTemplate("home", "signal_integration/second_result", $data);
+    $this->loadTemplate("home", "parameters_integration/second_result", $data);
   }
 
   public function second_process()

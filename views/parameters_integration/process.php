@@ -57,7 +57,7 @@
 
                                                         <?php foreach ($list_vehicles as $value) : ?>
 
-                                                            <option value="<?= $value['id']; ?>"><?= $value['vehicle']; ?></option>
+                                                            <option value="<?= $value['id']; ?>"><?= $value['id']; ?>: <?= $value['vehicle']; ?></option>
 
                                                         <?php endforeach; ?>
 
@@ -180,12 +180,12 @@
                                 </form>
                             <?php endif; ?>
 
-                            <?php if (isset($_GET['question']) && $_GET['question'] == 6) : ?>
+                            <?php if (isset($_GET['question']) && $_GET['question'] == 5) : ?>
                                 <!-- Quinta pergunta -->
                                 <form method="post" action="<?= BASE_URL; ?>parametersintegration/add_point_vehicle?question=5">
                                     <div class="section row">
                                         <h5 class="text-center">Qual veículo é novo em termos de aplicação ou aplicação severa?</h5>
-                                        <span class="text-center text-muted">EX: Caminhão para bombeiros, implementação de terceiro eixo fora da fábrica, aplicação em mineração.</span>
+                                        <p class="text-center text-muted">EX: Caminhão para bombeiros, implementação de terceiro eixo fora da fábrica, aplicação em mineração.</p>
                                     </div>
                                     <div class="section row">
                                         <div class="col-md-12 ph10 mb5">
