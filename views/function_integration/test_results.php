@@ -92,15 +92,15 @@
                             <div class="panel-body mt10">
                                 <div class="section row text-center">
                                     <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL;?>functionintegration/first_result" class="btn fs14 btn-primary">Primeiro Resultado</a>
+                                        <a href="<?= BASE_URL;?>functionintegration/first_result" class="btn fs14 btn-primary" title="Informações do processo de dados e mensagens em comum entre funções.">Primeiro Resultado</a>
                                     </div>
 
                                     <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL;?>functionintegration/second_result" class="btn fs14 btn-primary">Segundo Resultado</a>
+                                        <a href="<?= BASE_URL;?>functionintegration/second_result" class="btn fs14 btn-primary" title="Lista de reuniões marcadas, e relatórios.">Segundo Resultado</a>
                                     </div>
 
                                     <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL;?>functionintegration/third_result" class="btn fs14 btn-primary">Casos de testes</a>
+                                        <a href="<?= BASE_URL;?>functionintegration/third_result" class="btn fs14 btn-primary" title="Adicione, Atualize ou Baixe o Fluxograma do teste.">Diagrama de testes</a>
                                     </div>
                                 </div>
                             </div>

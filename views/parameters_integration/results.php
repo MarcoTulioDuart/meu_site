@@ -94,19 +94,20 @@
                             <div class="panel-body mt10">
                                 <div class="section row text-center">
                                     <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL; ?>parametersintegration/first_result" class="btn fs14 btn-primary">Primeiro Resultado</a>
+                                        <a href="<?= BASE_URL; ?>parametersintegration/first_result" class="btn fs14 btn-primary" title="Classificação / Prioridades dos testes de parametrização.">Primeiro Resultado</a>
+                                    </div>
+
+                                    <div class="section text-center">
+                                        <a href="<?= BASE_URL; ?>parametersintegration/parameters_value" class="btn fs14 btn-primary" title="Definição de valores de referência dos parâmetros.">Valores de Referência</a>
+                                    </div>
+                                    
+                                    <div class="col-md-4 ph10 mb5">
+                                        <a href="<?= BASE_URL; ?>parametersintegration/second_result" class="btn fs14 btn-primary" title="Adição de dados de valores de parâmetros de projetos anteriores em tabela com novos parâmetros.">Segundo Resultado</a>
                                     </div>
 
                                     <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL; ?>parametersintegration/second_result" class="btn fs14 btn-primary">Segundo Resultado</a>
+                                        <a href="<?= BASE_URL; ?>parametersintegration/second_process" class="btn fs14 btn-primary" title="Nova rodada de testes com quantidade de amostras maior.">Segundo Teste</a>
                                     </div>
-
-                                    <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL; ?>parametersintegration/second_process" class="btn fs14 btn-primary">Segundo Teste</a>
-                                    </div>
-                                </div>
-                                <div class="section text-center">
-                                    <a href="<?= BASE_URL; ?>parametersintegration/parameters_value" class="btn fs14 btn-primary">Segundo Resultado</a>
                                 </div>
                             </div>
 

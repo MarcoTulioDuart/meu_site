@@ -63,7 +63,8 @@ class list_parameters_vehicles extends Model
         $sql = "SELECT lpv.total_score, v.family, v.vehicle AS name_vehicle
         FROM list_parameters_vehicles AS lpv
         INNER JOIN vehicles AS v ON (v.id = lpv.vehicle_id)
-        WHERE parameters_integration_id = :parameters_integration_id";
+        WHERE parameters_integration_id = :parameters_integration_id
+        ORDER BY lpv.total_score DESC";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":parameters_integration_id", $parameters_integration_id);
         $sql->execute();

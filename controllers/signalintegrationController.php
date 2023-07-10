@@ -567,7 +567,7 @@ class signalintegrationController extends Controller
 
         $list_signals_can->editStatus($c_id[$i], $status[$i], $comment[$i]);
       }
-      header("Location: " . BASE_URL . "signalintegration/first_result/$signal_integration_id");
+      header("Location: " . BASE_URL . "signalintegration/first_result");
       exit;
     }
   }

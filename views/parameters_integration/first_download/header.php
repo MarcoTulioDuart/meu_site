@@ -46,7 +46,7 @@
                 <div class="panel mn pn">
                     <div class="panel-heading text-center">
                         <span class="panel-title fs22 mw400 text-center">
-                            <b>Classificação por prioridade dos testes de parametrização</b>
+                            <b>Classificação de prioridades de veículos para testes de parametrização</b>
                         </span>
                     </div>
                     <div class="panel-body mrn prn">

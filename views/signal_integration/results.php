@@ -10,7 +10,7 @@
             <li class="breadcrumb-icon breadcrumb-link">
                 <a href="<?= BASE_URL; ?>home/home_page">Início</a>
             </li>
-            <li class="breadcrumb-current-item">Resultado de integração entre Funções</li>
+            <li class="breadcrumb-current-item">Resultado de integração de sinais</li>
         </ol>
     </div>
 </header>
