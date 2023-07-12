@@ -108,7 +108,6 @@ class softwareintegrationController extends Controller
   public function uploadDiagramHardware()
   {
     $data  = array();
-    $data_hardware = new data_hardware();
     $accounts = new accounts();
     $data_ecu = new data_ecu();
 
@@ -125,11 +124,9 @@ class softwareintegrationController extends Controller
 
       $upload = $_FILES['files']; //pega todos os campos que contem um arquivo enviado
       $dir = "assets/upload/softwareintegration/flowchart/"; //endereço da pasta pra onde serão enviados os arquivos
-
+      $location = "Location: " . BASE_URL . "softwareintegration/uploadDiagramHardware";
       //envia os arquivo para a pasta determinada
-      $diagram = $site->uploadPdf($dir, $upload);
-
-     
+      $diagram = $site->uploadPdf($dir, $upload, $location);     
      
       $diagram_hardware->add($software_integrations_id, $ecu_id, $diagram); //cadastra os ecus selecionados nessa tabela
      
@@ -137,14 +134,7 @@ class softwareintegrationController extends Controller
       exit;
     }
 
-    if (isset($_GET['software_integrations_id']) && isset($_GET['ecu_id'])) {
-        $data['list_hardware'] = $data_hardware->getAll();
-      
-      
-    } else {
-      header("Location: " . BASE_URL . "softwareintegration");
-      exit;
-    }
+   
     $data['info_ecu'] = $data_ecu->get($_GET['ecu_id']);
   
 
@@ -192,6 +182,7 @@ class softwareintegrationController extends Controller
     $data  = array();
     $accounts = new accounts();
     $data_ecu = new data_ecu();
+    $site = new site();
     $integration_plan = new integration_plan();
 
     $data['page'] = 'software_integration';
@@ -203,14 +194,29 @@ class softwareintegrationController extends Controller
     
 
     if (isset($_POST['ecu_id']) && !empty($_POST['software_integrations_id'])) {
-      $software_integrations = new software_integrations();
+      
       $ecu_id = $_POST['ecu_id'];
       $software_integrations_id = $_POST['software_integrations_id'];
       $physical_resources = addslashes($_POST['physical_resources']);
       $available_resources  = $_POST['available_resources'];  
       $test_date  = (isset($_POST['test_date'])) ? addslashes($_POST['test_date']) : "";
       $pending_item = (isset($_POST['pending_item'])) ? addslashes($_POST['pending_item']) : "";
+      $email_pending_item = (isset($_POST['email_pending_item'])) ? addslashes($_POST['email_pending_item']) : "";
+      if($email_pending_item != ""){
+        $email_pending_item = explode(";", $email_pending_item);
 
+        foreach ($email_pending_item as $key => $value) {
+          $name = explode("@", $value);
+          $email = $value;
+          $subject = "Itens Pendentes - Plano de Integração | Protsa";
+          $message = $pending_item;
+
+          $site->sendMessage($email, $name[0], $subject, $message);
+        }
+      }
+      
+
+      
       
       $integration_plan->add($software_integrations_id, $ecu_id, $physical_resources, $available_resources, $test_date, $pending_item);
       header("Location: " . BASE_URL . "softwareintegration/finalStep?software_integrations_id=" . $software_integrations_id);
@@ -231,7 +237,7 @@ class softwareintegrationController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     $data['info_software_integrations'] = $software_integrations->get($_GET['software_integrations_id']);
-
+    $data['info_software_integrations_ecu'] = $software_integrations->getSoftwareIntegrationsEcu($_GET['software_integrations_id']);
 
 
     $this->loadTemplate("home", "software_integration/final_step", $data);
@@ -290,20 +296,25 @@ class softwareintegrationController extends Controller
     } 
 
     $data['info_software_integrations'] = $software_integrations->getByProjectId($_GET['project_id']);
-   
-    $data['info_diagram_hardware'] = $diagram_hardware->getBySoftwareIntegrationsId($data['info_software_integrations']['id']);
+
+    
+    foreach ($data['info_software_integrations'] as $key => $value) {
+      $data['info_software_integrations'][$key]['info_diagram_hardware'] = $diagram_hardware->getBySoftwareIntegrationsId($value['id']);
+    }
 
     if (isset($_FILES['flowchart_upload']) && !empty($_FILES['flowchart_upload'])) {
       $site = new site();
 
       $upload = $_FILES['flowchart_upload']; //pega todos os campos que contem um arquivo enviado
       $dir = "assets/upload/softwareintegration/flowchart/"; //endereço da pasta pra onde serão enviados os arquivos
+      $location = "Location: " . BASE_URL . "softwareintegration/first_result?project_id=" . $_POST['project_id'];
+      //envia os arquivo para a pasta determinada   
 
-      //envia os arquivo para a pasta determinada
-      $file = $site->uploadPdf($dir, $upload);
-
+      $file = $site->uploadPdf($dir, $upload, $location);
+      $ecu_key = $_POST['ecu_key'];
       if($_POST['action_crud']){
-        $diagram_hardware->edit($data['info_diagram_hardware']['id'], $file); 
+        $diagram_hardware->edit($data['info_software_integrations'][$ecu_key]['info_diagram_hardware']['id'], $file); 
+      
       }else{
         $diagram_hardware->add($data['info_software_integrations']['id'], $data['info_software_integrations']['ecu_id'], $file); 
       }
@@ -318,6 +329,34 @@ class softwareintegrationController extends Controller
 
     //template, view, data
     $this->loadTemplate("home", "software_integration/result/first_result", $data);
+  }
+
+  public function second_result()
+  {   
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+    $diagram_hardware = new diagram_hardware();
+    $software_integrations = new software_integrations();
+
+    $data['page'] = 'software_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if(!isset($_GET['project_id']) || empty($_GET['project_id'])){
+      header("Location: " . BASE_URL . "softwareintegration/chooseProjectResults");
+      exit;
+    } 
+
+    $data['info_software_integrations'] = $software_integrations->getByProjectId($_GET['project_id']);
+   
+    $data['info_diagram_hardware'] = $diagram_hardware->getBySoftwareIntegrationsId($data['info_software_integrations']['id']);
+
+    
+
+    
+
+    //template, view, data
+    $this->loadTemplate("home", "software_integration/result/second_result", $data);
   }
 
 

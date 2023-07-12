@@ -52,9 +52,9 @@ class software_integrations extends Model
         }
     }
 
-    public function getByProjectId($id)
+    public function get($id)
     {
-        $sql = "SELECT * FROM software_integrations WHERE project_id = :id";
+        $sql = "SELECT * FROM software_integrations WHERE id = :id";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":id", $id);
         $sql->execute();
@@ -67,9 +67,27 @@ class software_integrations extends Model
         }
     }
 
-    public function get($id)
+    public function getByProjectId($id)
     {
-        $sql = "SELECT * FROM software_integrations WHERE id = :id";
+        $sql = "SELECT * FROM software_integrations WHERE project_id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return [];
+        }
+    }
+
+    public function getSoftwareIntegrationsEcu($id)
+    {
+        $sql = "SELECT * 
+        FROM ecu_software_integrations
+        INNER JOIN type_ecu ON (ecu_software_integrations.ecu_id = type_ecu.id)
+        WHERE software_integrations_id = :id";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":id", $id);
         $sql->execute();

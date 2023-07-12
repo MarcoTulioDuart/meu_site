@@ -232,7 +232,7 @@ class site extends Model
         $upload['size'] = 1024 * 1024 * 2; // 2Mb
 
         // Array com as extensões permitidas
-        $upload['extension'] = array('pdf', 'drawio', 'png', 'svg', 'html', 'xml');
+        $upload['extension'] = array('pdf', 'drawio', 'png', 'svg', 'html', 'xml', 'doc', 'docx', 'jpg');
 
         // Renomeia o arquivo? (Se true, o arquivo será salvo como .jpg e um nome único)
         $upload['rename'] = false;

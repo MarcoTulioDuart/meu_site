@@ -22,7 +22,10 @@ class diagram_hardware extends Model
 
     public function getBySoftwareIntegrationsId($id)
     {
-        $sql = "SELECT * FROM diagram_hardware WHERE software_integrations_id = :id";
+        $sql = "SELECT diagram_hardware.*, type_ecu.name 
+        FROM diagram_hardware
+        INNER JOIN type_ecu ON (diagram_hardware.ecu_id = type_ecu.id)
+        WHERE software_integrations_id = :id";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":id", $id);
         $sql->execute();
@@ -37,6 +40,7 @@ class diagram_hardware extends Model
 
     public function edit($id, $file)
     {
+      
         $sql = "UPDATE diagram_hardware SET diagram = :diagram WHERE id = :id";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":id", $id);

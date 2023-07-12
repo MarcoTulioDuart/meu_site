@@ -96,13 +96,13 @@
                                 </div>
 
                                 <div class="col-md-6 hide" id="col_physical_resources">
-                                    <label for="test_date">
+                                    <label for="pending_item">
                                         Detalhe qual item está pendente:
-                                        <input type="text" name="pending_item" id="physical_resources" class="gui-input" placeholder="" value="">
+                                        <input type="text" name="pending_item" id="pending_item" class="gui-input" placeholder="" value="">
                                     </label>
-                                    <label for="test_date">
+                                    <label for="email_pending_item">
                                         Insira o e-mail que deseja enviar:
-                                        <input type="text" name="pending_item" id="physical_resources" class="gui-input" placeholder="" value="">
+                                        <input type="text" name="email_pending_item" id="email_pending_item" class="gui-input" placeholder="Use ponto e vírgula(;) para separar os e-mails" value="">
                                     </label>
                                 </div>
 

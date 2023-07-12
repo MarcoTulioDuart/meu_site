@@ -41,9 +41,9 @@
                                     <li>
                                         <h6>
                                             <ul>
-                                                <li><span style="background-color:#70AD47">ECU = VERDE</span>  </li>
+                                                <li><span style="background-color:#70AD47">ECU = VERDE</span> </li>
                                                 <li><span style="background-color:#4472C4"> SENSORES: AZUL</span></li>
-                                                <li><span style="background-color:#7F7F7F">ATUADOR:  CINZA</span></li>
+                                                <li><span style="background-color:#7F7F7F">ATUADOR: CINZA</span></li>
                                                 <li><span style="background-color:#000000; color:white">CHICHOTE ELÉTRICO:PRETO</span></li>
                                                 <li><span style="background-color:#4472C4">CHICHOTE PNEUMÁTICO: AZUL</span></li>
                                                 <li>
@@ -74,7 +74,7 @@
                             <span class="fa fa-circle-o"></span>
                         </div>
                         <div class="panel-body pn">
-                            <form action="<?= BASE_URL; ?>softwareintegration/uploadDiagramHardware" method="post" enctype="multipart/form-data">
+                            <form action="<?= BASE_URL; ?>softwareintegration/uploadDiagramHardware" method="post" enctype="multipart/form-data" id="diagram_hardware">
                                 <div class="section row">
                                     <div class="col-md-12 ph10 mb5 text-center">
                                         <span class="text-muted">Caso ainda não tenha feito o fluxograma acesse o link recomendado a baixo. Leia as dicas, para instruções de cores.</span><br><br>
@@ -91,7 +91,7 @@
                                                 <input type="hidden" name="ecu_id" value="<?= $_GET['ecu_id'] ?>">
                                                 <label class="field prepend-icon file mb20 mt10">
 
-                                                    <input type="file" name="files" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
+                                                    <input type="file" name="files" required class="gui-file" onchange="document.getElementById('uploader').value = this.value;" accept=".png, .pdf, .jpeg, .jpg, .doc, .docx, .xls, .xlsx">
 
                                                     <input type="text" id="uploader" name="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
                                                     <i class="fa fa-upload"></i>
@@ -114,3 +114,21 @@
             <!-- /Column Center -->
         </div>
 </section>
+<script>
+    $(document).ready(function() {
+        $("#diagram_hardware").validate({
+            rules: {
+                files: {
+                    required: true,
+                    extension: "pdf|doc|docx|xls|xlsx|png|jpeg|jpg"
+                }
+            },
+            messages: {
+                files: {
+                    required: "Campo obrigatório",
+                    extension: "Escolha um tipo de arquivo válido (pdf|doc|docx|xls|xlsx|png|jpeg|jpg)"
+                }
+            }
+        });
+    });
+</script>

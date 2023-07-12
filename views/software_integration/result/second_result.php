@@ -13,7 +13,7 @@
             <li class="breadcrumb-icon breadcrumb-link">
                 <a href="<?= BASE_URL; ?>softwareintegration/chooseResult?project_id=<?= $_GET['project_id']; ?>">Resultados de integração entre Software</a>
             </li>
-            <li class="breadcrumb-current-item">Primeiro resultado</li>
+            <li class="breadcrumb-current-item">Segundo resultado</li>
         </ol>
     </div>
 </header>
@@ -61,13 +61,12 @@
                                 </ul>
                             </div>
                         </div>
-                        <?php foreach($info_software_integrations as $key => $value): ?>
                         <div class="panel-heading text-center">
-                            <h4>Fluxograma <?= $value['info_diagram_hardware']['name']; ?></h4><br>
+                            <h4>Fluxograma</h4><br>
                         </div>
                         <div class="panel-body">
-                            <form action="<?= BASE_URL; ?>softwareintegration/first_result?project_id=<?= $_GET['project_id']; ?>" id="diagram_hardware_result" method="post" enctype="multipart/form-data">
-                                <?php if (isset($value['info_diagram_hardware']['diagram']) && $value['info_diagram_hardware']['diagram'] != "") : ?>
+                            <form action="<?= BASE_URL; ?>softwareintegration/first_result?project_id=1" id="fluxograma" method="post" enctype="multipart/form-data">
+                                <?php if (isset($info_diagram_hardware) && $info_diagram_hardware != 0) : ?>
                                     
                                     <div class="section row">
                                         <div class="col-md-12 ph10 mb5">
@@ -75,7 +74,7 @@
                                             <h6 class="text-center pb15">Gostaria de fazer o download do arquivo?</h6>
                                         </div>
                                         <div class="section text-center">
-                                            <a href="<?= BASE_URL; ?><?= $value['info_diagram_hardware']['diagram']; ?>" class="btn fs14 btn-primary" download>Download</a>
+                                            <a href="<?= BASE_URL; ?><?= $info_diagram_hardware['diagram']; ?>" class="btn fs14 btn-primary" download>Download</a>
                                         </div>
                                     </div>
                                     <div class="section row">
@@ -86,13 +85,11 @@
                                     </div>
                                     <div class="section row">
                                         <input type="hidden" name="action_crud" value="edit">
-                                        <input type="hidden" name="project_id" value="<?= $_GET['project_id']; ?>">
-                                        <input type="hidden" name="ecu_key" value="<?= $key; ?>">
                                         <label class="field prepend-icon file mb20 mt10">
 
-                                            <input type="file" name="flowchart_upload" required class="gui-file" onchange="document.getElementById('uploader<?= $key ?>').value = this.value;">
+                                            <input type="file" name="flowchart_upload" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
 
-                                            <input type="text" id="uploader<?= $key ?>" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                                            <input type="text" id="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
                                             <i class="fa fa-upload"></i>
 
                                         </label>
@@ -110,12 +107,11 @@
                                         </div>
                                     </div>
                                     <div class="section row">
-                                        <input type="hidden" name="project_id" value="<?= $_GET['project_id']; ?>">
                                         <label class="field prepend-icon file mb20 mt10">
-                                            
-                                            <input type="file" name="flowchart_upload" class="gui-file" onchange="document.getElementById('uploader<?= $key ?>').value = this.value;">
 
-                                            <input type="text" id="uploader<?= $key ?>" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                                            <input type="file" name="flowchart_upload" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
+
+                                            <input type="text" id="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
                                             <i class="fa fa-upload"></i>
 
                                         </label>
@@ -128,7 +124,6 @@
 
                             </form>
                         </div>
-                        <?php endforeach; ?>
 
                     </div>
                     <!-- /Panel -->

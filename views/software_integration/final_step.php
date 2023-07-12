@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="panel-heading text-center pb25">
-                                <span class="panel-title pn">Todas as funções da ECU ABS foram selecionadas?</span><br>
+                                <span class="panel-title pn">Deseja selecionar outra ECU além da: <strong> <u><?= $info_software_integrations_ecu['name']; ?></u> </strong> ?</span><br>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
@@ -84,8 +84,8 @@
                             </div>
                             <div class="panel-body pn">
                                 <div class="section row text-center">
-                                    <a href="<?= BASE_URL; ?>softwareintegration/chooseProjectResults" class="btn fs14 btn-primary">Sim</a>
-                                    <a href="<?= BASE_URL; ?>softwareintegration?project_id=<?= $info_software_integrations['project_id']; ?>" class="btn fs14 btn-primary">Não</a>
+                                    <a href="<?= BASE_URL; ?>softwareintegration?project_id=<?= $info_software_integrations['project_id']; ?>" class="btn fs14 btn-primary">Sim</a>
+                                    <a href="<?= BASE_URL; ?>softwareintegration/chooseProjectResults" class="btn fs14 btn-primary">Não</a>
                                 </div>
                             </div>
                         
