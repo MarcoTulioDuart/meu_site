@@ -115,4 +115,17 @@ class function_classification extends Model
             return false;
         }
     }
+        
+    public function delete($project_id) {
+        $sql = "DELETE FROM function_classification WHERE project_id = :project_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":project_id", $project_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

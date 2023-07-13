@@ -288,7 +288,7 @@ class projectController extends Controller
     $site = new site();
 
     if (!empty($_POST['email']) && !empty($_POST['name'])) {
-      
+
       $name = addslashes($_POST['name']);
       $email = addslashes($_POST['email']);
 
@@ -308,6 +308,29 @@ class projectController extends Controller
         exit;
       }
     }
+
+    //Modulos
+    $integration_signals = new integration_signals();
+    $parameters_integration = new parameters_integration();
+    $list_integration_ecu = new list_integration_ecu();
+
+    //1
+    $data['model1'] = $list_integration_ecu->getProcess($project_id);
+
+    //2
+
+    //3
+    $data['integration_signals'] = $integration_signals->getId($project_id);
+
+    //4
+    $data['parameters_integration'] = $parameters_integration->getId($project_id);
+
+    //5
+
+    //6
+    
+    //print_r(count($data['parameters_integration']));
+    //exit;
 
     //template, view, data
     $this->loadTemplate("home", "user/project_view", $data);
@@ -343,7 +366,7 @@ class projectController extends Controller
     $list_participants = new list_participants();
 
     //confirmar se ao deletar um projeto os demais testes em modulos feitos com esse projeto devem ser excluídos.
-    
+
     $list_ecu->delete($id);
     $list_can->delete($id);
     $list_parameters->delete($id);

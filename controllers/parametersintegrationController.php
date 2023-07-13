@@ -381,4 +381,18 @@ class parametersintegrationController extends Controller
     //template, view, data
     $this->loadTemplate("home", "parameters_integration/second_process", $data);
   }
+
+  public function delete_parameters_integration($id)
+  {
+    $list_parameters_vehicles = new list_parameters_vehicles();
+    $parameters_integration = new parameters_integration();
+
+    $parameters = $parameters_integration->get($id);
+
+    $list_parameters_vehicles->delete($id);
+    $parameters_integration->delete($id);
+
+    header("Location: " . BASE_URL . "project/project_view/" . $parameters['project_id']);
+    exit;
+  }
 }

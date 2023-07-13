@@ -65,4 +65,33 @@ class integration_signals extends Model
             return 0;
         }
     }
+
+    public function getId($project_id) {
+        $sql = "SELECT id
+        FROM integration_signals 
+        WHERE project_id = :project_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":project_id", $project_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return 0;
+        }
+    }
+
+    public function delete($id) {
+        $sql = "DELETE FROM integration_signals WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -66,4 +66,18 @@ class meetings extends Model
             return false;
         }
     }
+          
+    public function delete($project_id, $model) {
+        $sql = "DELETE FROM meetings WHERE project_id = :project_id AND model = :model";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":project_id", $project_id);
+        $sql->bindValue(":model", $model);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

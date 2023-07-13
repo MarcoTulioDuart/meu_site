@@ -93,4 +93,19 @@ class list_parameters_vehicles extends Model
             return 0;
         }
     }
+
+    public function delete($parameters_integration_id)
+    {
+        $sql = "DELETE FROM list_parameters_vehicles 
+        WHERE parameters_integration_id = :parameters_integration_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":parameters_integration_id", $parameters_integration_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

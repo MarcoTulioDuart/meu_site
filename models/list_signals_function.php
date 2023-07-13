@@ -134,4 +134,19 @@ class list_signals_function extends Model
             return false;
         }
     }
+
+    public function delete($integration_signals_id)
+    {
+        $sql = "DELETE FROM list_signals_function 
+        WHERE integration_signals_id = :integration_signals_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":integration_signals_id", $integration_signals_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

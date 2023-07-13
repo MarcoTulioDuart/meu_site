@@ -758,7 +758,6 @@ class functionintegrationController extends Controller
     $this->loadView("function_integration/first_download/header_download", $data);
   }
 
-
   public function footer_first_result()
   {
     $data  = array();
@@ -896,6 +895,36 @@ class functionintegrationController extends Controller
     $name_file = 'segundo-resultado.pdf';
     $site->create_PDF($pdf, $name_file);
     header("Location: " . BASE_URL . "functionintegration/response_meeting");
+    exit;
+  }
+
+  public function delete_function_integration($project_id) {
+    $flowchart = new flowchart();
+    $function_classification = new function_classification();
+    $meetings = new meetings();
+    $list_integration_ecu = new list_integration_ecu();
+    $list_integration_can = new list_integration_can();
+    $site = new site();
+
+    //reuniões
+    $model = 1;
+    $meetings->delete($project_id, $model);
+
+    //Diagrama / Fluxograma
+    $dir = "assets/upload/flowchart/project_" . $project_id . "/";
+    $site->deleteDirectory($dir);
+    $flowchart->delete($project_id);
+
+    //Classificação de funções
+    $function_classification->delete($project_id);
+
+    //Lista da Cans
+    $list_integration_can->delete($project_id);
+
+    //Lista de funções
+    $list_integration_ecu->delete($project_id);
+
+    header("Location: " . BASE_URL . "project/project_view/" . $project_id);
     exit;
   }
 }

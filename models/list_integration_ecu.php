@@ -144,4 +144,30 @@ class list_integration_ecu extends Model
             return 0;
         }
     }
+
+    public function getProcess($project_id) {
+        $sql = "SELECT id FROM list_integration_ecu WHERE project_id = :project_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":project_id", $project_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function delete($project_id) {
+        $sql = "DELETE FROM list_integration_ecu WHERE project_id = :project_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":project_id", $project_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

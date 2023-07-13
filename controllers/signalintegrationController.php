@@ -893,4 +893,19 @@ class signalintegrationController extends Controller
       exit;
     }
   }
+
+  public function delete_signal_integration($id)
+  {
+    $list_signals_can = new list_signals_can;
+    $list_signals_function = new list_signals_function();
+    $integration_signals = new integration_signals();
+
+    $signal = $integration_signals->get($id);
+    $list_signals_can->delete($id);
+    $list_signals_function->delete($id);
+    $integration_signals->delete($id);
+
+    header("Location: " . BASE_URL . "project/project_view/" . $signal['lis_project_id']);
+    exit;
+  }
 }
