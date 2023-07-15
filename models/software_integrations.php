@@ -52,6 +52,8 @@ class software_integrations extends Model
         }
     }
 
+
+
     public function get($id)
     {
         $sql = "SELECT * FROM software_integrations WHERE id = :id";
@@ -94,6 +96,26 @@ class software_integrations extends Model
 
         if ($sql->rowCount() > 0) {
             $array = $sql->fetch(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return [];
+        }
+    }
+
+ 
+
+    public function getByReleasesSoftware($id)
+    {
+        $sql = "SELECT releases_softwares.*, type_ecu.name 
+        FROM releases_softwares
+        INNER JOIN type_ecu ON (releases_softwares.ecu_id = type_ecu.id)
+        WHERE software_integrations_id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll(PDO::FETCH_ASSOC);
             return $array;
         } else {
             return [];

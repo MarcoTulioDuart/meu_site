@@ -348,13 +348,12 @@ class softwareintegrationController extends Controller
     } 
 
     $data['info_software_integrations'] = $software_integrations->getByProjectId($_GET['project_id']);
-   
-    $data['info_diagram_hardware'] = $diagram_hardware->getBySoftwareIntegrationsId($data['info_software_integrations']['id']);
+
+    foreach ($data['info_software_integrations'] as $key => $value) {
+      $data['info_software_integrations'][$key]['releases_softwares'] = $software_integrations->getByReleasesSoftware($value['id']);
+    }
 
     
-
-    
-
     //template, view, data
     $this->loadTemplate("home", "software_integration/result/second_result", $data);
   }
