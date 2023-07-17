@@ -57,7 +57,7 @@
                                             <div class="col-xs-12 col-sm-4 text-right">
                                                 <a class="holder-active" href="#modal-form">
                                                     <button class="btn btn-primary btn-bordered" data-effect="mfp-zoomIn">
-                                                        <b>Marcar reunião</b>
+                                                        <b>AGENDAR REUNIÃO</b>
                                                     </button>
                                                 </a>
                                             </div>

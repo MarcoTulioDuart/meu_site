@@ -109,7 +109,7 @@ class softwareintegrationController extends Controller
   {
     $data  = array();
     $accounts = new accounts();
-    $data_ecu = new data_ecu();
+    $type_ecu = new type_ecu();
 
     $data['page'] = 'software_integration';
     $id = $_SESSION['proTSA_online'];
@@ -135,8 +135,9 @@ class softwareintegrationController extends Controller
     }
 
    
-    $data['info_ecu'] = $data_ecu->get($_GET['ecu_id']);
-  
+    $data['info_ecu'] = $type_ecu->get($_GET['ecu_id']);
+
+   
 
     
 
@@ -146,7 +147,7 @@ class softwareintegrationController extends Controller
   public function releasesSoftware(){
     $data  = array();
     $accounts = new accounts();
-    $data_ecu = new data_ecu();
+    $type_ecu = new type_ecu();
 
     $data['page'] = 'software_integration';
     $id = $_SESSION['proTSA_online'];
@@ -168,7 +169,7 @@ class softwareintegrationController extends Controller
     }
 
     if(isset($_GET['ecu_id'])){
-      $data['info_ecu'] = $data_ecu->get($_GET['ecu_id']);
+       $data['info_ecu'] = $type_ecu->get($_GET['ecu_id']);
     }
     
 
@@ -181,7 +182,7 @@ class softwareintegrationController extends Controller
   public function integrationPlan(){
     $data  = array();
     $accounts = new accounts();
-    $data_ecu = new data_ecu();
+    $type_ecu = new type_ecu();
     $site = new site();
     $integration_plan = new integration_plan();
 
@@ -189,7 +190,7 @@ class softwareintegrationController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     if(isset($_GET['ecu_id'])){
-      $data['info_ecu'] = $data_ecu->get($_GET['ecu_id']);
+       $data['info_ecu'] = $type_ecu->get($_GET['ecu_id']);
     }
     
 

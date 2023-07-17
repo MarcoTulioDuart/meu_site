@@ -92,6 +92,23 @@ class type_ecu extends Model
         }
     }
 
+    public function get($id) {
+        
+
+        $sql = "SELECT * FROM type_ecu WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetch(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return 0;
+        }
+    }
+
     public function getName($id) {
         $sql = "SELECT name FROM type_ecu WHERE id = :id";
         $sql = $this->db->prepare($sql);
