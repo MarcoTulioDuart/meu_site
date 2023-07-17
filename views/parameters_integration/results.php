@@ -82,7 +82,7 @@
                                         </li>
                                         <li>
                                             <h6>
-                                                O segundo resultado só poderá ser gerado após a coleta de trace da Can no primeiro resultado.
+                                                O segundo resultado só poderá ser gerado após a definição de valores em Valores de referência.
                                             </h6>
                                         </li>
                                     </ul>
@@ -93,19 +93,23 @@
                             </div>
                             <div class="panel-body mt10">
                                 <div class="section row text-center">
-                                    <div class="col-md-4 ph10 mb5">
+                                    <div class="col-md-4 ph10 mb20">
                                         <a href="<?= BASE_URL; ?>parametersintegration/first_result" class="btn fs14 btn-primary" title="Classificação / Prioridades dos testes de parametrização.">Primeiro Resultado</a>
                                     </div>
 
-                                    <div class="section text-center">
-                                        <a href="<?= BASE_URL; ?>parametersintegration/parameters_value" class="btn fs14 btn-primary" title="Definição de valores de referência dos parâmetros.">Valores de Referência</a>
-                                    </div>
-                                    
-                                    <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL; ?>parametersintegration/second_result" class="btn fs14 btn-primary" title="Adição de dados de valores de parâmetros de projetos anteriores em tabela com novos parâmetros.">Segundo Resultado</a>
+                                    <div class="col-md-4 ph10 mb20">
+                                        <a href="<?= BASE_URL; ?>parametersintegration/parameters_value_1" class="btn fs14 btn-primary" title="Definição de valores de referência dos parâmetros.">Valores de Referência</a>
                                     </div>
 
                                     <div class="col-md-4 ph10 mb5">
+                                        <a href="<?= BASE_URL; ?>parametersintegration/second_result" class="btn fs14 btn-primary" title="Adição de dados de valores de parâmetros de projetos anteriores em tabela com novos parâmetros.">Segundo Resultado</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="panel-footer">
+                                <div class="section row text-center">
+                                    <div class="col-md-12 ph10">
                                         <a href="<?= BASE_URL; ?>parametersintegration/second_process" class="btn fs14 btn-primary" title="Nova rodada de testes com quantidade de amostras maior.">Segundo Teste</a>
                                     </div>
                                 </div>
