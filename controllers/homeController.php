@@ -121,23 +121,31 @@ class homeController extends Controller
   }
 
   public function home_page()
-  { //action
+  { //básico
     if (!isset($_SESSION['proTSA_online'])) {
       header("Location: " . BASE_URL);
       exit;
     }
-
     $data  = array();
     $filters = array();
-    $data['page'] = "home_page";
     $accounts = new accounts();
+
+    $data['page'] = 'home_page';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
     }
     if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
     }
     //fim do básico
 
@@ -147,22 +155,31 @@ class homeController extends Controller
 
   public function new_password()
   {
+    //básico
     if (!isset($_SESSION['proTSA_online'])) {
       header("Location: " . BASE_URL);
       exit;
     }
-
     $data  = array();
     $filters = array();
-    $data['page'] = "new_password";
     $accounts = new accounts();
+
+    $data['page'] = 'parameters_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
-    if(isset($_SESSION['project_proTSA'])) {
+
+    if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
     }
     if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
     }
     //fim do básico
 

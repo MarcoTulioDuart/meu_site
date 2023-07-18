@@ -21,8 +21,15 @@ class functionintegrationController extends Controller
     $data['page'] = 'function_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
     }
     //fim do básico
     $projects = new projects();
@@ -309,8 +316,6 @@ class functionintegrationController extends Controller
 
   public function results()
   {
-    $data = array();
-
     //básico
     if (!isset($_SESSION['proTSA_online'])) {
       header("Location: " . BASE_URL);
@@ -323,6 +328,16 @@ class functionintegrationController extends Controller
     $data['page'] = 'function_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
+      unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
     //fim do básico
 
     //form 1 
@@ -366,8 +381,15 @@ class functionintegrationController extends Controller
     $data['page'] = 'first_result';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
     }
     //fim do básico
 
@@ -525,11 +547,18 @@ class functionintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'second_result';
+    $data['page'] = 'first_result';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
     }
     //fim do básico
 
@@ -554,13 +583,21 @@ class functionintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'edit_meeting';
+    $data['page'] = 'parameters_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
     }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
     //fim do básico
+
     $meetings = new meetings();
     $data['list'] = $meetings->get($id_meeting);
 
@@ -641,11 +678,18 @@ class functionintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'third_result';
+    $data['page'] = 'first_result';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
     }
     //fim do básico
 
@@ -890,7 +934,6 @@ class functionintegrationController extends Controller
 
     $this->loadView("function_integration/download_second_result", $data);
   }
-
 
   public function download_second_result($id_meeting)
   {
