@@ -29,7 +29,7 @@
     <script>
     var BASE_URL = '<?= BASE_URL; ?>';
     </script>
-    <?php if ($viewData['page'] == 'first_result') : ?>
+    <?php if ($viewData['page'] == 'first_result' || $viewData['page'] == 'chooseResult') : ?>
     <!-- Datetimepicker CSS -->
     <link rel="stylesheet" type="text/css"
         href="<?= BASE_URL; ?>assets/js/plugins/datepicker/css/bootstrap-datetimepicker.css">
@@ -318,7 +318,7 @@
     <script src="<?= BASE_URL; ?>assets/js/search_can.js"></script>
     <?php elseif (isset($viewData['form']) && $viewData['form'] == 'project_4') : ?>
     <script src="<?= BASE_URL; ?>assets/js/search_parameter.js"></script>
-    <?php elseif ($viewData['page'] == 'first_result') : ?>
+    <?php elseif ($viewData['page'] == 'first_result' || $viewData['page'] == 'chooseResult') : ?>
     <!-- Date/Month - Pickers -->
     <script src="<?= BASE_URL; ?>assets/js/plugins/globalize/globalize.min.js"></script>
     <script src="<?= BASE_URL; ?>assets/js/plugins/moment/moment.min.js"></script>

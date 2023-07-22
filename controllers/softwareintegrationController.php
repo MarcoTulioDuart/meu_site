@@ -269,7 +269,7 @@ class softwareintegrationController extends Controller
     $data  = array();
     $accounts = new accounts();
     $projects = new projects();
-    $data['page'] = 'software_integration';
+    $data['page'] = 'chooseResult';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id); 
     
@@ -335,9 +335,7 @@ class softwareintegrationController extends Controller
   public function second_result()
   {   
     $data  = array();
-    $filters = array();
     $accounts = new accounts();
-    $diagram_hardware = new diagram_hardware();
     $software_integrations = new software_integrations();
 
     $data['page'] = 'software_integration';
@@ -357,6 +355,36 @@ class softwareintegrationController extends Controller
     
     //template, view, data
     $this->loadTemplate("home", "software_integration/result/second_result", $data);
+  }
+
+  public function second_result_download()
+  {   
+    $data  = array();
+    $accounts = new accounts();
+    $site = new site();
+    $software_integrations = new software_integrations();
+
+    $data['page'] = 'software_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if(!isset($_GET['project_id']) || empty($_GET['project_id'])){
+      header("Location: " . BASE_URL . "softwareintegration/chooseProjectResults");
+      exit;
+    } 
+
+    $data['info_software_integrations'] = $software_integrations->getByProjectId($_GET['project_id']);
+
+    foreach ($data['info_software_integrations'] as $key => $value) {
+      $data['info_software_integrations'][$key]['releases_softwares'] = $software_integrations->getByReleasesSoftware($value['id']);
+    }
+ 
+
+    $pdf = file_get_contents("download", "software_integration/result/second_result_download", $data);
+    $name_file = 'segundo-resultado.pdf';
+    $site->create_PDF($pdf, $name_file);
+   
+    
+    
   }
 
 
