@@ -358,12 +358,12 @@ class site extends Model
         return $string;
     }
 
-    public function create_PDF($pdf, $name_file)
+    public function create_PDF($pdf, $name_file, $guidance = ['mode' => 'utf-8', 'format' => 'A4-P', 'orientation' => 'P'])
     {
 
-        $mpdf = new \Mpdf\Mpdf();
+        $mpdf = new \Mpdf\Mpdf($guidance);
         $mpdf->WriteHTML($pdf);
-        $mpdf->Output($name_file, 'D');
+        $mpdf->Output($name_file, 'D');//nome do arquivo e ação (D download, i abra no browser, )
     }
 
 

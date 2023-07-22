@@ -377,12 +377,14 @@ class softwareintegrationController extends Controller
     foreach ($data['info_software_integrations'] as $key => $value) {
       $data['info_software_integrations'][$key]['releases_softwares'] = $software_integrations->getByReleasesSoftware($value['id']);
     }
- 
+    ob_start();//inicia a inclusão da view na memória
+    $this->loadTemplate("download", "software_integration/result/second_result_download", $data);
+    $html = ob_get_contents();//armazena a view invés de mostrar
+    ob_end_clean();//finaliza a inclusão da view na memória
 
-    $pdf = file_get_contents("download", "software_integration/result/second_result_download", $data);
-    $name_file = 'segundo-resultado.pdf';
-    $site->create_PDF($pdf, $name_file);
-   
+    $name_file = 'primeiro-resultado-Modulo-1.pdf';
+    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-L', 'orientation' => 'L']);
+    exit;
     
     
   }
