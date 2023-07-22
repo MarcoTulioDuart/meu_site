@@ -21,8 +21,15 @@ class functionintegrationController extends Controller
     $data['page'] = 'function_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
     }
     //fim do básico
     $projects = new projects();
@@ -48,6 +55,7 @@ class functionintegrationController extends Controller
 
         $ecu_id = $type_ecu->getId($filters); //pega o id especifico do ecu escolhido
         $_SESSION['ecu_project_proTSA'] = $ecu_id['id'];
+        setcookie("repeated_function", "", time() - 100);
         header("Location: " . BASE_URL . "functionintegration?form=3");
       }
 
@@ -196,10 +204,16 @@ class functionintegrationController extends Controller
       $_SESSION['function_ecu'] = $list_ecu_id;
       $project_id = $_SESSION['project_id_proTSA']; //id do projeto
 
-      $list_integration_ecu->add($list_ecu_id, $project_id); //cadastra os ecus selecionados nessa tabela
-
-      header("Location: " . BASE_URL . "functionintegration?form=4");
-      exit;
+      if ($list_integration_ecu->get($project_id, $list_ecu_id)) {
+        setcookie("repeated_function", "A função escolhida já foi registrada neste processo, escolha outra função nesta ou em outra ECU", time() + 100);
+        header("Location: " . BASE_URL . "functionintegration?form=3");
+        exit;
+      } else {
+        $list_integration_ecu->add($list_ecu_id, $project_id); //cadastra os ecus selecionados nessa tabela
+        setcookie("repeated_function", "", time() - 100);
+        header("Location: " . BASE_URL . "functionintegration?form=4");
+        exit;
+      }
     }
   }
 
@@ -216,7 +230,7 @@ class functionintegrationController extends Controller
       $dir = "assets/upload/function_ecu/project_" . $project_id . '/'; //endereço da pasta pra onde serão enviados os arquivos
 
       $location = "Location: " . BASE_URL . "functionintegration?form=5";
-      
+
       //envia os arquivo para a pasta determinada
       if ($file = $site->uploadPdf($dir, $files, $location)) {
         $list_ecu_id = $_POST['list_ecu_id']; //pega o array de id's dos list_ecu
@@ -302,8 +316,6 @@ class functionintegrationController extends Controller
 
   public function results()
   {
-    $data = array();
-
     //básico
     if (!isset($_SESSION['proTSA_online'])) {
       header("Location: " . BASE_URL);
@@ -316,6 +328,16 @@ class functionintegrationController extends Controller
     $data['page'] = 'function_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
+      unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
     //fim do básico
 
     //form 1 
@@ -359,8 +381,15 @@ class functionintegrationController extends Controller
     $data['page'] = 'first_result';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
     }
     //fim do básico
 
@@ -518,11 +547,18 @@ class functionintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'second_result';
+    $data['page'] = 'first_result';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
     }
     //fim do básico
 
@@ -547,13 +583,21 @@ class functionintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'edit_meeting';
+    $data['page'] = 'parameters_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
     }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
     //fim do básico
+
     $meetings = new meetings();
     $data['list'] = $meetings->get($id_meeting);
 
@@ -634,11 +678,18 @@ class functionintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'third_result';
+    $data['page'] = 'first_result';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
     }
     //fim do básico
 
@@ -680,12 +731,12 @@ class functionintegrationController extends Controller
       $site = new site();
 
       $dir = "assets/upload/flowchart/project_" . $project_id . "/"; //endereço da pasta pra onde serão enviados os arquivos
-      
+
       $upload = $_FILES['flowchart_update']; //pega todos os campos que contem um arquivo enviado
 
       $location = "Location: " . BASE_URL . "functionintegration/third_result";
       $delete = true; // Este parametro só é enviado quando se usa uma substituição de arquivo
-      
+
       //envia os arquivo para a pasta determinada
       $file = $site->uploadPdf($dir, $upload, $location, $delete);
 
@@ -884,7 +935,6 @@ class functionintegrationController extends Controller
     $this->loadView("function_integration/download_second_result", $data);
   }
 
-
   public function download_second_result($id_meeting)
   {
     $data  = array();
@@ -898,7 +948,8 @@ class functionintegrationController extends Controller
     exit;
   }
 
-  public function delete_function_integration($project_id) {
+  public function delete_function_integration($project_id)
+  {
     $flowchart = new flowchart();
     $function_classification = new function_classification();
     $meetings = new meetings();
@@ -922,6 +973,8 @@ class functionintegrationController extends Controller
     $list_integration_can->delete($project_id);
 
     //Lista de funções
+    $dir2 = "assets/upload/function_ecu/project_" . $project_id . '/';
+    $site->deleteDirectory($dir2);
     $list_integration_ecu->delete($project_id);
 
     header("Location: " . BASE_URL . "project/project_view/" . $project_id);

@@ -155,7 +155,15 @@
                             <div class="panel-body pn">
 
                                 <!-- FUNÇÃO ECU -->
-
+                                <?php if (isset($_COOKIE["repeated_function"])) : ?>
+                                    <div class="text-center">
+                                        <div class="alert alert-danger alert-dismissable mb30 alert-block p15">
+                                            <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h3 class="mtn fs20 text-white">Erro</h3>
+                                            <p><?= $_COOKIE["repeated_function"]; ?></p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                                 <form action="<?= BASE_URL; ?>functionintegration/select_function_ecu" method="post">
                                     <div class="section row">
                                         <div class="panel mb50" id="p5" data-panel-remove="false" data-panel-color="false" data-panel-fullscreen="false" data-panel-title="false" data-panel-collapse="false">
@@ -231,7 +239,7 @@
                                         <div class="col-md-12 ph10 mb5">
                                             <div class="panel mb50" id="p5">
                                                 <div class="panel-heading">
-                                                    <span class="panel-title">Escolha os arquivos correspondentes a cada função:</span>
+                                                    <span class="panel-title">Escolha o arquivo correspondente á função:</span>
                                                 </div>
                                                 <div class="panel-body panel-scroller scroller-sm pn mt20">
                                                     <?php if (isset($_COOKIE["error"])) : ?>

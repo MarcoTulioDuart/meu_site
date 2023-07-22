@@ -18,8 +18,7 @@
     <!-- CSS - allcp forms -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/allcp/forms/css/forms.css">
     <!-- mCustomScrollbar -->
-    <link rel="stylesheet" type="text/css"
-        href="<?= BASE_URL; ?>assets/js/utility/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/js/utility/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css">
     <!-- CSS - theme -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/skin/default_skin/less/theme.css">
     <!-- c3charts -->
@@ -27,7 +26,7 @@
     <!-- jQuery -->
 
     <script>
-    var BASE_URL = '<?= BASE_URL; ?>';
+        var BASE_URL = '<?= BASE_URL; ?>';
     </script>
     <?php if ($viewData['page'] == 'first_result' || $viewData['page'] == 'chooseResult') : ?>
     <!-- Datetimepicker CSS -->
@@ -257,30 +256,30 @@
                         </ul>
                     </li>
                     <?php if ($viewData['info_user']['permission'] == 2) : ?>
-                    <li class="<?= ($viewData['page'] == 'admin') ? 'active' : ''; ?>">
-                        <a class="accordion-toggle" href="#">
-                            <span class="caret"></span>
-                            <span class="sb-menu-icon fa fa-cogs"></span>
-                            <span class="sidebar-title">Admin</span>
-                        </a>
-                        <ul class="nav sub-nav">
-                            <li>
-                                <a href="<?= BASE_URL; ?>admin">Tipos de ECU</a>
-                            </li>
-                            <li>
-                                <a href="<?= BASE_URL; ?>admin/add_can">Tipos de CAN</a>
-                            </li>
-                            <li>
-                                <a href="<?= BASE_URL; ?>admin/add_parameters">Tipos de Parâmetros</a>
-                            </li>
-                            <li>
-                                <a href="<?= BASE_URL; ?>admin/add_useful_links">Adicionar Links úteis</a>
-                            </li>
-                            <li>
-                                <a href="<?= BASE_URL; ?>admin/question_point">Pontuação das questões</a>
-                            </li>
-                        </ul>
-                    </li>
+                        <li class="<?= ($viewData['page'] == 'admin') ? 'active' : ''; ?>">
+                            <a class="accordion-toggle" href="#">
+                                <span class="caret"></span>
+                                <span class="sb-menu-icon fa fa-cogs"></span>
+                                <span class="sidebar-title">Admin</span>
+                            </a>
+                            <ul class="nav sub-nav">
+                                <li>
+                                    <a href="<?= BASE_URL; ?>admin">Tipos de ECU</a>
+                                </li>
+                                <li>
+                                    <a href="<?= BASE_URL; ?>admin/add_can">Tipos de CAN</a>
+                                </li>
+                                <li>
+                                    <a href="<?= BASE_URL; ?>admin/add_parameters">Tipos de Parâmetros</a>
+                                </li>
+                                <li>
+                                    <a href="<?= BASE_URL; ?>admin/add_useful_links">Adicionar Links úteis</a>
+                                </li>
+                                <li>
+                                    <a href="<?= BASE_URL; ?>admin/question_point">Pontuação das questões</a>
+                                </li>
+                            </ul>
+                        </li>
                     <?php endif; ?>
                 </ul>
                 <!-- /Sidebar Menu  -->
@@ -297,9 +296,7 @@
                 <footer id="content-footer">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <span class="footer-legal">© 2023 Todos os direitos reservados a RA (Renato Arcanjo). <span
-                                    class="alert alert-dark">V. 1.0</span> <a href="#"> Termos de uso</a> e <a
-                                    href="#">Política de privacidade</a></span>
+                            <span class="footer-legal">© 2023 Todos os direitos reservados a RA (Renato Arcanjo). <span class="alert alert-dark">V. 1.0</span> <a href="#"> Termos de uso</a> e <a href="#">Política de privacidade</a></span>
                         </div>
                     </div>
                 </footer>
@@ -313,12 +310,12 @@
     <!-- Validates -->
 
     <?php if ($viewData['page'] == 'new_password') : ?>
-    <script src="<?= BASE_URL; ?>assets/js/pages/validation/new_password.js"></script>
+        <script src="<?= BASE_URL; ?>assets/js/pages/validation/new_password.js"></script>
     <?php elseif (isset($viewData['form']) && $viewData['form'] == 'project_3') : ?>
-    <script src="<?= BASE_URL; ?>assets/js/search_can.js"></script>
+        <script src="<?= BASE_URL; ?>assets/js/search_can.js"></script>
     <?php elseif (isset($viewData['form']) && $viewData['form'] == 'project_4') : ?>
     <script src="<?= BASE_URL; ?>assets/js/search_parameter.js"></script>
-    <?php elseif ($viewData['page'] == 'first_result' || $viewData['page'] == 'chooseResult') : ?>
+    <?php elseif ($viewData['page'] == 'first_result') : ?>
     <!-- Date/Month - Pickers -->
     <script src="<?= BASE_URL; ?>assets/js/plugins/globalize/globalize.min.js"></script>
     <script src="<?= BASE_URL; ?>assets/js/plugins/moment/moment.min.js"></script>
@@ -350,8 +347,7 @@
     <script src="<?= BASE_URL; ?>assets/fonts/animatedsvgicons/js/svgicons.js"></script>
     <script src="<?= BASE_URL; ?>assets/fonts/animatedsvgicons/js/svgicons-init.js"></script>
     <!-- Scroll -->
-    <script
-        src="<?= BASE_URL; ?>assets/js/utility/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js">
+    <script src="<?= BASE_URL; ?>assets/js/utility/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js">
     </script>
     <!-- HighCharts Plugin -->
     <script src="<?= BASE_URL; ?>assets/js/plugins/highcharts/highcharts.js"></script>

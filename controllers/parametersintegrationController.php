@@ -188,9 +188,13 @@ class parametersintegrationController extends Controller
 
   public function choose_test()
   {
+    $parameters_integration = new parameters_integration();
 
     if (isset($_POST['parameters_id']) && !empty($_POST['parameters_id'])) {
-      $_SESSION['parameters_id_proTSA'] = addslashes($_POST['parameters_id']);
+
+      $parameters_id = addslashes($_POST['parameters_id']);
+      $_SESSION['parameters_id_proTSA'] = $parameters_id;
+      $_SESSION['parameters_project_id_proTSA'] = $parameters_integration->get($parameters_id);
 
       header("Location: " . BASE_URL . "parametersintegration/results");
       exit;
@@ -279,7 +283,7 @@ class parametersintegrationController extends Controller
     $site->create_PDF_landscape($pdf, $name_file);
   }
 
-  public function parameters_value() {
+  public function parameters_value_1() {
     //básico
     if (!isset($_SESSION['proTSA_online'])) {
       header("Location: " . BASE_URL);
@@ -308,8 +312,18 @@ class parametersintegrationController extends Controller
     }
     //fim do básico
 
+    
+    $list_parameters = new list_parameters();
+
+    $project_id = $_SESSION['parameters_project_id_proTSA'];
+    $data['list_parameters_name'] = $list_parameters->getParameterProject($project_id);
+
     //template, view, data
     $this->loadTemplate("home", "parameters_integration/parameters_value", $data);
+  }
+
+  public function choose_parameter() {
+
   }
 
   public function second_result()

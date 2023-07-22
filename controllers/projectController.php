@@ -8,8 +8,7 @@ class projectController extends Controller
   }
 
   public function index()
-  { //action
-
+  { //básico
     if (!isset($_SESSION['proTSA_online'])) {
       header("Location: " . BASE_URL);
       exit;
@@ -21,10 +20,18 @@ class projectController extends Controller
     $data['page'] = 'project';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
     }
-
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
+    
     //form 2
 
     $ecu = new data_ecu();
@@ -185,7 +192,6 @@ class projectController extends Controller
     }
   }
 
-
   public function select_all_parameters()
   {
     //form 5
@@ -229,21 +235,33 @@ class projectController extends Controller
   }
 
   public function user_projects()
-  { //action
-
+  { //básico
     if (!isset($_SESSION['proTSA_online'])) {
       header("Location: " . BASE_URL);
       exit;
     }
-
     $data  = array();
-    $data['page'] = "config";
+    $filters = array();
     $accounts = new accounts();
+
+    $data['page'] = 'user_projects';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
+      unset($_SESSION['project_proTSA']);
+    }
     if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
     }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
 
     $projects = new projects();
 
@@ -255,21 +273,33 @@ class projectController extends Controller
 
   public function project_view($project_id)
   {
+    //básico
     if (!isset($_SESSION['proTSA_online'])) {
       header("Location: " . BASE_URL);
       exit;
     }
-
     $data  = array();
-    $filters  = array();
-    $data['page'] = "config";
+    $filters = array();
     $accounts = new accounts();
+
+    $data['page'] = 'config';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
+      unset($_SESSION['project_proTSA']);
+    }
     if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
     }
-    //basico
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
 
     $projects = new projects();
 
@@ -339,19 +369,29 @@ class projectController extends Controller
   public function test_results()
   { //action
 
+    //básico
     if (!isset($_SESSION['proTSA_online'])) {
       header("Location: " . BASE_URL);
       exit;
     }
-
     $data  = array();
-    $data['page'] = "config";
+    $filters = array();
     $accounts = new accounts();
+
+    $data['page'] = 'project';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
+
     if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
     }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
 
     //template, view, data
     $this->loadTemplate("home", "project/test_results", $data);

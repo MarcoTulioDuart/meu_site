@@ -753,7 +753,6 @@ class signalintegrationController extends Controller
     $this->loadTemplate("home", "signal_integration/second_result", $data);
   }
 
-
   public function header_second_result()
   {
     $data  = array();
