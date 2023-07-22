@@ -53,9 +53,7 @@ class list_parameters extends Model
     
     public function getParameterProject($project_id)
     {
-        $array = array();
-
-        $sql = "SELECT DISTINCT p.type
+        $sql = "SELECT DISTINCT p.type AS p_type
         FROM list_parameters AS a, list_parameters AS b
         INNER JOIN data_parameters AS p ON (p.id = b.data_parameters_id)
         WHERE b.project_id = :project_id";

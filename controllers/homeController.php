@@ -147,6 +147,11 @@ class homeController extends Controller
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
     }
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      //Session do Quarto Módulo
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
     //fim do básico
 
     //template, view, data

@@ -45,7 +45,7 @@
             <div class="allcp-form mn pn" id="order" role="tabpanel">
                 <div class="panel mn pn">
                     <div class="panel-heading text-center">
-                        <span class="panel-title fs22 mw400 text-center">
+                        <span class="panel-title fs22 mw500 text-center">
                             <b>Classificação de prioridades de veículos para testes de parametrização</b>
                         </span>
                     </div>

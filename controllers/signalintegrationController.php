@@ -139,10 +139,17 @@ class signalintegrationController extends Controller
       $_SESSION['function_ecu'] = $list_ecu_id;
       $integration_signals_id = $_SESSION['signals_id_proTSA']; //id do teste
 
-      $list_signals_function->add($list_ecu_id, $integration_signals_id); //cadastra os ecus selecionados nessa tabela
-
-      header("Location: " . BASE_URL . "signalintegration/select_function_processing?form=4");
-      exit;
+      if ($list_signals_function->get($integration_signals_id, $list_ecu_id)) {
+        setcookie("repeated_function", "A função escolhida já foi registrada neste processo, escolha outra função nesta ou em outra ECU", time() + 100);
+        header("Location: " . BASE_URL . "signalintegration/select_function_processing?form=3");
+        exit;
+      } else {
+        $list_signals_function->add($list_ecu_id, $integration_signals_id); //cadastra os ecus selecionados nessa tabela
+        setcookie("repeated_function", "", time() - 100);
+        header("Location: " . BASE_URL . "signalintegration/select_function_processing?form=4");
+        exit;
+      }
+      
     }
   }
 

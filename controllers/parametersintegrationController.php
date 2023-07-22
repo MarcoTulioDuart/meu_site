@@ -194,7 +194,8 @@ class parametersintegrationController extends Controller
 
       $parameters_id = addslashes($_POST['parameters_id']);
       $_SESSION['parameters_id_proTSA'] = $parameters_id;
-      $_SESSION['parameters_project_id_proTSA'] = $parameters_integration->get($parameters_id);
+      $id_project = $parameters_integration->get($parameters_id);
+      $_SESSION['parameters_project_id_proTSA'] = $id_project['project_id'];
 
       header("Location: " . BASE_URL . "parametersintegration/results");
       exit;
@@ -268,7 +269,13 @@ class parametersintegrationController extends Controller
     $pdf .= '<div class="tab-block">';
     $pdf .= '<div class="tab-content">';
     foreach ($list_vehicles as $key => $value) {
-      $pdf .= '<p class="ph20 pb10 fs20 text-center ' . ($key == 0) ? "text-primary" : "" . '">';
+      $pdf .= '<p class="ph20 pb10 fs20 text-center ';
+
+      if ($key == 0) {
+        $pdf .= 'text-primary';
+      }
+
+      $pdf .= '">';
       $pdf .= $key + 1 . 'º ' . $value['name_vehicle'] . '</p>';
       $pdf .= '<p class="text-center mb20">Total: ' . $value['total_score'] . ' pts</p>';
     }
@@ -283,7 +290,8 @@ class parametersintegrationController extends Controller
     $site->create_PDF_landscape($pdf, $name_file);
   }
 
-  public function parameters_value_1() {
+  public function parameters_value_1()
+  {
     //básico
     if (!isset($_SESSION['proTSA_online'])) {
       header("Location: " . BASE_URL);
@@ -312,18 +320,139 @@ class parametersintegrationController extends Controller
     }
     //fim do básico
 
-    
-    $list_parameters = new list_parameters();
 
+    $list_parameters = new list_parameters();
     $project_id = $_SESSION['parameters_project_id_proTSA'];
     $data['list_parameters_name'] = $list_parameters->getParameterProject($project_id);
 
     //template, view, data
-    $this->loadTemplate("home", "parameters_integration/parameters_value", $data);
+    $this->loadTemplate("home", "parameters_integration/parameters_value/refe_value_1", $data);
   }
 
-  public function choose_parameter() {
+  public function choose_parameter()
+  {
+    $list_parameters_compare = new list_parameters_compare();
+    $project_id = $_SESSION['parameters_project_id_proTSA'];
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
 
+    if (isset($_POST['name_parameter']) && !empty($_POST['name_parameter'])) {
+
+      $name_parameter = addslashes($_POST['name_parameter']);
+
+      $list_parameters_compare->add($parameters_integration_id, $project_id, $name_parameter);
+      header("Location: " . BASE_URL . "parametersintegration/parameters_value_2");
+      exit;
+    }
+  }
+
+
+  public function parameters_value_2()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'first_result';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
+      unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
+
+    $data_parameters_aplicate = new data_parameters_aplicate();
+    $project_id = $_SESSION['parameters_project_id_proTSA'];
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
+    
+    if (isset($_FILES['library']) && !empty($_FILES['library'])) {
+      $file = new DOMDocument();
+      $file->load($_FILES['library']['tmp_name']);
+
+      $first_line = true;
+      $row = $file->getElementsByTagName("Table")->item(0)->getElementsByTagName("Row");
+      foreach ($row as $value) {
+        if ($first_line == false) {
+
+          $pos = $value->getElementsByTagName("Cell")->item(0)->nodeValue;
+          $sachnummer = $value->getElementsByTagName("Cell")->item(1)->nodeValue;
+          $benennung = $value->getElementsByTagName("Cell")->item(2)->nodeValue;
+          $codebedingung = $value->getElementsByTagName("Cell")->item(3)->nodeValue;
+          $kem_ab = $value->getElementsByTagName("Cell")->item(4)->nodeValue;
+          $werke = $value->getElementsByTagName("Cell")->item(5)->nodeValue;
+          $pg_kz = $value->getElementsByTagName("Cell")->item(6)->nodeValue;
+          $type = addslashes($_POST['type']);
+
+          $data_parameters_aplicate->add($pos, $sachnummer, $benennung, $codebedingung, $kem_ab, $werke, $pg_kz, $type, $parameters_integration_id, $project_id);
+        }
+        $first_line = false;
+      }
+      setcookie("success_add_parameters", "Seus parâmetros foram registrados com sucesso!", time() + 100);
+      header("Location: " . BASE_URL . "parametersintegration/results");
+      exit;
+    }
+
+    //template, view, data
+    $this->loadTemplate("home", "parameters_integration/parameters_value/refe_value_2", $data);
+  }
+  public function add_meeting()
+  {
+    $meetings = new meetings();
+    $project_id = $_SESSION['integration_id_proTSA'];
+
+    if (!empty($_POST['title']) && !empty($_POST['date_meeting']) && !empty($_POST['participant'])) {
+      $title = addslashes($_POST['title']);
+      $date_meeting = addslashes($_POST['date_meeting']);
+      $link = addslashes($_POST['link']);
+      $model = 4;
+
+      $meetings->addMeeting($project_id, $title, $date_meeting, $model);
+
+      $site = new site();
+
+      if (isset($_POST['participant']) && !empty($_POST['participant'])) {
+        $participants = addslashes($_POST['participant']);
+        $emails = explode(';', $participants);
+
+        for ($i = 0; $i < count($emails); $i++) {
+          $name = ' ';
+          $email = $emails[$i];
+
+          $subject = "Uma reunião foi agendada!";
+          $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
+          O tema da reunião será: ' . $title . '. <br>
+          Para participar da reunião <a href="' . $link . '" target="_blank">Clique aqui</a>
+          Aconselhamos que salve este email até o dia da reunião <br>';
+
+          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+            $recommendation = addslashes($_POST['recommendation']);
+
+            $message .= $recommendation . '<br>';
+          }
+
+          $message .= 'Aguardamos sua presença na reunião!';
+          $site->sendMessage($email, $name, $subject, $message);
+        }
+      }
+
+      header("Location: " . BASE_URL . "functionintegration/second_result");
+      exit;
+    }
   }
 
   public function second_result()

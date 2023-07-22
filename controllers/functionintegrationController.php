@@ -473,8 +473,9 @@ class functionintegrationController extends Controller
       $title = addslashes($_POST['title']);
       $date_meeting = addslashes($_POST['date_meeting']);
       $link = addslashes($_POST['link']);
+      $model = 1;
 
-      $meetings->addMeeting($project_id, $title, $date_meeting);
+      $meetings->addMeeting($project_id, $title, $date_meeting, $model);
 
       $site = new site();
       $list_participants = new list_participants();

@@ -38,34 +38,28 @@
                         <div class="panel-body">
                             <form action="<?= BASE_URL; ?>parametersintegration/choose_parameter" method="post">
                                 <div class="section">
-                                    <h6 class="text-center">Quais são os valores de parâmetros de projetos anteriores que já aplicados em série sem gerar erros na produção?</h6>
-                                </div>
-                                <div class="section text-center">
-                                    <span class="text-muted">"Escolha um dos tipos de parâmetros que foram registrados no projeto, para prosseguir."</span>
+                                    <h6 class="text-center">Faça o upload da planilha de parâmetros que serão aplicados na série.</h6>
                                 </div>
                                 <div class="section row">
-                                    <div class="col-md-10 ph10 mb5">
-                                        <label for="name_parameter" class="field select">
-                                            <select name="name_parameter" id="name_parameter" class="gui-input">
-                                                <?php if ($list_parameters_name == 0) : ?>
-                                                    <option selected>Não foram encontrados parametros registrados neste projeto</option>
-                                                <?php else : ?>
+                                    <?php if (isset($_COOKIE["error"])) : ?>
+                                        <div class="text-center">
+                                            <div class="alert alert-alert alert-dismissable mb30 alert-block p15">
+                                                <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                                                <h3 class="mtn fs20 text-white">Sucesso</h3>
+                                                <p><?= $_COOKIE["error"]; ?></p>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
 
-                                                    <?php foreach ($list_parameters_name as $value) : ?>
+                                    <label class="field prepend-icon file mb20 mt10">
 
-                                                        <option value="<?= $value['p_type']; ?>"><?= $value['p_type']; ?></option>
+                                        <input type="file" name="library" class="gui-file" onchange="document.getElementById('uploader').value = this.value;" accept="application/pdf">
 
-                                                    <?php endforeach; ?>
+                                        <input type="text" id="uploader" name="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                                        <i class="fa fa-upload"></i>
+                                        
+                                    </label>
 
-                                                <?php endif; ?>
-                                            </select>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-2 ph10 mb5">
-                                        <label class="file">
-                                            <button type="submit" class="button btn-primary">Escolher</button>
-                                        </label>
-                                    </div>
                                 </div>
                             </form>
                         </div>

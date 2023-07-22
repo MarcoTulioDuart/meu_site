@@ -57,7 +57,7 @@
 
                                                         <?php foreach ($list_vehicles as $value) : ?>
 
-                                                            <option value="<?= $value['id']; ?>"><?= $value['id']; ?>: <?= $value['vehicle']; ?></option>
+                                                            <option value="<?= $value['id']; ?>"><?= $value['vehicle']; ?></option>
 
                                                         <?php endforeach; ?>
 
@@ -114,7 +114,7 @@
                                 <!-- Terceira pergunta -->
                                 <form method="post" action="<?= BASE_URL; ?>parametersintegration/add_point_vehicle?question=3">
                                     <div class="section row">
-                                        <h5 class="text-center">Qual é o veículo possui a maior quantidade de sistemas / funções que ser homologadas?</h5>
+                                        <h5 class="text-center">Qual é o veículo que possui a maior quantidade de sistemas/funções a ser homologadas?</h5>
                                     </div>
                                     <div class="section row">
                                         <div class="col-md-12 ph10 mb5">

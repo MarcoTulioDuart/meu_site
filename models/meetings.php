@@ -3,13 +3,14 @@
 class meetings extends Model
 {
 
-    public function addMeeting($project_id, $title, $date_meeting)
+    public function addMeeting($project_id, $title, $date_meeting, $model)
     {
-        $sql = "INSERT INTO meetings (project_id, title, date_meeting) VALUES(:project_id, :title, :date_meeting)";
+        $sql = "INSERT INTO meetings (project_id, title, date_meeting, model) VALUES(:project_id, :title, :date_meeting, :model)";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":project_id", $project_id);
         $sql->bindValue(":title", $title);
         $sql->bindValue(":date_meeting", $date_meeting);
+        $sql->bindValue(":model", $model);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
