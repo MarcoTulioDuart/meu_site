@@ -191,7 +191,14 @@ O projeto acontece com prazos e entregas semanais, além disso os projetos é tr
 - Implementação
 - Teste
 - Documentação
-- Suporte, manutenção e atualização 
+- Suporte, manutenção e atualização
+
+# ETAPAS DO MODAL TEMPLATE
+Em resumo para ativar um modal no template protsa
+1. colocamos a id na div principal
+2. colocamos um botão de chamada conforme a imagem
+3. colocamos o modal no rodapé do site
+4. criamos no controller um data page que ativa no template o recurso necessáiro para o modal
   
 ## Análise econômica
 <p>

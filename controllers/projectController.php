@@ -368,11 +368,13 @@ class projectController extends Controller
     $integration_signals = new integration_signals();
     $parameters_integration = new parameters_integration();
     $list_integration_ecu = new list_integration_ecu();
+    $software_integrations = new software_integrations();
 
     //1
     $data['model1'] = $list_integration_ecu->getProcess($project_id);
 
     //2
+    $data['software_integrations'] = $software_integrations->getId($project_id);
 
     //3
     $data['integration_signals'] = $integration_signals->getId($project_id);
