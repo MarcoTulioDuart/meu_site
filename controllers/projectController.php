@@ -374,7 +374,7 @@ class projectController extends Controller
     $data['model1'] = $list_integration_ecu->getProcess($project_id);
 
     //2
-    $data['software_integrations'] = $software_integrations->getId($project_id);
+    $data['software_integrations'] = $software_integrations->getByProjectId($project_id);
 
     //3
     $data['integration_signals'] = $integration_signals->getId($project_id);

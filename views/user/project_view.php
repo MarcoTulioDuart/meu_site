@@ -66,10 +66,30 @@
                                         <!-- Módulo 2 -->
                                         <?php if (isset($software_integrations) && count($software_integrations) == 1) : ?>
                                             <div class="col-sm-2 col-md-2 p5">
-                                                <a href="#" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
+                                                <a href="<?= BASE_URL; ?>softwareintegration/delete_software_integrations/<?= $software_integrations[0]['id']; ?>" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
                                                     <span class="fa fa-trash mr5"></span>
                                                     Módulo 2
                                                 </a>
+                                            </div>
+                                        <?php elseif (!empty($software_integrations) && count($software_integrations) > 1) : ?>
+                                            <div class="col-sm-2 col-md-2 p5">
+                                                <div class="btn-group">
+                                                    <button type="button" class="fs14 btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                        <span class="fa fa-trash mr5"></span>
+                                                        <b>Módulo 3</b>
+                                                        <span class="caret ml5"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <?php foreach ($software_integrations as $key => $value) : ?>
+                                                            <li>
+                                                                <a href="<?= BASE_URL; ?>softwareintegration/delete_software_integrations/<?= $value['id']; ?>" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
+                                                                    <span class="fa fa-trash mr5"></span>
+                                                                    Processo <?= $value['id']; ?>
+                                                                </a>
+                                                            </li>
+                                                        <?php endforeach; ?>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         <?php endif; ?>
 
