@@ -84,6 +84,52 @@ class site extends Model
         }
     }
 
+    public function sendMessegeAttachment($email, $name, $subject, $message, $attachmens)
+    {
+        $mail = new PHPMailer(true);
+        try {
+            //Configurações do servidor
+            $mail->isSMTP();
+            $mail->Host       = 'br968.hostgator.com.br'; //Servidor SMTP
+            $mail->SMTPAuth   = true; //SMTP autenticação
+            $mail->Username   = 'contato@protsa.infocept.com.br'; //SMTP username
+            $mail->Password   = 'infocept23'; //SMTP Senha
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port       = 465; //Caso o SMTPSecure seja 'PHPMailer::ENCRYPTION_STARTTLS' use 587
+
+            //Destinatário
+            $mail->setFrom('contato@protsa.infocept.com.br', 'PROTSA'); //Quem está enviando
+            $mail->addAddress($email, $name); //Quem recebe
+
+            //Conteudo do email
+            $mail->isHTML(true); //Se o email será em formato html
+            $mail->Subject = $subject;
+            $mail->Body    = $message; //A mensagem do body pode ser feita com tags html <b>in bold!</b>
+            // $mail->AltBody = 'A mensagem não possui estilização em html, mas as chances do email não se tornar um spam são maiores';
+            $mail->CharSet = 'UTF-8';
+
+            //Especificações de funções
+
+            $first_attachment_Path = $first_attachment['tmp_name']; // Caminho temporário do arquivo enviado
+            $first_attachment_Name = $first_attachment['name']; // Nome original do arquivo enviado
+
+            $mail->addAttachment($first_attachment_Path, $first_attachment_Name); // Adiciona o arquivo como anexo
+
+            //Paginá de primeiro resultado
+
+            $second_attachment_Path = $second_attachment['tmp_name']; // Caminho temporário do arquivo enviado
+            $second_attachment_Name = $second_attachment['name']; // Nome original do arquivo enviado
+
+            $mail->addAttachment($second_attachment_Path, $second_attachment_Name); // Adiciona o arquivo como anexo
+
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+
     public function sendMessageAttachment($email, $name, $subject, $message, $attachment)
     {
         $mail = new PHPMailer(true);

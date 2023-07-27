@@ -269,6 +269,7 @@ class softwareintegrationController extends Controller
     $data  = array();
     $accounts = new accounts();
     $projects = new projects();
+    $software_integrations = new software_integrations();
     $data['page'] = 'chooseResult';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id); 
@@ -277,7 +278,121 @@ class softwareintegrationController extends Controller
       header("Location: " . BASE_URL . "softwareintegration/chooseProjectResults");
       exit;
     }
+
+    
+
+
     $this->loadTemplate("home", "software_integration/result/choose_result", $data);
+  }
+
+  public function meeting()
+  {
+    $data  = array();
+    $filters = array();
+    $meetings = new meetings();
+    $software_integrations = new software_integrations();
+    $accounts = new accounts();
+
+    $filters['model'] = 2;    
+    $data['page'] = 'chooseResult';
+    $id = $_SESSION['proTSA_online'];
+    
+   
+    if (!empty($_POST['title']) && !empty($_POST['date_meeting'])) {
+
+      $title = addslashes($_POST['title']);
+      $project_id = addslashes($_POST['project_id']);
+      $date_meeting = addslashes($_POST['date_meeting']);
+      $link = addslashes($_POST['link']);
+      $text = addslashes($_POST['recommendation']);
+      $model = 2;
+
+      $meetings->addMeeting($project_id, $title, $date_meeting, $model, $text);
+
+      $site = new site();
+      $list_participants = new list_participants();
+      $meeting_participants = $list_participants->getAllParticipants($project_id);
+
+      $data['info_software_integrations'] = $software_integrations->getByProjectId($project_id);
+    
+      foreach ($data['info_software_integrations'] as $key => $value) {
+        $attachmens = $_FILES['files_ecu'];
+      }
+
+      array_push($attachmens, $_FILES['releases_softwares']);
+
+      echo "<pre>";
+      print_r($attachmens);
+      exit;
+
+      for ($i = 0; $i < count($meeting_participants); $i++) {
+        $name = $meeting_participants[$i]['full_name'];
+        $email = $meeting_participants[$i]['email'];
+
+        $subject = "Uma reunião foi agendada!";
+        $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
+        O tema da reunião será: ' . $title . '. <br>
+        Os arquivos em anexo contém os resultados da etapa de Integração entre Softwares - Diagramas de Bloco de Cada ECU e Releases de softwares. <br>
+        Para participar da reunião <a href="' . $link . '" target="_blank">Clique aqui</a>
+        Aconselhamos que salve este email até o dia da reunião. <br>';
+
+        if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+          $recommendation = addslashes($_POST['recommendation']);
+
+          $message .= $recommendation . '<br>';
+        }
+
+        $message .= 'Aguardamos sua presença na reunião!';
+
+        $site->sendMessegeAttachment($email, $name, $subject, $message, $attachmens);
+      }
+
+      if (isset($_POST['participant']) && !empty($_POST['participant'])) {
+        $participants = addslashes($_POST['participant']);
+        $emails = explode(';', $participants);
+
+        for ($i = 0; $i < count($emails); $i++) {
+          $name = ' ';
+          $email = $emails[$i];
+
+          $subject = "Uma reunião foi agendada!";
+          $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
+          O tema da reunião será: ' . $title . '. <br>
+          Para participar da reunião <a href="' . $link . '" target="_blank">Clique aqui</a>
+          Aconselhamos que salve este email até o dia da reunião <br>';
+
+          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+            $recommendation = addslashes($_POST['recommendation']);
+
+            $message .= $recommendation . '<br>';
+          }
+
+          $message .= 'Aguardamos sua presença na reunião!';
+          $site->sendMessegeAttachment($email, $name, $subject, $message, $attachmens);
+        }
+      }
+
+      header("Location: " . BASE_URL . "functionintegration/second_result");
+      exit;
+    }
+
+    if(!isset($_GET['project_id']) || empty($_GET['project_id'])){
+      header("Location: " . BASE_URL . "softwareintegration/chooseProjectResults");
+      exit;
+    }
+
+    $data['list_meeting'] = $meetings->getAll($_GET['project_id'], $filters);    
+    $data['info_user'] = $accounts->get($id);
+    
+
+    $data['info_software_integrations'] = $software_integrations->getByProjectId($_GET['project_id']);
+
+    foreach ($data['info_software_integrations'] as $key => $value) {
+      $data['info_software_integrations'][$key]['releases_softwares'] = $software_integrations->getByReleasesSoftware($value['id']);
+    }
+
+
+    $this->loadTemplate("home", "software_integration/result/list_meeting", $data);
   }
 
   public function first_result()
