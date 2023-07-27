@@ -54,6 +54,19 @@ class diagram_hardware extends Model
         }
     }
 
+    public function deleteBySoftwareIntegrationsId($id) {
+        $sql = "DELETE FROM diagram_hardware WHERE software_integrations_id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
  
 
 
