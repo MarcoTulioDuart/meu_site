@@ -18,9 +18,28 @@ class list_ecu extends Model
         }
     }
 
+    public function getFunction($project_id, $ecu_id, $data_ecu_id)
+    {
+        $sql = "SELECT * FROM list_ecu 
+        WHERE project_id = :project_id
+        AND ecu_id = :ecu_id
+        AND data_ecu_id = :data_ecu_id";
+        
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":ecu_id", $ecu_id);
+        $sql->bindValue(":project_id", $project_id);
+        $sql->bindValue(":data_ecu_id", $data_ecu_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function getAll($filters, $project_id)
     {
-
         $array = array();
 
         $where = array(
@@ -44,6 +63,7 @@ class list_ecu extends Model
         }
 
         $sql->execute();
+
         if ($sql->rowCount() > 0) {
             $array = $sql->fetchAll(PDO::FETCH_ASSOC);
             return $array;
@@ -74,7 +94,8 @@ class list_ecu extends Model
         }
     }
 
-    public function delete($project_id) {
+    public function delete($project_id)
+    {
         $sql = "DELETE FROM list_ecu WHERE project_id = :project_id";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":project_id", $project_id);

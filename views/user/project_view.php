@@ -45,113 +45,117 @@
                                     </div>
                                 </div>
                             <?php endif; ?>
-                            <div class="section">
-                                <div class="row text-center mb20">
-                                    <span class="panel-title">Deletar dados de Módulos</span>
-                                </div>
-                                <div class="row text-center table-columns" style="display: flex; justify-content: center; flex-wrap: wrap;">
-                                    <!-- Módulo 1 -->
-                                    <?php if ($model1 == true) : ?>
-                                        <div class="col-sm-2 col-md-2 p5">
-                                            <a href="<?= BASE_URL; ?>functionintegration/delete_function_integration/<?= $list_projects['id']; ?>" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
-                                                <span class="fa fa-trash mr5"></span>
-                                                Módulo 1
-                                            </a>
-                                        </div>
-                                    <?php endif; ?>
 
-                                    <!-- Módulo 2 -->
-                                    <?php if (isset($software_integrations) && count($software_integrations) == 1) : ?>
-                                        <div class="col-sm-2 col-md-2 p5">
-                                            <a href="#" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
-                                                <span class="fa fa-trash mr5"></span>
-                                                Módulo 2
-                                            </a>
-                                        </div>
-                                    <?php endif; ?>
-
-                                    <!-- Módulo 3 -->
-                                    <?php if (!empty($integration_signals) && count($integration_signals) == 1) : ?>
-                                        <div class="col-sm-2 col-md-2 p5">
-                                            <a href="<?= BASE_URL; ?>signalintegration/delete_signal_integration/<?= $integration_signals[0]['id']; ?>" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
-                                                <span class="fa fa-trash mr5"></span>
-                                                Módulo 3
-                                            </a>
-                                        </div>
-                                    <?php elseif (!empty($integration_signals) && count($integration_signals) > 1) : ?>
-                                        <div class="col-sm-2 col-md-2 p5">
-                                            <div class="btn-group">
-                                                <button type="button" class="fs14 btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <!-- Delete dados de módulos -->
+                            <?php if ($model1 == true || !empty($software_integrations) || !empty($integration_signals || !empty($parameters_integration))) : ?>
+                                <div class="section">
+                                    <div class="row text-center mb20">
+                                        <span class="panel-title">Deletar dados de Módulos</span>
+                                    </div>
+                                    <div class="row text-center table-columns" style="display: flex; justify-content: center; flex-wrap: wrap;">
+                                        <!-- Módulo 1 -->
+                                        <?php if ($model1 == true) : ?>
+                                            <div class="col-sm-2 col-md-2 p5">
+                                                <a href="<?= BASE_URL; ?>functionintegration/delete_function_integration/<?= $list_projects['id']; ?>" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
                                                     <span class="fa fa-trash mr5"></span>
-                                                    <b>Módulo 3</b>
-                                                    <span class="caret ml5"></span>
-                                                </button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <?php foreach ($integration_signals as $key => $value) : ?>
-                                                        <li>
-                                                            <a href="<?= BASE_URL; ?>signalintegration/delete_signal_integration/<?= $value['id']; ?>" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
-                                                                <span class="fa fa-trash mr5"></span>
-                                                                Processo <?= $value['id']; ?>
-                                                            </a>
-                                                        </li>
-                                                    <?php endforeach; ?>
-                                                </ul>
+                                                    Módulo 1
+                                                </a>
                                             </div>
-                                        </div>
-                                    <?php endif; ?>
+                                        <?php endif; ?>
 
-                                    <!-- Módulo 4 -->
-                                    <?php if (!empty($parameters_integration) && count($parameters_integration) == 1) : ?>
-                                        <div class="col-sm-2 col-md-2 p5">
-                                            <a href="<?= BASE_URL; ?>parametersintegration/delete_parameters_integration/<?= $parameters_integration[0]['id']; ?>" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
-                                                <span class="fa fa-trash mr5"></span>
-                                                Módulo 4
-                                            </a>
-                                        </div>
-                                    <?php elseif (!empty($parameters_integration) && count($parameters_integration) > 1) : ?>
-                                        <div class="col-sm-2 col-md-2 p5">
-                                            <div class="btn-group">
-                                                <button type="button" class="fs14 btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        <!-- Módulo 2 -->
+                                        <?php if (isset($software_integrations) && count($software_integrations) == 1) : ?>
+                                            <div class="col-sm-2 col-md-2 p5">
+                                                <a href="#" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
                                                     <span class="fa fa-trash mr5"></span>
-                                                    <b>Módulo 4</b>
-                                                    <span class="caret ml5"></span>
-                                                </button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <?php foreach ($parameters_integration as $key => $value) : ?>
-                                                        <li>
-                                                            <a href="<?= BASE_URL; ?>parametersintegration/delete_parameters_integration/<?= $value['id']; ?>" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
-                                                                <span class="fa fa-trash mr5"></span>
-                                                                Processo <?= $value['id']; ?>
-                                                            </a>
-                                                        </li>
-                                                    <?php endforeach; ?>
-                                                </ul>
+                                                    Módulo 2
+                                                </a>
                                             </div>
+                                        <?php endif; ?>
 
-                                        </div>
-                                    <?php endif; ?>
+                                        <!-- Módulo 3 -->
+                                        <?php if (!empty($integration_signals) && count($integration_signals) == 1) : ?>
+                                            <div class="col-sm-2 col-md-2 p5">
+                                                <a href="<?= BASE_URL; ?>signalintegration/delete_signal_integration/<?= $integration_signals[0]['id']; ?>" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
+                                                    <span class="fa fa-trash mr5"></span>
+                                                    Módulo 3
+                                                </a>
+                                            </div>
+                                        <?php elseif (!empty($integration_signals) && count($integration_signals) > 1) : ?>
+                                            <div class="col-sm-2 col-md-2 p5">
+                                                <div class="btn-group">
+                                                    <button type="button" class="fs14 btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                        <span class="fa fa-trash mr5"></span>
+                                                        <b>Módulo 3</b>
+                                                        <span class="caret ml5"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <?php foreach ($integration_signals as $key => $value) : ?>
+                                                            <li>
+                                                                <a href="<?= BASE_URL; ?>signalintegration/delete_signal_integration/<?= $value['id']; ?>" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
+                                                                    <span class="fa fa-trash mr5"></span>
+                                                                    Processo <?= $value['id']; ?>
+                                                                </a>
+                                                            </li>
+                                                        <?php endforeach; ?>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
 
-                                    <!-- Módulo 5 -->
-                                    <?php if (isset($model5)) : ?>
-                                        <div class="col-sm-2 col-md-2 p5">
-                                            <a href="#" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
-                                                <span class="fa fa-trash mr5"></span>
-                                                Módulo 5
-                                            </a>
-                                        </div>
-                                    <?php endif; ?>
+                                        <!-- Módulo 4 -->
+                                        <?php if (!empty($parameters_integration) && count($parameters_integration) == 1) : ?>
+                                            <div class="col-sm-2 col-md-2 p5">
+                                                <a href="<?= BASE_URL; ?>parametersintegration/delete_parameters_integration/<?= $parameters_integration[0]['id']; ?>" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
+                                                    <span class="fa fa-trash mr5"></span>
+                                                    Módulo 4
+                                                </a>
+                                            </div>
+                                        <?php elseif (!empty($parameters_integration) && count($parameters_integration) > 1) : ?>
+                                            <div class="col-sm-2 col-md-2 p5">
+                                                <div class="btn-group">
+                                                    <button type="button" class="fs14 btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                        <span class="fa fa-trash mr5"></span>
+                                                        <b>Módulo 4</b>
+                                                        <span class="caret ml5"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <?php foreach ($parameters_integration as $key => $value) : ?>
+                                                            <li>
+                                                                <a href="<?= BASE_URL; ?>parametersintegration/delete_parameters_integration/<?= $value['id']; ?>" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
+                                                                    <span class="fa fa-trash mr5"></span>
+                                                                    Processo <?= $value['id']; ?>
+                                                                </a>
+                                                            </li>
+                                                        <?php endforeach; ?>
+                                                    </ul>
+                                                </div>
 
-                                    <!-- Módulo 6 -->
-                                    <?php if (isset($model6)) : ?>
-                                        <div class="col-sm-2 col-md-2 p5">
-                                            <a href="#" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
-                                                <span class="fa fa-trash mr5"></span>
-                                                Módulo 6
-                                            </a>
-                                        </div>
-                                    <?php endif; ?>
+                                            </div>
+                                        <?php endif; ?>
+
+                                        <!-- Módulo 5 -->
+                                        <?php if (isset($model5)) : ?>
+                                            <div class="col-sm-2 col-md-2 p5">
+                                                <a href="#" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
+                                                    <span class="fa fa-trash mr5"></span>
+                                                    Módulo 5
+                                                </a>
+                                            </div>
+                                        <?php endif; ?>
+
+                                        <!-- Módulo 6 -->
+                                        <?php if (isset($model6)) : ?>
+                                            <div class="col-sm-2 col-md-2 p5">
+                                                <a href="#" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
+                                                    <span class="fa fa-trash mr5"></span>
+                                                    Módulo 6
+                                                </a>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php endif; ?>
 
                             <div class="section row">
                                 <label class="m10">Nome do Projeto:</label>

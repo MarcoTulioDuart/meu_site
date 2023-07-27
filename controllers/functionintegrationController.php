@@ -31,6 +31,11 @@ class functionintegrationController extends Controller
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
     }
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      //Session do Quarto Módulo
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
     //fim do básico
     $projects = new projects();
 
@@ -338,6 +343,11 @@ class functionintegrationController extends Controller
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
     }
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      //Session do Quarto Módulo
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
     //fim do básico
 
     //form 1 
@@ -390,6 +400,11 @@ class functionintegrationController extends Controller
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+    }
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      //Session do Quarto Módulo
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
     }
     //fim do básico
 
@@ -518,6 +533,7 @@ class functionintegrationController extends Controller
           $subject = "Uma reunião foi agendada!";
           $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
           O tema da reunião será: ' . $title . '. <br>
+          Os arquivos em anexo contém os resultados da etapa de Integração entre funções - Classificação de funções (Cliente e Serviço), Mensagens das funções, Descrição das funções e Mensagens em comum. <br>
           Para participar da reunião <a href="' . $link . '" target="_blank">Clique aqui</a>
           Aconselhamos que salve este email até o dia da reunião <br>';
 
@@ -561,6 +577,11 @@ class functionintegrationController extends Controller
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
     }
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      //Session do Quarto Módulo
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
     //fim do básico
 
     //Segundo resultado
@@ -596,6 +617,11 @@ class functionintegrationController extends Controller
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+    }
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      //Session do Quarto Módulo
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
     }
     //fim do básico
 
@@ -691,6 +717,11 @@ class functionintegrationController extends Controller
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+    }
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      //Session do Quarto Módulo
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
     }
     //fim do básico
 

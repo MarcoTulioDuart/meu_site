@@ -30,8 +30,13 @@ class projectController extends Controller
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
     }
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      //Session do Quarto Módulo
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
     //fim do básico
-    
+
     //form 2
 
     $ecu = new data_ecu();
@@ -134,6 +139,7 @@ class projectController extends Controller
 
   public function select_function_ecu()
   {
+    //form 2
     $filters = array();
     $list_ecu = new list_ecu();
 
@@ -147,8 +153,15 @@ class projectController extends Controller
         $data_ecu_id = $ecus[$i];
         $project_id = $_SESSION['project_proTSA'];
 
-        $list_ecu->add($ecu_id, $project_id, $data_ecu_id);
+        if ($list_ecu->getFunction($project_id, $ecu_id, $data_ecu_id)) {
+          setcookie("repeated_function", "Dentre as funções escolhidas foram encontradas uma ou mais funções já registradas neste projeto, escolha outras funções nesta ou em outra ECU, ou vá para o próximo formulário.", time() + 100);
+          header("Location: " . BASE_URL . "project?form=2");
+          exit;
+        } else {
+          $list_ecu->add($ecu_id, $project_id, $data_ecu_id);
+        }
       }
+      setcookie("repeated_function", "", time() - 100);
       header("Location: " . BASE_URL . "project?form=3");
       exit;
     }
@@ -156,6 +169,7 @@ class projectController extends Controller
 
   public function select_signal_can()
   {
+    //form 3
     $list_can = new list_can();
 
     if (isset($_POST['can_id']) && !empty($_POST['can_id'])) {
@@ -175,6 +189,7 @@ class projectController extends Controller
 
   public function select_parameters()
   {
+    //form 4
     $list_parameters = new list_parameters();
 
     if (isset($_POST['paramter_id']) && !empty($_POST['paramter_id'])) {
@@ -194,7 +209,7 @@ class projectController extends Controller
 
   public function select_all_parameters()
   {
-    //form 5
+    //form 4
     $filters = array();
     $parameters = new data_parameters();
     $list_parameters = new list_parameters();
@@ -215,9 +230,9 @@ class projectController extends Controller
     exit;
   }
 
-
   public function select_participants()
   {
+    //form 6
     $list_participants = new list_participants();
 
     if (isset($_POST['participant_id']) && !empty($_POST['participant_id'])) {
@@ -261,6 +276,11 @@ class projectController extends Controller
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
     }
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      //Session do Quarto Módulo
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
     //fim do básico
 
     $projects = new projects();
@@ -298,6 +318,11 @@ class projectController extends Controller
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+    }
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      //Session do Quarto Módulo
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
     }
     //fim do básico
 
@@ -358,7 +383,7 @@ class projectController extends Controller
     //5
 
     //6
-    
+
     //print_r(count($data['parameters_integration']));
     //exit;
 
@@ -390,6 +415,11 @@ class projectController extends Controller
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+    }
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      //Session do Quarto Módulo
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
     }
     //fim do básico
 

@@ -69,9 +69,7 @@
                             </form>
                         <?php endif; ?>
 
-
                         <!-- FORM 2 -->
-
 
                         <?php if (isset($_GET['form']) && $_GET['form'] == 2) : ?>
                             <div class="right">
@@ -100,6 +98,15 @@
                                 <span class="fa fa-circle-o"></span>
                             </div>
                             <div class="panel-body pn">
+                                <?php if (isset($_COOKIE["repeated_function"])) : ?>
+                                    <div class="text-center">
+                                        <div class="alert alert-danger alert-dismissable mb30 alert-block p15">
+                                            <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h3 class="mtn fs20 text-white">Erro</h3>
+                                            <p><?= $_COOKIE["repeated_function"]; ?></p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                                 <div class="section">
                                     <label>Selecione uma ECU:</label>
                                 </div>
@@ -166,9 +173,7 @@
                             </div>
                         <?php endif; ?>
 
-
                         <!-- FORM 3-->
-
 
                         <?php if (isset($_GET['form']) && $_GET['form'] == 3) : ?>
                             <div class="right">
@@ -284,9 +289,7 @@
                             </div>
                         <?php endif; ?>
 
-
                         <!-- FORM 4-->
-
 
                         <?php if (isset($_GET['form']) && $_GET['form'] == 4) : ?>
                             <div class="right">
