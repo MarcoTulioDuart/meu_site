@@ -122,6 +122,22 @@ class software_integrations extends Model
         }
     }
 
+    public function getId($project_id) {
+        $sql = "SELECT id
+        FROM software_integrations 
+        WHERE project_id = :project_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":project_id", $project_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return 0;
+        }
+    }
+
 
 
 }
