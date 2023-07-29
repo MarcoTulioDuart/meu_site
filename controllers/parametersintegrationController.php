@@ -51,10 +51,10 @@ class parametersintegrationController extends Controller
   {
     //form 1
 
-    if (isset($_POST['project_id']) && !empty($_POST['project_id'])) {
+    if (isset($_GET['project_id']) && !empty($_GET['project_id'])) {
 
       $parameters_integration = new parameters_integration();
-      $project_id = addslashes($_POST['project_id']);
+      $project_id = addslashes($_GET['project_id']);
       $_SESSION['parameters_project_id_proTSA'] = $project_id;
 
       $parameters_integration->add($project_id);
@@ -151,7 +151,7 @@ class parametersintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'parameters_integration';
+    $data['page'] = 'chooseResult';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
@@ -345,7 +345,6 @@ class parametersintegrationController extends Controller
     }
   }
 
-
   public function parameters_value_2()
   {
     //básico
@@ -450,7 +449,7 @@ class parametersintegrationController extends Controller
         }
       }
 
-      header("Location: " . BASE_URL . "functionintegration/second_result");
+      header("Location: " . BASE_URL . "parametersintegration/second_result");
       exit;
     }
   }
@@ -520,6 +519,8 @@ class parametersintegrationController extends Controller
     }
 
     //fim do básico
+
+    $data['project_id'] = $_SESSION['parameters_project_id_proTSA'];
 
     //template, view, data
     $this->loadTemplate("home", "parameters_integration/second_process", $data);

@@ -163,7 +163,6 @@ class signalintegrationController extends Controller
         header("Location: " . BASE_URL . "signalintegration/select_function_processing?form=4");
         exit;
       }
-      
     }
   }
 
@@ -799,11 +798,18 @@ class signalintegrationController extends Controller
     $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
     $list_signals_can = new list_signals_can();
     $list_signals_function = new list_signals_function();
+
     //Função de teste principal
 
     $data['main_function'] = $list_signals_function->getMainFunction($signal_integration_id); //pega a função principal do teste
     $le_main_id = $data['main_function']['le_id']; //id da função principal
     $data['signals_main'] = $list_signals_can->getAll($signal_integration_id, $le_main_id); //pega só os sinais em comum da função principal com a comum
+
+    //Função de teste comum
+
+    $data['commom_function'] = $list_signals_function->getCommomFunction($signal_integration_id); //pega a função comum do teste
+    $le_commom_id = $data['commom_function']['le_id']; //id da função comum
+    $data['signals_commom'] = $list_signals_can->getAll($signal_integration_id, $le_commom_id); //pega todos os sinais da função comum
 
     //template, view, data
     $this->loadTemplate("home", "signal_integration/second_result", $data);
@@ -832,8 +838,17 @@ class signalintegrationController extends Controller
     $le_main_id = $main_function['le_id']; //id da função principal
     $signals_main = $list_signals_can->getAll($signal_integration_id, $le_main_id); //pega só os sinais em comum da função principal com a comum
 
+    //Função de teste comum
+
+    $commom_function = $list_signals_function->getCommomFunction($signal_integration_id); //pega a função comum do teste
+    $le_commom_id = $commom_function['le_id']; //id da função comum
+    $signals_commom = $list_signals_can->getAll($signal_integration_id, $le_commom_id); //pega todos os sinais da função comum
+
     $pdf = file_get_contents(BASE_URL . "signalintegration/header_second_result");
 
+    $pdf .= '<div class="text-center mn pn">';
+    $pdf .= '<h5 class="text-primary mn pn">' . $main_function['e_name'] . ' : ' . $main_function['e_function'] . '</h5>';
+    $pdf .= '</div>';
     $pdf .= '<div class="panel mn pn">';
     $pdf .= '<div class="panel-body pn mn">';
     $pdf .= '<div class="table-responsive mtn pn">';
@@ -850,6 +865,61 @@ class signalintegrationController extends Controller
     $pdf .= '<tbody>';
 
     foreach ($signals_main as $key => $value) {
+      $pdf .= '<tr class="ph15">';
+      $pdf .= '<td class="text-center ph15">' . $value['c_name'] . '</td>';
+      $pdf .= '<td class="text-center ph15">' . $value['c_function'] . '</td>';
+      $pdf .= '<td class="text-center ph15">';
+      if ($value['ls_status'] == "null" || empty($value['ls_status'])) {
+        $pdf .= 'Sem status';
+      } else {
+        $pdf .= $value['ls_status'];
+      }
+      $pdf .= '</td>';
+      $pdf .= '<td class="text-center ph15">';
+      if (empty($value['ls_comment'])) {
+        $pdf .= 'Sem comentário';
+      } else {
+        $pdf .= $value['ls_comment'];
+      }
+      $pdf .= '</td>';
+      $pdf .= '<td class="text-center ph15">';
+      if ($value['ls_status'] == "valid") {
+        $pdf .= 'Prossiga com os testes';
+      } else if ($value['ls_status'] == "null" || empty($value['ls_status'])) {
+        $pdf .= 'O status não foi classificado, retorne ao primeira resultado e selecione o status do sinal';
+      } else {
+        $pdf .= 'Contatar o especialista responsável pelo sinal CAN';
+      }
+      $pdf .= '</td>';
+      $pdf .= '</tr>';
+    }
+    $pdf .= '</tbody>';
+    $pdf .= '</table>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+    $pdf .= '</div>';
+
+    //função comum
+
+    $pdf .= '<div class="text-center mn pn">';
+    $pdf .= '<h5 class="text-primary mn pn">' . $commom_function['e_name'] . ' : ' . $commom_function['e_function'] . '</h5>';
+    $pdf .= '</div>';
+    $pdf .= '<div class="panel mn pn">';
+    $pdf .= '<div class="panel-body pn mn">';
+    $pdf .= '<div class="table-responsive mtn pn">';
+    $pdf .= '<table class="table table-striped btn-gradient-grey mtn">';
+    $pdf .= '<thead class="mtn">';
+    $pdf .= '<tr class="mtn ph15">';
+    $pdf .= '<th class="text-center">Nome do sinal</th>';
+    $pdf .= '<th class="text-center">Descrição</th>';
+    $pdf .= '<th class="text-center">Status</th>';
+    $pdf .= '<th class="text-center">Comentário</th>';
+    $pdf .= '<th class="text-center">Recomendação</th>';
+    $pdf .= '</tr>';
+    $pdf .= '</thead>';
+    $pdf .= '<tbody>';
+
+    foreach ($signals_commom as $key => $value) {
       $pdf .= '<tr class="ph15">';
       $pdf .= '<td class="text-center ph15">' . $value['c_name'] . '</td>';
       $pdf .= '<td class="text-center ph15">' . $value['c_function'] . '</td>';
@@ -901,6 +971,14 @@ class signalintegrationController extends Controller
 
     $first_attachment = $_FILES['pdf_first_result'];
     $second_attachment = $_FILES['pdf_second_result'];
+    $third_attachment = $_FILES['can_trace']; //terceiro anexo
+
+    //array com anexos para a ferramenta dinâmixa futura
+    $attachmens = [
+      $_FILES['pdf_first_result'],
+      $_FILES['pdf_second_result'],
+      $_FILES['can_trace'],
+    ];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

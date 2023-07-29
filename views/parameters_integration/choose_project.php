@@ -38,7 +38,7 @@
                             <span class="fa fa-circle-o"></span>
                         </div>
 
-                        <form method="post" action="<?= BASE_URL; ?>parametersintegration/choose_project" id="form-order">
+                        <form method="get" action="<?= BASE_URL; ?>parametersintegration/choose_project" id="form-order">
                             <div class="panel-body pn">
                                 <div class="section row">
                                     <div class="col-md-12 ph10 mb5">

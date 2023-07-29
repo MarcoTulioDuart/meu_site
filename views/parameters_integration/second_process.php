@@ -10,7 +10,9 @@
             <li class="breadcrumb-icon breadcrumb-link">
                 <a href="<?= BASE_URL; ?>home/home_page">Início</a>
             </li>
-            <li class="breadcrumb-current-item">Integridade de Parâmetros</li>
+            <li class="breadcrumb-icon breadcrumb-link">
+                <a href="<?= BASE_URL; ?>parametersintegration/results">Resultados de Integridade de Parâmetro</a>
+            </li>
             <li class="breadcrumb-current-item">Segundo teste</li>
         </ol>
     </div>
@@ -49,7 +51,7 @@
                                         <a href="<?= BASE_URL; ?>parametersintegration/second_process?form=2" class="btn fs14 btn-primary">Sim</a>
                                     </div>
                                     <div class="col-md-6 ph10 mb5">
-                                        <a href="<?= BASE_URL; ?>parametersintegration/definition_vehicles" class="btn fs14 btn-primary">Não</a>
+                                        <a href="<?= BASE_URL; ?>parametersintegration/choose_project?project_id=<?= $project_id; ?>" class="btn fs14 btn-primary" onclick="return confirm('Deseja realmente fazer um novo teste? Você será redirecionado para o início do módulo para testar outras amostras no mesmo projeto.')">Não</a>
                                     </div>
                                 </div>
 
@@ -64,7 +66,7 @@
                             </div>
 
                             <div class="panel-body pn">
-
+                                Em Breve!
                             </div>
                         <?php endif; ?>
                     </div>

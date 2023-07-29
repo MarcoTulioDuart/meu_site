@@ -92,11 +92,11 @@
                             <div class="panel-body mt10">
                                 <div class="section row text-center">
                                     <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL;?>signalintegration/first_result" class="btn fs14 btn-primary">Primeiro Resultado</a>
+                                        <a href="<?= BASE_URL;?>signalintegration/first_result" class="btn fs14 btn-primary" title="Lista de sinais necessários de entrada e saída com resultados iniciais de match ou de disponibilidade na CAN.">Primeiro Resultado</a>
                                     </div>
 
                                     <div class="col-md-4 ph10 mb5">
-                                        <a href="<?= BASE_URL;?>signalintegration/second_result" class="btn fs14 btn-primary">Segundo Resultado</a>
+                                        <a href="<?= BASE_URL;?>signalintegration/second_result" class="btn fs14 btn-primary" title="Relatório de status de sinais CAN.">Segundo Resultado</a>
                                     </div>
                                 </div>
                             </div>

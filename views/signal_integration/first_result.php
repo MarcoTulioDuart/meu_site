@@ -62,11 +62,11 @@
                                                             <label class="field select">
                                                                 <select name="status[]" id="status">
                                                                     <option value="null" <?= ($value['ls_status'] == "null" || empty($value['ls_status'])) ? "selected" : ""; ?>>Escolha o status</option>
-                                                                    <option value="valid" <?= ($value['ls_status'] == "valid") ? "selected" : ""; ?>>Valido</option>
-                                                                    <option value="invalid" <?= ($value['ls_status'] == "invalid") ? "selected" : ""; ?>>Invalido</option>
-                                                                    <option value="error" <?= ($value['ls_status'] == "error") ? "selected" : ""; ?>>Erro</option>
-                                                                    <option value="not sure" <?= ($value['ls_status'] == "not sure") ? "selected" : ""; ?>>Não sei</option>
-                                                                    <option value="out of range" <?= ($value['ls_status'] == "out of range") ? "selected" : ""; ?>>Fora de alcance</option>
+                                                                    <option value="valid" <?= ($value['ls_status'] == "valid") ? "selected" : ""; ?>>Valid</option>
+                                                                    <option value="invalid" <?= ($value['ls_status'] == "invalid") ? "selected" : ""; ?>>Invalid</option>
+                                                                    <option value="error" <?= ($value['ls_status'] == "error") ? "selected" : ""; ?>>Error</option>
+                                                                    <option value="not sure" <?= ($value['ls_status'] == "not sure") ? "selected" : ""; ?>>Not sure</option>
+                                                                    <option value="out of range" <?= ($value['ls_status'] == "out of range") ? "selected" : ""; ?>>Out of range</option>
                                                                 </select>
                                                             </label>
                                                         </div>
@@ -110,11 +110,11 @@
                                                             <label class="field select">
                                                                 <select name="status[]" id="status">
                                                                     <option value="null" <?= ($value['ls_status'] == "null" || empty($value['ls_status'])) ? "selected" : ""; ?>>Escolha o status</option>
-                                                                    <option value="valid" <?= ($value['ls_status'] == "valid") ? "selected" : ""; ?>>Valido</option>
-                                                                    <option value="invalid" <?= ($value['ls_status'] == "invalid") ? "selected" : ""; ?>>Invalido</option>
-                                                                    <option value="error" <?= ($value['ls_status'] == "error") ? "selected" : ""; ?>>Erro</option>
-                                                                    <option value="not sure" <?= ($value['ls_status'] == "not sure") ? "selected" : ""; ?>>Não sei</option>
-                                                                    <option value="out of range" <?= ($value['ls_status'] == "out of range") ? "selected" : ""; ?>>Fora de alcance</option>
+                                                                    <option value="valid" <?= ($value['ls_status'] == "valid") ? "selected" : ""; ?>>Valid</option>
+                                                                    <option value="invalid" <?= ($value['ls_status'] == "invalid") ? "selected" : ""; ?>>Invalid</option>
+                                                                    <option value="error" <?= ($value['ls_status'] == "error") ? "selected" : ""; ?>>Error</option>
+                                                                    <option value="not sure" <?= ($value['ls_status'] == "not sure") ? "selected" : ""; ?>>Not sure</option>
+                                                                    <option value="out of range" <?= ($value['ls_status'] == "out of range") ? "selected" : ""; ?>>Out of range</option>
                                                                 </select>
                                                             </label>
                                                         </div>
