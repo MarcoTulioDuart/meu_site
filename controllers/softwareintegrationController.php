@@ -505,20 +505,20 @@ class softwareintegrationController extends Controller
   }
 
 
-  public function delete_software_integrations($id) //iD DO PROCESSO
+  public function delete_software_integrations($id, $project_id) //iD DO PROCESSO
   {
 
-    $list_signals_can = new list_signals_can;
-    $list_signals_function = new list_signals_function();
-    $integration_signals = new integration_signals();
+    $software_integrations = new software_integrations();
+    $releases_softwares = new releases_softwares();
+    $ecu_software_integrations = new ecu_software_integrations();
+    $diagram_hardware = new diagram_hardware();
 
-    $signal = $integration_signals->get($id); //PEGA ATRAVEZ DO ID DO PROCESSO, O ID DO PROJETO
-    
-    $list_signals_can->delete($id);
-    $list_signals_function->delete($id);
-    $integration_signals->delete($id);
+    $diagram_hardware->deleteBySoftwareIntegrationsId($id);
+    $ecu_software_integrations->deleteBySoftwareIntegrationsId($id);
+    $releases_softwares->deleteBySoftwareIntegrationsId($id);
+    $software_integrations->delete($id);
 
-    header("Location: " . BASE_URL . "project/project_view/" . $signal['lis_project_id']); //RETORNA A PAGINA COM O ID DO PROJETO
+    header("Location: " . BASE_URL . "project/project_view/" . $project_id); //RETORNA A PAGINA COM O ID DO PROJETO
     exit;
   }
 
