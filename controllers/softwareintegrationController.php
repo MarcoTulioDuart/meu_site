@@ -314,7 +314,8 @@ class softwareintegrationController extends Controller
       $meeting_participants = $list_participants->getAllParticipants($project_id);
 
       $data['info_software_integrations'] = $software_integrations->getByProjectId($project_id);
-    
+      
+      /* quando o file vim através de um array é necessáiro esse foreach */
       foreach ($data['info_software_integrations'] as $key => $value) {
         $attachmens[$key]['name'] = $_FILES['files_ecu']['name'][$key];
         $attachmens[$key]['full_path'] = $_FILES['files_ecu']['full_path'][$key];
@@ -325,7 +326,7 @@ class softwareintegrationController extends Controller
       }
     
       array_push($attachmens, $_FILES['releases_softwares']);
-
+      
       for ($i = 0; $i < count($meeting_participants); $i++) {
         $name = $meeting_participants[$i]['full_name'];
         $email = $meeting_participants[$i]['email'];

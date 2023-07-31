@@ -16,13 +16,13 @@ class site extends Model
             $mail->isSMTP();
             $mail->Host       = $this->config['hostmail']; //Servidor SMTP
             $mail->SMTPAuth   = true; //SMTP autenticação
-            $mail->Username   = $this->config['Username']; //SMTP username
+            $mail->Username   = $this->config['Usermail'];
             $mail->Password   = $this->config['Password']; //SMTP Senha
             $mail->SMTPSecure = 'ssl';
             $mail->Port       = 465; //Caso o SMTPSecure seja 'PHPMailer::ENCRYPTION_STARTTLS' use 587
 
             //Destinatário
-            $mail->setFrom($this->config['Username'], 'PROTSA'); //Quem está enviando
+            $mail->setFrom($this->config['Username'], $this->config['Username']); //Quem está enviando
             $mail->addAddress($email, $name); //Quem recebe
 
             //Conteudo do email
@@ -47,13 +47,13 @@ class site extends Model
             $mail->isSMTP();
             $mail->Host       = $this->config['hostmail']; //Servidor SMTP
             $mail->SMTPAuth   = true; //SMTP autenticação
-            $mail->Username   = $this->config['Username']; //SMTP username
+            $mail->Username   = $this->config['Usermail'];
             $mail->Password   = $this->config['Password']; //SMTP Senha
             $mail->SMTPSecure = 'ssl';
             $mail->Port       = 465; //Caso o SMTPSecure seja 'PHPMailer::ENCRYPTION_STARTTLS' use 587
 
             //Destinatário
-            $mail->setFrom($this->config['Username'], 'PROTSA'); //Quem está enviando
+            $mail->setFrom($this->config['Usermail'], $this->config['Username']); //Quem está enviando
             $mail->addAddress($email, $name); //Quem recebe
 
             //Conteudo do email
@@ -87,6 +87,7 @@ class site extends Model
     public function sendMessageAttachment($email, $name, $subject, $message, $attachmens)
     {
         $mail = new PHPMailer(true);
+
         try {
             //Configurações do servidor
             $mail->isSMTP();
@@ -113,8 +114,10 @@ class site extends Model
                 $mail->addAttachment($value['tmp_name'], $value['name']);
             }
             $mail->send();
+          
             return true;
         } catch (Exception $e) {
+           
             return false;
         }
     }
@@ -126,14 +129,14 @@ class site extends Model
             $mail->isSMTP();
             $mail->Host       = $this->config['hostmail']; //Servidor SMTP
             $mail->SMTPAuth   = true; //SMTP autenticação
-            $mail->Username   = $this->config['Username']; //SMTP username
+            $mail->Username   = $this->config['Usermail'];
             $mail->Password   = $this->config['Password']; //SMTP Senha
             $mail->SMTPSecure = 'ssl';
             $mail->Port       = 465; //Caso o SMTPSecure seja 'PHPMailer::ENCRYPTION_STARTTLS' use 587
 
             //Destinatário
             $mail->setFrom($email, $name); //Quem está enviando
-            $mail->addAddress($this->config['Username'], 'PROTSA'); //Quem recebe
+            $mail->addAddress($this->config['Usermail'], $this->config['Username']); //Quem recebe
 
             //Conteudo do email
             $mail->isHTML(true); //Se o email será em formato html
