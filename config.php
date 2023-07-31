@@ -19,6 +19,11 @@ if(ENVIRONMENT == 'development') {
 	$config['dbpass'] = '';
 }
 
+	$config['hostmail'] = "br968.hostgator.com.br";
+	$config['Usermail'] = 'contato@protsa.infocept.com.br';
+	$config['Password'] = 'infocept';
+	$config['Username'] = 'PROTSA';
+
 
 try {
     $db = new PDO("mysql:charset=utf8;host=" . $config['host'] . ";dbname=" . $config['dbname'], $config['dbuser'], $config['dbpass']);

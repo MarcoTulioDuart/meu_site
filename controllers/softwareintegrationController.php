@@ -316,14 +316,15 @@ class softwareintegrationController extends Controller
       $data['info_software_integrations'] = $software_integrations->getByProjectId($project_id);
     
       foreach ($data['info_software_integrations'] as $key => $value) {
-        $attachmens = $_FILES['files_ecu'];
+        $attachmens[$key]['name'] = $_FILES['files_ecu']['name'][$key];
+        $attachmens[$key]['full_path'] = $_FILES['files_ecu']['full_path'][$key];
+        $attachmens[$key]['type'] = $_FILES['files_ecu']['type'][$key];
+        $attachmens[$key]['tmp_name'] = $_FILES['files_ecu']['tmp_name'][$key];
+        $attachmens[$key]['error'] = $_FILES['files_ecu']['error'][$key];
+        $attachmens[$key]['size'] = $_FILES['files_ecu']['size'][$key];        
       }
-
+    
       array_push($attachmens, $_FILES['releases_softwares']);
-
-      echo "<pre>";
-      print_r($attachmens);
-      exit;
 
       for ($i = 0; $i < count($meeting_participants); $i++) {
         $name = $meeting_participants[$i]['full_name'];
@@ -344,7 +345,7 @@ class softwareintegrationController extends Controller
 
         $message .= 'Aguardamos sua presença na reunião!';
 
-        $site->sendMessegeAttachment($email, $name, $subject, $message, $attachmens);
+        $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
       }
 
       if (isset($_POST['participant']) && !empty($_POST['participant'])) {
@@ -368,11 +369,11 @@ class softwareintegrationController extends Controller
           }
 
           $message .= 'Aguardamos sua presença na reunião!';
-          $site->sendMessegeAttachment($email, $name, $subject, $message, $attachmens);
+          $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
         }
       }
 
-      header("Location: " . BASE_URL . "functionintegration/second_result");
+      header("Location: " . BASE_URL . "softwareintegration/meeting?project_id=" . $project_id);
       exit;
     }
 
