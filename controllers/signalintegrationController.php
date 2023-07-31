@@ -969,10 +969,6 @@ class signalintegrationController extends Controller
     $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
     $project_id = $integration_signals->get($signal_integration_id);
 
-    $first_attachment = $_FILES['pdf_first_result'];
-    $second_attachment = $_FILES['pdf_second_result'];
-    $third_attachment = $_FILES['can_trace']; //terceiro anexo
-
     //array com anexos para a ferramenta dinâmixa futura
     $attachmens = [
       $_FILES['pdf_first_result'],
@@ -998,7 +994,7 @@ class signalintegrationController extends Controller
           $message .= '<br>' . $recommendation;
         }
 
-        $site->sendMessegeTwoAttachment($email, $name, $subject, $message, $first_attachment, $second_attachment);
+        $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
       }
 
       if (isset($_POST['participant']) && !empty($_POST['participant'])) {
@@ -1018,7 +1014,7 @@ class signalintegrationController extends Controller
             $message .= '<br>' . $recommendation;
           }
 
-          $site->sendMessegeTwoAttachment($email, $name, $subject, $message, $first_attachment, $second_attachment);
+          $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
         }
       }
 

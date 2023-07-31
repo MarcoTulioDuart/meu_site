@@ -496,9 +496,10 @@ class functionintegrationController extends Controller
       $list_participants = new list_participants();
       $meeting_participants = $list_participants->getAllParticipants($project_id);
 
-      $firt_result = $_FILES['pdf_first_result'];
-
-      $especifications = $_FILES['especifications'];
+      $attachmens = [
+        $_FILES['pdf_first_result'],
+        $_FILES['especifications'],
+      ];
 
       for ($i = 0; $i < count($meeting_participants); $i++) {
         $name = $meeting_participants[$i]['full_name'];
@@ -519,7 +520,7 @@ class functionintegrationController extends Controller
 
         $message .= 'Aguardamos sua presença na reunião!';
 
-        $site->sendMessegeTwoAttachment($email, $name, $subject, $message, $especifications, $firt_result);
+        $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
       }
 
       if (isset($_POST['participant']) && !empty($_POST['participant'])) {
@@ -544,7 +545,7 @@ class functionintegrationController extends Controller
           }
 
           $message .= 'Aguardamos sua presença na reunião!';
-          $site->sendMessegeTwoAttachment($email, $name, $subject, $message, $especifications, $firt_result);
+          $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
         }
       }
 
@@ -694,6 +695,7 @@ class functionintegrationController extends Controller
       exit;
     }
   }
+
   public function third_result()
   {
     //básico

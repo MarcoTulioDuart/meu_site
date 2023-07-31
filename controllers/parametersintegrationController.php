@@ -378,7 +378,7 @@ class parametersintegrationController extends Controller
     $data_parameters_aplicate = new data_parameters_aplicate();
     $project_id = $_SESSION['parameters_project_id_proTSA'];
     $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
-    
+
     if (isset($_FILES['library']) && !empty($_FILES['library'])) {
       $file = new DOMDocument();
       $file->load($_FILES['library']['tmp_name']);
@@ -409,10 +409,11 @@ class parametersintegrationController extends Controller
     //template, view, data
     $this->loadTemplate("home", "parameters_integration/parameters_value/refe_value_2", $data);
   }
+
   public function add_meeting()
   {
     $meetings = new meetings();
-    $project_id = $_SESSION['integration_id_proTSA'];
+    $project_id = $_SESSION['parameters_project_id_proTSA'];;
 
     if (!empty($_POST['title']) && !empty($_POST['date_meeting']) && !empty($_POST['participant'])) {
       $title = addslashes($_POST['title']);
@@ -486,7 +487,59 @@ class parametersintegrationController extends Controller
 
 
     //template, view, data
-    $this->loadTemplate("home", "parameters_integration/second_result", $data);
+    $this->loadTemplate("home", "parameters_integration/second_result/choose_format", $data);
+  }
+
+  public function formatted_table()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'first_result';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
+      unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
+
+    $list_parameters_compare = new list_parameters_compare();
+    $project_id = $_SESSION['parameters_project_id_proTSA'];
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
+
+    /* Ainda em produção!
+    
+    if ($_GET['format'] == "like") {
+      $data['title_format'] = "em comum";
+      $filters['format'] = "LIKE";
+      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $filters);
+
+    } elseif($_GET['format'] == "unlike") {
+      $data['title_format'] = "diferentes";
+      $filters['format'] = "!LIKE";
+      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $filters);
+    }*/
+    
+
+    //template, view, data
+    $this->loadTemplate("home", "parameters_integration/second_result/formatted_table", $data);
   }
 
   public function second_process()

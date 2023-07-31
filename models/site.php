@@ -39,51 +39,6 @@ class site extends Model
         }
     }
 
-    public function sendMessegeTwoAttachment($email, $name, $subject, $message, $first_attachment, $second_attachment)
-    {
-        $mail = new PHPMailer(true);
-        try {
-            //Configurações do servidor
-            $mail->isSMTP();
-            $mail->Host       = $this->config['hostmail']; //Servidor SMTP
-            $mail->SMTPAuth   = true; //SMTP autenticação
-            $mail->Username   = $this->config['Usermail'];
-            $mail->Password   = $this->config['Password']; //SMTP Senha
-            $mail->SMTPSecure = 'ssl';
-            $mail->Port       = 465; //Caso o SMTPSecure seja 'PHPMailer::ENCRYPTION_STARTTLS' use 587
-
-            //Destinatário
-            $mail->setFrom($this->config['Usermail'], $this->config['Username']); //Quem está enviando
-            $mail->addAddress($email, $name); //Quem recebe
-
-            //Conteudo do email
-            $mail->isHTML(true); //Se o email será em formato html
-            $mail->Subject = $subject;
-            $mail->Body    = $message; //A mensagem do body pode ser feita com tags html <b>in bold!</b>
-            // $mail->AltBody = 'A mensagem não possui estilização em html, mas as chances do email não se tornar um spam são maiores';
-            $mail->CharSet = 'UTF-8';
-
-            //Especificações de funções
-
-            $first_attachment_Path = $first_attachment['tmp_name']; // Caminho temporário do arquivo enviado
-            $first_attachment_Name = $first_attachment['name']; // Nome original do arquivo enviado
-
-            $mail->addAttachment($first_attachment_Path, $first_attachment_Name); // Adiciona o arquivo como anexo
-
-            //Paginá de primeiro resultado
-
-            $second_attachment_Path = $second_attachment['tmp_name']; // Caminho temporário do arquivo enviado
-            $second_attachment_Name = $second_attachment['name']; // Nome original do arquivo enviado
-
-            $mail->addAttachment($second_attachment_Path, $second_attachment_Name); // Adiciona o arquivo como anexo
-
-            $mail->send();
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
     public function sendMessageAttachment($email, $name, $subject, $message, $attachmens)
     {
         $mail = new PHPMailer(true);
@@ -110,17 +65,18 @@ class site extends Model
             $mail->CharSet = 'UTF-8';
 
             //Especificações de funções
-            foreach($attachmens as $key => $value){
+            foreach ($attachmens as $key => $value) {
                 $mail->addAttachment($value['tmp_name'], $value['name']);
             }
             $mail->send();
-          
+
             return true;
         } catch (Exception $e) {
-           
+
             return false;
         }
     }
+
     public function receiveMessage($email, $name, $subject, $message)
     {
         $mail = new PHPMailer(true);
@@ -219,7 +175,7 @@ class site extends Model
     }
 
     public function uploadPdf($dir, $file, $location, $delete = false)
-    {   
+    {
         if ($delete == true && file_exists($dir)) {
             $this->deleteDirectory($dir);
         }
@@ -335,7 +291,6 @@ class site extends Model
         else return $years == 1 ? 'um ano atrás' : $years . ' anos atrás';
     }
 
-
     public function slug_generator($string)
     { //gerador de slug(nickname)
         $string = preg_replace("/[áàâãä]/", "a", $string);
@@ -362,9 +317,8 @@ class site extends Model
 
         $mpdf = new \Mpdf\Mpdf($guidance);
         $mpdf->WriteHTML($pdf);
-        $mpdf->Output($name_file, 'D');//nome do arquivo e ação (D download, i abra no browser, )
+        $mpdf->Output($name_file, 'D'); //nome do arquivo e ação (D download, i abra no browser, )
     }
-
 
     public function create_PDF_landscape($pdf, $name_file)
     {
