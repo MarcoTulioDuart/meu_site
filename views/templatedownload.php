@@ -18,8 +18,7 @@
     <!-- CSS - allcp forms -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/allcp/forms/css/forms.css">
     <!-- mCustomScrollbar -->
-    <link rel="stylesheet" type="text/css"
-        href="<?= BASE_URL; ?>assets/js/utility/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/js/utility/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.min.css">
     <!-- CSS - theme -->
     <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/skin/default_skin/less/theme.css">
     <!-- c3charts -->
@@ -27,15 +26,14 @@
     <!-- jQuery -->
 
     <script>
-    var BASE_URL = '<?= BASE_URL; ?>';
+        var BASE_URL = '<?= BASE_URL; ?>';
     </script>
     <?php if ($viewData['page'] == 'first_result' || $viewData['page'] == 'chooseResult') : ?>
-    <!-- Datetimepicker CSS -->
-    <link rel="stylesheet" type="text/css"
-        href="<?= BASE_URL; ?>assets/js/plugins/datepicker/css/bootstrap-datetimepicker.css">
+        <!-- Datetimepicker CSS -->
+        <link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>assets/js/plugins/datepicker/css/bootstrap-datetimepicker.css">
     <?php endif; ?>
     <?php if ($viewData['page'] == 'edit_meeting') : ?>
-    <!-- X-edit CSS -->
+        <!-- X-edit CSS -->
     <?php endif; ?>
 
     <script src="<?= BASE_URL; ?>assets/js/pages/validation/jquery-3.6.2.min.js"></script>
@@ -50,16 +48,16 @@
 
     <!-- Body Wrap -->
     <div id="main">
-      
-   
-            <section class="content_container">
-                <?php $this->loadViewInTemplate($viewName, $viewData); ?>
-                <!-- aqui chamamos nossa view -->
 
-               
-                <!-- /Page Footer -->
-            </section>
-        
+
+        <section class="content_container">
+            <?php $this->loadViewInTemplate($viewName, $viewData); ?>
+            <!-- aqui chamamos nossa view -->
+
+
+            <!-- /Page Footer -->
+        </section>
+
         <!-- /Main Wrapper -->
     </div>
     <!-- /Body Wrap  -->
@@ -67,34 +65,34 @@
     <!-- Validates -->
 
     <?php if ($viewData['page'] == 'new_password') : ?>
-    <script src="<?= BASE_URL; ?>assets/js/pages/validation/new_password.js"></script>
+        <script src="<?= BASE_URL; ?>assets/js/pages/validation/new_password.js"></script>
     <?php elseif (isset($viewData['form']) && $viewData['form'] == 'project_3') : ?>
-    <script src="<?= BASE_URL; ?>assets/js/search_can.js"></script>
+        <script src="<?= BASE_URL; ?>assets/js/search_can.js"></script>
     <?php elseif (isset($viewData['form']) && $viewData['form'] == 'project_4') : ?>
-    <script src="<?= BASE_URL; ?>assets/js/search_parameter.js"></script>
+        <script src="<?= BASE_URL; ?>assets/js/search_parameter.js"></script>
     <?php elseif ($viewData['page'] == 'first_result' || $viewData['page'] == 'chooseResult') : ?>
-    <!-- Date/Month - Pickers -->
-    <script src="<?= BASE_URL; ?>assets/js/plugins/globalize/globalize.min.js"></script>
-    <script src="<?= BASE_URL; ?>assets/js/plugins/moment/moment.min.js"></script>
-    <script src="<?= BASE_URL; ?>assets/js/plugins/datepicker/js/bootstrap-datetimepicker.min.js"></script>
-    <!-- BS Dual Listbox JS -->
-    <script src="<?= BASE_URL; ?>assets/js/plugins/duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
-    <!-- Bootstrap Maxlength JS -->
-    <script src="<?= BASE_URL; ?>assets/js/plugins/maxlength/bootstrap-maxlength.min.js"></script>
-    <!-- Select2 JS -->
-    <script src="<?= BASE_URL; ?>assets/js/plugins/select2/select2.min.js"></script>
-    <!-- Typeahead JS -->
-    <script src="<?= BASE_URL; ?>assets/js/plugins/typeahead/typeahead.bundle.min.js"></script>
-    <!-- TagManager JS -->
-    <script src="<?= BASE_URL; ?>assets/js/plugins/tagmanager/tagmanager.js"></script>
-    <!-- DateRange JS -->
-    <script src="<?= BASE_URL; ?>assets/js/plugins/daterange/daterangepicker.min.js"></script>
-    <!-- BS Colorpicker JS -->
-    <script src="<?= BASE_URL; ?>assets/js/plugins/colorpicker/js/bootstrap-colorpicker.min.js"></script>
-    <!-- MaskedInput JS -->
-    <script src="<?= BASE_URL; ?>assets/js/plugins/jquerymask/jquery.maskedinput.min.js"></script>
-    <!-- Theme Scripts -->
-    <script src="<?= BASE_URL; ?>assets/js/pages/user-forms-additional-inputs.js"></script>
+        <!-- Date/Month - Pickers -->
+        <script src="<?= BASE_URL; ?>assets/js/plugins/globalize/globalize.min.js"></script>
+        <script src="<?= BASE_URL; ?>assets/js/plugins/moment/moment.min.js"></script>
+        <script src="<?= BASE_URL; ?>assets/js/plugins/datepicker/js/bootstrap-datetimepicker.min.js"></script>
+        <!-- BS Dual Listbox JS -->
+        <script src="<?= BASE_URL; ?>assets/js/plugins/duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+        <!-- Bootstrap Maxlength JS -->
+        <script src="<?= BASE_URL; ?>assets/js/plugins/maxlength/bootstrap-maxlength.min.js"></script>
+        <!-- Select2 JS -->
+        <script src="<?= BASE_URL; ?>assets/js/plugins/select2/select2.min.js"></script>
+        <!-- Typeahead JS -->
+        <script src="<?= BASE_URL; ?>assets/js/plugins/typeahead/typeahead.bundle.min.js"></script>
+        <!-- TagManager JS -->
+        <script src="<?= BASE_URL; ?>assets/js/plugins/tagmanager/tagmanager.js"></script>
+        <!-- DateRange JS -->
+        <script src="<?= BASE_URL; ?>assets/js/plugins/daterange/daterangepicker.min.js"></script>
+        <!-- BS Colorpicker JS -->
+        <script src="<?= BASE_URL; ?>assets/js/plugins/colorpicker/js/bootstrap-colorpicker.min.js"></script>
+        <!-- MaskedInput JS -->
+        <script src="<?= BASE_URL; ?>assets/js/plugins/jquerymask/jquery.maskedinput.min.js"></script>
+        <!-- Theme Scripts -->
+        <script src="<?= BASE_URL; ?>assets/js/pages/user-forms-additional-inputs.js"></script>
 
     <?php endif; ?>
 
@@ -104,8 +102,7 @@
     <script src="<?= BASE_URL; ?>assets/fonts/animatedsvgicons/js/svgicons.js"></script>
     <script src="<?= BASE_URL; ?>assets/fonts/animatedsvgicons/js/svgicons-init.js"></script>
     <!-- Scroll -->
-    <script
-        src="<?= BASE_URL; ?>assets/js/utility/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js">
+    <script src="<?= BASE_URL; ?>assets/js/utility/malihu-custom-scrollbar-plugin-master/jquery.mCustomScrollbar.concat.min.js">
     </script>
     <!-- HighCharts Plugin -->
     <script src="<?= BASE_URL; ?>assets/js/plugins/highcharts/highcharts.js"></script>

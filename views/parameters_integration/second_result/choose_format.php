@@ -38,10 +38,10 @@
                         <div class="panel-body">
                             <div class="section row text-center">
                                 <div class="col-md-6 ph10">
-                                    <a href="<?= BASE_URL; ?>parametersintegration/formatted_table?format=like" class="btn fs14 btn-primary">Segundo Teste</a>
+                                    <a href="<?= BASE_URL; ?>parametersintegration/formatted_table?format=like" class="btn fs14 btn-primary">Parâmetros em comum</a>
                                 </div>
                                 <div class="col-md-6 ph10">
-                                    <a href="<?= BASE_URL; ?>parametersintegration/formatted_table?format=unlike" class="btn fs14 btn-primary">Segundo Teste</a>
+                                    <a href="<?= BASE_URL; ?>parametersintegration/formatted_table?format=unlike" class="btn fs14 btn-primary">Parâmetros diferentes</a>
                                 </div>
                             </div>
                         </div>

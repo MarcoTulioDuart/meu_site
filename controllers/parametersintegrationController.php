@@ -241,53 +241,26 @@ class parametersintegrationController extends Controller
     $this->loadTemplate("home", "parameters_integration/first_result", $data);
   }
 
-  public function header_first_result()
-  {
-    $data  = array();
-
-    $this->loadView("parameters_integration/first_download/header", $data);
-  }
-
-  public function footer_first_result()
-  {
-    $data  = array();
-
-    $this->loadView("parameters_integration/first_download/footer", $data);
-  }
-
   public function download_first_result()
   {
-    $list_parameters_vehicles = new list_parameters_vehicles();
+    $data  = array();
+
+    $data['page'] = 'first_result';
     $site = new site();
+    $list_parameters_vehicles = new list_parameters_vehicles();
     $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
 
-    $list_vehicles = $list_parameters_vehicles->getAllProcess($parameters_integration_id);
+    $data['list_classification_vehicles'] = $list_parameters_vehicles->getAllProcess($parameters_integration_id);
 
-    $pdf = file_get_contents(BASE_URL . "parametersintegration/header_first_result");
-
-    $pdf .= '<div class="section row mtn">';
-    $pdf .= '<div class="tab-block">';
-    $pdf .= '<div class="tab-content">';
-    foreach ($list_vehicles as $key => $value) {
-      $pdf .= '<p class="ph20 pb10 fs20 text-center ';
-
-      if ($key == 0) {
-        $pdf .= 'text-primary';
-      }
-
-      $pdf .= '">';
-      $pdf .= $key + 1 . 'º ' . $value['name_vehicle'] . '</p>';
-      $pdf .= '<p class="text-center mb20">Total: ' . $value['total_score'] . ' pts</p>';
-    }
-    $pdf .= '</div>';
-    $pdf .= '</div>';
-    $pdf .= '</div>';
-
-    $pdf .= file_get_contents(BASE_URL . "parametersintegration/footer_first_result");
-    //Criar PDF
+    ob_start();//inicia a inclusão da view na memória
+    $this->loadTemplate("download", "parameters_integration/downloads/first_download", $data);
+    $html = ob_get_contents();//armazena a view invés de mostrar
+    ob_end_clean();//finaliza a inclusão da view na memória
 
     $name_file = 'primeiro-resultado-Modulo-4.pdf';
-    $site->create_PDF_landscape($pdf, $name_file);
+    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-P', 'orientation' => 'P']);
+    exit;
+
   }
 
   public function parameters_value_1()
@@ -524,22 +497,64 @@ class parametersintegrationController extends Controller
     $project_id = $_SESSION['parameters_project_id_proTSA'];
     $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
 
-    /* Ainda em produção!
+    
     
     if ($_GET['format'] == "like") {
       $data['title_format'] = "em comum";
-      $filters['format'] = "LIKE";
+
+      $filters['format'] = 'LIKE';
+  
       $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $filters);
 
     } elseif($_GET['format'] == "unlike") {
       $data['title_format'] = "diferentes";
-      $filters['format'] = "!LIKE";
+      
+      $filters['format'] = "NOT LIKE";
+ 
       $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $filters);
-    }*/
+    }
     
 
     //template, view, data
     $this->loadTemplate("home", "parameters_integration/second_result/formatted_table", $data);
+  }
+  
+  public function second_download()
+  {
+    $data  = array();
+    $filters = array();
+
+    $data['page'] = 'first_result';
+
+    //fim do básico
+    $site = new site();
+    $list_parameters_compare = new list_parameters_compare();
+    $project_id = $_SESSION['parameters_project_id_proTSA'];
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
+
+    if ($_GET['format'] == "like") {
+      $data['title_format'] = "em comum";
+
+      $filters['format'] = 'LIKE';
+  
+      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $filters);
+
+    } elseif($_GET['format'] == "unlike") {
+      $data['title_format'] = "diferentes";
+      
+      $filters['format'] = "NOT LIKE";
+ 
+      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $filters);
+    }
+    
+    ob_start();//inicia a inclusão da view na memória
+    $this->loadTemplate("download", "parameters_integration/downloads/second_download", $data);
+    $html = ob_get_contents();//armazena a view invés de mostrar
+    ob_end_clean();//finaliza a inclusão da view na memória
+
+    $name_file = 'segundo-resultado-Modulo-4.pdf';
+    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-L', 'orientation' => 'L']);
+    exit;
   }
 
   public function second_process()

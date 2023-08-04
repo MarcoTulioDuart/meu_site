@@ -320,13 +320,4 @@ class site extends Model
         $mpdf->Output($name_file, 'D'); //nome do arquivo e ação (D download, i abra no browser, )
     }
 
-    public function create_PDF_landscape($pdf, $name_file)
-    {
-
-        $mpdf = new \Mpdf\Mpdf([
-            'orientation' => 'L' // Define a orientação como paisagem
-        ]);
-        $mpdf->WriteHTML($pdf);
-        $mpdf->Output($name_file, 'D');
-    }
 }

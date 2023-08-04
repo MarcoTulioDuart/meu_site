@@ -115,7 +115,7 @@
                                     <div class="col-md-6 ph10">
                                         <div id="animation-switcher" class="ph20">
                                             <div class="col-xs-12 col-sm-4 text-right">
-                                                <a class="holder-active" href="#modal-form">
+                                                <a class="holder-active" href="#modal-form" title="Reunião / workshop entre fornecedores e montadora baseado nas planilhas do passo anterior.">
                                                     <button class="btn btn-primary btn-bordered" data-effect="mfp-zoomIn">
                                                         <b>AGENDAR REUNIÃO</b>
                                                     </button>

@@ -46,7 +46,7 @@
                                 <div class="section row">
                                     <h5 class="text-center">Os testes feitos no processamento inicial foram suficientes?</h5>
                                 </div>
-                                <div class="section row">
+                                <div class="section row text-center">
                                     <div class="col-md-6 ph10 mb5">
                                         <a href="<?= BASE_URL; ?>parametersintegration/second_process?form=2" class="btn fs14 btn-primary">Sim</a>
                                     </div>

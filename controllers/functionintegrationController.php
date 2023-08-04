@@ -435,6 +435,48 @@ class functionintegrationController extends Controller
     $this->loadTemplate("home", "function_integration/first_result", $data);
   }
 
+  public function download_first_result()
+  {
+    $data  = array();
+    $data['page'] = 'first_result';
+
+    //Primeiro resultado
+    $project_id = $_SESSION['integration_id_proTSA'];
+    $function_classification = new function_classification();
+
+    $data['classifica'] = $function_classification->getCustomer($project_id);
+
+    if (isset($_POST['function_id']) && !empty($_POST['function_id'])) {
+      $integration_ecu_id = $_POST['function_id'];
+      $classification = "Função Serviço";
+
+      $function_classification->correctCustomer($classification, $integration_ecu_id, $project_id);
+      header("Location: " . BASE_URL . "functionintegration/first_result");
+      exit;
+    }
+
+    $points = new points();
+    $points_id = 1;
+    $data['list_classification'] = $function_classification->getResult($project_id);
+    $data['list_points'] = $points->get($points_id);
+
+    $list_integration_can = new list_integration_can();
+    $data['list_commom_signals'] = $list_integration_can->commomMessages($project_id);
+
+    //Primeiro Pdf Download
+    $site = new site();
+
+    ob_start(); //inicia a inclusão da view na memória
+    $this->loadTemplate("download", "function_integration/downloads/first_download", $data);
+    $html = ob_get_contents(); //armazena a view invés de mostrar
+    ob_end_clean(); //finaliza a inclusão da view na memória
+
+    $name_file = 'primeiro-resultado-Modulo-1.pdf';
+    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-P', 'orientation' => 'P']);
+    exit;
+
+  }
+
   public function download_especifications()
   {
     $project_id = $_SESSION['integration_id_proTSA'];
@@ -588,8 +630,9 @@ class functionintegrationController extends Controller
     //Segundo resultado
     $project_id = $_SESSION['integration_id_proTSA'];
     $meetings = new meetings();
+    $filters['model'] = 1;
 
-    $data['list_meeting'] = $meetings->getAll($project_id);
+    $data['list_meeting'] = $meetings->getAll($project_id, $filters);
 
     //template, view, data
     $this->loadTemplate("home", "function_integration/second_result", $data);
@@ -606,7 +649,7 @@ class functionintegrationController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'parameters_integration';
+    $data['page'] = 'function_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
@@ -640,6 +683,27 @@ class functionintegrationController extends Controller
 
     //template, view, data
     $this->loadTemplate("home", "function_integration/response_meeting", $data);
+  }
+
+  public function download_second_result($id_meeting)
+  {
+    $data  = array();
+    $data['page'] = 'first_result';
+
+    $meetings = new meetings();
+    $data['list'] = $meetings->get($id_meeting);
+
+    //segundo Pdf Download
+    $site = new site();
+
+    ob_start(); //inicia a inclusão da view na memória
+    $this->loadTemplate("download", "function_integration/downloads/second_download", $data);
+    $html = ob_get_contents(); //armazena a view invés de mostrar
+    ob_end_clean(); //finaliza a inclusão da view na memória
+
+    $name_file = 'segundo-resultado-Modulo-1.pdf';
+    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-P', 'orientation' => 'P']);
+    exit;
   }
 
   public function send_sencond_result()
@@ -834,152 +898,6 @@ class functionintegrationController extends Controller
       header("Location: " . BASE_URL . "functionintegration/third_result");
       exit;
     }
-  }
-
-  public function header_first_result()
-  {
-    $data  = array();
-
-    $this->loadView("function_integration/first_download/header_download", $data);
-  }
-
-  public function footer_first_result()
-  {
-    $data  = array();
-
-    $this->loadView("function_integration/first_download/footer_download", $data);
-  }
-
-  public function download_first_result()
-  {
-    $data  = array();
-
-    //Primeiro Pdf Download
-    $site = new site();
-
-    //Dados
-    $project_id = $_SESSION['integration_id_proTSA'];
-    $function_classification = new function_classification();
-
-    $points = new points();
-    $points_id = 1;
-    $list_classification = $function_classification->getResult($project_id);
-    $list_points = $points->get($points_id);
-
-    $list_integration_can = new list_integration_can();
-    $list_commom_signals = $list_integration_can->commomMessages($project_id);
-
-    //view
-
-    $pdf = file_get_contents(BASE_URL . "functionintegration/header_first_result");
-    $pdf .= '<div class="panel-heading text-center">';
-    $pdf .= '<h4>As funções foram Classificadas:</h4>';
-    $pdf .= '</div>';
-    $pdf .= '<div class="panel-body mtn">';
-
-    foreach ($list_classification as $key => $value) {
-      $pdf .= '<div class="section row text-center">';
-      $pdf .= '<div class="col-md-12">';
-
-      $pdf .= '<h5 class="';
-      if ($value['fc_classification'] == "Função Cliente") {
-        $pdf .= 'text-primary';
-      } else {
-        $pdf .= 'text-system';
-      }
-      $pdf .= '">';
-      $pdf .= $value['fc_classification'] . ' : ' . $value['e_function'];
-      $pdf .= '</h5>';
-      $pdf .= '<p class="text-muted">Pontuação: ' . number_format($value['fc_score'], 1, ",", ".") . '</p>';
-      $pdf .= '</div>';
-      $pdf .= '</div>';
-      $pdf .= '<div class="section row mtn">';
-      $pdf .= '<div class="tab-block">';
-      $pdf .= '<h6 class="text-center mtn mb20">Sinais relacionados com a Função</h6>';
-      $pdf .= '<div class="tab-content mh-200">';
-      $pdf .= '<p class="ph20">' . $value['signals'] . '</p>';
-      $pdf .= '</div>';
-      $pdf .= '</div>';
-      $pdf .= '</div>';
-      $pdf .= '<div class="section row">';
-      $pdf .= '<div class="tab-block">';
-      $pdf .= '<h6 class="text-center mtn mb20">Descrição da função</h6>';
-      $pdf .= '<div class="tab-content">';
-      $pdf .= '<ul>';
-      $pdf .= '<li class="p5 pb10">';
-      if ($value['question_1'] == $list_points['point_question_1']) {
-        $pdf .= 'Função série';
-      } else {
-        $pdf .= 'Função opcional';
-      }
-      $pdf .= '</li>';
-      $pdf .= '<li class="p5 pb10">';
-      if ($value['question_2'] == $list_points['point_question_2']) {
-        $pdf .= 'Há indicação no painel de instrumentos';
-      } else {
-        $pdf .= 'Não há indicação no painel de instrumentos';
-      }
-      $pdf .= '</li>';
-      $pdf .= '<li class="p5 pb10">';
-      if ($value['question_3'] == $list_points['point_question_3']) {
-        $pdf .= 'Há impacto em homologação';
-      } else {
-        $pdf .= 'Não há impacto em homologação';
-      }
-      $pdf .= '</li>';
-      $pdf .= '</ul>';
-      $pdf .= '</div>';
-      $pdf .= '</div>';
-      $pdf .= '</div>';
-      $pdf .= '<hr>';
-    }
-
-    $pdf .= '<div class="section row mtn">';
-    $pdf .= '<div class="tab-block">';
-    $pdf .= '<h6 class="text-center mtn mb20">Mensagens em comum:</h6>';
-    $pdf .= '<p class="text-center text-muted">Nome do sinal ➠ ECU: Função</p>';
-    $pdf .= '<div class="tab-content">';
-    if (isset($list_commom_signals) && !empty($list_commom_signals)) {
-      foreach ($list_commom_signals as $key => $value) {
-        $pdf .= '<p class="ph20 pb10">♦ ' . $value['signal_name'] . ' ➠ <span class="text-right">' . $value['commom_functions'] . '</span></p>';
-      }
-    } else {
-      $pdf .= '<p class="text-center">Não foram encontradas mensagens em comum</p>';
-    }
-    $pdf .= '</div>';
-    $pdf .= '</div>';
-    $pdf .= '</div>';
-    $pdf .= '</div>';
-
-    $pdf .= file_get_contents(BASE_URL . "functionintegration/footer_first_result");
-
-    $name_file = 'primeiro-resultado-Modulo-1.pdf';
-    $site->create_PDF($pdf, $name_file);
-  }
-
-  public function view_second_result($id_meeting)
-  {
-    $data  = array();
-    $filters = array();
-
-    //fim do básico
-    $meetings = new meetings();
-    $data['list'] = $meetings->get($id_meeting);
-
-    $this->loadView("function_integration/download_second_result", $data);
-  }
-
-  public function download_second_result($id_meeting)
-  {
-    $data  = array();
-    //segundo Pdf Download
-    $site = new site();
-
-    $pdf = file_get_contents(BASE_URL . "functionintegration/view_second_result/$id_meeting");
-    $name_file = 'segundo-resultado.pdf';
-    $site->create_PDF($pdf, $name_file);
-    header("Location: " . BASE_URL . "functionintegration/response_meeting");
-    exit;
   }
 
   public function delete_function_integration($project_id)
