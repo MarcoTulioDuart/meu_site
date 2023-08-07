@@ -14,15 +14,14 @@
                                         <table class="table footable" data-filter="#fooFilter">
                                             <thead>
                                                 <tr>
-                                                    <th>Planilha</th>
-                                                    <th>Tipo</th>
-                                                    <th>Pos</th>
-                                                    <th>Sachnummer</th>
-                                                    <th>Benennung</th>
-                                                    <th>Codebedingung</th>
-                                                    <th>Kem_ab</th>
-                                                    <th>Werke</th>
-                                                    <th>pg_kz</th>
+                                                    <th class="p15">Tipo</th>
+                                                    <th class="p15">Pos</th>
+                                                    <th class="p15">Sachnummer</th>
+                                                    <th class="p15">Benennung</th>
+                                                    <th class="p15">Codebedingung</th>
+                                                    <th class="p15">Kem_ab</th>
+                                                    <th class="p15">Werke</th>
+                                                    <th class="p15">pg_kz</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -33,15 +32,14 @@
                                                 <?php else : ?>
                                                     <?php foreach ($list_parameters as $value) : ?>
                                                         <tr>
-                                                            <td><?= $value['id']; ?></td>
-                                                            <td><?= $value['type']; ?></td>
-                                                            <td><?= $value['pos']; ?></td>
-                                                            <td><?= $value['sachnummer']; ?></td>
-                                                            <td><?= $value['benennung']; ?></td>
-                                                            <td><?= $value['codebedingung']; ?></td>
-                                                            <td><?= $value['kem_ab']; ?></td>
-                                                            <td><?= $value['werke']; ?></td>
-                                                            <td><?= $value['pg_kz']; ?></td>
+                                                            <td class="p15"><?= $value['type']; ?></td>
+                                                            <td class="p15"><?= $value['pos']; ?></td>
+                                                            <td class="p15"><?= $value['sachnummer']; ?></td>
+                                                            <td class="p15"><?= $value['benennung']; ?></td>
+                                                            <td class="p15"><?= $value['codebedingung']; ?></td>
+                                                            <td class="p15"><?= $value['kem_ab']; ?></td>
+                                                            <td class="p15"><?= $value['werke']; ?></td>
+                                                            <td class="p15"><?= $value['pg_kz']; ?></td>
                                                         </tr>
                                                     <?php endforeach; ?>
                                                 <?php endif; ?>
@@ -54,13 +52,6 @@
                     </div>
                 </div>
             </div>
-            <?php if (isset($list_parameters) && !empty($list_parameters)) : ?>
-                <div class="section row mtn text-center">
-                    <div class="col-md-12 col-xs-12 mt20 ph20">
-                        <a class="btn btn-primary btn-bordered" href="<?= BASE_URL; ?>parametersintegration/second_download" target="_blank">Download</a>
-                    </div>
-                </div>
-            <?php endif; ?>
         </div>
     </div>
     <!-- /Panel -->

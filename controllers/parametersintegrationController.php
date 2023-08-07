@@ -374,7 +374,7 @@ class parametersintegrationController extends Controller
         }
         $first_line = false;
       }
-      setcookie("success_add_parameters", "Seus parâmetros foram registrados com sucesso!", time() + 100);
+      setcookie("success_add_parameters", "Seus parâmetros da etapa de definição de valores foram registrados com sucesso!", time() + 100);
       header("Location: " . BASE_URL . "parametersintegration/results");
       exit;
     }
@@ -496,22 +496,20 @@ class parametersintegrationController extends Controller
     $list_parameters_compare = new list_parameters_compare();
     $project_id = $_SESSION['parameters_project_id_proTSA'];
     $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
-
-    
     
     if ($_GET['format'] == "like") {
       $data['title_format'] = "em comum";
 
-      $filters['format'] = 'LIKE';
+      $format = 'IN';
   
-      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $filters);
+      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
 
     } elseif($_GET['format'] == "unlike") {
       $data['title_format'] = "diferentes";
       
-      $filters['format'] = "NOT LIKE";
+      $format = "NOT IN";
  
-      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $filters);
+      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
     }
     
 
@@ -522,29 +520,29 @@ class parametersintegrationController extends Controller
   public function second_download()
   {
     $data  = array();
-    $filters = array();
 
     $data['page'] = 'first_result';
 
     //fim do básico
     $site = new site();
+    
     $list_parameters_compare = new list_parameters_compare();
     $project_id = $_SESSION['parameters_project_id_proTSA'];
     $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
-
+    
     if ($_GET['format'] == "like") {
       $data['title_format'] = "em comum";
 
-      $filters['format'] = 'LIKE';
+      $format = 'IN';
   
-      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $filters);
+      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
 
     } elseif($_GET['format'] == "unlike") {
       $data['title_format'] = "diferentes";
       
-      $filters['format'] = "NOT LIKE";
+      $format = "NOT IN";
  
-      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $filters);
+      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
     }
     
     ob_start();//inicia a inclusão da view na memória

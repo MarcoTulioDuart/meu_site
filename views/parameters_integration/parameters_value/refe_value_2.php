@@ -36,31 +36,38 @@
                             <span class="panel-title fs22 mw400 text-center"><b>Definição de valores de referência dos parâmetros</b></span>
                         </div>
                         <div class="panel-body">
-                            <form action="<?= BASE_URL; ?>parametersintegration/choose_parameter" method="post">
+                            <form action="<?= BASE_URL; ?>parametersintegration/parameters_value_2" method="post" enctype="multipart/form-data">
                                 <div class="section">
-                                    <h6 class="text-center">Faça o upload da planilha de parâmetros que serão aplicados na série.</h6>
+                                    <h6 class="text-center">Informe o nome do Parâmetro e faça o upload da planilha que será aplicada na série.</h6>
                                 </div>
                                 <div class="section row">
-                                    <?php if (isset($_COOKIE["error"])) : ?>
-                                        <div class="text-center">
-                                            <div class="alert alert-alert alert-dismissable mb30 alert-block p15">
-                                                <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
-                                                <h3 class="mtn fs20 text-white">Sucesso</h3>
-                                                <p><?= $_COOKIE["error"]; ?></p>
-                                            </div>
-                                        </div>
-                                    <?php endif; ?>
-
-                                    <label class="field prepend-icon file mb20 mt10">
-
-                                        <input type="file" name="library" class="gui-file" onchange="document.getElementById('uploader').value = this.value;" accept="application/pdf">
-
-                                        <input type="text" id="uploader" name="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
-                                        <i class="fa fa-upload"></i>
-
-                                    </label>
-
+                                    <div class="col-12 ph10 mb5">
+                                        <label for="type" class="field prepend-icon">
+                                            <input type="text" name="type" id="type" class="gui-input" placeholder="Digite o nome do Parâmetro">
+                                            <span class="field-icon">
+                                                <i class="fa fa-sitemap"></i>
+                                            </span>
+                                        </label>
+                                    </div>
                                 </div>
+                                <div class="section row">
+                                    <div class="col-md-10 ph10 mb5">
+                                        <label class="field prepend-icon file mb20 mt10">
+
+                                            <input type="file" name="library" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
+
+                                            <input type="text" id="uploader" name="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                                            <i class="fa fa-upload"></i>
+
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2 ph10 mb5 mt10">
+                                        <label class="file">
+                                            <button type="submit" class="button btn-primary">Escolher</button>
+                                        </label>
+                                    </div>
+                                </div>
+
                             </form>
                             <div class="section row">
                                 <div class="col-md-12 ph10">

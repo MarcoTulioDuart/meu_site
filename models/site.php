@@ -22,7 +22,7 @@ class site extends Model
             $mail->Port       = 465; //Caso o SMTPSecure seja 'PHPMailer::ENCRYPTION_STARTTLS' use 587
 
             //Destinatário
-            $mail->setFrom($this->config['Username'], $this->config['Username']); //Quem está enviando
+            $mail->setFrom($this->config['Usermail'], $this->config['Username']); //Quem está enviando
             $mail->addAddress($email, $name); //Quem recebe
 
             //Conteudo do email
@@ -38,6 +38,7 @@ class site extends Model
             return false;
         }
     }
+
 
     public function sendMessageAttachment($email, $name, $subject, $message, $attachmens)
     {

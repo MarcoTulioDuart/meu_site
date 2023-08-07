@@ -190,12 +190,20 @@ class functionintegrationController extends Controller
   public function choose_project()
   {
     //form 1
+    $list_integration_ecu = new list_integration_ecu();
 
     if (isset($_POST['project_id']) && !empty($_POST['project_id'])) {
-      $_SESSION['project_id_proTSA'] = addslashes($_POST['project_id']);
 
-      header("Location: " . BASE_URL . "functionintegration?form=2");
-      exit;
+      if ($list_integration_ecu->getProject($_POST['project_id'])) {
+        setcookie("project_exist", "O projeto selecionado já foi processado, escolha outro projeto ou exclua os dados do módulo 1 deste projeto.", time() + 100);
+        header("Location: " . BASE_URL . "functionintegration");
+        exit;
+      } else {
+        $_SESSION['project_id_proTSA'] = addslashes($_POST['project_id']);
+
+        header("Location: " . BASE_URL . "functionintegration?form=2");
+        exit;
+      }
     }
   }
 
@@ -474,7 +482,6 @@ class functionintegrationController extends Controller
     $name_file = 'primeiro-resultado-Modulo-1.pdf';
     $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-P', 'orientation' => 'P']);
     exit;
-
   }
 
   public function download_especifications()
@@ -715,8 +722,7 @@ class functionintegrationController extends Controller
 
       $list_participants = new list_participants();
       $meeting_participants = $list_participants->getAllParticipants($project_id);
-
-      $attachment = $_FILES['pdf_result'];
+      $attachment = [$_FILES['pdf_result']];
 
       for ($i = 0; $i < count($meeting_participants); $i++) {
         $name = $meeting_participants[$i]['full_name'];
@@ -754,8 +760,8 @@ class functionintegrationController extends Controller
           $site->sendMessageAttachment($email, $name, $subject, $message, $attachment);
         }
       }
-
-      header("Location: " . BASE_URL . "functionintegration/third_result");
+      setcookie("success_send_result", "Seu segundo resultado foi enviado com sucesso.", time() + 100);
+      header("Location: " . BASE_URL . "functionintegration/second_result");
       exit;
     }
   }

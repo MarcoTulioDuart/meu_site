@@ -20,24 +20,24 @@
                             <thead>
                                 <tr class="alert">
                                     <th class="text-center p15">Nome do sinal</th>
-                                    <th class="text-center">Descrição</th>
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Comentário</th>
-                                    <th class="text-center">Recomendação</th>
+                                    <th class="text-center p15">Descrição</th>
+                                    <th class="text-center p15">Status</th>
+                                    <th class="text-center p15">Comentário</th>
+                                    <th class="text-center p15">Recomendação</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($signals_main as $key => $value) : ?>
                                     <tr>
                                         <td class="text-center fs12 p15"><?= $value['c_name']; ?></td>
-                                        <td class="text-center"><?= $value['c_function']; ?></td>
-                                        <td class="text-center">
+                                        <td class="text-center p15"><?= $value['c_function']; ?></td>
+                                        <td class="text-center p15">
                                             <?= ($value['ls_status'] == "null" || empty($value['ls_status'])) ? "Sem status" : $value['ls_status']; ?>
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-center p15">
                                             <?= (empty($value['ls_comment']) ? "Sem comentário" : $value['ls_comment']); ?>
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-center p15">
                                             <?php if ($value['ls_status'] == "valid") {
                                                 echo "Prossiga com os testes";
                                             } else if ($value['ls_status'] == "null" || empty($value['ls_status'])) {
@@ -65,24 +65,24 @@
                             <thead>
                                 <tr class="alert">
                                     <th class="text-center p15">Nome do sinal</th>
-                                    <th class="text-center">Descrição</th>
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Comentário</th>
-                                    <th class="text-center">Recomendação</th>
+                                    <th class="text-center p15">Descrição</th>
+                                    <th class="text-center p15">Status</th>
+                                    <th class="text-center p15">Comentário</th>
+                                    <th class="text-center p15">Recomendação</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($signals_commom as $key => $value) : ?>
                                     <tr>
                                         <td class="text-center fs12 p15"><?= $value['c_name']; ?></td>
-                                        <td class="text-center"><?= $value['c_function']; ?></td>
-                                        <td class="text-center">
+                                        <td class="text-center p15"><?= $value['c_function']; ?></td>
+                                        <td class="text-center p15">
                                             <?= ($value['ls_status'] == "null" || empty($value['ls_status'])) ? "Sem status" : $value['ls_status']; ?>
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-center p15">
                                             <?= (empty($value['ls_comment']) ? "Sem comentário" : $value['ls_comment']); ?>
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-center p15">
                                             <?php if ($value['ls_status'] == "valid") {
                                                 echo "Prossiga com os testes";
                                             } else if ($value['ls_status'] == "null" || empty($value['ls_status'])) {

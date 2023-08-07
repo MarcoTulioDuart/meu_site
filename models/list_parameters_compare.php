@@ -22,11 +22,11 @@ class list_parameters_compare extends Model
     {
     }
 
-    public function getResultParameters($parameters_integration_id, $project_id, $filters)
+    public function getResultParameters($parameters_integration_id, $project_id, $format)
     {
         $array = array();
 
-        $sql = "SELECT dp.id, dp.type, dp.sachnummer, dp.benennung
+        $sql = "SELECT dp.id, dp.type, dp.pos, dp.sachnummer, dp.benennung, dp.codebedingung, dp.kem_ab, dp.werke, dp.pg_kz
         FROM list_parameters_compare AS lpc
         INNER JOIN projects AS p ON (p.id = lpc.project_id)
         INNER JOIN list_parameters AS lp ON (lp.project_id = p.id)
@@ -34,7 +34,7 @@ class list_parameters_compare extends Model
         WHERE lpc.project_id = :project_id
         AND lpc.parameters_integration_id = :parameters_integration_id
         AND dp.type LIKE lpc.name_parameter
-        AND dp.sachnummer ". $filters['format'] ." (
+        AND dp.sachnummer ". $format ." (
         SELECT dpa.sachnummer
         FROM data_parameters_aplicate AS dpa
         WHERE dpa.parameters_integration_id = :parameters_integration_id

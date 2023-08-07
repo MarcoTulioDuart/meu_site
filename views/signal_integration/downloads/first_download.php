@@ -26,16 +26,16 @@
                                 <thead>
                                     <tr class="alert text-center">
                                         <th class="text-center p10">Nome do sinal</th>
-                                        <th class="text-center">Descrição</th>
-                                        <th class="text-center">Disponibilidade</th>
+                                        <th class="text-center p10">Descrição</th>
+                                        <th class="text-center p10">Disponibilidade</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($signals_commom as $key => $value) : ?>
                                         <tr>
                                             <td class="text-center fs12 p15"><?= $value['c_signal_name']; ?></td>
-                                            <td class="text-center"><?= $value['c_signal_function']; ?></td>
-                                            <td class="text-center">
+                                            <td class="text-center p15"><?= $value['c_signal_function']; ?></td>
+                                            <td class="text-center p15">
                                                 <?php if ($value['lsc_available_type'] == 1) {
                                                     echo "Sim";
                                                 } else {
@@ -84,16 +84,16 @@
                                 <thead>
                                     <tr class="alert">
                                         <th class="text-center p10">Nome do sinal</th>
-                                        <th class="text-center">Descrição</th>
-                                        <th class="text-center">Disponibilidade</th>
+                                        <th class="text-center p10">Descrição</th>
+                                        <th class="text-center p10">Disponibilidade</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($signals_main as $key => $value) : ?>
                                         <tr>
                                             <td class="text-center fs12 p15"><?= $value['c_signal_name']; ?></td>
-                                            <td class="text-center"><?= $value['c_signal_function']; ?></td>
-                                            <td class="text-center">
+                                            <td class="text-center p15"><?= $value['c_signal_function']; ?></td>
+                                            <td class="text-center p15">
                                                 <?php if ($value['lsc_available_type'] == 1) {
                                                     echo "Sim";
                                                 } else {

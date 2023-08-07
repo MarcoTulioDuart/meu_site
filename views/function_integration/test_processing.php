@@ -45,6 +45,15 @@
 
                             <form method="post" action="<?= BASE_URL; ?>functionintegration/choose_project" id="form-order">
                                 <div class="panel-body pn">
+                                    <?php if (isset($_COOKIE["project_exist"])) : ?>
+                                        <div class="text-center">
+                                            <div class="alert alert-danger alert-dismissable mb30 alert-block p15">
+                                                <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                                                <h3 class="mtn fs20 text-white">O projeto já existe</h3>
+                                                <p><?= $_COOKIE["project_exist"]; ?></p>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
                                     <div class="section row">
                                         <div class="col-md-12 ph10 mb5">
                                             <label for="project_id" class="field select">
