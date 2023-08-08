@@ -36,7 +36,7 @@
                             <h4 class="pbn">Conclusão da Reunião</h4><span class="text-right text-muted">Data da reunião: <?= $info['date_meeting']; ?></span>
                         </div>
                         <div class="panel-body">
-                            <form action="<?= BASE_URL; ?>functionintegration/response_meeting/<?= $info['id']; ?>" method="post">
+                            <form action="<?= BASE_URL; ?>meeting/view/<?= $info['id']; ?>" method="post">
                                 <div class="section row text-center">
                                     <h6 class="pn mn">Tema da reunião:</h6>
                                     <h5 class="text-primary mt10"><?= $info['title']; ?></h5>
@@ -55,17 +55,6 @@
                                     <a href="<?= BASE_URL; ?>functionintegration/download_second_result/<?= $info['id']; ?>" target="_blank" class="btn fs14 ml15 btn-primary">Download</a>
                                 </div>
                             </form>
-                            <div class="section text-center">
-                                <div id="animation-switcher" class="ph20">
-                                    <div class="col-xs-12 col-sm-12 text-center">
-                                        <a class="holder-active" href="#modal-form">
-                                            <button class="btn btn-primary btn-bordered" data-effect="mfp-zoomIn">
-                                                <b>Enviar Resultado</b>
-                                            </button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                     </div>

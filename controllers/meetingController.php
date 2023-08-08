@@ -138,21 +138,7 @@ class meetingController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
-    if (isset($_SESSION['project_proTSA'])) {
-      //Session de projeto
-      unset($_SESSION['project_proTSA']);
-    }
-    if (isset($_SESSION['signals_id_proTSA'])) {
-      //Session do Terceiro Módulo
-      unset($_SESSION['signals_id_proTSA']);
-      unset($_SESSION['project_signals_id_proTSA']);
-    }
-    if (isset($_SESSION['parameters_id_proTSA'])) {
-      //Session do Quarto Módulo
-      unset($_SESSION['parameters_id_proTSA']);
-      unset($_SESSION['parameters_project_id_proTSA']);
-    }
-    //fim do básico
+    
 
     $meetings = new meetings();
     $data['info'] = $meetings->get($id_meeting);
@@ -162,7 +148,7 @@ class meetingController extends Controller
       $text = addslashes($_POST['text']);
 
       $meetings->meetingConcluded($id_meeting, $text);
-      header("Location: " . BASE_URL . "functionintegration/second_result");
+      header("Location: " . BASE_URL . "meeting?project_id=" . $data['info']['project_id']);
       exit;
     }
 
@@ -170,30 +156,6 @@ class meetingController extends Controller
     $this->loadTemplate("home", "meeting/view", $data);
   }
 
-
  
-
- 
-
- 
-
- 
-
- 
-
- 
-
-  
-
- 
-
-  
-
- 
-
-  
-
-
-  
 
 }
