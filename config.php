@@ -15,8 +15,8 @@ if(ENVIRONMENT == 'development') {
 	define("BASE_URL", "https://protsa.infocept.com.br/");
 	$config['dbname'] = 'republ85_protsa';
 	$config['host'] = 'localhost';
-	$config['dbuser'] = 'republ85_admin ';
-	$config['dbpass'] = '';
+	$config['dbuser'] = 'republ85_admin';
+	$config['dbpass'] = 'vemcaver_23_info';
 }
 	/*Informações de e-mail*/
 	$config['hostmail'] = 'br968.hostgator.com.br';

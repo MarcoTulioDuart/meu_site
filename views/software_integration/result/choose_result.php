@@ -45,7 +45,7 @@
                                 </div>
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>softwareintegration/meeting?project_id=<?= $_GET['project_id']; ?>" class="btn fs14 btn-primary" title="Reuniões">Reuniões do Módulo</a>
+                                    <a href="<?= BASE_URL; ?>meeting?project_id=<?= $_GET['project_id']; ?>" class="btn fs14 btn-primary" title="Reuniões">Reuniões do Módulo</a>
                                 </div>
 
                                 

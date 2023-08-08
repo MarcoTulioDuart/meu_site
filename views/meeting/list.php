@@ -92,7 +92,7 @@
                                                                             </td>
                                                                             <td>
                                                                                 <div class="section text-right">
-                                                                                    <a href="<?= BASE_URL; ?>functionintegration/response_meeting/<?= $value['id']; ?>" class="btn btn-primary p10">
+                                                                                    <a href="<?= BASE_URL; ?>meeting/view/<?= $value['id']; ?>" class="btn btn-primary p10">
                                                                                         <?php if (!empty($value['text'])) : ?>
                                                                                             <span class="fs14 fa fa-check"></span>
                                                                                         <?php else : ?>
@@ -145,7 +145,7 @@
             </span>
         </div>
         <!-- /Panel Heading -->
-        <form method="post" action="<?= BASE_URL; ?>softwareintegration/meeting" id="form-order" enctype="multipart/form-data">
+        <form method="post" action="<?= BASE_URL; ?>meeting" id="form-order" enctype="multipart/form-data">
             <input type="hidden" value="<?= $_GET['project_id'] ?>" name="project_id">
             <div class="panel-body">
                 <div class="section row">
