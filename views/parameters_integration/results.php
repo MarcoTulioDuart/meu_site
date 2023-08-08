@@ -92,6 +92,15 @@
                                 <span class="panel-title">O que deseja Fazer?</span><br>
                             </div>
                             <div class="panel-body mt10">
+                                <?php if (isset($_COOKIE["success_add_parameters"])) : ?>
+                                    <div class="text-center">
+                                        <div class="alert alert-alert alert-dismissable mb30 alert-block p15">
+                                            <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h3 class="mtn fs20 text-white">Sucesso</h3>
+                                            <p><?= $_COOKIE["success_add_parameters"]; ?></p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                                 <div class="section row text-center">
                                     <div class="col-md-4 ph10 mb20">
                                         <a href="<?= BASE_URL; ?>parametersintegration/first_result" class="btn fs14 btn-primary" title="Classificação / Prioridades dos testes de parametrização.">Primeiro Resultado</a>
@@ -115,7 +124,7 @@
                                     <div class="col-md-6 ph10">
                                         <div id="animation-switcher" class="ph20">
                                             <div class="col-xs-12 col-sm-4 text-right">
-                                                <a class="holder-active" href="#modal-form">
+                                                <a class="holder-active" href="#modal-form" title="Reunião / workshop entre fornecedores e montadora baseado nas planilhas do passo anterior.">
                                                     <button class="btn btn-primary btn-bordered" data-effect="mfp-zoomIn">
                                                         <b>AGENDAR REUNIÃO</b>
                                                     </button>

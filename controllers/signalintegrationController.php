@@ -620,149 +620,37 @@ class signalintegrationController extends Controller
     }
   }
 
-  public function header_first_result()
-  {
-    $data  = array();
-
-    $this->loadView("signal_integration/download_first_result/header_first", $data);
-  }
-
-  public function footer_first_result()
-  {
-    $data  = array();
-
-    $this->loadView("signal_integration/download_first_result/footer_first", $data);
-  }
-
   public function first_download()
   {
-
+    $data  = array();
+    $filters = array();
+    $data['page'] = 'first_result';
     $site = new site();
 
-    //Dados
     $list_signals_can = new list_signals_can();
     $list_signals_function = new list_signals_function();
+    $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
 
     //Função de teste principal
 
-    $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
-
-    $main_function = $list_signals_function->getMainFunction($signal_integration_id); //pega a função principal do teste
-    $le_main_id = $main_function['le_id']; //id da função principal
-    $data['all_signals_main'] = $list_signals_can->getAll($signal_integration_id, $le_main_id); //pega todos os sinais da função principal
-    $signals_main = $list_signals_can->getSignalsFunction($le_main_id, $signal_integration_id); //pega só os sinais em comum da função principal com a comum
+    $data['main_function'] = $list_signals_function->getMainFunction($signal_integration_id); //pega a função principal do teste
+    $le_main_id = $data['main_function']['le_id']; //id da função principal
+    $data['signals_main'] = $list_signals_can->getSignalsFunction($le_main_id, $signal_integration_id); //pega só os sinais em comum da função principal com a comum
 
     //Função de teste comum
 
-    $commom_function = $list_signals_function->getCommomFunction($signal_integration_id); //pega a função comum do teste
-    $le_commom_id = $commom_function['le_id']; //id da função comum
-    $data['all_signals_commom'] = $list_signals_can->getAll($signal_integration_id, $le_commom_id); //pega todos os sinais da função comum
-    $signals_commom = $list_signals_can->getSignalsFunction($le_commom_id, $signal_integration_id); //pega só os sinais em comum da função comum com a principal
-    //View
+    $data['commom_function'] = $list_signals_function->getCommomFunction($signal_integration_id); //pega a função comum do teste
+    $le_commom_id = $data['commom_function']['le_id']; //id da função comum
+    $data['signals_commom'] = $list_signals_can->getSignalsFunction($le_commom_id, $signal_integration_id); //pega só os sinais em comum da função comum com a principal
 
-    $pdf = file_get_contents(BASE_URL . "signalintegration/header_first_result");
-
-    $pdf .= '<div class="section row mrn prn">';
-    $pdf .= '<div class="col-sm-5 col-md-5 col-xs-5 text-center">';
-    $pdf .= '<h6>Função Comum: ' . $commom_function['e_function'] . '</h6>';
-    $pdf .= '</div>';
-    $pdf .= '<div class="col-sm-2 col-md-2 col-xs-2"></div>';
-    $pdf .= '<div class="col-sm-5 col-md-5 col-xs-5 text-right mrn prn">';
-    $pdf .= '<h6>Função Principal: ' . $main_function['e_function'] . '</h6>';
-    $pdf .= '</div>';
-    $pdf .= '</div>';
-    $pdf .= '<div class="panel" id="spy5">';
-    $pdf .= '<div class="panel-body pn">';
-    $pdf .= '<div class="col-sm-5 col-md-5 col-xs-5 mn pn">';
-    $pdf .= '<table class="table table-striped btn-gradient-grey mbn">';
-    $pdf .= '<thead>';
-    $pdf .= '<tr class="ph15">';
-    $pdf .= '<th class="text-center">Nome do sinal</th>';
-    $pdf .= '<th class="text-center">Descrição</th>';
-    $pdf .= '<th class="text-center">Disponibilidade</th>';
-    $pdf .= '</tr>';
-    $pdf .= '</thead>';
-    $pdf .= '<tbody>';
-
-    foreach ($signals_commom as $key => $value) {
-      $pdf .= '<tr>';
-      $pdf .= '<td class="text-center">' . $value['c_signal_name'] . '</td>';
-      $pdf .= '<td class="text-center">' . $value['c_signal_function'] . '</td>';
-      $pdf .= '<td class="text-center">';
-      if ($value['lsc_available_type'] == 1) {
-        $pdf .= 'Sim';
-      } else {
-        $pdf .= 'Não';
-      }
-      $pdf .= '</td>';
-      $pdf .= '</tr>';
-    }
-    $pdf .= '</tbody>';
-    $pdf .= '</table>';
-    $pdf .= '</div>';
-
-    $pdf .= '<div class="col-sm-1 col-md-1 col-xs-1 mn pr25 pl25">';
-    $pdf .= '<table class="table table-striped btn-gradient-grey mbn">';
-    $pdf .= '<thead>';
-    $pdf .= '<tr class="ph15">';
-    $pdf .= '<th class="text-center">Status de Match</th>';
-    $pdf .= '</tr>';
-    $pdf .= '</thead>';
-    $pdf .= '<tbody>';
-
-    foreach ($signals_main as $key => $value) {
-      $pdf .= '<tr>';
-      $pdf .= '<td class="text-center">';
-      if ($signals_main[$key]['lsc_available_type'] == $signals_commom[$key]['lsc_available_type']) {
-        $pdf .= '<span class="fs14"> = </span>';
-      } else {
-        $pdf .= '<span class="fs14"> ≠ </span>';
-      }
-
-      $pdf .= '</td>';
-      $pdf .= '</tr>';
-    }
-
-    $pdf .= '</tbody>';
-    $pdf .= '</table>';
-    $pdf .= '</div>';
-
-    $pdf .= '<div class="col-sm-5 col-md-5 col-xs-5 mn pn">';
-    $pdf .= '<table class="table table-striped btn-gradient-grey mbn">';
-    $pdf .= '<thead>';
-    $pdf .= '<tr class="ph15">';
-    $pdf .= '<th class="text-center">Nome do sinal</th>';
-    $pdf .= '<th class="text-center">Descrição</th>';
-    $pdf .= '<th class="text-center">Disponibilidade</th>';
-    $pdf .= '</tr>';
-    $pdf .= '</thead>';
-    $pdf .= '<tbody>';
-
-    foreach ($signals_main as $key => $value) {
-      $pdf .= '<tr>';
-      $pdf .= '<td class="text-center">' . $value['c_signal_name'] . '</td>';
-      $pdf .= '<td class="text-center">' . $value['c_signal_function'] . '</td>';
-      $pdf .= '<td class="text-center">';
-      if ($value['lsc_available_type'] == 1) {
-        $pdf .= 'Sim';
-      } else {
-        $pdf .= 'Não';
-      }
-      $pdf .= '</td>';
-      $pdf .= '</tr>';
-    }
-    $pdf .= '</tbody>';
-    $pdf .= '</table>';
-    $pdf .= '</div>';
-    $pdf .= '</div>';
-    $pdf .= '</div>';
-
-    $pdf .= file_get_contents(BASE_URL . "signalintegration/footer_first_result");
-
-    //Criar PDF
+    ob_start();//inicia a inclusão da view na memória
+    $this->loadTemplate("download", "signal_integration/downloads/first_download", $data);
+    $html = ob_get_contents();//armazena a view invés de mostrar
+    ob_end_clean();//finaliza a inclusão da view na memória
 
     $name_file = 'primeiro-resultado-Modulo-3.pdf';
-    $site->create_PDF_landscape($pdf, $name_file);
+    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-L', 'orientation' => 'L']);
+    exit;
   }
 
   public function second_result()
@@ -815,151 +703,37 @@ class signalintegrationController extends Controller
     $this->loadTemplate("home", "signal_integration/second_result", $data);
   }
 
-  public function header_second_result()
-  {
-    $data  = array();
-
-    $this->loadView("signal_integration/download_second_result/header_second", $data);
-  }
-
   public function second_download()
   {
-
+    $data  = array();
+    $filters = array();
+    $data['page'] = 'first_result';
     $site = new site();
 
-    //Dados
+    $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
     $list_signals_can = new list_signals_can();
     $list_signals_function = new list_signals_function();
-    $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
 
     //Função de teste principal
 
-    $main_function = $list_signals_function->getMainFunction($signal_integration_id); //pega a função principal do teste
-    $le_main_id = $main_function['le_id']; //id da função principal
-    $signals_main = $list_signals_can->getAll($signal_integration_id, $le_main_id); //pega só os sinais em comum da função principal com a comum
+    $data['main_function'] = $list_signals_function->getMainFunction($signal_integration_id); //pega a função principal do teste
+    $le_main_id = $data['main_function']['le_id']; //id da função principal
+    $data['signals_main'] = $list_signals_can->getAll($signal_integration_id, $le_main_id); //pega só os sinais em comum da função principal com a comum
 
     //Função de teste comum
 
-    $commom_function = $list_signals_function->getCommomFunction($signal_integration_id); //pega a função comum do teste
-    $le_commom_id = $commom_function['le_id']; //id da função comum
-    $signals_commom = $list_signals_can->getAll($signal_integration_id, $le_commom_id); //pega todos os sinais da função comum
+    $data['commom_function'] = $list_signals_function->getCommomFunction($signal_integration_id); //pega a função comum do teste
+    $le_commom_id = $data['commom_function']['le_id']; //id da função comum
+    $data['signals_commom'] = $list_signals_can->getAll($signal_integration_id, $le_commom_id); //pega todos os sinais da função comum
 
-    $pdf = file_get_contents(BASE_URL . "signalintegration/header_second_result");
-
-    $pdf .= '<div class="text-center mn pn">';
-    $pdf .= '<h5 class="text-primary mn pn">' . $main_function['e_name'] . ' : ' . $main_function['e_function'] . '</h5>';
-    $pdf .= '</div>';
-    $pdf .= '<div class="panel mn pn">';
-    $pdf .= '<div class="panel-body pn mn">';
-    $pdf .= '<div class="table-responsive mtn pn">';
-    $pdf .= '<table class="table table-striped btn-gradient-grey mtn">';
-    $pdf .= '<thead class="mtn">';
-    $pdf .= '<tr class="mtn ph15">';
-    $pdf .= '<th class="text-center">Nome do sinal</th>';
-    $pdf .= '<th class="text-center">Descrição</th>';
-    $pdf .= '<th class="text-center">Status</th>';
-    $pdf .= '<th class="text-center">Comentário</th>';
-    $pdf .= '<th class="text-center">Recomendação</th>';
-    $pdf .= '</tr>';
-    $pdf .= '</thead>';
-    $pdf .= '<tbody>';
-
-    foreach ($signals_main as $key => $value) {
-      $pdf .= '<tr class="ph15">';
-      $pdf .= '<td class="text-center ph15">' . $value['c_name'] . '</td>';
-      $pdf .= '<td class="text-center ph15">' . $value['c_function'] . '</td>';
-      $pdf .= '<td class="text-center ph15">';
-      if ($value['ls_status'] == "null" || empty($value['ls_status'])) {
-        $pdf .= 'Sem status';
-      } else {
-        $pdf .= $value['ls_status'];
-      }
-      $pdf .= '</td>';
-      $pdf .= '<td class="text-center ph15">';
-      if (empty($value['ls_comment'])) {
-        $pdf .= 'Sem comentário';
-      } else {
-        $pdf .= $value['ls_comment'];
-      }
-      $pdf .= '</td>';
-      $pdf .= '<td class="text-center ph15">';
-      if ($value['ls_status'] == "valid") {
-        $pdf .= 'Prossiga com os testes';
-      } else if ($value['ls_status'] == "null" || empty($value['ls_status'])) {
-        $pdf .= 'O status não foi classificado, retorne ao primeira resultado e selecione o status do sinal';
-      } else {
-        $pdf .= 'Contatar o especialista responsável pelo sinal CAN';
-      }
-      $pdf .= '</td>';
-      $pdf .= '</tr>';
-    }
-    $pdf .= '</tbody>';
-    $pdf .= '</table>';
-    $pdf .= '</div>';
-    $pdf .= '</div>';
-    $pdf .= '</div>';
-
-    //função comum
-
-    $pdf .= '<div class="text-center mn pn">';
-    $pdf .= '<h5 class="text-primary mn pn">' . $commom_function['e_name'] . ' : ' . $commom_function['e_function'] . '</h5>';
-    $pdf .= '</div>';
-    $pdf .= '<div class="panel mn pn">';
-    $pdf .= '<div class="panel-body pn mn">';
-    $pdf .= '<div class="table-responsive mtn pn">';
-    $pdf .= '<table class="table table-striped btn-gradient-grey mtn">';
-    $pdf .= '<thead class="mtn">';
-    $pdf .= '<tr class="mtn ph15">';
-    $pdf .= '<th class="text-center">Nome do sinal</th>';
-    $pdf .= '<th class="text-center">Descrição</th>';
-    $pdf .= '<th class="text-center">Status</th>';
-    $pdf .= '<th class="text-center">Comentário</th>';
-    $pdf .= '<th class="text-center">Recomendação</th>';
-    $pdf .= '</tr>';
-    $pdf .= '</thead>';
-    $pdf .= '<tbody>';
-
-    foreach ($signals_commom as $key => $value) {
-      $pdf .= '<tr class="ph15">';
-      $pdf .= '<td class="text-center ph15">' . $value['c_name'] . '</td>';
-      $pdf .= '<td class="text-center ph15">' . $value['c_function'] . '</td>';
-      $pdf .= '<td class="text-center ph15">';
-      if ($value['ls_status'] == "null" || empty($value['ls_status'])) {
-        $pdf .= 'Sem status';
-      } else {
-        $pdf .= $value['ls_status'];
-      }
-      $pdf .= '</td>';
-      $pdf .= '<td class="text-center ph15">';
-      if (empty($value['ls_comment'])) {
-        $pdf .= 'Sem comentário';
-      } else {
-        $pdf .= $value['ls_comment'];
-      }
-      $pdf .= '</td>';
-      $pdf .= '<td class="text-center ph15">';
-      if ($value['ls_status'] == "valid") {
-        $pdf .= 'Prossiga com os testes';
-      } else if ($value['ls_status'] == "null" || empty($value['ls_status'])) {
-        $pdf .= 'O status não foi classificado, retorne ao primeira resultado e selecione o status do sinal';
-      } else {
-        $pdf .= 'Contatar o especialista responsável pelo sinal CAN';
-      }
-      $pdf .= '</td>';
-      $pdf .= '</tr>';
-    }
-    $pdf .= '</tbody>';
-    $pdf .= '</table>';
-    $pdf .= '</div>';
-    $pdf .= '</div>';
-    $pdf .= '</div>';
-
-    $pdf .= file_get_contents(BASE_URL . "signalintegration/footer_first_result");
-
-    //Criar PDF
+    ob_start();//inicia a inclusão da view na memória
+    $this->loadTemplate("download", "signal_integration/downloads/second_download", $data);
+    $html = ob_get_contents();//armazena a view invés de mostrar
+    ob_end_clean();//finaliza a inclusão da view na memória
 
     $name_file = 'segundo-resultado-Modulo-3.pdf';
-    $site->create_PDF_landscape($pdf, $name_file);
+    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-L', 'orientation' => 'L']);
+    exit;
   }
 
   public function send_report()

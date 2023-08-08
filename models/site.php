@@ -22,7 +22,7 @@ class site extends Model
             $mail->Port       = 465; //Caso o SMTPSecure seja 'PHPMailer::ENCRYPTION_STARTTLS' use 587
 
             //Destinatário
-            $mail->setFrom($this->config['Username'], $this->config['Username']); //Quem está enviando
+            $mail->setFrom($this->config['Usermail'], $this->config['Username']); //Quem está enviando
             $mail->addAddress($email, $name); //Quem recebe
 
             //Conteudo do email
@@ -38,6 +38,7 @@ class site extends Model
             return false;
         }
     }
+
 
     public function sendMessageAttachment($email, $name, $subject, $message, $attachmens)
     {
@@ -320,13 +321,4 @@ class site extends Model
         $mpdf->Output($name_file, 'D'); //nome do arquivo e ação (D download, i abra no browser, )
     }
 
-    public function create_PDF_landscape($pdf, $name_file)
-    {
-
-        $mpdf = new \Mpdf\Mpdf([
-            'orientation' => 'L' // Define a orientação como paisagem
-        ]);
-        $mpdf->WriteHTML($pdf);
-        $mpdf->Output($name_file, 'D');
-    }
 }

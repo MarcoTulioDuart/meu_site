@@ -89,6 +89,21 @@ class list_integration_ecu extends Model
         }
     }
 
+    public function getProject($project_id) {
+        $sql = "SELECT *
+        FROM list_integration_ecu
+        WHERE project_id = :project_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":project_id", $project_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function answer_questions($question_1, $question_2, $question_3, $id)
     {
         $sql = "UPDATE list_integration_ecu SET question_1 = :question_1, question_2 = :question_2, question_3 = :question_3 WHERE id = :id";

@@ -56,6 +56,15 @@
                             <h4>Lista de reuniões</h4><br>
                         </div>
                         <div class="panel-body">
+                            <?php if (isset($_COOKIE["success_send_result"])) : ?>
+                                <div class="text-center">
+                                    <div class="alert alert-danger alert-dismissable mb30 alert-block p15">
+                                        <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <h3 class="mtn fs20 text-white">Sucesso</h3>
+                                        <p><?= $_COOKIE["success_send_result"]; ?></p>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                             <div class="section row">
                                 <div class="col-md-12 ph10 mb5">
                                     <div class="panel mb50" id="p5" data-panel-remove="false" data-panel-color="false" data-panel-fullscreen="false" data-panel-title="false" data-panel-collapse="false">

@@ -4,7 +4,7 @@ class data_parameters_aplicate extends Model
 {
     public function add($pos, $sachnummer, $benennung, $codebedingung, $kem_ab, $werke, $pg_kz, $type, $parameters_integration_id, $project_id)
     {
-        $sql = "INSERT INTO data_parameters_aplicate (pos, sachnummer, benennung, codebedingung, kem_ab, werke, pg_kz, type,parameters_integration_id, project_id) VALUES (:pos, :sachnummer, :benennung, :codebedingung, :kem_ab, :werke, :pg_kz, :type, :parameters_integration_id, :project_id)";
+        $sql = "INSERT INTO data_parameters_aplicate (pos, sachnummer, benennung, codebedingung, kem_ab, werke, pg_kz, type, parameters_integration_id, project_id) VALUES (:pos, :sachnummer, :benennung, :codebedingung, :kem_ab, :werke, :pg_kz, :type, :parameters_integration_id, :project_id)";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":pos", $pos);
         $sql->bindValue(":sachnummer", $sachnummer);
