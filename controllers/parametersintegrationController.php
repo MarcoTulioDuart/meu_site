@@ -252,15 +252,14 @@ class parametersintegrationController extends Controller
 
     $data['list_classification_vehicles'] = $list_parameters_vehicles->getAllProcess($parameters_integration_id);
 
-    ob_start();//inicia a inclusão da view na memória
+    ob_start(); //inicia a inclusão da view na memória
     $this->loadTemplate("download", "parameters_integration/downloads/first_download", $data);
-    $html = ob_get_contents();//armazena a view invés de mostrar
-    ob_end_clean();//finaliza a inclusão da view na memória
+    $html = ob_get_contents(); //armazena a view invés de mostrar
+    ob_end_clean(); //finaliza a inclusão da view na memória
 
     $name_file = 'primeiro-resultado-Modulo-4.pdf';
     $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-P', 'orientation' => 'P']);
     exit;
-
   }
 
   public function parameters_value_1()
@@ -386,7 +385,7 @@ class parametersintegrationController extends Controller
   public function add_meeting()
   {
     $meetings = new meetings();
-    $project_id = $_SESSION['parameters_project_id_proTSA'];;
+    $project_id = $_SESSION['parameters_project_id_proTSA'];
 
     if (!empty($_POST['title']) && !empty($_POST['date_meeting']) && !empty($_POST['participant'])) {
       $title = addslashes($_POST['title']);
@@ -496,27 +495,26 @@ class parametersintegrationController extends Controller
     $list_parameters_compare = new list_parameters_compare();
     $project_id = $_SESSION['parameters_project_id_proTSA'];
     $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
-    
+
     if ($_GET['format'] == "like") {
       $data['title_format'] = "em comum";
 
       $format = 'IN';
-  
-      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
 
-    } elseif($_GET['format'] == "unlike") {
+      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
+    } elseif ($_GET['format'] == "unlike") {
       $data['title_format'] = "diferentes";
-      
+
       $format = "NOT IN";
- 
+
       $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
     }
-    
+
 
     //template, view, data
     $this->loadTemplate("home", "parameters_integration/second_result/formatted_table", $data);
   }
-  
+
   public function second_download()
   {
     $data  = array();
@@ -525,34 +523,79 @@ class parametersintegrationController extends Controller
 
     //fim do básico
     $site = new site();
-    
+
     $list_parameters_compare = new list_parameters_compare();
     $project_id = $_SESSION['parameters_project_id_proTSA'];
     $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
-    
+
     if ($_GET['format'] == "like") {
       $data['title_format'] = "em comum";
 
       $format = 'IN';
-  
-      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
 
-    } elseif($_GET['format'] == "unlike") {
+      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
+    } elseif ($_GET['format'] == "unlike") {
       $data['title_format'] = "diferentes";
-      
+
       $format = "NOT IN";
- 
+
       $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
     }
-    
-    ob_start();//inicia a inclusão da view na memória
+
+    ob_start(); //inicia a inclusão da view na memória
     $this->loadTemplate("download", "parameters_integration/downloads/second_download", $data);
-    $html = ob_get_contents();//armazena a view invés de mostrar
-    ob_end_clean();//finaliza a inclusão da view na memória
+    $html = ob_get_contents(); //armazena a view invés de mostrar
+    ob_end_clean(); //finaliza a inclusão da view na memória
 
     $name_file = 'segundo-resultado-Modulo-4.pdf';
     $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-L', 'orientation' => 'L']);
     exit;
+  }
+
+  public function send_workshop()
+  {
+    $meetings = new meetings();
+    $project_id = $_SESSION['parameters_project_id_proTSA'];
+
+    if (!empty($_POST['title']) && !empty($_POST['date_meeting']) && !empty($_POST['participant'])) {
+      $title = addslashes($_POST['title']);
+      $date_meeting = addslashes($_POST['date_workshop']);
+      $model = 4;
+
+      $meetings->addMeeting($project_id, $title, $date_meeting, $model);
+
+      $site = new site();
+
+      $attachmens = [$_FILES['pdf_upload']];
+
+      if (isset($_POST['participant_test']) && !empty($_POST['participant_test'])) {
+        $participants = addslashes($_POST['participant_test']);
+        $emails = explode(';', $participants);
+
+        for ($i = 0; $i < count($emails); $i++) {
+          $name = ' ';
+          $email = $emails[$i];
+
+          $subject = "Uma reunião foi agendada!";
+          $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
+          O tema da reunião será: ' . $title . '. <br>
+          
+          Aconselhamos que salve este email até o dia da reunião <br>';
+
+          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+            $recommendation = addslashes($_POST['recommendation']);
+
+            $message .= $recommendation . '<br>';
+          }
+
+          $message .= 'Aguardamos sua presença na reunião!';
+          $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
+        }
+      }
+
+      header("Location: " . BASE_URL . "parametersintegration/results");
+      exit;
+    }
   }
 
   public function second_process()

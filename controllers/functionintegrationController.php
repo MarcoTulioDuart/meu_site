@@ -240,7 +240,7 @@ class functionintegrationController extends Controller
     if (isset($_FILES['files']) && !empty($_FILES['files'])) {
       $files = $_FILES['files']; //pega todos os campos que contem um arquivo enviado
 
-      $dir = "assets/upload/function_ecu/project_" . $project_id . '/'; //endereço da pasta pra onde serão enviados os arquivos
+      $dir = "assets/upload/functionintegration/function_ecu/project_" . $project_id . '/'; //endereço da pasta pra onde serão enviados os arquivos
 
       $location = "Location: " . BASE_URL . "functionintegration?form=5";
 
@@ -488,7 +488,7 @@ class functionintegrationController extends Controller
   {
     $project_id = $_SESSION['integration_id_proTSA'];
     // Diretório onde os arquivos estão armazenados
-    $dir = 'assets/upload/function_ecu/project_' . $project_id . '/';
+    $dir = 'assets/upload/functionintegration/function_ecu/project_' . $project_id . '/';
 
     // Nome do arquivo compactado
     $zipFile = 'especificacoes-de-funcoes.zip';
@@ -808,7 +808,7 @@ class functionintegrationController extends Controller
       $site = new site();
 
       $upload = $_FILES['flowchart_upload']; //pega todos os campos que contem um arquivo enviado
-      $dir = "assets/upload/flowchart/project_" . $project_id . "/"; //endereço da pasta pra onde serão enviados os arquivos
+      $dir = "assets/upload/functionintegration/flowchart/project_" . $project_id . "/"; //endereço da pasta pra onde serão enviados os arquivos
 
       $location = "Location: " . BASE_URL . "functionintegration/third_result";
       //envia os arquivo para a pasta determinada
@@ -834,7 +834,7 @@ class functionintegrationController extends Controller
     if (isset($_FILES['flowchart_update']) && !empty($_FILES['flowchart_update'])) {
       $site = new site();
 
-      $dir = "assets/upload/flowchart/project_" . $project_id . "/"; //endereço da pasta pra onde serão enviados os arquivos
+      $dir = "assets/upload/functionintegration/flowchart/project_" . $project_id . "/"; //endereço da pasta pra onde serão enviados os arquivos
 
       $upload = $_FILES['flowchart_update']; //pega todos os campos que contem um arquivo enviado
 
@@ -857,7 +857,7 @@ class functionintegrationController extends Controller
     $site = new site();
     $project_id = $_SESSION['integration_id_proTSA'];
 
-    $attachment = $_FILES['pdf_result'];
+    $attachment = [$_FILES['pdf_result']];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -920,7 +920,7 @@ class functionintegrationController extends Controller
     $meetings->delete($project_id, $model);
 
     //Diagrama / Fluxograma
-    $dir = "assets/upload/flowchart/project_" . $project_id . "/";
+    $dir = "assets/upload/functionintegration/flowchart/project_" . $project_id . "/";
     $site->deleteDirectory($dir);
     $flowchart->delete($project_id);
 
@@ -931,7 +931,7 @@ class functionintegrationController extends Controller
     $list_integration_can->delete($project_id);
 
     //Lista de funções
-    $dir2 = "assets/upload/function_ecu/project_" . $project_id . '/';
+    $dir2 = "assets/upload/functionintegration/function_ecu/project_" . $project_id . '/';
     $site->deleteDirectory($dir2);
     $list_integration_ecu->delete($project_id);
 
