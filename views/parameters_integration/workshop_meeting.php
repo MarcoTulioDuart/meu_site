@@ -155,10 +155,9 @@
                                             </span>
                                         </label>
                                     </div>
-<!--
                                     <div class="section text-center">
                                         <button type="submit" class="btn fs14 btn-primary">Enviar</button>
-                                    </div>-->
+                                    </div>
                                 </div>
                             </form>
                         </div>

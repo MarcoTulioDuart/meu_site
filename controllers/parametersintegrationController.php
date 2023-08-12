@@ -554,6 +554,34 @@ class parametersintegrationController extends Controller
 
   public function send_workshop()
   {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'first_result';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
+      unset($_SESSION['project_proTSA']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
+
     $meetings = new meetings();
     $project_id = $_SESSION['parameters_project_id_proTSA'];
 
@@ -567,6 +595,10 @@ class parametersintegrationController extends Controller
       $site = new site();
 
       $attachmens = [$_FILES['pdf_upload']];
+      $link = addslashes($_POST['link']);
+      $version = addslashes($_POST['version']);
+      $open_points = addslashes($_POST['open_points']);
+      $test_vehicle = addslashes($_POST['test_vehicle']);
 
       if (isset($_POST['participant_test']) && !empty($_POST['participant_test'])) {
         $participants = addslashes($_POST['participant_test']);
@@ -579,7 +611,38 @@ class parametersintegrationController extends Controller
           $subject = "Uma reunião foi agendada!";
           $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
           O tema da reunião será: ' . $title . '. <br>
-          
+          Versão: ' . $version . '<br>
+          Pontos em aberto: ' . $open_points . '<br>
+          Veículos de teste: ' . $test_vehicle . '<br>
+          Link onde serão armazenadas as informações: <a href="' . $link . '" target="_blank">Clique aqui</a> <br>
+          Aconselhamos que salve este email até o dia da reunião <br>';
+
+          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+            $recommendation = addslashes($_POST['recommendation']);
+
+            $message .= $recommendation . '<br>';
+          }
+
+          $message .= 'Aguardamos sua presença na reunião!';
+          $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
+        }
+      }
+
+      if (isset($_POST['participant_parameter']) && !empty($_POST['participant_parameter'])) {
+        $participants = addslashes($_POST['participant_parameter']);
+        $emails = explode(';', $participants);
+
+        for ($i = 0; $i < count($emails); $i++) {
+          $name = ' ';
+          $email = $emails[$i];
+
+          $subject = "Uma reunião foi agendada!";
+          $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
+          O tema da reunião será: ' . $title . '. <br>
+          Versão: ' . $version . '<br>
+          Pontos em aberto: ' . $open_points . '<br>
+          Veículos de teste: ' . $test_vehicle . '<br>
+          Link onde serão armazenadas as informações: <a href="' . $link . '" target="_blank">Clique aqui</a> <br>
           Aconselhamos que salve este email até o dia da reunião <br>';
 
           if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
@@ -596,6 +659,8 @@ class parametersintegrationController extends Controller
       header("Location: " . BASE_URL . "parametersintegration/results");
       exit;
     }
+
+    $this->loadTemplate("home", "parameters_integration/workshop_meeting", $data);
   }
 
   public function second_process()
@@ -626,10 +691,40 @@ class parametersintegrationController extends Controller
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
     }
-
     //fim do básico
+    $site = new site();
+    $list_participants = new list_participants();
 
     $data['project_id'] = $_SESSION['parameters_project_id_proTSA'];
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+      $version_hw = addslashes($_POST['version_hw']);
+      $version_sw = addslashes($_POST['version_sw']);
+      $name_aproved = addslashes($_POST['name_aproved']);
+      $attachmens = [$_FILES['pdf_upload']];
+
+      $meeting_participants = $list_participants->getAllParticipants($data['project_id']['lis_project_id']);
+
+      for ($i = 0; $i < count($meeting_participants); $i++) {
+        $name = $meeting_participants[$i]['full_name'];
+        $email = $meeting_participants[$i]['email'];
+
+        $subject = "Aprovação de testes de parâmetros.";
+        $message = 'O arquivo em anexo contém a tabela de parâmetros para liberação. <br>
+        Versão de HW da ECU: ' . $version_hw . '<br>
+        Versão de SW da ECU: ' . $version_sw . '<br>
+        Quem aprovou: ' . $name_aproved . '<br>';
+
+        if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+          $recommendation = addslashes($_POST['recommendation']);
+
+          $message .= '<br>' . $recommendation;
+        }
+
+        $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
+      }
+    }
 
     //template, view, data
     $this->loadTemplate("home", "parameters_integration/second_process", $data);

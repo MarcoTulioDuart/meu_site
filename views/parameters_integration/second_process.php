@@ -66,8 +66,72 @@
                             </div>
 
                             <div class="panel-body pn">
-                                Em Breve!
+                                <form action="<?= BASE_URL; ?>parametersintegration/second_process" method="post" enctype="multipart/form-data">
+                                    <div class="section">
+                                        <h6 class="text-center">Envie a versão da tabela de parâmetros para a liberação *</h6>
+                                        <div class="section row">
+                                            <label class="field prepend-icon file mb20 mt10">
+
+                                                <input type="file" name="pdf_upload" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
+
+                                                <input type="text" id="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                                                <i class="fa fa-upload"></i>
+
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="section row">
+                                        <h6 class="text-center mtn pt10 pb10">Versão de HW da ECU: *</h6>
+                                        <div class="col-md-12 ph10 mb5">
+                                            <label for="version_hw" class="field prepend-icon">
+                                                <input type="text" name="version_hw" id="version_hw" class="gui-input" placeholder="Digite o tema da reunião *" required>
+                                                <span class="field-icon">
+                                                    <i class="fa fa-file"></i>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="section row">
+                                        <h6 class="text-center mtn pt10 pb10">Versão de SW da ECU: *</h6>
+                                        <div class="col-md-12 ph10 mb5">
+                                            <label for="version_sw" class="field prepend-icon">
+                                                <input type="text" name="version_sw" id="version_sw" class="gui-input" placeholder="Digite o tema da reunião *" required>
+                                                <span class="field-icon">
+                                                    <i class="fa fa-file"></i>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="section row">
+                                        <h6 class="text-center mtn pt10 pb10">Aprovado por: *</h6>
+                                        <h6 class="text-muted text-center">Digite os nomes no campo abaixo, separando por ' , '.</h6>
+                                        <label for="name_aproved" class="field prepend-icon">
+                                            <input type="text" name="name_aproved" id="name_aproved" class="gui-input">
+                                            <span class="field-icon">
+                                                <i class="fa fa-envelope"></i>
+                                            </span>
+                                        </label>
+                                    </div>
+
+                                    <div class="section row">
+                                        <h6 class="text-center mtn pt10 pb10">Deseja fazer um comentário ou recomendação?</h6>
+                                        <h6 class="text-muted text-center">A mensagem digitada aparecerá abaixo do texto padrão.</h6>
+                                        <label for="recommendation" class="field prepend-icon">
+                                            <textarea type="text" name="recommendation" id="recommendation" class="gui-textarea"></textarea>
+                                            <span class="field-icon">
+                                                <i class="fa fa-list"></i>
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <div class="section text-center">
+                                        <button type="submit" class="btn fs14 btn-primary">Enviar</button>
+                                    </div>
+                                </form>
                             </div>
+
                         <?php endif; ?>
                     </div>
                     <!-- /Panel -->
