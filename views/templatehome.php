@@ -222,10 +222,19 @@
                         </ul>
                     </li>
                     <li class="<?= ($viewData['page'] == 'fail_test') ? 'active' : ''; ?>">
-                        <a class="" href="<?= BASE_URL; ?>home/under_construction">
+                        <a class="accordion-toggle">
+                            <span class="caret"></span>
                             <span class="sb-menu-icon fa fa-exclamation-triangle"></span>
                             <span class="sidebar-title">Fail Safe Test</span>
                         </a>
+                        <ul class="nav sub-nav">
+                            <li>
+                                <a href="<?= BASE_URL; ?>failsafetest">Teste</a>
+                            </li>
+                            <li>
+                                <a href="<?= BASE_URL; ?>failsafetest/results">Resultados de Testes</a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li class="<?= ($viewData['page'] == 'system') ? 'active' : ''; ?>">
