@@ -57,7 +57,7 @@
                             </div>
                             <div class="panel-body pn">
                                 <div class="section row text-center">
-                                    <a href="<?= BASE_URL; ?>failsafetest/select_main_function" class="btn fs14 btn-primary">Sim</a>
+                                    <a href="<?= BASE_URL; ?>failsafetest/align_disponibility" class="btn fs14 btn-primary">Sim</a>
                                     <a href="<?= BASE_URL; ?>failsafetest/basic_info_ecu" class="btn fs14 btn-primary">Não</a>
                                 </div>
                             </div>

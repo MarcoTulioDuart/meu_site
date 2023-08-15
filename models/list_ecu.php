@@ -76,7 +76,7 @@ class list_ecu extends Model
     {
         $array = array();
 
-        $sql = "SELECT DISTINCT b.ecu_id, t.name AS t_name
+        $sql = "SELECT DISTINCT b.id AS list_ecu_id, b.ecu_id, t.name AS t_name
         FROM list_ecu AS a, list_ecu AS b
         INNER JOIN type_ecu AS t ON (t.id = b.ecu_id)
         WHERE a.ecu_id != b.ecu_id
