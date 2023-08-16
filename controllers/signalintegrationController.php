@@ -34,6 +34,12 @@ class signalintegrationController extends Controller
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
     }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
+    }
     //fim do básico
 
     //form 1: escolha de projeto
@@ -209,6 +215,12 @@ class signalintegrationController extends Controller
       //Session do Quarto Módulo
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
+    }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
     }
     //fim do básico
 
@@ -425,6 +437,12 @@ class signalintegrationController extends Controller
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
     }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
+    }
     //fim do básico
 
     $type_ecu = new type_ecu();
@@ -465,11 +483,25 @@ class signalintegrationController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     if (isset($_SESSION['project_proTSA'])) {
+      //Session de projeto
       unset($_SESSION['project_proTSA']);
     }
     if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
     }
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      //Session do Quarto Módulo
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
+    }
+
     //fim do básico
 
     //form 11
@@ -519,6 +551,12 @@ class signalintegrationController extends Controller
       //Session do Quarto Módulo
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
+    }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
     }
 
     //fim do básico
@@ -575,6 +613,12 @@ class signalintegrationController extends Controller
       //Session do Quarto Módulo
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
+    }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
     }
     //fim do básico
 
@@ -681,8 +725,15 @@ class signalintegrationController extends Controller
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
     }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
+    }
 
     //fim do básico
+    
     $signal_integration_id = $_SESSION['signal_integration_id_proTSA'];
     $list_signals_can = new list_signals_can();
     $list_signals_function = new list_signals_function();

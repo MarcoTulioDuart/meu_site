@@ -23,20 +23,33 @@ class adminController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
-    if (isset($_SESSION['project_proTSA'])) {
-      //Session de projeto
-      unset($_SESSION['project_proTSA']);
-    }
-    if (isset($_SESSION['integration_id_proTSA'])) {
-      //Session do Primeiro Módulo
-      unset($_SESSION['integration_id_proTSA']);
-    }
-    if (isset($_SESSION['signals_id_proTSA'])) {
-      //Session do Terceiro Módulo
-      unset($_SESSION['signals_id_proTSA']);
-      unset($_SESSION['project_signals_id_proTSA']);
-    }
-    //fim do básico
+   //Session de projeto
+   if (isset($_SESSION['project_proTSA'])) {
+    unset($_SESSION['project_proTSA']);
+  }
+  //Session do Primeiro Módulo
+  if (isset($_SESSION['integration_id_proTSA'])) {
+    unset($_SESSION['integration_id_proTSA']);
+  }
+  //Session do Segundo Módulo
+
+  //Session do Terceiro Módulo
+  if (isset($_SESSION['signals_id_proTSA'])) {
+    unset($_SESSION['signals_id_proTSA']);
+    unset($_SESSION['project_signals_id_proTSA']);
+  }
+  //Session do Quarto Módulo
+  if (isset($_SESSION['parameters_id_proTSA'])) {
+    unset($_SESSION['parameters_id_proTSA']);
+    unset($_SESSION['parameters_project_id_proTSA']);
+  }
+  //Session do Quinto Módulo
+
+  //Session do Sexto Módulo
+  if (isset($_SESSION['safe_test_id_proTSA'])) {
+    unset($_SESSION['safe_test_id_proTSA']);
+  }
+  //fim do básico
 
     $ecu = new type_ecu();
 
@@ -62,8 +75,7 @@ class adminController extends Controller
   }
 
   public function add_can()
-  { //action
-
+  {
     //básico
     if (!isset($_SESSION['proTSA_online'])) {
       header("Location: " . BASE_URL);
@@ -77,18 +89,31 @@ class adminController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
+    //Session de projeto
     if (isset($_SESSION['project_proTSA'])) {
-      //Session de projeto
       unset($_SESSION['project_proTSA']);
     }
+    //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
-      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
     }
+    //Session do Segundo Módulo
+
+    //Session do Terceiro Módulo
     if (isset($_SESSION['signals_id_proTSA'])) {
-      //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //Session do Quarto Módulo
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
     }
     //fim do básico
 
@@ -143,6 +168,13 @@ class adminController extends Controller
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
     }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
+    }
+
     //fim do básico
 
     $parameters = new type_parameters();
@@ -184,18 +216,31 @@ class adminController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
+    //Session de projeto
     if (isset($_SESSION['project_proTSA'])) {
-      //Session de projeto
       unset($_SESSION['project_proTSA']);
     }
+    //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
-      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
     }
+    //Session do Segundo Módulo
+
+    //Session do Terceiro Módulo
     if (isset($_SESSION['signals_id_proTSA'])) {
-      //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //Session do Quarto Módulo
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
     }
     //fim do básico
 
@@ -238,18 +283,31 @@ class adminController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
+    //Session de projeto
     if (isset($_SESSION['project_proTSA'])) {
-      //Session de projeto
       unset($_SESSION['project_proTSA']);
     }
+    //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
-      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
     }
+    //Session do Segundo Módulo
+
+    //Session do Terceiro Módulo
     if (isset($_SESSION['signals_id_proTSA'])) {
-      //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //Session do Quarto Módulo
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
     }
     //fim do básico
 
@@ -278,18 +336,31 @@ class adminController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
+    //Session de projeto
     if (isset($_SESSION['project_proTSA'])) {
-      //Session de projeto
       unset($_SESSION['project_proTSA']);
     }
+    //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
-      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
     }
+    //Session do Segundo Módulo
+
+    //Session do Terceiro Módulo
     if (isset($_SESSION['signals_id_proTSA'])) {
-      //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //Session do Quarto Módulo
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
     }
     //fim do básico
 

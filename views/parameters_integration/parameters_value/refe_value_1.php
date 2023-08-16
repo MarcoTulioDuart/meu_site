@@ -36,38 +36,45 @@
                             <span class="panel-title fs22 mw400 text-center"><b>Definição de valores de referência dos parâmetros</b></span>
                         </div>
                         <div class="panel-body">
-                            <form action="<?= BASE_URL; ?>parametersintegration/choose_parameter" method="post">
+                            <?php if (!isset($list_parameters_name)) : ?>
                                 <div class="section">
-                                    <h6 class="text-center">Quais são os valores de parâmetros de projetos anteriores que já aplicados em série sem gerar erros na produção?</h6>
+                                    <h6 class="text-center">Seus valores já foram definidos. Se deseja testar novo valores, inicie um novo teste.</h6>
                                 </div>
-                                <div class="section text-center">
-                                    <span class="text-muted">"Escolha um dos tipos de parâmetros que foram registrados no projeto, para prosseguir."</span>
-                                </div>
-                                <div class="section row">
-                                    <div class="col-md-10 ph10 mb5">
-                                        <label for="name_parameter" class="field select">
-                                            <select name="name_parameter" id="name_parameter" class="gui-input">
-                                                <?php if ($list_parameters_name == 0) : ?>
-                                                    <option selected>Não foram encontrados parametros registrados neste projeto</option>
-                                                <?php else : ?>
-
-                                                    <?php foreach ($list_parameters_name as $value) : ?>
-
-                                                        <option value="<?= $value['p_type']; ?>"><?= $value['p_type']; ?></option>
-
-                                                    <?php endforeach; ?>
-
-                                                <?php endif; ?>
-                                            </select>
-                                        </label>
+                            <?php else : ?>
+                                <form action="<?= BASE_URL; ?>parametersintegration/choose_parameter" method="post">
+                                    <div class="section">
+                                        <h6 class="text-center">Quais são os valores de parâmetros de projetos anteriores que já aplicados em série sem gerar erros na produção?</h6>
                                     </div>
-                                    <div class="col-md-2 ph10 mb5">
-                                        <label class="file">
-                                            <button type="submit" class="button btn-primary">Escolher</button>
-                                        </label>
+                                    <div class="section text-center">
+                                        <span class="text-muted">"Escolha um dos tipos de parâmetros que foram registrados no projeto, para prosseguir."</span>
                                     </div>
-                                </div>
-                            </form>
+                                    <div class="section row">
+                                        <div class="col-md-10 ph10 mb5">
+                                            <label for="name_parameter" class="field select">
+                                                <select name="name_parameter" id="name_parameter" class="gui-input">
+                                                    <?php if ($list_parameters_name == 0) : ?>
+                                                        <option selected>Não foram encontrados parametros registrados neste projeto</option>
+                                                    <?php else : ?>
+
+                                                        <?php foreach ($list_parameters_name as $value) : ?>
+
+                                                            <option value="<?= $value['p_type']; ?>"><?= $value['p_type']; ?></option>
+
+                                                        <?php endforeach; ?>
+
+                                                    <?php endif; ?>
+                                                </select>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-2 ph10 mb5">
+                                            <label class="file">
+                                                <button type="submit" class="button btn-primary">Escolher</button>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            <?php endif; ?>
+
                         </div>
 
                     </div>

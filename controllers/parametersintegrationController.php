@@ -292,10 +292,19 @@ class parametersintegrationController extends Controller
     }
     //fim do básico
 
-
     $list_parameters = new list_parameters();
+    $list_parameters_compare = new list_parameters_compare();
+
     $project_id = $_SESSION['parameters_project_id_proTSA'];
-    $data['list_parameters_name'] = $list_parameters->getParameterProject($project_id);
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
+
+    if ($list_parameters_compare->get($parameters_integration_id, $project_id)) {
+      //nada
+
+    } else {
+
+      $data['list_parameters_name'] = $list_parameters->getParameterProject($project_id);
+    }
 
     //template, view, data
     $this->loadTemplate("home", "parameters_integration/parameters_value/refe_value_1", $data);
@@ -704,25 +713,28 @@ class parametersintegrationController extends Controller
       $name_aproved = addslashes($_POST['name_aproved']);
       $attachmens = [$_FILES['pdf_upload']];
 
-      $meeting_participants = $list_participants->getAllParticipants($data['project_id']['lis_project_id']);
+      if (isset($_POST['participant']) && !empty($_POST['participant'])) {
+        $participants = addslashes($_POST['participant']);
+        $emails = explode(';', $participants);
 
-      for ($i = 0; $i < count($meeting_participants); $i++) {
-        $name = $meeting_participants[$i]['full_name'];
-        $email = $meeting_participants[$i]['email'];
+        for ($i = 0; $i < count($emails); $i++) {
+          $name = ' ';
+          $email = $emails[$i];
 
-        $subject = "Aprovação de testes de parâmetros.";
-        $message = 'O arquivo em anexo contém a tabela de parâmetros para liberação. <br>
-        Versão de HW da ECU: ' . $version_hw . '<br>
-        Versão de SW da ECU: ' . $version_sw . '<br>
-        Quem aprovou: ' . $name_aproved . '<br>';
+          $subject = "Aprovação de testes de parâmetros.";
+          $message = 'O arquivo em anexo contém a tabela de parâmetros para liberação. <br>
+          Versão de HW da ECU: ' . $version_hw . '<br>
+          Versão de SW da ECU: ' . $version_sw . '<br>
+          Quem aprovou: ' . $name_aproved . '<br>';
 
-        if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
-          $recommendation = addslashes($_POST['recommendation']);
+          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+            $recommendation = addslashes($_POST['recommendation']);
 
-          $message .= '<br>' . $recommendation;
+            $message .= $recommendation . '<br>';
+          }
+
+          $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
         }
-
-        $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
       }
     }
 

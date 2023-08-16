@@ -42,96 +42,33 @@ class failsafetestController extends Controller
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
     }
-
-    //fim do básico
-
-    //form 1: escolha de projeto
-    $projects = new projects();
-
-    $data['list_projects'] = $projects->getAll($id);
-
-    //template, view, data
-    $this->loadTemplate("home", "fail_safe_test/choose_project", $data);
-  }
-
-  public function choose_project()
-  {
-    //form 1
-
-    if (isset($_GET['project_id']) && !empty($_GET['project_id'])) {
-
-      $fail_safe_test = new fail_safe_test();
-      $project_id = addslashes($_GET['project_id']);
-      $_SESSION['safe_test_project_id_proTSA'] = $project_id;
-
-      $fail_safe_test->add($project_id);
-      header("Location: " . BASE_URL . "failsafetest/basic_info_ecu");
-      exit;
-    }
-  }
-
-  public function basic_info_ecu()
-  {
-    //básico
-    if (!isset($_SESSION['proTSA_online'])) {
-      header("Location: " . BASE_URL);
-      exit;
-    }
-    $data  = array();
-    $filters = array();
-    $accounts = new accounts();
-
-    $data['page'] = 'fail_test';
-    $id = $_SESSION['proTSA_online'];
-    $data['info_user'] = $accounts->get($id);
-
-    //Session de projeto
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
-    }
-    //Session do Primeiro Módulo
-    if (isset($_SESSION['integration_id_proTSA'])) {
-      unset($_SESSION['integration_id_proTSA']);
-    }
-    //Session do Segundo Módulo
-
-    //Session do Terceiro Módulo
-    if (isset($_SESSION['signals_id_proTSA'])) {
-      unset($_SESSION['signals_id_proTSA']);
-      unset($_SESSION['project_signals_id_proTSA']);
-    }
-    //Session do Quarto Módulo
-    if (isset($_SESSION['parameters_id_proTSA'])) {
-      unset($_SESSION['parameters_id_proTSA']);
-      unset($_SESSION['parameters_project_id_proTSA']);
-    }
+    //Session do Quinto Módulo
 
     //fim do básico
 
     //form 2
     $list_basic_info = new list_basic_info();
-    $list_ecu = new list_ecu();
     $site = new site();
-
-    $fail_safe_id = $_SESSION['safe_test_id_proTSA'];
-    $project_id = $_SESSION['safe_test_project_id_proTSA'];
-
-    $data['list_ecu'] = $list_ecu->getEcuProject($project_id);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $list_ecu_id = $_POST['list_ecu_id'];
       $responsible_name = addslashes($_POST['responsible_name']);
       $responsible_email = addslashes($_POST['responsible_email']);
+
+      $list_basic_info->add($list_ecu_id, $responsible_name, $responsible_email); //add informação e cria a sessão do teste
+
+      $fail_safe_id = $_SESSION['safe_test_id_proTSA']; //id do teste
+
       $files = $_FILES['upload_ecu_reference'];
 
-      $dir = "assets/upload/failsafetest/reference_fail_ecu/project_" . $project_id . "/"; //endereço da pasta pra onde serão enviados os arquivos
+      $dir = "assets/upload/failsafetest/reference_fail_ecu/teste_" . $fail_safe_id . "/"; //endereço da pasta pra onde serão enviados os arquivos
 
       $location = "Location: " . BASE_URL . "failsafetest/basic_info_ecu";
 
       //envia os arquivo para a pasta determinada
       if ($file = $site->uploadPdf($dir, $files, $location)) {
 
-        $list_basic_info->add($fail_safe_id, $project_id, $list_ecu_id, $responsible_name, $responsible_email, $file);
+        $list_basic_info->upload($file, $id);
         header("Location: " . BASE_URL . "failsafetest/confirmations?form=1");
         exit;
       } else {
@@ -179,57 +116,12 @@ class failsafetestController extends Controller
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
     }
+    //Session do Quinto Módulo
 
     //fim do básico
 
     //template, view, data
     $this->loadTemplate("home", "fail_safe_test/confirmations", $data);
-  }
-
-  public function align_disponibility()
-  {
-    //básico
-    if (!isset($_SESSION['proTSA_online'])) {
-      header("Location: " . BASE_URL);
-      exit;
-    }
-    $data  = array();
-    $filters = array();
-    $accounts = new accounts();
-
-    $data['page'] = 'fail_test';
-    $id = $_SESSION['proTSA_online'];
-    $data['info_user'] = $accounts->get($id);
-
-    //Session de projeto
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
-    }
-    //Session do Primeiro Módulo
-    if (isset($_SESSION['integration_id_proTSA'])) {
-      unset($_SESSION['integration_id_proTSA']);
-    }
-    //Session do Segundo Módulo
-
-    //Session do Terceiro Módulo
-    if (isset($_SESSION['signals_id_proTSA'])) {
-      unset($_SESSION['signals_id_proTSA']);
-      unset($_SESSION['project_signals_id_proTSA']);
-    }
-    //Session do Quarto Módulo
-    if (isset($_SESSION['parameters_id_proTSA'])) {
-      unset($_SESSION['parameters_id_proTSA']);
-      unset($_SESSION['parameters_project_id_proTSA']);
-    }
-    //fim do básico
-
-
-    //template, view, data
-    $this->loadTemplate("home", "fail_safe_test/align_disponibility", $data);
-  }
-
-  public function send_email()
-  {
   }
 
   public function results()
@@ -267,14 +159,14 @@ class failsafetestController extends Controller
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
     }
+    //Session do Quinto Módulo
 
     //fim do básico
-
-    $fail_safe_test = new fail_safe_test();
+    $list_basic_info = new list_basic_info();
 
     if (!isset($_GET['safe_test_id']) || empty($_GET['safe_test_id'])) {
 
-      $data['list_fail_safe_test'] = $fail_safe_test->getAll();
+      $data['list_fail_safe_test'] = $list_basic_info->getAll();
     }
 
     if (isset($_GET['safe_test_id']) && !empty($_GET['safe_test_id'])) {
@@ -309,23 +201,32 @@ class failsafetestController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'first_result';
+    $data['page'] = 'fail_test';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
+    //Session de projeto
     if (isset($_SESSION['project_proTSA'])) {
-      //Session de projeto
       unset($_SESSION['project_proTSA']);
     }
+    //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
-      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
     }
+    //Session do Segundo Módulo
+
+    //Session do Terceiro Módulo
     if (isset($_SESSION['signals_id_proTSA'])) {
-      //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
     }
+    //Session do Quarto Módulo
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
+    //Session do Quinto Módulo
+
     //fim do básico
 
     $list_parameters_vehicles = new list_parameters_vehicles();
@@ -369,23 +270,32 @@ class failsafetestController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'first_result';
+    $data['page'] = 'fail_test';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
+    //Session de projeto
     if (isset($_SESSION['project_proTSA'])) {
-      //Session de projeto
       unset($_SESSION['project_proTSA']);
     }
+    //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
-      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
     }
+    //Session do Segundo Módulo
+
+    //Session do Terceiro Módulo
     if (isset($_SESSION['signals_id_proTSA'])) {
-      //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
     }
+    //Session do Quarto Módulo
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
+    //Session do Quinto Módulo
+
     //fim do básico
 
 
@@ -441,23 +351,32 @@ class failsafetestController extends Controller
     $filters = array();
     $accounts = new accounts();
 
-    $data['page'] = 'first_result';
+    $data['page'] = 'fail_test';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
+    //Session de projeto
     if (isset($_SESSION['project_proTSA'])) {
-      //Session de projeto
       unset($_SESSION['project_proTSA']);
     }
+    //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
-      //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
     }
+    //Session do Segundo Módulo
+
+    //Session do Terceiro Módulo
     if (isset($_SESSION['signals_id_proTSA'])) {
-      //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
     }
+    //Session do Quarto Módulo
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
+    //Session do Quinto Módulo
+
     //fim do básico
 
     $meetings = new meetings();
@@ -541,16 +460,4 @@ class failsafetestController extends Controller
     $this->loadTemplate("home", "parameters_integration/workshop_meeting", $data);
   }
 
-  public function delete_fail_safe_test($id) //id do processo
-  {
-    $fail_safe_test = new fail_safe_test();
-    $list_basic_info = new list_basic_info();
-
-
-    $$list_basic_info->delete($id);
-    $project_id = $fail_safe_test->get($id); //pega a id do projeto
-
-    header("Location: " . BASE_URL . "project/project_view/" . $project_id['fst_project_id']);
-    exit;
-  }
 }

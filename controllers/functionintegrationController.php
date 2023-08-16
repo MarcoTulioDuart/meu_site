@@ -36,7 +36,14 @@ class functionintegrationController extends Controller
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
     }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
+    }
     //fim do básico
+
     $projects = new projects();
 
     $data['list_projects'] = $projects->getAll($id);
@@ -356,6 +363,13 @@ class functionintegrationController extends Controller
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
     }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
+    }
+
     //fim do básico
 
     //form 1 
@@ -414,6 +428,13 @@ class functionintegrationController extends Controller
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
     }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
+    }
+    
     //fim do básico
 
     //Primeiro resultado
@@ -794,6 +815,12 @@ class functionintegrationController extends Controller
       //Session do Quarto Módulo
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
+    }
+    //Session do Quinto Módulo
+
+    //Session do Sexto Módulo
+    if (isset($_SESSION['safe_test_id_proTSA'])) {
+      unset($_SESSION['safe_test_id_proTSA']);
     }
     //fim do básico
 

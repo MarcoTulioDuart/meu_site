@@ -117,6 +117,17 @@
                                     </div>
 
                                     <div class="section row">
+                                        <h6 class="text-center mtn pt10 pb10">Envie o email para outras pessoas</h6>
+                                        <h6 class="text-muted text-center">Digite corretamente seus emails no campo abaixo, separando por ' ; ' sem espaços.</h6>
+                                        <label for="participant" class="field prepend-icon">
+                                            <input type="text" name="participant" id="participant" class="gui-input">
+                                            <span class="field-icon">
+                                                <i class="fa fa-envelope"></i>
+                                            </span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="section row">
                                         <h6 class="text-center mtn pt10 pb10">Deseja fazer um comentário ou recomendação?</h6>
                                         <h6 class="text-muted text-center">A mensagem digitada aparecerá abaixo do texto padrão.</h6>
                                         <label for="recommendation" class="field prepend-icon">

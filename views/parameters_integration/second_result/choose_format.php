@@ -41,7 +41,7 @@
                                     <a href="<?= BASE_URL; ?>parametersintegration/formatted_table?format=like" class="btn fs14 btn-primary">Parâmetros em comum</a>
                                 </div>
                                 <div class="col-md-6 ph10">
-                                    <a href="<?= BASE_URL; ?>parametersintegration/formatted_table?format=unlike" class="btn fs14 btn-primary">Parâmetros diferentes</a>
+                                    <a href="<?= BASE_URL; ?>parametersintegration/formatted_table?format=unlike" class="btn fs14 btn-primary">Novos Parâmetros</a>
                                 </div>
                             </div>
                         </div>
