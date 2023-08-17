@@ -216,8 +216,7 @@
                         </a>
                         <ul class="nav sub-nav">
                             <li>
-                                <a href="<?= BASE_URL; ?>maturityecusoftwareunctions">Maturidade de ECU's, Softwares e
-                                    Funções</a>
+                                <a href="<?= BASE_URL; ?>maturityecusoftwareunctions">Maturidade de ECU's, Softwares e Funções</a>
                             </li>
                             <li>
                                 <a href="<?= BASE_URL; ?>maturityecusoftwareunctions/chooseProjectResults">Resultados de Testes</a>

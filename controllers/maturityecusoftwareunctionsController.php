@@ -39,16 +39,16 @@ class maturityecusoftwareunctionsController extends Controller
     $data['list_projects'] = $projects->getAll($id);
 
     if (isset($_GET['project_id']) && !empty($_GET['project_id'])) {
-      $maturityecusoftwareunctionss = new maturityecusoftwareunctionss();
+      $maturityecusoftwareunctions = new maturityecusoftwareunctions();
       $project_id = addslashes($_GET['project_id']);
 
-      if ($maturityecusoftwareunctionss_id = $maturityecusoftwareunctionss->add($project_id)) {
-        header("Location: " . BASE_URL . "softwareintegration/selectEcu?project_id=" . $project_id . "&maturityecusoftwareunctionss_id=" . $maturityecusoftwareunctionss_id);
+      if ($maturityecusoftwareunctions_id = $maturityecusoftwareunctions->add($project_id)) {
+        header("Location: " . BASE_URL . "maturityecusoftwareunctions/selectEcu?project_id=" . $project_id . "&maturityecusoftwareunctions_id=" . $maturityecusoftwareunctions_id);
         exit;
       } else {
         // Cria o novo cookie para durar 1 hora
         setcookie('error', 'Não foi possível selecionar o projeto, tente novamente.', (time() + (1 * 3600)));
-        header("Location: " . BASE_URL . "softwareintegration");
+        header("Location: " . BASE_URL . "maturityecusoftwareunctions");
         exit;
       }
     }
@@ -78,24 +78,24 @@ class maturityecusoftwareunctionsController extends Controller
     }
 
     if (isset($_GET['ecu_id']) && !empty($_GET['ecu_id'])) {
-      $maturityecusoftwareunctionss = new maturityecusoftwareunctionss();
+      $maturityecusoftwareunctions = new maturityecusoftwareunctions();
       $ecu_id = $_GET['ecu_id'];
 
      
-      $maturityecusoftwareunctionss->ecu_maturityecusoftwareunctionss_add($_GET['maturityecusoftwareunctionss_id'], $ecu_id); //cadastra os ecus selecionados nessa tabela
+      $maturityecusoftwareunctions->ecu_maturityecusoftwareunctions_add($_GET['maturityecusoftwareunctions_id'], $ecu_id); //cadastra os ecus selecionados nessa tabela
      
-      header("Location: " . BASE_URL . "softwareintegration/uploadDiagramHardware?maturityecusoftwareunctionss_id=" . $_GET['maturityecusoftwareunctionss_id'] . "&ecu_id=" . $ecu_id);
+      header("Location: " . BASE_URL . "maturityecusoftwareunctions/uploadDiagramHardware?maturityecusoftwareunctions_id=" . $_GET['maturityecusoftwareunctions_id'] . "&ecu_id=" . $ecu_id);
       exit;
     }
 
    
 
-    if (isset($_GET['project_id']) && isset($_GET['maturityecusoftwareunctionss_id'])) {
+    if (isset($_GET['project_id']) && isset($_GET['maturityecusoftwareunctions_id'])) {
       $data['list_ecu_name'] = $list_ecu->getEcuProject($_GET['project_id']); //Pega somente os types ecu que foram registrados no projeto
       
       
     } else {
-      header("Location: " . BASE_URL . "softwareintegration");
+      header("Location: " . BASE_URL . "maturityecusoftwareunctions");
       exit;
     }
 
@@ -118,19 +118,19 @@ class maturityecusoftwareunctionsController extends Controller
     if (isset($_FILES['files']) && !empty($_FILES['files'])) {
       $diagram_hardware = new diagram_hardware();
       $ecu_id = $_POST['ecu_id'];
-      $maturityecusoftwareunctionss_id = $_POST['maturityecusoftwareunctionss_id'];
+      $maturityecusoftwareunctions_id = $_POST['maturityecusoftwareunctions_id'];
 
       $site = new site();
 
       $upload = $_FILES['files']; //pega todos os campos que contem um arquivo enviado
-      $dir = "assets/upload/softwareintegration/flowchart/"; //endereço da pasta pra onde serão enviados os arquivos
-      $location = "Location: " . BASE_URL . "softwareintegration/uploadDiagramHardware";
+      $dir = "assets/upload/maturityecusoftwareunctions/flowchart/"; //endereço da pasta pra onde serão enviados os arquivos
+      $location = "Location: " . BASE_URL . "maturityecusoftwareunctions/uploadDiagramHardware";
       //envia os arquivo para a pasta determinada
       $diagram = $site->uploadPdf($dir, $upload, $location);     
      
-      $diagram_hardware->add($maturityecusoftwareunctionss_id, $ecu_id, $diagram); //cadastra os ecus selecionados nessa tabela
+      $diagram_hardware->add($maturityecusoftwareunctions_id, $ecu_id, $diagram); //cadastra os ecus selecionados nessa tabela
      
-      header("Location: " . BASE_URL . "softwareintegration/releasesSoftware?maturityecusoftwareunctionss_id=" . $maturityecusoftwareunctionss_id . "&ecu_id=" . $ecu_id);
+      header("Location: " . BASE_URL . "maturityecusoftwareunctions/releasesSoftware?maturityecusoftwareunctions_id=" . $maturityecusoftwareunctions_id . "&ecu_id=" . $ecu_id);
       exit;
     }
 
@@ -153,18 +153,18 @@ class maturityecusoftwareunctionsController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
-   if (isset($_POST['ecu_id']) && !empty($_POST['maturityecusoftwareunctionss_id'])) {
-      $maturityecusoftwareunctionss = new maturityecusoftwareunctionss();
+   if (isset($_POST['ecu_id']) && !empty($_POST['maturityecusoftwareunctions_id'])) {
+      $maturityecusoftwareunctions = new maturityecusoftwareunctions();
       $ecu_id = $_POST['ecu_id'];
-      $maturityecusoftwareunctionss_id = $_POST['maturityecusoftwareunctionss_id'];
+      $maturityecusoftwareunctions_id = $_POST['maturityecusoftwareunctions_id'];
       $releases_date = $_POST['releases_date'];
       $releases_function  = $_POST['releases_function'];     
 
       foreach($releases_date as $key => $item){
-        $maturityecusoftwareunctionss->releases_software_add($maturityecusoftwareunctionss_id, $ecu_id, $item, $releases_function[$key]);
+        $maturityecusoftwareunctions->releases_software_add($maturityecusoftwareunctions_id, $ecu_id, $item, $releases_function[$key]);
       }
 
-      header("Location: " . BASE_URL . "softwareintegration/integrationPlan?maturityecusoftwareunctionss_id=" . $maturityecusoftwareunctionss_id . "&ecu_id=" . $ecu_id);
+      header("Location: " . BASE_URL . "maturityecusoftwareunctions/integrationPlan?maturityecusoftwareunctions_id=" . $maturityecusoftwareunctions_id . "&ecu_id=" . $ecu_id);
       exit;
     }
 
@@ -194,10 +194,10 @@ class maturityecusoftwareunctionsController extends Controller
     }
     
 
-    if (isset($_POST['ecu_id']) && !empty($_POST['maturityecusoftwareunctionss_id'])) {
+    if (isset($_POST['ecu_id']) && !empty($_POST['maturityecusoftwareunctions_id'])) {
       
       $ecu_id = $_POST['ecu_id'];
-      $maturityecusoftwareunctionss_id = $_POST['maturityecusoftwareunctionss_id'];
+      $maturityecusoftwareunctions_id = $_POST['maturityecusoftwareunctions_id'];
       $physical_resources = addslashes($_POST['physical_resources']);
       $available_resources  = $_POST['available_resources'];  
       $test_date  = (isset($_POST['test_date'])) ? addslashes($_POST['test_date']) : "";
@@ -219,8 +219,8 @@ class maturityecusoftwareunctionsController extends Controller
 
       
       
-      $integration_plan->add($maturityecusoftwareunctionss_id, $ecu_id, $physical_resources, $available_resources, $test_date, $pending_item);
-      header("Location: " . BASE_URL . "softwareintegration/finalStep?maturityecusoftwareunctionss_id=" . $maturityecusoftwareunctionss_id);
+      $integration_plan->add($maturityecusoftwareunctions_id, $ecu_id, $physical_resources, $available_resources, $test_date, $pending_item);
+      header("Location: " . BASE_URL . "maturityecusoftwareunctions/finalStep?maturityecusoftwareunctions_id=" . $maturityecusoftwareunctions_id);
       exit;
 
       
@@ -233,12 +233,12 @@ class maturityecusoftwareunctionsController extends Controller
   public function finalStep(){
     $data  = array();
     $accounts = new accounts();
-    $maturityecusoftwareunctionss = new maturityecusoftwareunctionss();
+    $maturityecusoftwareunctions = new maturityecusoftwareunctions();
     $data['page'] = 'maturityecusoftwareunctions';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
-    $data['info_maturityecusoftwareunctionss'] = $maturityecusoftwareunctionss->get($_GET['maturityecusoftwareunctionss_id']);
-    $data['info_maturityecusoftwareunctionss_ecu'] = $maturityecusoftwareunctionss->getSoftwareIntegrationsEcu($_GET['maturityecusoftwareunctionss_id']);
+    $data['info_maturityecusoftwareunctions'] = $maturityecusoftwareunctions->get($_GET['maturityecusoftwareunctions_id']);
+    $data['info_maturityecusoftwareunctions_ecu'] = $maturityecusoftwareunctions->getmaturityecusoftwareunctionssEcu($_GET['maturityecusoftwareunctions_id']);
 
 
     $this->loadTemplate("home", "maturityecusoftwareunctions/final_step", $data);
@@ -255,7 +255,7 @@ class maturityecusoftwareunctionsController extends Controller
 
 
     if(isset($_GET['project_id']) && !empty($_GET['project_id'])){
-      header("Location: " . BASE_URL . "softwareintegration/chooseResult?project_id=" . $_GET['project_id']);
+      header("Location: " . BASE_URL . "maturityecusoftwareunctions/chooseResult?project_id=" . $_GET['project_id']);
       exit;
     }
    
@@ -269,13 +269,13 @@ class maturityecusoftwareunctionsController extends Controller
     $data  = array();
     $accounts = new accounts();
     $projects = new projects();
-    $maturityecusoftwareunctionss = new maturityecusoftwareunctionss();
+    $maturityecusoftwareunctions = new maturityecusoftwareunctions();
     $data['page'] = 'chooseResult';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id); 
     
     if(!isset($_GET['project_id']) || empty($_GET['project_id'])){
-      header("Location: " . BASE_URL . "softwareintegration/chooseProjectResults");
+      header("Location: " . BASE_URL . "maturityecusoftwareunctions/chooseProjectResults");
       exit;
     }
 
@@ -293,43 +293,43 @@ class maturityecusoftwareunctionsController extends Controller
     $filters = array();
     $accounts = new accounts();
     $diagram_hardware = new diagram_hardware();
-    $maturityecusoftwareunctionss = new maturityecusoftwareunctionss();
+    $maturityecusoftwareunctions = new maturityecusoftwareunctions();
 
     $data['page'] = 'maturityecusoftwareunctions';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     if(!isset($_GET['project_id']) || empty($_GET['project_id'])){
-      header("Location: " . BASE_URL . "softwareintegration/chooseProjectResults");
+      header("Location: " . BASE_URL . "maturityecusoftwareunctions/chooseProjectResults");
       exit;
     } 
 
-    $data['info_maturityecusoftwareunctionss'] = $maturityecusoftwareunctionss->getByProjectId($_GET['project_id']);
+    $data['info_maturityecusoftwareunctions'] = $maturityecusoftwareunctions->getByProjectId($_GET['project_id']);
 
     
-    foreach ($data['info_maturityecusoftwareunctionss'] as $key => $value) {
-      $data['info_maturityecusoftwareunctionss'][$key]['info_diagram_hardware'] = $diagram_hardware->getBySoftwareIntegrationsId($value['id']);
+    foreach ($data['info_maturityecusoftwareunctions'] as $key => $value) {
+      $data['info_maturityecusoftwareunctions'][$key]['info_diagram_hardware'] = $diagram_hardware->getBymaturityecusoftwareunctionssId($value['id']);
     }
 
     if (isset($_FILES['flowchart_upload']) && !empty($_FILES['flowchart_upload'])) {
       $site = new site();
 
       $upload = $_FILES['flowchart_upload']; //pega todos os campos que contem um arquivo enviado
-      $dir = "assets/upload/softwareintegration/flowchart/"; //endereço da pasta pra onde serão enviados os arquivos
-      $location = "Location: " . BASE_URL . "softwareintegration/first_result?project_id=" . $_POST['project_id'];
+      $dir = "assets/upload/maturityecusoftwareunctions/flowchart/"; //endereço da pasta pra onde serão enviados os arquivos
+      $location = "Location: " . BASE_URL . "maturityecusoftwareunctions/first_result?project_id=" . $_POST['project_id'];
       //envia os arquivo para a pasta determinada   
 
       $file = $site->uploadPdf($dir, $upload, $location);
       $ecu_key = $_POST['ecu_key'];
       if($_POST['action_crud']){
-        $diagram_hardware->edit($data['info_maturityecusoftwareunctionss'][$ecu_key]['info_diagram_hardware']['id'], $file); 
+        $diagram_hardware->edit($data['info_maturityecusoftwareunctions'][$ecu_key]['info_diagram_hardware']['id'], $file); 
       
       }else{
-        $diagram_hardware->add($data['info_maturityecusoftwareunctionss']['id'], $data['info_maturityecusoftwareunctionss']['ecu_id'], $file); 
+        $diagram_hardware->add($data['info_maturityecusoftwareunctions']['id'], $data['info_maturityecusoftwareunctions']['ecu_id'], $file); 
       }
 
       
 
-      header("Location: " . BASE_URL . "softwareintegration/first_result?project_id=" . $_GET['project_id']);
+      header("Location: " . BASE_URL . "maturityecusoftwareunctions/first_result?project_id=" . $_GET['project_id']);
       exit;
     }
 
@@ -343,20 +343,20 @@ class maturityecusoftwareunctionsController extends Controller
   {   
     $data  = array();
     $accounts = new accounts();
-    $maturityecusoftwareunctionss = new maturityecusoftwareunctionss();
+    $maturityecusoftwareunctions = new maturityecusoftwareunctions();
 
     $data['page'] = 'maturityecusoftwareunctions';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     if(!isset($_GET['project_id']) || empty($_GET['project_id'])){
-      header("Location: " . BASE_URL . "softwareintegration/chooseProjectResults");
+      header("Location: " . BASE_URL . "maturityecusoftwareunctions/chooseProjectResults");
       exit;
     } 
 
-    $data['info_maturityecusoftwareunctionss'] = $maturityecusoftwareunctionss->getByProjectId($_GET['project_id']);
+    $data['info_maturityecusoftwareunctions'] = $maturityecusoftwareunctions->getByProjectId($_GET['project_id']);
 
-    foreach ($data['info_maturityecusoftwareunctionss'] as $key => $value) {
-      $data['info_maturityecusoftwareunctionss'][$key]['releases_softwares'] = $maturityecusoftwareunctionss->getByReleasesSoftware($value['id']);
+    foreach ($data['info_maturityecusoftwareunctions'] as $key => $value) {
+      $data['info_maturityecusoftwareunctions'][$key]['releases_softwares'] = $maturityecusoftwareunctions->getByReleasesSoftware($value['id']);
     }
 
     
@@ -369,20 +369,20 @@ class maturityecusoftwareunctionsController extends Controller
     $data  = array();
     $accounts = new accounts();
     $site = new site();
-    $maturityecusoftwareunctionss = new maturityecusoftwareunctionss();
+    $maturityecusoftwareunctions = new maturityecusoftwareunctions();
 
     $data['page'] = 'maturityecusoftwareunctions';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     if(!isset($_GET['project_id']) || empty($_GET['project_id'])){
-      header("Location: " . BASE_URL . "softwareintegration/chooseProjectResults");
+      header("Location: " . BASE_URL . "maturityecusoftwareunctions/chooseProjectResults");
       exit;
     } 
 
-    $data['info_maturityecusoftwareunctionss'] = $maturityecusoftwareunctionss->getByProjectId($_GET['project_id']);
+    $data['info_maturityecusoftwareunctions'] = $maturityecusoftwareunctions->getByProjectId($_GET['project_id']);
 
-    foreach ($data['info_maturityecusoftwareunctionss'] as $key => $value) {
-      $data['info_maturityecusoftwareunctionss'][$key]['releases_softwares'] = $maturityecusoftwareunctionss->getByReleasesSoftware($value['id']);
+    foreach ($data['info_maturityecusoftwareunctions'] as $key => $value) {
+      $data['info_maturityecusoftwareunctions'][$key]['releases_softwares'] = $maturityecusoftwareunctions->getByReleasesSoftware($value['id']);
     }
     ob_start();//inicia a inclusão da view na memória
     $this->loadTemplate("download", "maturityecusoftwareunctions/result/second_result_download", $data);
@@ -397,18 +397,18 @@ class maturityecusoftwareunctionsController extends Controller
   }
 
 
-  public function delete_maturityecusoftwareunctionss($id, $project_id) //iD DO PROCESSO
+  public function delete_maturityecusoftwareunctions($id, $project_id) //iD DO PROCESSO
   {
 
-    $maturityecusoftwareunctionss = new maturityecusoftwareunctionss();
+    $maturityecusoftwareunctions = new maturityecusoftwareunctions();
     $releases_softwares = new releases_softwares();
-    $ecu_maturityecusoftwareunctionss = new ecu_maturityecusoftwareunctionss();
+    $ecu_maturityecusoftwareunctions = new ecu_maturityecusoftwareunctions();
     $diagram_hardware = new diagram_hardware();
 
-    $diagram_hardware->deleteBySoftwareIntegrationsId($id);
-    $ecu_maturityecusoftwareunctionss->deleteBySoftwareIntegrationsId($id);
-    $releases_softwares->deleteBySoftwareIntegrationsId($id);
-    $maturityecusoftwareunctionss->delete($id);
+    $diagram_hardware->deleteBymaturityecusoftwareunctionssId($id);
+    $ecu_maturityecusoftwareunctions->deleteBymaturityecusoftwareunctionssId($id);
+    $releases_softwares->deleteBymaturityecusoftwareunctionssId($id);
+    $maturityecusoftwareunctions->delete($id);
 
     header("Location: " . BASE_URL . "project/project_view/" . $project_id); //RETORNA A PAGINA COM O ID DO PROJETO
     exit;
