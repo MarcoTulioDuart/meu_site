@@ -269,10 +269,6 @@ class projectController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
-    if (isset($_SESSION['project_proTSA'])) {
-      //Session de projeto
-      unset($_SESSION['project_proTSA']);
-    }
     if (isset($_SESSION['integration_id_proTSA'])) {
       //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
@@ -318,10 +314,6 @@ class projectController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
-    if (isset($_SESSION['project_proTSA'])) {
-      //Session de projeto
-      unset($_SESSION['project_proTSA']);
-    }
     if (isset($_SESSION['integration_id_proTSA'])) {
       //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);

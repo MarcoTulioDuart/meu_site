@@ -3,29 +3,30 @@
 class list_basic_info extends Model
 {
 
-    public function add($list_ecu_id, $responsible_name, $responsible_email)
+    public function add($list_ecu_id, $responsible_name, $responsible_email, $fail_safe_id)
     {
-        $sql = "INSERT INTO list_basic_info (list_ecu_id, responsible_name, responsible_email) VALUES (:list_ecu_id, :responsible_name, :responsible_email)";
+        $sql = "INSERT INTO list_basic_info (list_ecu_id, responsible_name, responsible_email, fail_safe_id) VALUES (:list_ecu_id, :responsible_name, :responsible_email, :fail_safe_id)";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":list_ecu_id", $list_ecu_id);
         $sql->bindValue(":responsible_name", $responsible_name);
         $sql->bindValue(":responsible_email", $responsible_email);
+        $sql->bindValue(":fail_safe_id", $fail_safe_id);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
-            $_SESSION['safe_test_id_proTSA'] = $this->db->lastInsertId();
             return true;
         } else {
             return false;
         }
     }
 
-    public function upload($upload_ecu_reference, $id)
+    public function upload($upload_ecu_reference, $id, $fail_safe_id)
     {
-        $sql = "UPDATE list_basic_info SET upload_ecu_reference = :upload_ecu_reference WHERE id = :id";
+        $sql = "UPDATE list_basic_info SET upload_ecu_reference = :upload_ecu_reference WHERE id = :id AND fail_safe_id = :fail_safe_id";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":id", $id);
         $sql->bindValue(":upload_ecu_reference", $upload_ecu_reference);
+        $sql->bindValue(":fail_safe_id", $fail_safe_id);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
@@ -35,10 +36,12 @@ class list_basic_info extends Model
         }
     }
 
-    public function getAll() {
+    public function getAll($fail_safe_id) {
         $sql = "SELECT lbi.id, lbi.responsible_name, lbi.responsible_email, lbi.upload_ecu_reference
-        FROM list_basic_info AS lbi";
+        FROM list_basic_info AS lbi
+        WHERE fail_safe_id = :fail_safe_id";
         $sql = $this->db->prepare($sql);
+        $sql->bindValue(":fail_safe_id", $fail_safe_id);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
@@ -49,12 +52,14 @@ class list_basic_info extends Model
         }
     }
 
-    public function get($id) {
+    public function get($id, $fail_safe_id) {
         $sql = "SELECT lbi.id, lbi.responsible_name, lbi.responsible_email, lbi.upload_ecu_reference
         FROM list_basic_info AS lbi
-        WHERE lbi.id = :id";
+        WHERE lbi.id = :id
+        AND fail_safe_id = :fail_safe_id";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":id", $id);
+        $sql->bindValue(":fail_safe_id", $fail_safe_id);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {

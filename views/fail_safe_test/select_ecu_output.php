@@ -32,7 +32,7 @@
                     <div class="panel" id="shortcut">
 
                         <div class="panel-heading text-center">
-                            <span class="panel-title pn">Alinhamento de disponibilidade do veículo</span><br>
+                            <span class="panel-title pn">Seleção de Saídas por ECU</span><br>
                             <span class="fa fa-circle"></span>
                             <span class="fa fa-circle"></span>
                             <span class="fa fa-circle-o"></span>

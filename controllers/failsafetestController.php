@@ -47,17 +47,20 @@ class failsafetestController extends Controller
     //fim do básico
 
     //form 2
+    $fail_safe_test = new fail_safe_test();
     $list_basic_info = new list_basic_info();
     $site = new site();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+      $fail_safe_test->add($id);
+
+      $fail_safe_id = $_SESSION['safe_test_id_proTSA']; //id do teste
       $list_ecu_id = $_POST['list_ecu_id'];
       $responsible_name = addslashes($_POST['responsible_name']);
       $responsible_email = addslashes($_POST['responsible_email']);
 
-      $list_basic_info->add($list_ecu_id, $responsible_name, $responsible_email); //add informação e cria a sessão do teste
-
-      $fail_safe_id = $_SESSION['safe_test_id_proTSA']; //id do teste
+      $list_basic_info->add($list_ecu_id, $responsible_name, $responsible_email, $fail_safe_id); //add informação e cria a sessão do teste
 
       $files = $_FILES['upload_ecu_reference'];
 
@@ -68,7 +71,7 @@ class failsafetestController extends Controller
       //envia os arquivo para a pasta determinada
       if ($file = $site->uploadPdf($dir, $files, $location)) {
 
-        $list_basic_info->upload($file, $id);
+        $list_basic_info->upload($file, $id, $fail_safe_id);
         header("Location: " . BASE_URL . "failsafetest/confirmations?form=1");
         exit;
       } else {
@@ -81,6 +84,50 @@ class failsafetestController extends Controller
     $this->loadTemplate("home", "fail_safe_test/basic_info_ecu", $data);
   }
 
+  public function select_ecu_output()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'fail_test';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    //Session de projeto
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //Session do Primeiro Módulo
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    //Session do Segundo Módulo
+
+    //Session do Terceiro Módulo
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //Session do Quarto Módulo
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
+    //Session do Quinto Módulo
+
+    //fim do básico
+
+
+    
+    //template, view, data
+    $this->loadTemplate("home", "fail_safe_test/select_ecu_output", $data);
+  }
   public function confirmations()
   {
     //básico
@@ -165,8 +212,9 @@ class failsafetestController extends Controller
     $list_basic_info = new list_basic_info();
 
     if (!isset($_GET['safe_test_id']) || empty($_GET['safe_test_id'])) {
-
-      $data['list_fail_safe_test'] = $list_basic_info->getAll();
+      
+      $fail_safe_id = $_GET['safe_test_id'];
+      $data['list_fail_safe_test'] = $list_basic_info->getAll($fail_safe_id);
     }
 
     if (isset($_GET['safe_test_id']) && !empty($_GET['safe_test_id'])) {
@@ -459,5 +507,4 @@ class failsafetestController extends Controller
 
     $this->loadTemplate("home", "parameters_integration/workshop_meeting", $data);
   }
-
 }
