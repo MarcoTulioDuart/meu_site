@@ -24,8 +24,8 @@ class adminController extends Controller
     $data['info_user'] = $accounts->get($id);
 
    //Session de projeto
-   if (isset($_SESSION['project_proTSA'])) {
-    unset($_SESSION['project_proTSA']);
+   if (isset($_SESSION['project_protsa'])) {
+    unset($_SESSION['project_protsa']);
   }
   //Session do Primeiro Módulo
   if (isset($_SESSION['integration_id_proTSA'])) {
@@ -90,8 +90,8 @@ class adminController extends Controller
     $data['info_user'] = $accounts->get($id);
 
     //Session de projeto
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
     }
     //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
@@ -155,9 +155,9 @@ class adminController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
-    if (isset($_SESSION['project_proTSA'])) {
+    if (isset($_SESSION['project_protsa'])) {
       //Session de projeto
-      unset($_SESSION['project_proTSA']);
+      unset($_SESSION['project_protsa']);
     }
     if (isset($_SESSION['integration_id_proTSA'])) {
       //Session do Primeiro Módulo
@@ -217,8 +217,8 @@ class adminController extends Controller
     $data['info_user'] = $accounts->get($id);
 
     //Session de projeto
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
     }
     //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
@@ -284,8 +284,8 @@ class adminController extends Controller
     $data['info_user'] = $accounts->get($id);
 
     //Session de projeto
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
     }
     //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
@@ -337,8 +337,8 @@ class adminController extends Controller
     $data['info_user'] = $accounts->get($id);
 
     //Session de projeto
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
     }
     //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {

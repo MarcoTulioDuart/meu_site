@@ -58,7 +58,7 @@ class projectController extends Controller
         $data['list_ecu'] = $ecu->getAll($filters);
 
         $ecu_id = $type_ecu->getId($filters);
-        $_SESSION['ecu_project_proTSA'] = $ecu_id['id']; //id do ecu atual
+        $_SESSION['ecu_project_protsa'] = $ecu_id['id']; //id do ecu atual
       }
     }
 
@@ -89,7 +89,7 @@ class projectController extends Controller
       if (isset($_SESSION['name_can']) && !empty($_SESSION['name_can'])) {
         unset($_SESSION['name_can']);
       }
-      $ecu_id = $_SESSION['ecu_project_proTSA'];
+      $ecu_id = $_SESSION['ecu_project_protsa'];
       $data['name_ecu'] = $type_ecu->getName($ecu_id);
       $_SESSION['type_parameter'] = $data['name_ecu']['name'];
       $data['form'] = "project_4";
@@ -103,7 +103,7 @@ class projectController extends Controller
 
     if (isset($_GET['form']) && $_GET['form'] == 5) {
       unset($_SESSION['type_parameter']);
-      unset($_SESSION['ecu_project_proTSA']);
+      unset($_SESSION['ecu_project_protsa']);
     }
 
     //form 6
@@ -116,7 +116,7 @@ class projectController extends Controller
     //form 7
 
     if (isset($_GET['form']) && $_GET['form'] == 7) {
-      unset($_SESSION['project_proTSA']);
+      unset($_SESSION['project_protsa']);
     }
 
     //template, view, data
@@ -145,6 +145,7 @@ class projectController extends Controller
 
   public function select_function_ecu()
   {
+    
     //form 2
     $filters = array();
     $list_ecu = new list_ecu();
@@ -155,9 +156,10 @@ class projectController extends Controller
 
       for ($i = 0; $i < count($ecus); $i++) {
 
-        $ecu_id = $_SESSION['ecu_project_proTSA'];
+        $ecu_id = $_SESSION['ecu_project_protsa'];
         $data_ecu_id = $ecus[$i];
-        $project_id = $_SESSION['project_proTSA'];
+        $project_id = $_SESSION['project_protsa'];
+       
 
         if ($list_ecu->getFunction($project_id, $ecu_id, $data_ecu_id)) {
           setcookie("repeated_function", "Dentre as funções escolhidas foram encontradas uma ou mais funções já registradas neste projeto, escolha outras funções nesta ou em outra ECU, ou vá para o próximo formulário.", time() + 100);
@@ -183,8 +185,8 @@ class projectController extends Controller
       for ($i = 0; $i < count($cans); $i++) {
 
         $can_id = $cans[$i];
-        $ecu_id = $_SESSION['ecu_project_proTSA'];
-        $project_id = $_SESSION['project_proTSA'];
+        $ecu_id = $_SESSION['ecu_project_protsa'];
+        $project_id = $_SESSION['project_protsa'];
 
         $list_can->add($can_id, $ecu_id, $project_id);
       }
@@ -203,8 +205,8 @@ class projectController extends Controller
       for ($i = 0; $i < count($param); $i++) {
 
         $parameters_id = $param[$i];
-        $ecu_id = $_SESSION['ecu_project_proTSA'];
-        $project_id = $_SESSION['project_proTSA'];
+        $ecu_id = $_SESSION['ecu_project_protsa'];
+        $project_id = $_SESSION['project_protsa'];
 
         $list_parameters->add($parameters_id, $ecu_id, $project_id);
       }
@@ -226,8 +228,8 @@ class projectController extends Controller
     for ($i = 0; $i < count($param); $i++) {
 
       $parameters_id = $param[$i]['id'];
-      $ecu_id = $_SESSION['ecu_project_proTSA'];
-      $project_id = $_SESSION['project_proTSA'];
+      $ecu_id = $_SESSION['ecu_project_protsa'];
+      $project_id = $_SESSION['project_protsa'];
 
       $list_parameters->add($parameters_id, $ecu_id, $project_id);
     }
@@ -246,7 +248,7 @@ class projectController extends Controller
       for ($i = 0; $i < count($part); $i++) {
 
         $participant_id = $part[$i];
-        $project_id = $_SESSION['project_proTSA'];
+        $project_id = $_SESSION['project_protsa'];
 
         $list_participants->add($participant_id, $project_id);
       }
