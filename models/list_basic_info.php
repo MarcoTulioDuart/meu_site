@@ -14,6 +14,7 @@ class list_basic_info extends Model
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
+            $_SESSION['list_baisc_info_id'] = $this->db->lastInsertId();
             return true;
         } else {
             return false;

@@ -1,5 +1,7 @@
 <?php
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+
 class failsafetestController extends Controller
 {
   public function __construct()
@@ -50,6 +52,7 @@ class failsafetestController extends Controller
     $fail_safe_test = new fail_safe_test();
     $list_basic_info = new list_basic_info();
     $site = new site();
+    $fail_code = new fail_code();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -72,6 +75,32 @@ class failsafetestController extends Controller
       if ($file = $site->uploadPdf($dir, $files, $location)) {
 
         $list_basic_info->upload($file, $id, $fail_safe_id);
+        $list_baisc_info_id = $_SESSION['list_baisc_info_id'];
+
+        if (isset($_FILES['upload_ecu_reference']) && !empty($_FILES['upload_ecu_reference'])) {
+          $file = new DOMDocument();
+          $file->load($_FILES['upload_ecu_reference']['tmp_name']);
+
+          $line = 1;
+          $worksheet = $file->getElementsByTagName("Worksheet")->item(0)->getElementsByTagName("Row");
+          $row = $file->getElementsByTagName("Table")->item(0)->getElementsByTagName("Row");
+          foreach ($row as $value) {
+            if ($line == 3) {
+
+              $vehicle = $value->getElementsByTagName("Data")->item(0)->nodeValue;
+              $date = $value->getElementsByTagName("Data")->item(1)->nodeValue;
+              $ecu = $value->getElementsByTagName("Data")->item(2)->nodeValue;
+              $fc = $value->getElementsByTagName("Data")->item(3)->nodeValue;
+              $fc_description = $value->getElementsByTagName("Data")->item(4)->nodeValue;
+              $cw = $value->getElementsByTagName("Data")->item(5)->nodeValue;
+              $fail_status = $value->getElementsByTagName("Data")->item(6)->nodeValue;
+              $solution = $value->getElementsByTagName("Data")->item(7)->nodeValue;
+
+              $fail_code->add($vehicle, $date, $ecu, $fc, $fc_description, $cw, $fail_status, $solution, $list_baisc_info_id, $fail_safe_id);
+            }
+            $line += 1;
+          }
+        }
         header("Location: " . BASE_URL . "failsafetest/confirmations?form=1");
         exit;
       } else {
@@ -82,6 +111,76 @@ class failsafetestController extends Controller
 
     //template, view, data
     $this->loadTemplate("home", "fail_safe_test/basic_info_ecu", $data);
+  }
+
+  public function teste_xml()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'fail_test';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    //Session de projeto
+    if (isset($_SESSION['project_proTSA'])) {
+      unset($_SESSION['project_proTSA']);
+    }
+    //Session do Primeiro Módulo
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    //Session do Segundo Módulo
+
+    //Session do Terceiro Módulo
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //Session do Quarto Módulo
+    if (isset($_SESSION['parameters_id_proTSA'])) {
+      unset($_SESSION['parameters_id_proTSA']);
+      unset($_SESSION['parameters_project_id_proTSA']);
+    }
+    //Session do Quinto Módulo
+
+    //fim do básico
+
+    //form 2
+    $fail_code = new fail_code();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      ini_set('memory_limit', '1024M');
+      $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xml();;
+
+      $spreadsheet = $reader->load($_FILES['upload_ecu_reference']['tmp_name']);
+
+      $sheet = $spreadsheet->getSheet(3);
+
+      foreach ($sheet->getRowIterator(2) as $row) {
+        $cellInterator = $row->getCellIterator();
+        $cellInterator->setIterateOnlyExistingCells(false);
+
+        //Linha
+        foreach ($cellInterator as $cell) {
+          if (!is_null($cell)) {
+            $value = $cell->getValue();
+            echo "$value <br>";
+            
+          }
+        }
+        exit;
+      }
+    }
+
+    //template, view, data
+    $this->loadTemplate("home", "fail_safe_test/teste_xml", $data);
   }
 
   public function select_ecu_output()
@@ -124,7 +223,7 @@ class failsafetestController extends Controller
     //fim do básico
 
 
-    
+
     //template, view, data
     $this->loadTemplate("home", "fail_safe_test/select_ecu_output", $data);
   }
@@ -212,7 +311,7 @@ class failsafetestController extends Controller
     $list_basic_info = new list_basic_info();
 
     if (!isset($_GET['safe_test_id']) || empty($_GET['safe_test_id'])) {
-      
+
       $fail_safe_id = $_GET['safe_test_id'];
       $data['list_fail_safe_test'] = $list_basic_info->getAll($fail_safe_id);
     }

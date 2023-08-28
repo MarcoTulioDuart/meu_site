@@ -41,6 +41,7 @@
 
                         <form method="post" action="<?= BASE_URL; ?>failsafetest/basic_info_ecu" id="form-order" enctype="multipart/form-data">
                             <div class="panel-body pn">
+                                <div class="section"><a href="<?= BASE_URL; ?>failsafetest/teste_xml" target="_blank">Teste xml</a></div>
                                 <div class="section row">
                                     <p class="fs14">Escolha uma ECU:</p>
                                     <div class="col-md-12 ph10 mb5">
@@ -93,7 +94,7 @@
                                     </div>
                                 </div>
                                 <div class="section text-center">
-                                    <button type="submit" class="button btn-primary">Enviar</button>
+                                    <button type="submit" class="btn btn-primary">Enviar</button>
                                 </div>
                             </div>
                             <!-- /Panel Body -->
