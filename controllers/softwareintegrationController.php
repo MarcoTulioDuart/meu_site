@@ -22,8 +22,8 @@ class softwareintegrationController extends Controller
     $data['page'] = 'software_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
     }
 
     if (isset($_COOKIE['error']) && !empty($_COOKIE['error'])) {
@@ -69,8 +69,8 @@ class softwareintegrationController extends Controller
     $data['page'] = 'software_integration';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
     }
 
     if (isset($_COOKIE['error']) && !empty($_COOKIE['error'])) {

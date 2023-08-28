@@ -22,9 +22,9 @@ class functionintegrationController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
-    if (isset($_SESSION['project_proTSA'])) {
+    if (isset($_SESSION['project_protsa'])) {
       //Session de projeto
-      unset($_SESSION['project_proTSA']);
+      unset($_SESSION['project_protsa']);
     }
     if (isset($_SESSION['signals_id_proTSA'])) {
       //Session do Terceiro Módulo
@@ -66,7 +66,7 @@ class functionintegrationController extends Controller
         $filters['name_ecu'] = $_POST['name_ecu']; //filtro para puxar somente as funções do ecu escolhido
 
         $ecu_id = $type_ecu->getId($filters); //pega o id especifico do ecu escolhido
-        $_SESSION['ecu_project_proTSA'] = $ecu_id['id'];
+        $_SESSION['ecu_project_protsa'] = $ecu_id['id'];
         setcookie("repeated_function", "", time() - 100);
         header("Location: " . BASE_URL . "functionintegration?form=3");
       }
@@ -78,7 +78,7 @@ class functionintegrationController extends Controller
 
     if (isset($_GET['form']) && $_GET['form'] == 3) {
 
-      $ecu_id = $_SESSION['ecu_project_proTSA'];
+      $ecu_id = $_SESSION['ecu_project_protsa'];
       $data['name_ecu'] = $type_ecu->getName($ecu_id);
       $filters['name_ecu'] = $data['name_ecu']['name'];
 
@@ -105,7 +105,7 @@ class functionintegrationController extends Controller
     $list_can = new list_can();
 
     if (isset($_GET['form']) && $_GET['form'] == 5) {
-      $ecu_id = $_SESSION['ecu_project_proTSA'];
+      $ecu_id = $_SESSION['ecu_project_protsa'];
       $data['list_can_name'] = $list_can->getCanProject($project_id, $ecu_id); //Pega as rede cans que existem no projeto e que estão ligadas ao ecu escolhido
 
       if (isset($_GET['name_can']) && !empty($_GET['name_can'])) { //quando a rede can é escolhida
@@ -120,7 +120,7 @@ class functionintegrationController extends Controller
     //form 6: apenas confirmação
     if (isset($_GET['form']) && $_GET['form'] == 6) {
 
-      $ecu_id = $_SESSION['ecu_project_proTSA'];
+      $ecu_id = $_SESSION['ecu_project_protsa'];
       $data['name_ecu'] = $type_ecu->getName($ecu_id);
 
       unset($_SESSION['function_ecu']);
@@ -130,7 +130,7 @@ class functionintegrationController extends Controller
 
     if (isset($_GET['form']) && $_GET['form'] == 7) {
 
-      $ecu_id = $_SESSION['ecu_project_proTSA'];
+      $ecu_id = $_SESSION['ecu_project_protsa'];
 
       $name_ecu = $type_ecu->getName($ecu_id);
 
@@ -148,12 +148,12 @@ class functionintegrationController extends Controller
     if (isset($_GET['form']) && $_GET['form'] == 8) {
       $function_classification = new function_classification;
 
-      $ecu_id = $_SESSION['ecu_project_proTSA'];
+      $ecu_id = $_SESSION['ecu_project_protsa'];
 
       $name_ecu = $type_ecu->getName($ecu_id);
       $counts = $list_integration_ecu->count_points($project_id, $name_ecu['name']);
 
-      unset($_SESSION['ecu_project_proTSA']);
+      unset($_SESSION['ecu_project_protsa']);
 
       for ($i = 0; $i < count($counts); $i++) {
         $integration_ecu_id = $counts[$i]['lie_id'];
@@ -293,7 +293,7 @@ class functionintegrationController extends Controller
     $list_integration_can = new list_integration_can();
 
     $filters['name_can'] = $_GET['name_can'];
-    $ecu_id = $_SESSION['ecu_project_proTSA'];
+    $ecu_id = $_SESSION['ecu_project_protsa'];
     $project_id = $_SESSION['project_id_proTSA'];
 
     $cans = $list_can->getAllInProject($filters, $ecu_id, $project_id);
@@ -349,9 +349,9 @@ class functionintegrationController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
-    if (isset($_SESSION['project_proTSA'])) {
+    if (isset($_SESSION['project_protsa'])) {
       //Session de projeto
-      unset($_SESSION['project_proTSA']);
+      unset($_SESSION['project_protsa']);
     }
     if (isset($_SESSION['signals_id_proTSA'])) {
       //Session do Terceiro Módulo
@@ -414,9 +414,9 @@ class functionintegrationController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
-    if (isset($_SESSION['project_proTSA'])) {
+    if (isset($_SESSION['project_protsa'])) {
       //Session de projeto
-      unset($_SESSION['project_proTSA']);
+      unset($_SESSION['project_protsa']);
     }
     if (isset($_SESSION['signals_id_proTSA'])) {
       //Session do Terceiro Módulo
@@ -639,9 +639,9 @@ class functionintegrationController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
-    if (isset($_SESSION['project_proTSA'])) {
+    if (isset($_SESSION['project_protsa'])) {
       //Session de projeto
-      unset($_SESSION['project_proTSA']);
+      unset($_SESSION['project_protsa']);
     }
     if (isset($_SESSION['signals_id_proTSA'])) {
       //Session do Terceiro Módulo
@@ -681,9 +681,9 @@ class functionintegrationController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
-    if (isset($_SESSION['project_proTSA'])) {
+    if (isset($_SESSION['project_protsa'])) {
       //Session de projeto
-      unset($_SESSION['project_proTSA']);
+      unset($_SESSION['project_protsa']);
     }
     if (isset($_SESSION['signals_id_proTSA'])) {
       //Session do Terceiro Módulo
@@ -802,9 +802,9 @@ class functionintegrationController extends Controller
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
 
-    if (isset($_SESSION['project_proTSA'])) {
+    if (isset($_SESSION['project_protsa'])) {
       //Session de projeto
-      unset($_SESSION['project_proTSA']);
+      unset($_SESSION['project_protsa']);
     }
     if (isset($_SESSION['signals_id_proTSA'])) {
       //Session do Terceiro Módulo

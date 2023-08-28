@@ -11,7 +11,7 @@ class projects extends Model
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
-            $_SESSION['project_proTSA'] = $this->db->lastInsertId();
+            $_SESSION['project_protsa'] = $this->db->lastInsertId();
             return true;
         } else {
             return false;

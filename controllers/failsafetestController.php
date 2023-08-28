@@ -25,8 +25,8 @@ class failsafetestController extends Controller
     $data['info_user'] = $accounts->get($id);
 
     //Session de projeto
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
     }
     //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
@@ -199,8 +199,8 @@ class failsafetestController extends Controller
     $data['info_user'] = $accounts->get($id);
 
     //Session de projeto
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
     }
     //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
@@ -243,8 +243,8 @@ class failsafetestController extends Controller
     $data['info_user'] = $accounts->get($id);
 
     //Session de projeto
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
     }
     //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
@@ -286,8 +286,8 @@ class failsafetestController extends Controller
     $data['info_user'] = $accounts->get($id);
 
     //Session de projeto
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
     }
     //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
@@ -353,8 +353,8 @@ class failsafetestController extends Controller
     $data['info_user'] = $accounts->get($id);
 
     //Session de projeto
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
     }
     //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
@@ -422,8 +422,8 @@ class failsafetestController extends Controller
     $data['info_user'] = $accounts->get($id);
 
     //Session de projeto
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
     }
     //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
@@ -503,8 +503,8 @@ class failsafetestController extends Controller
     $data['info_user'] = $accounts->get($id);
 
     //Session de projeto
-    if (isset($_SESSION['project_proTSA'])) {
-      unset($_SESSION['project_proTSA']);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
     }
     //Session do Primeiro Módulo
     if (isset($_SESSION['integration_id_proTSA'])) {
