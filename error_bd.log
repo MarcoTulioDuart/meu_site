@@ -4,4 +4,4 @@ porque o host conectado não respondeuError SQLSTATE[HY000] [2002] Uma tentativa
 corretamente após um período de tempo ou a conexão estabelecida falhou
 porque o host conectado não respondeuError SQLSTATE[HY000] [2002] Uma tentativa de conexão falhou porque o componente conectado não respondeu
 corretamente após um período de tempo ou a conexão estabelecida falhou
-porque o host conectado não respondeu
+porque o host conectado não respondeuError SQLSTATE[HY000] [1045] Access denied for user 'republ85_admin'@'186.235.216.187' (using password: YES)Error SQLSTATE[HY000] [1045] Access denied for user 'republ85_admin'@'186.235.216.187' (using password: YES)

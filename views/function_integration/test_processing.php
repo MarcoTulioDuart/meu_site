@@ -553,7 +553,7 @@
                                 </div>
                             </div>
                             <div class="panel-heading text-center pb25">
-                                <span class="panel-title pn">Todos as ECUs já foram selecionados?</span><br>
+                                <span class="panel-title pn">Todas as ECUs já foram selecionados?</span><br>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
