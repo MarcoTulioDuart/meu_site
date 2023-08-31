@@ -34,6 +34,7 @@ class parametersintegrationController extends Controller
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
     }
 
     //fim do básico
@@ -167,6 +168,7 @@ class parametersintegrationController extends Controller
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
     }
 
     //fim do básico
@@ -353,6 +355,7 @@ class parametersintegrationController extends Controller
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
     }
     //fim do básico
 

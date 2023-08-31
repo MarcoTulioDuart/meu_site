@@ -35,6 +35,7 @@ class systemController extends Controller
     if (isset($_SESSION['signals_id_proTSA'])) {
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
     }
     //Session do Quarto Módulo
     if (isset($_SESSION['parameters_id_proTSA'])) {
@@ -112,6 +113,7 @@ class systemController extends Controller
     if (isset($_SESSION['signals_id_proTSA'])) {
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
     }
     //Session do Quarto Módulo
     if (isset($_SESSION['parameters_id_proTSA'])) {
@@ -187,6 +189,7 @@ class systemController extends Controller
     if (isset($_SESSION['signals_id_proTSA'])) {
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
     }
     //Session do Quarto Módulo
     if (isset($_SESSION['parameters_id_proTSA'])) {
@@ -265,6 +268,7 @@ class systemController extends Controller
     if (isset($_SESSION['signals_id_proTSA'])) {
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
     }
     //Session do Quarto Módulo
     if (isset($_SESSION['parameters_id_proTSA'])) {
@@ -334,6 +338,7 @@ class systemController extends Controller
     if (isset($_SESSION['signals_id_proTSA'])) {
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
     }
     //Session do Quarto Módulo
     if (isset($_SESSION['parameters_id_proTSA'])) {

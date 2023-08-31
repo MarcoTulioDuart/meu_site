@@ -30,6 +30,7 @@ class functionintegrationController extends Controller
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
     }
     if (isset($_SESSION['parameters_id_proTSA'])) {
       //Session do Quarto Módulo
@@ -357,6 +358,7 @@ class functionintegrationController extends Controller
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
     }
     if (isset($_SESSION['parameters_id_proTSA'])) {
       //Session do Quarto Módulo
@@ -422,6 +424,7 @@ class functionintegrationController extends Controller
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
     }
     if (isset($_SESSION['parameters_id_proTSA'])) {
       //Session do Quarto Módulo
@@ -647,6 +650,7 @@ class functionintegrationController extends Controller
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
     }
     if (isset($_SESSION['parameters_id_proTSA'])) {
       //Session do Quarto Módulo
@@ -689,6 +693,7 @@ class functionintegrationController extends Controller
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
     }
     if (isset($_SESSION['parameters_id_proTSA'])) {
       //Session do Quarto Módulo
@@ -810,6 +815,7 @@ class functionintegrationController extends Controller
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
     }
     if (isset($_SESSION['parameters_id_proTSA'])) {
       //Session do Quarto Módulo

@@ -151,7 +151,7 @@
 
                         <?php if (isset($_GET['form']) && $_GET['form'] == 6) : ?>
                             <div class="panel-heading text-center pb25">
-                                <span class="panel-title pn">Responda sobre a disponibilidade do sinal:</span><br>
+                                <span class="panel-title pn">Responda sobre a necessidade do sinal:</span><br>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
                                 <span class="fa fa-circle"></span>
