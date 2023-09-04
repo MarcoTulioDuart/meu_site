@@ -96,7 +96,7 @@
                                         <!-- Módulo 3 -->
                                         <?php if (!empty($integration_signals) && count($integration_signals) == 1) : ?>
                                             <div class="col-sm-2 col-md-2 p5">
-                                                <a href="<?= BASE_URL; ?>signalintegration/delete_software_integrations/<?= $integration_signals[0]['id']; ?>" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
+                                                <a href="<?= BASE_URL; ?>signalintegration/delete_signal_integration/<?= $integration_signals[0]['id']; ?>" class="fs14 btn btn-primary" onclick="return confirm('Deseja realmente excluir os dados deste Módulo?')">
                                                     <span class="fa fa-trash mr5"></span>
                                                     Módulo 3
                                                 </a>

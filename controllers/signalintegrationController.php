@@ -515,10 +515,13 @@ class signalintegrationController extends Controller
       $list_ecu_id = $_POST['main_function'];
       $main_function = 1;
 
-      $list_signals_function->mainFunction($list_ecu_id, $integration_signals_id, $main_function); //cadastra os ecus selecionados nessa tabela
+      if ($list_signals_function->mainFunction($list_ecu_id, $integration_signals_id, $main_function)) {
+        header("Location: " . BASE_URL . "signalintegration/results");
+        exit;
+      } else {
+        setcookie("add_main_function_failed", "O cadastro da função como principal falhou, por favor escolha a função novamente", + 100);
+      }
 
-      header("Location: " . BASE_URL . "signalintegration/results");
-      exit;
     }
 
     //template, view, data

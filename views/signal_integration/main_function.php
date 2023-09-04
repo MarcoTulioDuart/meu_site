@@ -61,6 +61,15 @@
                             <span class="fa fa-circle"></span>
                         </div>
                         <div class="panel-body pn">
+                            <?php if (isset($_COOKIE["add_main_function_failed"])) : ?>
+                                <div class="text-center">
+                                    <div class="alert alert-alert alert-dismissable mb30 alert-block p15">
+                                        <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <h3 class="mtn fs20 text-white">Falhou</h3>
+                                        <p><?= $_COOKIE["add_main_function_failed"]; ?></p>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                             <form action="<?= BASE_URL; ?>signalintegration/select_main_function" method="post">
                                 <div class="section row">
                                     <div class="panel mb50" id="p5" data-panel-remove="false" data-panel-color="false" data-panel-fullscreen="false" data-panel-title="false" data-panel-collapse="false">

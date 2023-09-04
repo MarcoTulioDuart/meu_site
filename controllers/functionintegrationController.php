@@ -250,7 +250,7 @@ class functionintegrationController extends Controller
 
       $dir = "assets/upload/functionintegration/function_ecu/project_" . $project_id . '/'; //endereço da pasta pra onde serão enviados os arquivos
 
-      $location = "Location: " . BASE_URL . "functionintegration?form=5";
+      $location = "Location: " . BASE_URL . "functionintegration?form=4";
 
       //envia os arquivo para a pasta determinada
       if ($file = $site->uploadPdf($dir, $files, $location)) {
