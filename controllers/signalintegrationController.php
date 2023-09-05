@@ -510,16 +510,16 @@ class signalintegrationController extends Controller
 
     $data['list_function'] = $list_signals_function->getAll($integration_signals_id);
 
-    if (isset($_POST['main_function']) && !empty($_POST['main_function'])) {
+    if (isset($_POST['signal_function_id']) && !empty($_POST['signal_function_id'])) {
       $integration_signals_id = $_SESSION['signals_id_proTSA']; //id do teste
-      $list_ecu_id = $_POST['main_function'];
+      $signal_function_id = $_POST['signal_function_id'];
       $main_function = 1;
-
-      if ($list_signals_function->mainFunction($list_ecu_id, $integration_signals_id, $main_function)) {
+      if ($list_signals_function->mainFunction($signal_function_id, $integration_signals_id, $main_function)) {
         header("Location: " . BASE_URL . "signalintegration/results");
         exit;
       } else {
-        setcookie("add_main_function_failed", "O cadastro da função como principal falhou, por favor escolha a função novamente", + 100);
+        setcookie("add_main_function_failed", "O cadastro da função como principal falhou, por favor escolha a função novamente", time() + 100);
+
       }
 
     }

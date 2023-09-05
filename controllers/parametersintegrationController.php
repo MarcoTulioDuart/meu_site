@@ -30,7 +30,7 @@ class parametersintegrationController extends Controller
       //Session do Primeiro Módulo
       unset($_SESSION['integration_id_proTSA']);
     }
-    if (isset($_SESSION['signals_id_proTSA'])) {
+    if (isset($_SESSION['signals_id_proTSA']) || isset($_SESSION['signal_integration_id_proTSA'])) {
       //Session do Terceiro Módulo
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
@@ -364,6 +364,7 @@ class parametersintegrationController extends Controller
     $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
 
     if (isset($_FILES['library']) && !empty($_FILES['library'])) {
+
       $file = new DOMDocument();
       $file->load($_FILES['library']['tmp_name']);
 
@@ -381,7 +382,13 @@ class parametersintegrationController extends Controller
           $pg_kz = $value->getElementsByTagName("Cell")->item(6)->nodeValue;
           $type = addslashes($_POST['type']);
 
-          $data_parameters_aplicate->add($pos, $sachnummer, $benennung, $codebedingung, $kem_ab, $werke, $pg_kz, $type, $parameters_integration_id, $project_id);
+          if ($data_parameters_aplicate->add($pos, $sachnummer, $benennung, $codebedingung, $kem_ab, $werke, $pg_kz, $type, $parameters_integration_id, $project_id)) {
+            //nada
+          } else {
+            setcookie("failed_add_parameters", "Ocorreu um erro, seus parâmetros da etapa de definição de valores não foram cadastrados!", time() + 100);
+            header("Location: " . BASE_URL . "parametersintegration/parameters_value_2");
+            exit;
+          }
         }
         $first_line = false;
       }
@@ -597,7 +604,7 @@ class parametersintegrationController extends Controller
     $meetings = new meetings();
     $project_id = $_SESSION['parameters_project_id_proTSA'];
 
-    if (!empty($_POST['title']) && !empty($_POST['date_meeting']) && !empty($_POST['participant'])) {
+    if (!empty($_POST['title']) && !empty($_POST['date_workshop']) && !empty($_POST['participant_test'])) {
       $title = addslashes($_POST['title']);
       $date_meeting = addslashes($_POST['date_workshop']);
       $model = 4;
@@ -636,7 +643,14 @@ class parametersintegrationController extends Controller
           }
 
           $message .= 'Aguardamos sua presença na reunião!';
-          $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
+          if ($site->sendMessageAttachment($email, $name, $subject, $message, $attachmens)) {
+            # code...
+          } else {
+            setcookie("success_send_workshop", "", time() - 100);
+            setcookie("failed_send_workshop", "Seu email não pode ser enviado", time() + 100);
+            header("Location: " . BASE_URL . "parametersintegration/results");
+            exit;
+          }
         }
       }
 
@@ -664,10 +678,18 @@ class parametersintegrationController extends Controller
           }
 
           $message .= 'Aguardamos sua presença na reunião!';
-          $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
+          if ($site->sendMessageAttachment($email, $name, $subject, $message, $attachmens)) {
+            # code...
+          } else {
+            setcookie("success_send_workshop", "", time() - 100);
+            setcookie("failed_send_workshop", "Seu email não pode ser enviado", time() + 100);
+            header("Location: " . BASE_URL . "parametersintegration/results");
+            exit;
+          }
         }
       }
-
+      setcookie("failed_send_workshop", "", time() - 100);
+      setcookie("success_send_workshop", "Seu email foi enviado com sucesso!", time() + 100);
       header("Location: " . BASE_URL . "parametersintegration/results");
       exit;
     }

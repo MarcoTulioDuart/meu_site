@@ -36,9 +36,19 @@
                             <span class="panel-title fs22 mw400 text-center"><b>Definição de valores de referência dos parâmetros</b></span>
                         </div>
                         <div class="panel-body">
+                            <?php if (isset($_COOKIE["failed_add_parameters"])) : ?>
+                                <div class="text-center">
+                                    <div class="alert alert-alert alert-dismissable mb30 alert-block p15">
+                                        <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <h3 class="mtn fs20 text-white">Sucesso</h3>
+                                        <p><?= $_COOKIE["failed_add_parameters"]; ?></p>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                             <form action="<?= BASE_URL; ?>parametersintegration/parameters_value_2" method="post" enctype="multipart/form-data">
                                 <div class="section">
                                     <h6 class="text-center">Informe o nome do Parâmetro e faça o upload da planilha que será aplicada na série.</h6>
+                                    <h6 class="text-muted">A extensão do arquivo deve ser "xml".</h6>
                                 </div>
                                 <div class="section row">
                                     <div class="col-12 ph10 mb5">

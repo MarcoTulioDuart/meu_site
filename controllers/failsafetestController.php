@@ -35,7 +35,7 @@ class failsafetestController extends Controller
     //Session do Segundo Módulo
 
     //Session do Terceiro Módulo
-    if (isset($_SESSION['signals_id_proTSA'])) {
+    if (isset($_SESSION['signals_id_proTSA']) || isset($_SESSION['signal_integration_id_proTSA'])) {
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
       unset($_SESSION['signal_integration_id_proTSA']);

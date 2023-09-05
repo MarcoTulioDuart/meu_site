@@ -78,7 +78,7 @@
                                             <div class="col-md-10 ph10 mb5">
                                                 <div class="option-group field">
                                                     <?php if (isset($list_function)) : ?>
-                                                        <select name="main_function" id="main_function" class="gui-input">
+                                                        <select name="signal_function_id" id="signal_function_id" class="gui-input">
                                                             <?php foreach ($list_function as $value) : ?>
                                                                 <option value="<?= $value['ls_id']; ?>">
                                                                     <?= $value['e_name']; ?>: <?= $value['function_ecu']; ?>

@@ -76,14 +76,14 @@ class list_signals_function extends Model
         }
     }
 
-    public function mainFunction($list_ecu_id, $integration_signals_id, $main_function)
+    public function mainFunction($id, $integration_signals_id, $main_function)
     {
         $sql = "UPDATE list_signals_function 
         SET main_function = :main_function 
         WHERE integration_signals_id = :integration_signals_id 
-        AND list_ecu_id = :list_ecu_id";
+        AND id = :id";
         $sql = $this->db->prepare($sql);
-        $sql->bindValue(":list_ecu_id", $list_ecu_id);
+        $sql->bindValue(":id", $id);
         $sql->bindValue(":integration_signals_id", $integration_signals_id);
         $sql->bindValue(":main_function", $main_function);
         $sql->execute();
