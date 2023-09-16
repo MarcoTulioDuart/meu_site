@@ -42,6 +42,17 @@
                         <form method="post" action="<?= BASE_URL; ?>failsafetest/basic_info_ecu" id="form-order" enctype="multipart/form-data">
                             <div class="panel-body pn">
                                 <div class="section row">
+                                    <p class="fs14">Informe os e-mails:</p>
+                                    <div class="col-md-12 ph10 mb5">
+                                        <label for="responsible_name" class="field prepend-icon">
+                                            <input type="text" name="responsible_name" id="responsible_name" class="gui-input" placeholder="Separe com ; (ponto e vírgula) os e-mails." required>
+                                            <span class="field-icon">
+                                                <i class="fa fa-file"></i>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="section row">
                                     <p class="fs14">Escolha uma ECU:</p>
                                     <div class="col-md-12 ph10 mb5">
                                         <label for="list_ecu_id" class="field select">
@@ -52,7 +63,7 @@
 
                                                     <?php foreach ($list_ecu as $value) : ?>
 
-                                                        <option value="<?= $value['list_ecu_id']; ?>" <?= (isset($selected) && $selected == $value['t_name']) ? "selected" : ""; ?>><?= $value['t_name']; ?></option>
+                                                        <option value="<?= $value['id']; ?>"><?= $value['name']; ?></option>
 
                                                     <?php endforeach; ?>
 
@@ -64,21 +75,22 @@
                                     </div>
                                 </div>
                                 <div class="section row">
-                                    <p class="fs14">Digite as informações do responsável pela ECU escolhida:</p>
+                                    <p class="fs14">Escolha uma das funções:</p>
                                     <div class="col-md-12 ph10 mb5">
-                                        <label for="responsible_name" class="field prepend-icon">
-                                            <input type="text" name="responsible_name" id="responsible_name" class="gui-input" placeholder="Digite o nome do resposável" required>
-                                            <span class="field-icon">
-                                                <i class="fa fa-file"></i>
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-12 ph10 mb5">
-                                        <label for="responsible_email" class="field prepend-icon">
-                                            <input type="text" name="responsible_email" id="responsible_email" class="gui-input" placeholder="Digite o email do resposável" required>
-                                            <span class="field-icon">
-                                                <i class="fa fa-envelope"></i>
-                                            </span>
+                                        <label for="list_ecu_id" class="field select">
+                                            <select name="list_ecu_id" id="name_ecu" class="gui-input" required multiple>
+                                                <?php if ($list_ecu == 0) : ?>
+                                                    <option selected>Não foram encontradas funções cadastradas nesse projeto.</option>
+                                                <?php else : ?>
+                                                        <?php foreach ($list_ecu as $value) : ?>
+                                                            <option value="<?= $value['le_id']; ?>">
+                                                                <?= $value['d_name']; ?>: <?= $value['function_ecu']; ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+
+                                                <?php endif; ?>
+
+                                            </select>
                                         </label>
                                     </div>
                                 </div>

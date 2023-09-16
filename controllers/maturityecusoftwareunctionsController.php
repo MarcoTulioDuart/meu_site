@@ -85,8 +85,10 @@ class maturityecusoftwareunctionsController extends Controller
   public function software_information()
   {
     $data  = array();
+    $filters  = array();
     $accounts = new accounts();
     $projects = new projects();
+    $list_ecu = new list_ecu();
     $data['page'] = 'maturityecusoftwareunctions';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
@@ -97,6 +99,9 @@ class maturityecusoftwareunctionsController extends Controller
       exit;
     }
 
+    $data['list_ecu'] = $list_ecu->getAll($filters, $_GET['project_id']);
+
+    
 
 
 
