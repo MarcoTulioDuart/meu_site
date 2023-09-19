@@ -106,6 +106,30 @@ class ajaxController extends Controller
     
   }
 
+  public function list_ecu_function()
+  {
+    
+    header('Content-Type: application/json; charset=uft-8');
+    try {
+      $filters = array();
+      $list_ecu = new list_ecu();
+      $data_ecu = new data_ecu();      
+      $data['info_ecu'] = $data_ecu->get(addslashes($_POST['search']));
+      $filters['project_id'] = addslashes($_POST['project_id']);
+      $filters['name_ecu'] = $data['info_ecu']['name'];
+      echo json_encode(array(
+        'status' => true,
+        'data' => $list_ecu->getAll($filters, $filters['project_id']),
+      ));
+    } catch (Exception $exception) {
+      echo json_encode(array(
+        'status'  => false,
+        'error'   => $exception->getMessage()
+      ));
+    }
+    
+  }
+
 
   
 }

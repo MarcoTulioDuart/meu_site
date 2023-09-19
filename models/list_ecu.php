@@ -38,6 +38,22 @@ class list_ecu extends Model
         }
     }
 
+    public function get($id)
+    {
+        $sql = "SELECT * FROM list_ecu 
+        WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetch(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return false;
+        }
+    }
+
     public function getAll($filters, $project_id)
     {
         $array = array();

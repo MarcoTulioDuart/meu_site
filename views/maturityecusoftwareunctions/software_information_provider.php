@@ -11,7 +11,7 @@
                 <a href="<?= BASE_URL; ?>home/home_page">Início</a>
             </li>
             <li class="breadcrumb-current-item">Maturidade de ECU's, Softwares e Funções</li>
-            <li class="breadcrumb-current-item">Informações do software</li>
+            <li class="breadcrumb-current-item">Informações do software - Fornecedor</li>
         </ol>
     </div>
 </header>
@@ -33,7 +33,7 @@
 
                         <!-- FORM 1: Escolha de projeto -->
                         <div class="panel-heading text-center">
-                            <span class="panel-title pn">Informações do software</span><br>
+                            <span class="panel-title pn">Informações do software - Fornecedor</span><br>
                             <span class="fa fa-circle"></span>
                         </div>
 
