@@ -30,15 +30,14 @@ class maturityecusoftwareunctionsController extends Controller
       unset($_COOKIE['error']);
     }
 
-
-    //fim do básico
-
-    //form 1: Escolha o projeto
     $projects = new projects();
 
     $data['list_projects'] = $projects->getAll($id);
 
+
+
     if (isset($_GET['project_id']) && !empty($_GET['project_id'])) {
+
       $maturityecusoftwareunctions = new maturityecusoftwareunctions();
       $project_id = addslashes($_GET['project_id']);
 
@@ -59,80 +58,113 @@ class maturityecusoftwareunctionsController extends Controller
     $this->loadTemplate("home", "maturityecusoftwareunctions/choose_project_processing", $data);
   }
 
-  
-  public function chooseStep(){
+
+  public function chooseStep()
+  {
     $data  = array();
     $accounts = new accounts();
     $projects = new projects();
+    $maturityecusoftwareunctions = new maturityecusoftwareunctions();
+    $data['maturityecusoftwareunctions'] = $maturityecusoftwareunctions->get($_GET['maturityecusoftwareunctions_id']);
+    
+    $data['maturityecusoftwareunctions']['total_percentage'] = $data['maturityecusoftwareunctions']['step_1'] + $data['maturityecusoftwareunctions']['step_2'] + $data['maturityecusoftwareunctions']['step_3'] + $data['maturityecusoftwareunctions']['step_4'] + $data['maturityecusoftwareunctions']['step_5'] + $data['maturityecusoftwareunctions']['step_6'];
+    
+
     $data['page'] = 'maturityecusoftwareunctions';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     $data['list_projects'] = $projects->getAll($id);
 
-
-    if(isset($_GET['project_id']) && !empty($_GET['project_id'])){
+    if (!isset($_GET['project_id']) || empty($_GET['maturityecusoftwareunctions_id'])) {
       header("Location: " . BASE_URL . "maturityecusoftwareunctions");
       exit;
     }
-   
-   
-
 
     $this->loadTemplate("home", "maturityecusoftwareunctions/choose_step", $data);
   }
 
-  public function select_automaker()
+  public function software_information()
   {
-    $list_ecu = new list_ecu();
     $data  = array();
-    $filters = array();
+    $filters  = array();
     $accounts = new accounts();
-
+    $projects = new projects();
+    $list_ecu = new list_ecu();
+    $data_ecu = new data_ecu();
+    $maturityecusoftwareunctions = new maturityecusoftwareunctions();
+    $site = new site();
     $data['page'] = 'maturityecusoftwareunctions';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
-    if (isset($_SESSION['project_protsa'])) {
-      unset($_SESSION['project_protsa']);
+    $data['list_projects'] = $projects->getAll($id);
+    
+
+    if (isset($_POST['responsible_name']) && !empty($_POST['maturityecusoftwareunctions_id'])) {
+
+      $name_ecu = $data_ecu->get(addslashes($_POST['name_ecu']));
+      $list_ecu_function = $_POST['list_ecu_function'];
+      $project_id = $_POST['project_id'];
+      $maturityecusoftwareunctions_id = $_POST['maturityecusoftwareunctions_id'];
+      $responsible_name = (isset($_POST['responsible_name'])) ? addslashes($_POST['responsible_name']) : "";
+      
+      $list_ecu_function = implode(", ", $list_ecu_function);
+  
+      if ($responsible_name != "") {
+        $email_responsible_name = explode(";", $responsible_name);
+
+        foreach ($email_responsible_name as $key => $value) {
+          $name = explode("@", $value);
+          $email = $value;
+          $subject = "Informações do Software - Maturidade de ECU's, Softwares e Funções | Protsa";
+          $message = 
+            "<b>Nome ECU: </b>" . $name_ecu['name'] . "<br> <br>" . 
+            "<b>Funções da ECU: </b>" . $list_ecu_function . "<br> <br>" . 
+            "<a target='_blank' href='" . BASE_URL . "maturityecusoftwareunctions/software_information_provider?project_id=" . $project_id . "&maturityecusoftwareunctions_id=" . $maturityecusoftwareunctions_id . "'>Clique no Link para responder</a>"         
+          ;
+
+          $site->sendMessage($email, $name[0], $subject, $message);
+          $maturityecusoftwareunctions->editStep($maturityecusoftwareunctions_id, 1, 8);
+          header("Location: " . BASE_URL . "maturityecusoftwareunctions/chooseStep?project_id=" . $project_id . "&maturityecusoftwareunctions_id=" . $maturityecusoftwareunctions_id);
+          exit;
+          
+        }
+      }
+
+      
     }
 
-    if (isset($_COOKIE['error']) && !empty($_COOKIE['error'])) {
-      unset($_COOKIE['error']);
-    }
+    $data['list_ecu'] = $list_ecu->getAll($filters, $_GET['project_id']);
 
-    if (isset($_GET['ecu_id']) && !empty($_GET['ecu_id'])) {
-      $maturityecusoftwareunctions = new maturityecusoftwareunctions();
-      $ecu_id = $_GET['ecu_id'];
 
-     
-      $maturityecusoftwareunctions->ecu_maturityecusoftwareunctions_add($_GET['maturityecusoftwareunctions_id'], $ecu_id); //cadastra os ecus selecionados nessa tabela
-     
-      header("Location: " . BASE_URL . "maturityecusoftwareunctions/uploadDiagramHardware?maturityecusoftwareunctions_id=" . $_GET['maturityecusoftwareunctions_id'] . "&ecu_id=" . $ecu_id);
+    if (!isset($_GET['project_id']) || empty($_GET['maturityecusoftwareunctions_id'])) {
+      header("Location: " . BASE_URL . "maturityecusoftwareunctions/chooseStep");
       exit;
     }
 
-   
 
-    if (isset($_GET['project_id']) && isset($_GET['maturityecusoftwareunctions_id'])) {
-      $data['list_ecu_name'] = $list_ecu->getEcuProject($_GET['project_id']); //Pega somente os types ecu que foram registrados no projeto
-      
-      
-    } else {
+    $this->loadTemplate("home", "maturityecusoftwareunctions/software_information", $data);
+  }
+
+  public function software_information_provider()
+  {
+    $data  = array();
+    $filters  = array();
+    $accounts = new accounts();
+    $projects = new projects();
+    $list_ecu = new list_ecu();
+    $site = new site();
+    $data['page'] = 'maturityecusoftwareunctions';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    $data['list_projects'] = $projects->getAll($id);    
+
+    $data['list_ecu'] = $list_ecu->getAll($filters, $_GET['project_id']);
+
+    if (!isset($_GET['project_id']) || empty($_GET['maturityecusoftwareunctions_id'])) {
       header("Location: " . BASE_URL . "maturityecusoftwareunctions");
       exit;
     }
 
-   
-
-
-    $this->loadTemplate("home", "maturityecusoftwareunctions/select_automaker", $data);
+    $this->loadTemplate("home", "maturityecusoftwareunctions/software_information_provider", $data);
   }
-
-  
-
-  
-
-
-
-
- 
 }
