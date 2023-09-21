@@ -162,11 +162,12 @@ class projectController extends Controller
         $project_id = $_SESSION['project_protsa'];
        
 
-        if ($list_ecu->getFunction($project_id, $ecu_id, $data_ecu_id)) {
+        if ($list_ecu->getFunction($project_id, $ecu_id, $data_ecu_id)) {//verifica se a função ja existe no banco de dados.
+          //se sim: retorna á mesma página e avisa ao usuário de que a função já foi cadastrada.
           setcookie("repeated_function", "Dentre as funções escolhidas foram encontradas uma ou mais funções já registradas neste projeto, escolha outras funções nesta ou em outra ECU, ou vá para o próximo formulário.", time() + 100);
           header("Location: " . BASE_URL . "project?form=2");
           exit;
-        } else {
+        } else { //se não: cadastra uma nova
           $list_ecu->add($ecu_id, $project_id, $data_ecu_id);
         }
       }

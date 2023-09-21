@@ -3,6 +3,7 @@
 class fail_safe_test extends Model
 {
 
+    
     public function add($participante_id)
     {
         $sql = "INSERT INTO fail_safe_test (participante_id) VALUES (:participante_id)";
@@ -11,8 +12,8 @@ class fail_safe_test extends Model
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
-            $_SESSION['safe_test_id_proTSA'] = $this->db->lastInsertId();
-            return true;
+            $safe_test_id_proTSA = $this->db->lastInsertId();
+            return $safe_test_id_proTSA;
         } else {
             return false;
         }

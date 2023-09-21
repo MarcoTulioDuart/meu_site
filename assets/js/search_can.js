@@ -59,12 +59,8 @@ $(document).ready(function () {
     };
 });
 
-//primeiro parâmetro seria o valor digitado no form, como ainda não
-//digitamos nada, passamos null como valor, pois assim ele retornará todos
-//os registro da tabela cliente.
-//segundo parâmetro é a página onde será feita a pesquisa, é a página para
-//onde vamos mandar os dados digitados no form
-//terceiro parâmetro é a div que será mostrada o resultado da pesquisa
-//retornado pela página que enviamos os dados
+//primeiro parâmetro seria o valor digitado no form, como ainda não digitamos nada, passamos null como valor, pois assim ele retornará todos os registros da tabela.
+//segundo parâmetro é a página onde será feita a pesquisa, é a página para onde vamos mandar os dados digitados no form.
+//terceiro parâmetro é a div que será mostrada o resultado da pesquisa retornado pela página que enviamos os dados
 
 //load_dados(null, 'ajax/search_can', '#show_signal');

@@ -47,8 +47,7 @@
                             <?php endif; ?>
                             <form action="<?= BASE_URL; ?>parametersintegration/parameters_value_2" method="post" enctype="multipart/form-data">
                                 <div class="section">
-                                    <h6 class="text-center">Informe o nome do Parâmetro e faça o upload da planilha que será aplicada na série.</h6>
-                                    <h6 class="text-muted">A extensão do arquivo deve ser "xml".</h6>
+                                    <h6 class="text-center">Informe o nome do Parâmetro. <span class="text-muted">Ex: ABS, Chassis.</span></h6>
                                 </div>
                                 <div class="section row">
                                     <div class="col-12 ph10 mb5">
@@ -59,6 +58,9 @@
                                             </span>
                                         </label>
                                     </div>
+                                </div>
+                                <div class="section">
+                                    <h6 class="text-muted">A extensão do arquivo deve ser "xml".</h6>
                                 </div>
                                 <div class="section row">
                                     <div class="col-md-10 ph10 mb5">

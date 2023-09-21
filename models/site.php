@@ -185,10 +185,10 @@ class site extends Model
             mkdir($dir, 0777, true);
         }
         // Tamanho máximo do arquivo (em Bytes)
-        $upload['size'] = 1024 * 1024 * 2; // 2Mb
+        $upload['size'] = 1024 * 1024 * 16; // 14Mb
 
         // Array com as extensões permitidas
-        $upload['extension'] = array('pdf', 'drawio', 'png', 'svg', 'html', 'xml', 'doc', 'docx', 'jpg');
+        $upload['extension'] = array('pdf', 'drawio', 'png', 'svg', 'html', 'xml', 'doc', 'docx', 'jpg', 'xlsx');
 
         // Renomeia o arquivo? (Se true, o arquivo será salvo como .jpg e um nome único)
         $upload['rename'] = false;
@@ -214,14 +214,14 @@ class site extends Model
         $tmp = explode('.', $file['name']); //captura a extesão do arquivo
         $extension = strtolower(end($tmp)); //coloca em minusculo
         if (array_search($extension, $upload['extension']) === false) {
-            setcookie("error", "Por favor, envie arquivos com a seguintes extensões: 'pdf, drawio, png, svg, html, xml'", time() + 100);
+            setcookie("error", "Por favor, envie arquivos com a seguintes extensões: 'pdf, drawio, png, svg, html, xml, doc, docx, jpg, xlsx'", time() + 100);
             header($location);
             exit;
         }
 
         // Faz a verificação do tamanho do arquivo
         else if ($upload['size'] < $file['size']) {
-            setcookie("error", "O arquivo enviado é muito grande, envie arquivos de até 2Mb.", time() + 100);
+            setcookie("error", "O arquivo enviado é muito grande, envie arquivos de até 16Mb.", time() + 100);
             header($location);
             exit;
         }
@@ -239,6 +239,7 @@ class site extends Model
 
             // Depois verifica se é possível mover o arquivo para a pasta escolhida
             if (move_uploaded_file($file['tmp_name'], $dir . $final_name)) {
+                setcookie("error", "", time() - 100);
                 return $dir . $final_name; //o caminho que a imagem foi salva
             } else {
                 // Não foi possível fazer o upload, provavelmente a pasta está incorreta
