@@ -37,53 +37,34 @@
                             <span class="fa fa-circle"></span>
                         </div>
 
-                        <form method="post" action="<?= BASE_URL; ?>maturityecusoftwareunctions/software_information" id="form-order" enctype="multipart/form-data">
+                        <form method="post" action="<?= BASE_URL; ?>maturityecusoftwareunctions/software_information_provider" id="form-order" enctype="multipart/form-data">
                             <div class="panel-body pn">
-                                <div class="section row">
-                                    <p class="fs14">Informe os e-mails:</p>
-                                    <div class="col-md-12 ph10 mb5">
-                                        <label for="responsible_name" class="field prepend-icon">
-                                            <input type="text" name="responsible_name" id="responsible_name" class="gui-input" placeholder="Separe com ; (ponto e vírgula) os e-mails." required>
-                                            <span class="field-icon">
-                                                <i class="fa fa-file"></i>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
                                 <input type="hidden" name="project_id" value="<?= $_GET['project_id']; ?>">
                                 <input type="hidden" name="maturityecusoftwareunctions_id" value="<?= $_GET['maturityecusoftwareunctions_id']; ?>">
-                                <div class="section row">
-                                    <p class="fs14">Escolha uma ECU:</p>
-                                    <div class="col-md-12 ph10 mb5">
-                                        <label for="name_ecu" class="field select">
-                                            <select name="name_ecu" id="name_ecu" class="gui-input" data-project-id="<?= $_GET['project_id']; ?>" required>
-                                                <?php if ($list_ecu == 0) : ?>
-                                                    <option selected>Não foram encontradas ECUs cadastradas nesse projeto.</option>
-                                                <?php else : ?>
-                                                    <option value="">Escolha uma opção:</option>
-                                                    <?php foreach ($list_ecu as $value) : ?>
-
-                                                        <option value="<?= $value['id']; ?>"><?= $value['name']; ?></option>
-
-                                                    <?php endforeach; ?>
-
-                                                <?php endif; ?>
-
-
-                                            </select>
-                                        </label>
-                                    </div>
-                                </div>
                                 <div class="section row">
                                     <p class="fs14">Escolha uma das funções:</p>
                                     <span class="ml10" id="loading_parameters"></span>
                                     <div class="col-md-12 ph10 mb5">
                                         <label for="list_ecu_function" class="field select">
-                                            <select name="list_ecu_function[]" id="list_ecu_function" class="gui-input" required multiple>
+                                            <select name="list_ecu_function[]" id="list_ecu_function" class="gui-input" required >
                                             </select>
                                         </label>
                                     </div>
                                 </div>
+                              
+                                <div class="section row">
+                                    <div class="col-md-12 ph10 mb5">
+                                        <p class="mb15">Descreva a descrição da função ou software?</p>
+                                        <label for="description" class="field prepend-icon">
+
+                                            <textarea name="description" id="description" cols="30" rows="10" class="gui-textarea" placeholder="Descreva em até duas linhas:"></textarea>
+                                            <span class="field-icon">
+                                                <i class="fa fa-list"></i>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
                                 <div class="section text-center">
                                     <button type="submit" class="btn btn-primary">Enviar</button>
                                 </div>

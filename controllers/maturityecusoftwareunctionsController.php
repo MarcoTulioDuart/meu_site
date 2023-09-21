@@ -64,6 +64,12 @@ class maturityecusoftwareunctionsController extends Controller
     $data  = array();
     $accounts = new accounts();
     $projects = new projects();
+    $maturityecusoftwareunctions = new maturityecusoftwareunctions();
+    $data['maturityecusoftwareunctions'] = $maturityecusoftwareunctions->get($_GET['maturityecusoftwareunctions_id']);
+    
+    $data['maturityecusoftwareunctions']['total_percentage'] = $data['maturityecusoftwareunctions']['step_1'] + $data['maturityecusoftwareunctions']['step_2'] + $data['maturityecusoftwareunctions']['step_3'] + $data['maturityecusoftwareunctions']['step_4'] + $data['maturityecusoftwareunctions']['step_5'] + $data['maturityecusoftwareunctions']['step_6'];
+    
+
     $data['page'] = 'maturityecusoftwareunctions';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
@@ -73,11 +79,6 @@ class maturityecusoftwareunctionsController extends Controller
       header("Location: " . BASE_URL . "maturityecusoftwareunctions");
       exit;
     }
-
-
-
-
-
 
     $this->loadTemplate("home", "maturityecusoftwareunctions/choose_step", $data);
   }
@@ -90,6 +91,7 @@ class maturityecusoftwareunctionsController extends Controller
     $projects = new projects();
     $list_ecu = new list_ecu();
     $data_ecu = new data_ecu();
+    $maturityecusoftwareunctions = new maturityecusoftwareunctions();
     $site = new site();
     $data['page'] = 'maturityecusoftwareunctions';
     $id = $_SESSION['proTSA_online'];
@@ -121,6 +123,7 @@ class maturityecusoftwareunctionsController extends Controller
           ;
 
           $site->sendMessage($email, $name[0], $subject, $message);
+          $maturityecusoftwareunctions->editStep($maturityecusoftwareunctions_id, 1, 8);
           header("Location: " . BASE_URL . "maturityecusoftwareunctions/chooseStep?project_id=" . $project_id . "&maturityecusoftwareunctions_id=" . $maturityecusoftwareunctions_id);
           exit;
           

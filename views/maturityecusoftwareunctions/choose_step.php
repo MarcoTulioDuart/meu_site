@@ -36,7 +36,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="progress" style="background-color: gray;">
-                                        <div class="progress-bar  progress-bar-striped " role="progressbar" style="width: 0%; background-color: green;font-size: 20px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                        <div class="progress-bar  progress-bar-striped " role="progressbar" style="width: <?= $maturityecusoftwareunctions['total_percentage']; ?>%; background-color: green;font-size: 20px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><?= $maturityecusoftwareunctions['total_percentage']; ?>%</div>
                                     </div>
                                 </div>
                             </div>
@@ -46,11 +46,11 @@
                                 </div>
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwareunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwareunctions_id=<?= $_GET['maturityecusoftwareunctions_id']; ?>" class="btn fs14 btn-primary disabled" title="Insira as informações solicitadas.">Testes unitários ou conceito.</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwareunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwareunctions_id=<?= $_GET['maturityecusoftwareunctions_id']; ?>" class="btn fs14 btn-primary <?= ($maturityecusoftwareunctions['step_1'] > 11) ? "" : "disabled"; ?>" title="Insira as informações solicitadas.">Testes unitários ou conceito.</a>
                                 </div>
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwareunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwareunctions_id=<?= $_GET['maturityecusoftwareunctions_id']; ?>" class="fs14 btn btn-primary disabled" style="white-space: normal;" title="Insira as informações solicitadas.">Testes em Hill no fornecedor ou montadora</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwareunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwareunctions_id=<?= $_GET['maturityecusoftwareunctions_id']; ?>" class="fs14 btn btn-primary <?= ($maturityecusoftwareunctions['step_2'] > 16) ? "" : "disabled"; ?>" style="white-space: normal;" title="Insira as informações solicitadas.">Testes em Hill no fornecedor ou montadora</a>
                                 </div>
 
 
@@ -63,15 +63,15 @@
                             <div class="section row text-center">
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwareunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwareunctions_id=<?= $_GET['maturityecusoftwareunctions_id']; ?>" class="btn fs14 btn-primary disabled" title="Insira as informações solicitadas.">Testes de aplicação</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwareunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwareunctions_id=<?= $_GET['maturityecusoftwareunctions_id']; ?>" class="btn fs14 btn-primary <?= ($maturityecusoftwareunctions['step_3'] > 16) ? "" : "disabled"; ?>" title="Insira as informações solicitadas.">Testes de aplicação</a>
                                 </div>
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwareunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwareunctions_id=<?= $_GET['maturityecusoftwareunctions_id']; ?>" class="btn fs14 btn-primary disabled" title="Insira as informações solicitadas.">Testes de durabilidade</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwareunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwareunctions_id=<?= $_GET['maturityecusoftwareunctions_id']; ?>" class="btn fs14 btn-primary <?= ($maturityecusoftwareunctions['step_4'] > 16) ? "" : "disabled"; ?>" title="Insira as informações solicitadas.">Testes de durabilidade</a>
                                 </div>
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwareunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwareunctions_id=<?= $_GET['maturityecusoftwareunctions_id']; ?>" class="btn fs14 btn-primary disabled" title="Insira as informações solicitadas."> Testes de Homologação</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwareunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwareunctions_id=<?= $_GET['maturityecusoftwareunctions_id']; ?>" class="btn fs14 btn-primary <?= ($maturityecusoftwareunctions['step_5'] > 16) ? "" : "disabled"; ?>" title="Insira as informações solicitadas."> Testes de Homologação</a>
                                 </div>
 
 

@@ -35,12 +35,6 @@
                             <div class="panel-heading text-center">
                                 <span class="panel-title pn">Escolha um projeto</span><br>
                                 <span class="fa fa-circle"></span>
-                                <span class="fa fa-circle-o"></span>
-                                <span class="fa fa-circle-o"></span>
-                                <span class="fa fa-circle-o"></span>
-                                <span class="fa fa-circle-o"></span>
-                                <span class="fa fa-circle-o"></span>
-                                <span class="fa fa-circle-o"></span>
                             </div>
 
                             <form action="<?= BASE_URL; ?>maturityecusoftwareunctions" id="form-order">

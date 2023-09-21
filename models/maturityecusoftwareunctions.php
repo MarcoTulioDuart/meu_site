@@ -134,4 +134,21 @@ class maturityecusoftwareunctions extends Model
             return false;
         }
     }
+
+    public function editStep($id, $step, $percentage)
+    {
+      
+        $sql = "UPDATE maturityecusoftwareunctions 
+        SET step_$step = step_$step + :step WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->bindValue(":step", $percentage);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
