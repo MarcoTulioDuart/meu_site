@@ -185,7 +185,7 @@ class site extends Model
             mkdir($dir, 0777, true);
         }
         // Tamanho máximo do arquivo (em Bytes)
-        $upload['size'] = 1024 * 1024 * 16; // 14Mb
+        $upload['size'] = 1024 * 1024 * 18; // 18Mb
 
         // Array com as extensões permitidas
         $upload['extension'] = array('pdf', 'drawio', 'png', 'svg', 'html', 'xml', 'doc', 'docx', 'jpg', 'xlsx');
@@ -221,7 +221,7 @@ class site extends Model
 
         // Faz a verificação do tamanho do arquivo
         else if ($upload['size'] < $file['size']) {
-            setcookie("error", "O arquivo enviado é muito grande, envie arquivos de até 16Mb.", time() + 100);
+            setcookie("error", "O arquivo enviado é muito grande, envie arquivos de até 18Mb.", time() + 100);
             header($location);
             exit;
         }
