@@ -208,15 +208,11 @@ class failsafetestController extends Controller
 
       //envia os arquivo para a pasta determinada
       if ($file = $site->uploadPdf($dir, $files, $location)) {
-
+        setcookie("error", "", time() -200);
         $list_basic_info->upload($file, $fail_safe_id);
 
-        ini_set('memory_limit', '2024M');
+        ini_set('memory_limit', '18000M');
         $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($dir . $_FILES['upload_ecu_reference']['name']);
-
-        /*echo "<pre>";
-        var_dump($_FILES['upload_ecu_reference']);
-        exit;*/
 
         $spreadsheet = $reader->load($dir . $_FILES['upload_ecu_reference']['name']);
 
@@ -233,10 +229,17 @@ class failsafetestController extends Controller
           $fc_description = $worksheet->getCell("E" . $row)->getValue();
           $cw = $worksheet->getCell("F" . $row)->getValue();
           $fail_status = $worksheet->getCell("G" . $row)->getValue();
-          $solution = $worksheet->getCell("H" . $row)->getCalculatedValue();
+          $solution = $worksheet->getCell("H" . $row)->getValue();
 
-          $fail_code->add($vehicle, $date, $ecu, $fc, $fc_description, $cw, $fail_status, $solution, $fail_safe_id);
+          if ($fail_code->add($vehicle, $date, $ecu, $fc, $fc_description, $cw, $fail_status, $solution, $fail_safe_id)) {
+            //continuar...
+          } else {
+            setcookie("failed_data_excell", "Ocorreu um erro com a tranferencia de dados, verifique as dicas da página, ou entre em contato com o suporte técnico.", time() +100);
+            header("Location: " . BASE_URL . "failsafetest/basic_info_upload?fail_safe_id=" . $fail_safe_id);
+            exit;
+          }
         }
+        setcookie("failed_data_excell", "", time() -100);
         header("Location: " . BASE_URL . "failsafetest/select_ecu_output?fail_safe_id=" . $fail_safe_id);
         exit;
       } else {
@@ -609,7 +612,7 @@ class failsafetestController extends Controller
 
     //fim do básico
 
-    
+
 
 
     //template, view, data

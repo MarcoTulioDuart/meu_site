@@ -30,7 +30,30 @@
             <div class="row">
                 <div class="allcp-form tab-pane mw700 mauto" id="order" role="tabpanel">
                     <div class="panel" id="shortcut">
-
+                        <div class="right">
+                            <div class="btn-group">
+                                <button type="button" class="dropdown-toggle btn btn-primary" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-lightbulb-o fs24"></i>
+                                </button>
+                                <ul class="dropdown-menu bg-primary p15 w450">
+                                    <li>
+                                        <h5><b>Dicas de uso:</b></h5>
+                                    </li>
+                                    <li>
+                                        <h6>● A planilha nescessita ter a extensão 'xlsx'. Tome cuidado pois existem extensões muito parecidas.</h6>
+                                    </li>
+                                    <li>
+                                        <h6>● A planilha enviada pode ter diversas abas, porém a aba com os dados FC precisa estar ativa.</h6>
+                                    </li>
+                                    <li>
+                                        <h6>● A programação do site comporta arquivos de até 18Mb, se for estritamente necessário um arquivo maior que esse, entre em contato com o suporte técnico para uma manutenção.</h6>
+                                    </li>
+                                    <li>
+                                        <h6>● Este programa não suporta fórmulas de excell, certifique-se que os valores das células estejam informados diretamente sem o uso de fórmulas, se for estritamente necessária uma fórmula para obter o valor da célula, entre em contato com o suporte técnico para avaliar a situação.</h6>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         <!-- FORM 1: Escolha de projeto -->
                         <div class="panel-heading text-center">
                             <span class="panel-title pn">Informações básicas da Ecu</span><br>
@@ -47,6 +70,15 @@
                                             <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
                                             <h3 class="mtn fs20 text-white">Ocorreu um erro</h3>
                                             <p><?= $_COOKIE["error"]; ?></p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (isset($_COOKIE["failed_data_excell"])) : ?>
+                                    <div class="text-center">
+                                        <div class="alert alert-danger alert-dismissable mb30 alert-block p15">
+                                            <button type="button" class="close mt15" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h3 class="mtn fs20 text-white">Ocorreu um erro</h3>
+                                            <p><?= $_COOKIE["failed_data_excell"]; ?></p>
                                         </div>
                                     </div>
                                 <?php endif; ?>
