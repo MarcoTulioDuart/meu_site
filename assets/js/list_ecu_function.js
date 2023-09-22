@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#name_ecu').on('change', function () {
+    $('#info_ecu').on('change', function () {
         let $parametro = $(this).val().trim();
         let $project_id = $(this).attr('data-project-id');
         console.log($project_id);
