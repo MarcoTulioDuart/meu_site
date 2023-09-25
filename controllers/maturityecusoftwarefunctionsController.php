@@ -195,6 +195,8 @@ class maturityecusoftwarefunctionsController extends Controller
     $accounts = new accounts();
     $projects = new projects();
     $list_ecu = new list_ecu();
+    $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
+    $maturityecusoftwarefunctions_software_informations = new maturityecusoftwarefunctions_software_informations();
     $site = new site();
     $data['page'] = 'maturityecusoftwarefunctions';
     $id = $_SESSION['proTSA_online'];
@@ -202,6 +204,7 @@ class maturityecusoftwarefunctionsController extends Controller
     $data['list_projects'] = $projects->getAll($id);
 
     $data['list_ecu'] = $list_ecu->getAll($filters, $_GET['project_id']);
+    $data['info_maturityecusoftwarefunctions'] = $maturityecusoftwarefunctions->get($_GET['maturityecusoftwarefunctions_id']);
 
     if (!isset($_GET['project_id']) || empty($_GET['maturityecusoftwarefunctions_id'])) {
       header("Location: " . BASE_URL . "maturityecusoftwarefunctions");

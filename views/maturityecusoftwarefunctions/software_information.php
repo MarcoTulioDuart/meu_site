@@ -97,10 +97,11 @@
                                     if ($info_maturityecusoftwarefunctions['step_1'] == 1) :
                                     ?>                                        
                                         <button type="button" class="btn btn-primary">ETAPA CONCLUÍDA</button>
+                                        <a href="<?= BASE_URL; ?>">VISUALIZAR</a>
                                     <?php elseif(isset($info_maturityecusoftwarefunctions_software_informations['selected_ecu'])): ?>
                                         <input type="hidden" name="type_form" value="edit">
-                                        <button type="submit" class="btn btn-primary">Atualizar</button>
-                                        <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/complete_stage?step=step_1&percentage=20&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>"  class="btn btn-primary">Concluir</a>
+                                        <button type="submit" class="btn btn-primary">Atualizar</button>                                        
+                                        <a target="_blank" href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information_provider?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>"  class="btn btn-primary">Fornecedor</a>
                                     <?php else : ?>
                                         <button type="submit" class="btn btn-primary">Enviar</button>
                                     <?php endif; ?>
