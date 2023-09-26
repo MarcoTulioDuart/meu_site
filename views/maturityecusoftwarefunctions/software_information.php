@@ -50,13 +50,13 @@
                                         </label>
                                     </div>
                                 </div>
-                                <input type="hidden" name="project_id" value="<?= $_GET['project_id']; ?>">
+                                <input type="hidden" name="project_id" value="<?= $info_maturityecusoftwarefunctions['project_id']; ?>">
                                 <input type="hidden" name="maturityecusoftwarefunctions_id" value="<?= $_GET['maturityecusoftwarefunctions_id']; ?>">
                                 <div class="section row">
                                     <p class="fs14">Escolha uma ECU:</p>
                                     <div class="col-md-12 ph10 mb5">
                                         <label for="info_ecu" class="field select">
-                                            <select name="info_ecu" id="info_ecu" class="gui-input" data-project-id="<?= $_GET['project_id']; ?>" required>
+                                            <select name="info_ecu" id="info_ecu" class="gui-input" data-project-id="<?= $info_maturityecusoftwarefunctions['project_id']; ?>" required>
                                                 <?php if ($list_ecu == 0) : ?>
                                                     <option selected>Não foram encontradas ECUs cadastradas nesse projeto.</option>
                                                 <?php else : ?>
@@ -65,7 +65,6 @@
 
                                                         <option value="<?= $value['id']; ?>" <?= (isset($info_maturityecusoftwarefunctions_software_informations['selected_ecu']) && $info_maturityecusoftwarefunctions_software_informations['selected_ecu'] == $value['id']) ? "selected" : ""; ?>>
                                                             <?= (isset($info_maturityecusoftwarefunctions_software_informations['selected_ecu']) && $info_maturityecusoftwarefunctions_software_informations['selected_ecu'] == $value['id']) ? $value['name'] . " (ativa)" : $value['name']; ?>
-
                                                         </option>
 
                                                     <?php endforeach; ?>
@@ -101,7 +100,7 @@
                                     <?php elseif(isset($info_maturityecusoftwarefunctions_software_informations['selected_ecu'])): ?>
                                         <input type="hidden" name="type_form" value="edit">
                                         <button type="submit" class="btn btn-primary">Atualizar</button>                                        
-                                        <a target="_blank" href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information_provider?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>"  class="btn btn-primary">Fornecedor</a>
+                                        <a target="_blank" href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>"  class="btn btn-primary">Fornecedor</a>
                                     <?php else : ?>
                                         <button type="submit" class="btn btn-primary">Enviar</button>
                                     <?php endif; ?>

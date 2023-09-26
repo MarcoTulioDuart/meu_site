@@ -43,15 +43,15 @@
                             </div>
                             <div class="section row text-center">
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary" title="Insira as informações solicitadas.">Informações do Software</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary" title="Insira as informações solicitadas.">Informações do Software</a>
                                 </div>
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary " title="Insira as informações solicitadas.">Testes unitários ou conceito.</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary " title="Insira as informações solicitadas.">Testes unitários ou conceito.</a>
                                 </div>
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="fs14 btn btn-primary " style="white-space: normal;" title="Insira as informações solicitadas.">Testes em Hill no fornecedor ou montadora</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="fs14 btn btn-primary " style="white-space: normal;" title="Insira as informações solicitadas.">Testes em Hill no fornecedor ou montadora</a>
                                 </div>
 
 
@@ -64,15 +64,15 @@
                             <div class="section row text-center">
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary " title="Insira as informações solicitadas.">Testes de aplicação</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary " title="Insira as informações solicitadas.">Testes de aplicação</a>
                                 </div>
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary " title="Insira as informações solicitadas.">Testes de durabilidade</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary " title="Insira as informações solicitadas.">Testes de durabilidade</a>
                                 </div>
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?project_id=<?= $_GET['project_id']; ?>&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary " title="Insira as informações solicitadas."> Testes de Homologação</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary " title="Insira as informações solicitadas."> Testes de Homologação</a>
                                 </div>
                             </div>
                         </div>

@@ -10,9 +10,9 @@ $(document).ready(function () {
         let parameters = () => {
             return `
                 <tr class="row-parameters">
-                    <td><input type="text" name="parameters[]"></td>
-                    <td><input type="text" name="parameters[]"></td>
-                    <td><input type="text" name="parameters[]"></td>
+                <td><input type="text" name="pid[]"></td>
+                <td><input type="text" name="fragment[]"></td>
+                <td><input type="text" name="values[]"></td>
                     <td>
                         <button onclick="this.closest('.row-parameters').remove();" class="btn btn-danger" type="button">
                             <i class="fa fa-trash-o" aria-hidden="true"></i>

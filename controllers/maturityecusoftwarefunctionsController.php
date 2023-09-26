@@ -18,6 +18,7 @@ class maturityecusoftwarefunctionsController extends Controller
     $data  = array();
     $filters = array();
     $accounts = new accounts();
+    $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
 
     $data['page'] = 'maturityecusoftwarefunctions';
     $id = $_SESSION['proTSA_online'];
@@ -34,10 +35,16 @@ class maturityecusoftwarefunctionsController extends Controller
 
     $data['list_projects'] = $projects->getAll($id);
 
+    if(isset($_GET['project_id'])){     
+        $maturityecusoftwarefunctions_id = $maturityecusoftwarefunctions->add($_GET['project_id']);
+        header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
+        exit;
+    }  
+
 
     if (isset($_GET['project_id']) && !empty($_GET['project_id'])) {
 
-        header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseMaturityecusoftwarefunctions?project_id=" . $_GET['project_id']);
+        header("Location: " . BASE_URL . "maturityecusoftwarefunctions");
         exit;
     
     }
@@ -46,54 +53,7 @@ class maturityecusoftwarefunctionsController extends Controller
 
     //template, view, data
     $this->loadTemplate("home", "maturityecusoftwarefunctions/choose_project_processing", $data);
-  }
-
-  public function chooseMaturityecusoftwarefunctions()
-  {
-    //básico
-
-    $data  = array();
-    $filters = array();
-    $accounts = new accounts();
-    $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
-
-    $data['page'] = 'maturityecusoftwarefunctions';
-    $id = $_SESSION['proTSA_online'];
-    $data['info_user'] = $accounts->get($id);
-    if (isset($_SESSION['project_protsa'])) {
-      unset($_SESSION['project_protsa']);
-    }
-
-    if (isset($_COOKIE['error']) && !empty($_COOKIE['error'])) {
-      unset($_COOKIE['error']);
-    }    
-    
-
-    if(isset($_POST['maturityecusoftwarefunctions_id'])){
-      if($_POST['maturityecusoftwarefunctions_id'] == "not-generated"){       
-        $maturityecusoftwarefunctions_id = $maturityecusoftwarefunctions->add($_POST['project_id']);
-        header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?project_id=" . $_POST['project_id'] . "&maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
-        exit;
-      }else{
-        header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?project_id=" . $_POST['project_id'] . "&maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id']);
-        exit;
-      }
-    }  
-    
-
-    if (!isset($_GET['project_id'])) {
-      header("Location: " . BASE_URL . "maturityecusoftwarefunctions");
-      exit;
-    }
-
-    $filters['project_id'] = addslashes($_GET['project_id']);
-    $data['list_maturityecusoftwarefunctions'] = $maturityecusoftwarefunctions->getAll($filters);
-    
-
-
-    //template, view, data
-    $this->loadTemplate("home", "maturityecusoftwarefunctions/choose_maturityecusoftwarefunctions", $data);
-  }
+  } 
 
 
   public function chooseStep()
@@ -113,8 +73,8 @@ class maturityecusoftwarefunctionsController extends Controller
 
 
 
-    if (!isset($_GET['project_id']) || empty($_GET['maturityecusoftwarefunctions_id'])) {
-      header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseMaturityecusoftwarefunctions");
+    if (!isset($_GET['maturityecusoftwarefunctions_id']) || empty($_GET['maturityecusoftwarefunctions_id'])) {
+      header("Location: " . BASE_URL . "maturityecusoftwarefunctions");
       exit;
     }
 
@@ -175,12 +135,12 @@ class maturityecusoftwarefunctionsController extends Controller
 
    
 
-    $data['list_ecu'] = $list_ecu->getAll($filters, $_GET['project_id']);
+    $data['list_ecu'] = $list_ecu->getAll($filters, $data['info_maturityecusoftwarefunctions']['project_id']);
     $data['info_maturityecusoftwarefunctions_software_informations'] = $maturityecusoftwarefunctions_software_informations->getByMaturityecusoftwarefunctionId($_GET['maturityecusoftwarefunctions_id']);
 
 
-    if (!isset($_GET['project_id']) || empty($_GET['maturityecusoftwarefunctions_id'])) {
-      header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep");
+    if (!isset($_GET['maturityecusoftwarefunctions_id']) || empty($_GET['maturityecusoftwarefunctions_id'])) {
+      header("Location: " . BASE_URL . "maturityecusoftwarefunctions");
       exit;
     }
 
@@ -197,16 +157,23 @@ class maturityecusoftwarefunctionsController extends Controller
     $list_ecu = new list_ecu();
     $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
     $maturityecusoftwarefunctions_software_informations = new maturityecusoftwarefunctions_software_informations();
+    $maturityecusoftwarefunctions_software_informations_providers = new maturityecusoftwarefunctions_software_informations_providers();
     $site = new site();
     $data['page'] = 'maturityecusoftwarefunctions';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
     $data['list_projects'] = $projects->getAll($id);
-
-    $data['list_ecu'] = $list_ecu->getAll($filters, $_GET['project_id']);
+    
     $data['info_maturityecusoftwarefunctions'] = $maturityecusoftwarefunctions->get($_GET['maturityecusoftwarefunctions_id']);
+    $data['list_ecu'] = $list_ecu->getAll($filters, $data['info_maturityecusoftwarefunctions']['project_id']);
+    $data['info_maturityecusoftwarefunctions_software_informations'] = $maturityecusoftwarefunctions_software_informations->getByMaturityecusoftwarefunctionId($_GET['maturityecusoftwarefunctions_id']);
+    
+    $data['info_maturityecusoftwarefunctions_software_informations']['list_ecu_function'] = explode(", ", $data['info_maturityecusoftwarefunctions_software_informations']['list_ecu_function']);
 
-    if (!isset($_GET['project_id']) || empty($_GET['maturityecusoftwarefunctions_id'])) {
+    $data['maturityecusoftwarefunctions_software_informations_providers'] = $maturityecusoftwarefunctions_software_informations_providers->getByMaturityecusoftwarefunctionId($_GET['maturityecusoftwarefunctions_id']);
+
+
+    if (!isset($_GET['maturityecusoftwarefunctions_id']) || empty($_GET['maturityecusoftwarefunctions_id'])) {
       header("Location: " . BASE_URL . "maturityecusoftwarefunctions");
       exit;
     }
