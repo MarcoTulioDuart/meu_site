@@ -1,0 +1,783 @@
+<?php
+
+class parametersintegrationController extends Controller
+{
+  public function __construct()
+  {
+    parent::__construct();
+  }
+
+  public function index()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'parameters_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_protsa'])) {
+      //Session de projeto
+      unset($_SESSION['project_protsa']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA']) || isset($_SESSION['signal_integration_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
+    }
+
+    //fim do básico
+
+    //form 1: escolha de projeto
+    $projects = new projects();
+
+    $data['list_projects'] = $projects->getAll($id);
+
+    //template, view, data
+    $this->loadTemplate("home", "parameters_integration/choose_project", $data);
+  }
+
+  public function choose_project()
+  {
+    //form 1
+
+    if (isset($_GET['project_id']) && !empty($_GET['project_id'])) {
+
+      $parameters_integration = new parameters_integration();
+      $project_id = addslashes($_GET['project_id']);
+      $_SESSION['parameters_project_id_proTSA'] = $project_id;
+
+      $parameters_integration->add($project_id);
+      header("Location: " . BASE_URL . "parametersintegration/definition_vehicles?question=1");
+      exit;
+    }
+  }
+
+  public function definition_vehicles()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'parameters_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_protsa'])) {
+      //Session de projeto
+      unset($_SESSION['project_protsa']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
+
+    $vehicles = new vehicles();
+
+    $data['list_vehicles'] = $vehicles->getAll();
+
+    $this->loadTemplate("home", "parameters_integration/process", $data);
+  }
+
+  public function add_point_vehicle()
+  {
+    $list_parameters_vehicles = new list_parameters_vehicles();
+    $points = new points();
+
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA']; //id do processo
+    $project_id = $_SESSION['parameters_project_id_proTSA']; //id do projeto sendo processado
+    $vehicle_id = $_POST['vehicle'];
+
+    $scores = $points->get(2); //pega a pontuação registrada de cada questão
+
+    $question = 'point_question_' . $_GET['question']; //gera o nome de acordo com a questão
+
+    if ($vehicle = $list_parameters_vehicles->get($vehicle_id, $parameters_integration_id)) {
+      //true = se o veículo existe (Atualizar)
+
+      $total_score = $scores[$question] + $vehicle['current_score'];
+
+      $list_parameters_vehicles->edit($parameters_integration_id, $project_id, $vehicle_id, $total_score);
+
+      if ($_GET['question'] == 5) {
+        header("Location: " . BASE_URL . "parametersintegration/first_result");
+      } else {
+        header("Location: " . BASE_URL . "parametersintegration/definition_vehicles?question=" . $_GET['question'] + 1);
+      }
+      exit;
+    } else {
+      //false = se não existe o veículo (Adicionar)
+
+      $list_parameters_vehicles->add($parameters_integration_id, $project_id, $vehicle_id, $scores[$question]);
+
+      if ($_GET['question'] == 5) {
+        header("Location: " . BASE_URL . "parametersintegration/first_result");
+      } else {
+        header("Location: " . BASE_URL . "parametersintegration/definition_vehicles?question=" . $_GET['question'] + 1);
+      }
+      exit;
+    }
+  }
+
+  public function results()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'chooseResult';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_protsa'])) {
+      //Session de projeto
+      unset($_SESSION['project_protsa']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
+    }
+
+    //fim do básico
+
+    $parameters_integration = new parameters_integration();
+
+    if (!isset($_GET['parameters_id_proTSA']) || empty($_GET['parameters_id_proTSA'])) {
+
+      $data['list_parameters_integration'] = $parameters_integration->getAll();
+    }
+
+    if (isset($_GET['parameters_id_proTSA']) && !empty($_GET['parameters_id_proTSA'])) {
+      $_SESSION['parameters_id_proTSA'] = $_GET['parameters_id_proTSA'];
+    }
+
+    //template, view, data
+    $this->loadTemplate("home", "parameters_integration/results", $data);
+  }
+
+  public function choose_test()
+  {
+    $parameters_integration = new parameters_integration();
+
+    if (isset($_POST['parameters_id']) && !empty($_POST['parameters_id'])) {
+
+      $parameters_id = addslashes($_POST['parameters_id']);
+      $_SESSION['parameters_id_proTSA'] = $parameters_id;
+      $id_project = $parameters_integration->get($parameters_id);
+      $_SESSION['parameters_project_id_proTSA'] = $id_project['project_id'];
+
+      header("Location: " . BASE_URL . "parametersintegration/results");
+      exit;
+    }
+  }
+
+  public function first_result()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'first_result';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_protsa'])) {
+      //Session de projeto
+      unset($_SESSION['project_protsa']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
+
+    $list_parameters_vehicles = new list_parameters_vehicles();
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
+
+    $data['list_classification_vehicles'] = $list_parameters_vehicles->getAllProcess($parameters_integration_id);
+
+    //template, view, data
+    $this->loadTemplate("home", "parameters_integration/first_result", $data);
+  }
+
+  public function download_first_result()
+  {
+    $data  = array();
+
+    $data['page'] = 'first_result';
+    $site = new site();
+    $list_parameters_vehicles = new list_parameters_vehicles();
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
+
+    $data['list_classification_vehicles'] = $list_parameters_vehicles->getAllProcess($parameters_integration_id);
+
+    ob_start(); //inicia a inclusão da view na memória
+    $this->loadTemplate("download", "parameters_integration/downloads/first_download", $data);
+    $html = ob_get_contents(); //armazena a view invés de mostrar
+    ob_end_clean(); //finaliza a inclusão da view na memória
+
+    $name_file = 'primeiro-resultado-Modulo-4.pdf';
+    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-P', 'orientation' => 'P']);
+    exit;
+  }
+
+  public function parameters_value_1()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'first_result';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_protsa'])) {
+      //Session de projeto
+      unset($_SESSION['project_protsa']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
+
+    $list_parameters = new list_parameters();
+    $list_parameters_compare = new list_parameters_compare();
+
+    $project_id = $_SESSION['parameters_project_id_proTSA'];
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
+
+    if ($list_parameters_compare->get($parameters_integration_id, $project_id)) {
+      //nada
+
+    } else {
+
+      $data['list_parameters_name'] = $list_parameters->getParameterProject($project_id);
+    }
+
+    //template, view, data
+    $this->loadTemplate("home", "parameters_integration/parameters_value/refe_value_1", $data);
+  }
+
+  public function choose_parameter()
+  {
+    $list_parameters_compare = new list_parameters_compare();
+    $project_id = $_SESSION['parameters_project_id_proTSA'];
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
+
+    if (isset($_POST['name_parameter']) && !empty($_POST['name_parameter'])) {
+
+      $name_parameter = addslashes($_POST['name_parameter']);
+
+      $list_parameters_compare->add($parameters_integration_id, $project_id, $name_parameter);
+      header("Location: " . BASE_URL . "parametersintegration/parameters_value_2");
+      exit;
+    }
+  }
+
+  public function parameters_value_2()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'first_result';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_protsa'])) {
+      //Session de projeto
+      unset($_SESSION['project_protsa']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+      unset($_SESSION['signal_integration_id_proTSA']);
+    }
+    //fim do básico
+
+    $data_parameters_aplicate = new data_parameters_aplicate();
+    $project_id = $_SESSION['parameters_project_id_proTSA'];
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
+
+    if (isset($_FILES['library']) && !empty($_FILES['library'])) {
+
+      $file = new DOMDocument();
+      $file->load($_FILES['library']['tmp_name']);
+
+      $first_line = true;
+      $row = $file->getElementsByTagName("Table")->item(0)->getElementsByTagName("Row");
+      foreach ($row as $value) {
+        if ($first_line == false) {
+
+          $pos = $value->getElementsByTagName("Cell")->item(0)->nodeValue;
+          $sachnummer = $value->getElementsByTagName("Cell")->item(1)->nodeValue;
+          $benennung = $value->getElementsByTagName("Cell")->item(2)->nodeValue;
+          $codebedingung = $value->getElementsByTagName("Cell")->item(3)->nodeValue;
+          $kem_ab = $value->getElementsByTagName("Cell")->item(4)->nodeValue;
+          $werke = $value->getElementsByTagName("Cell")->item(5)->nodeValue;
+          $pg_kz = $value->getElementsByTagName("Cell")->item(6)->nodeValue;
+          $type = addslashes($_POST['type']);
+
+          if ($data_parameters_aplicate->add($pos, $sachnummer, $benennung, $codebedingung, $kem_ab, $werke, $pg_kz, $type, $parameters_integration_id, $project_id)) {
+            //nada
+          } else {
+            setcookie("failed_add_parameters", "Ocorreu um erro, seus parâmetros da etapa de definição de valores não foram cadastrados!", time() + 100);
+            header("Location: " . BASE_URL . "parametersintegration/parameters_value_2");
+            exit;
+          }
+        }
+        $first_line = false;
+      }
+      setcookie("success_add_parameters", "Seus parâmetros da etapa de definição de valores foram registrados com sucesso!", time() + 100);
+      header("Location: " . BASE_URL . "parametersintegration/results");
+      exit;
+    }
+
+    //template, view, data
+    $this->loadTemplate("home", "parameters_integration/parameters_value/refe_value_2", $data);
+  }
+
+  public function add_meeting()
+  {
+    $meetings = new meetings();
+    $project_id = $_SESSION['parameters_project_id_proTSA'];
+
+    if (!empty($_POST['title']) && !empty($_POST['date_meeting']) && !empty($_POST['participant'])) {
+      $title = addslashes($_POST['title']);
+      $date_meeting = addslashes($_POST['date_meeting']);
+      $link = addslashes($_POST['link']);
+      $model = 4;
+
+      $meetings->addMeeting($project_id, $title, $date_meeting, $model);
+
+      $site = new site();
+
+      if (isset($_POST['participant']) && !empty($_POST['participant'])) {
+        $participants = addslashes($_POST['participant']);
+        $emails = explode(';', $participants);
+
+        for ($i = 0; $i < count($emails); $i++) {
+          $name = ' ';
+          $email = $emails[$i];
+
+          $subject = "Uma reunião foi agendada!";
+          $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
+          O tema da reunião será: ' . $title . '. <br>
+          Para participar da reunião <a href="' . $link . '" target="_blank">Clique aqui</a>
+          Aconselhamos que salve este email até o dia da reunião <br>';
+
+          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+            $recommendation = addslashes($_POST['recommendation']);
+
+            $message .= $recommendation . '<br>';
+          }
+
+          $message .= 'Aguardamos sua presença na reunião!';
+          $site->sendMessage($email, $name, $subject, $message);
+        }
+      }
+
+      header("Location: " . BASE_URL . "parametersintegration/second_result");
+      exit;
+    }
+  }
+
+  public function second_result()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'first_result';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_protsa'])) {
+      //Session de projeto
+      unset($_SESSION['project_protsa']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
+
+
+    //template, view, data
+    $this->loadTemplate("home", "parameters_integration/second_result/choose_format", $data);
+  }
+
+  public function formatted_table()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'first_result';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_protsa'])) {
+      //Session de projeto
+      unset($_SESSION['project_protsa']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
+
+    $list_parameters_compare = new list_parameters_compare();
+    $project_id = $_SESSION['parameters_project_id_proTSA'];
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
+
+    if ($_GET['format'] == "like") {
+      $data['title_format'] = "em comum";
+
+      $format = 'IN';
+
+      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
+    } elseif ($_GET['format'] == "unlike") {
+      $data['title_format'] = "diferentes";
+
+      $format = "NOT IN";
+
+      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
+    }
+
+
+    //template, view, data
+    $this->loadTemplate("home", "parameters_integration/second_result/formatted_table", $data);
+  }
+
+  public function second_download()
+  {
+    $data  = array();
+
+    $data['page'] = 'first_result';
+
+    //fim do básico
+    $site = new site();
+
+    $list_parameters_compare = new list_parameters_compare();
+    $project_id = $_SESSION['parameters_project_id_proTSA'];
+    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
+
+    if ($_GET['format'] == "like") {
+      $data['title_format'] = "em comum";
+
+      $format = 'IN';
+
+      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
+    } elseif ($_GET['format'] == "unlike") {
+      $data['title_format'] = "diferentes";
+
+      $format = "NOT IN";
+
+      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
+    }
+
+    ob_start(); //inicia a inclusão da view na memória
+    $this->loadTemplate("download", "parameters_integration/downloads/second_download", $data);
+    $html = ob_get_contents(); //armazena a view invés de mostrar
+    ob_end_clean(); //finaliza a inclusão da view na memória
+
+    $name_file = 'segundo-resultado-Modulo-4.pdf';
+    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-L', 'orientation' => 'L']);
+    exit;
+  }
+
+  public function send_workshop()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'first_result';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_protsa'])) {
+      //Session de projeto
+      unset($_SESSION['project_protsa']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
+
+    $meetings = new meetings();
+    $project_id = $_SESSION['parameters_project_id_proTSA'];
+
+    if (!empty($_POST['title']) && !empty($_POST['date_workshop']) && !empty($_POST['participant_test'])) {
+      $title = addslashes($_POST['title']);
+      $date_meeting = addslashes($_POST['date_workshop']);
+      $model = 4;
+
+      $meetings->addMeeting($project_id, $title, $date_meeting, $model);
+
+      $site = new site();
+
+      $attachmens = [$_FILES['pdf_upload']];
+      $link = addslashes($_POST['link']);
+      $version = addslashes($_POST['version']);
+      $open_points = addslashes($_POST['open_points']);
+      $test_vehicle = addslashes($_POST['test_vehicle']);
+
+      if (isset($_POST['participant_test']) && !empty($_POST['participant_test'])) {
+        $participants = addslashes($_POST['participant_test']);
+        $emails = explode(';', $participants);
+
+        for ($i = 0; $i < count($emails); $i++) {
+          $name = ' ';
+          $email = $emails[$i];
+
+          $subject = "Uma reunião foi agendada!";
+          $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
+          O tema da reunião será: ' . $title . '. <br>
+          Versão: ' . $version . '<br>
+          Pontos em aberto: ' . $open_points . '<br>
+          Veículos de teste: ' . $test_vehicle . '<br>
+          Link onde serão armazenadas as informações: <a href="' . $link . '" target="_blank">Clique aqui</a> <br>
+          Aconselhamos que salve este email até o dia da reunião <br>';
+
+          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+            $recommendation = addslashes($_POST['recommendation']);
+
+            $message .= $recommendation . '<br>';
+          }
+
+          $message .= 'Aguardamos sua presença na reunião!';
+          if ($site->sendMessageAttachment($email, $name, $subject, $message, $attachmens)) {
+            # code...
+          } else {
+            setcookie("success_send_workshop", "", time() - 100);
+            setcookie("failed_send_workshop", "Seu email não pode ser enviado", time() + 100);
+            header("Location: " . BASE_URL . "parametersintegration/results");
+            exit;
+          }
+        }
+      }
+
+      if (isset($_POST['participant_parameter']) && !empty($_POST['participant_parameter'])) {
+        $participants = addslashes($_POST['participant_parameter']);
+        $emails = explode(';', $participants);
+
+        for ($i = 0; $i < count($emails); $i++) {
+          $name = ' ';
+          $email = $emails[$i];
+
+          $subject = "Uma reunião foi agendada!";
+          $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
+          O tema da reunião será: ' . $title . '. <br>
+          Versão: ' . $version . '<br>
+          Pontos em aberto: ' . $open_points . '<br>
+          Veículos de teste: ' . $test_vehicle . '<br>
+          Link onde serão armazenadas as informações: <a href="' . $link . '" target="_blank">Clique aqui</a> <br>
+          Aconselhamos que salve este email até o dia da reunião <br>';
+
+          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+            $recommendation = addslashes($_POST['recommendation']);
+
+            $message .= $recommendation . '<br>';
+          }
+
+          $message .= 'Aguardamos sua presença na reunião!';
+          if ($site->sendMessageAttachment($email, $name, $subject, $message, $attachmens)) {
+            # code...
+          } else {
+            setcookie("success_send_workshop", "", time() - 100);
+            setcookie("failed_send_workshop", "Seu email não pode ser enviado", time() + 100);
+            header("Location: " . BASE_URL . "parametersintegration/results");
+            exit;
+          }
+        }
+      }
+      setcookie("failed_send_workshop", "", time() - 100);
+      setcookie("success_send_workshop", "Seu email foi enviado com sucesso!", time() + 100);
+      header("Location: " . BASE_URL . "parametersintegration/results");
+      exit;
+    }
+
+    $this->loadTemplate("home", "parameters_integration/workshop_meeting", $data);
+  }
+
+  public function second_process()
+  {
+    //básico
+    if (!isset($_SESSION['proTSA_online'])) {
+      header("Location: " . BASE_URL);
+      exit;
+    }
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+
+    $data['page'] = 'parameters_integration';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+
+    if (isset($_SESSION['project_protsa'])) {
+      //Session de projeto
+      unset($_SESSION['project_protsa']);
+    }
+    if (isset($_SESSION['integration_id_proTSA'])) {
+      //Session do Primeiro Módulo
+      unset($_SESSION['integration_id_proTSA']);
+    }
+    if (isset($_SESSION['signals_id_proTSA'])) {
+      //Session do Terceiro Módulo
+      unset($_SESSION['signals_id_proTSA']);
+      unset($_SESSION['project_signals_id_proTSA']);
+    }
+    //fim do básico
+    $site = new site();
+    $list_participants = new list_participants();
+
+    $data['project_id'] = $_SESSION['parameters_project_id_proTSA'];
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+      $version_hw = addslashes($_POST['version_hw']);
+      $version_sw = addslashes($_POST['version_sw']);
+      $name_aproved = addslashes($_POST['name_aproved']);
+      $attachmens = [$_FILES['pdf_upload']];
+
+      if (isset($_POST['participant']) && !empty($_POST['participant'])) {
+        $participants = addslashes($_POST['participant']);
+        $emails = explode(';', $participants);
+
+        for ($i = 0; $i < count($emails); $i++) {
+          $name = ' ';
+          $email = $emails[$i];
+
+          $subject = "Aprovação de testes de parâmetros.";
+          $message = 'O arquivo em anexo contém a tabela de parâmetros para liberação. <br>
+          Versão de HW da ECU: ' . $version_hw . '<br>
+          Versão de SW da ECU: ' . $version_sw . '<br>
+          Quem aprovou: ' . $name_aproved . '<br>';
+
+          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+            $recommendation = addslashes($_POST['recommendation']);
+
+            $message .= $recommendation . '<br>';
+          }
+
+          $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
+        }
+      }
+    }
+
+    //template, view, data
+    $this->loadTemplate("home", "parameters_integration/second_process", $data);
+  }
+
+  public function delete_parameters_integration($id)
+  {
+    $list_parameters_vehicles = new list_parameters_vehicles();
+    $parameters_integration = new parameters_integration();
+
+    $parameters = $parameters_integration->get($id);
+
+    $list_parameters_vehicles->delete($id);
+    $parameters_integration->delete($id);
+
+    header("Location: " . BASE_URL . "project/project_view/" . $parameters['project_id']);
+    exit;
+  }
+}
