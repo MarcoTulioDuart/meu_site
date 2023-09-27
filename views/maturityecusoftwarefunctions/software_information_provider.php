@@ -39,7 +39,6 @@
 
                         <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information_provider" id="form-order" enctype="multipart/form-data">
                             <div class="panel-body pn">
-                                <input type="hidden" name="project_id" value="<?= $info_maturityecusoftwarefunctions['project_id']; ?>">
                                 <input type="hidden" name="maturityecusoftwarefunctions_id" value="<?= $_GET['maturityecusoftwarefunctions_id']; ?>">
                                 <div class="section row">
                                     <p class="fs14">Escolha uma das funções:</p>
@@ -161,7 +160,7 @@
 
                                                 <label class="field prepend-icon file mb20 mt10">
 
-                                                    <input type="file" name="files" required class="gui-file" onchange="document.getElementById('report1').value = this.value;" accept=".png, .pdf, .jpeg, .jpg, .doc, .docx, .xls, .xlsx">
+                                                    <input type="file" name="report1" required class="gui-file" onchange="document.getElementById('report1').value = this.value;" accept=".png, .pdf, .jpeg, .jpg, .doc, .docx, .xls, .xlsx">
 
                                                     <input type="text" id="report1" name="report1" class="gui-input fluid-width" placeholder="selecione um arquivo">
                                                     <i class="fa fa-upload"></i>
@@ -179,7 +178,7 @@
 
                                                 <label class="field prepend-icon file mb20 mt10">
 
-                                                    <input type="file" name="files" required class="gui-file" onchange="document.getElementById('report2').value = this.value;" accept=".png, .pdf, .jpeg, .jpg, .doc, .docx, .xls, .xlsx">
+                                                    <input type="file" name="report2" required class="gui-file" onchange="document.getElementById('report2').value = this.value;" accept=".png, .pdf, .jpeg, .jpg, .doc, .docx, .xls, .xlsx">
 
                                                     <input type="text" id="report2" name="report2" class="gui-input fluid-width" placeholder="selecione um arquivo">
                                                     <i class="fa fa-upload"></i>
