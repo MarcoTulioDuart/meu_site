@@ -207,6 +207,12 @@ class maturityecusoftwarefunctionsController extends Controller
 
     $data['maturityecusoftwarefunctions_software_informations_providers'] = $maturityecusoftwarefunctions_software_informations_providers->getByMaturityecusoftwarefunctionId($_GET['maturityecusoftwarefunctions_id']);
 
+    echo "<pre>";
+    print_r($data['maturityecusoftwarefunctions_software_informations_providers']);
+    exit;
+
+
+
     $this->loadTemplate("home", "maturityecusoftwarefunctions/software_information_provider", $data);
   } 
 

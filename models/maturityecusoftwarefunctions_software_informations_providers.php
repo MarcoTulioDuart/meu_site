@@ -60,7 +60,10 @@ class maturityecusoftwarefunctions_software_informations_providers extends Model
 
     public function getByMaturityecusoftwarefunctionId($maturityecusoftwarefunctions_id)
     {
-        $sql = "SELECT * FROM maturityecusoftwarefunctions_software_informations_providers WHERE maturityecusoftwarefunctions_id = :maturityecusoftwarefunctions_id";
+        $sql = "SELECT * 
+        FROM maturityecusoftwarefunctions_software_informations_providers
+        INNER JOIN maturityecusoftwarefunctions_software_information_provider_param ON (maturityecusoftwarefunctions_software_informations_providers.id = maturityecusoftwarefunctions_software_information_provider_param.maturityecusoftwarefunctions_software_informations_providers_id)
+        WHERE maturityecusoftwarefunctions_software_informations_providers.maturityecusoftwarefunctions_id = :maturityecusoftwarefunctions_id";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":maturityecusoftwarefunctions_id", $maturityecusoftwarefunctions_id);
         $sql->execute();
@@ -71,8 +74,7 @@ class maturityecusoftwarefunctions_software_informations_providers extends Model
         } else {
             return [];
         }
-    }   
-
+    }  
 
     public function editStep($id, $step, $percentage)
     {
