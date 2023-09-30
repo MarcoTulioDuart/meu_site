@@ -84,6 +84,20 @@ class maturityecusoftwarefunctions extends Model
         }
     }
 
+    public function getLatestMaturityEcuSoftwareFunctions()
+    {
+        $sql = "SELECT * FROM maturityecusoftwarefunctions ORDER BY id DESC";
+        $sql = $this->db->prepare($sql);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetch(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return [];
+        }
+    }
+
     public function getSoftwareIntegrationsEcu($id)
     {
         $sql = "SELECT * 

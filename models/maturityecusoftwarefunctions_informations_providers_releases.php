@@ -41,6 +41,23 @@ class maturityecusoftwarefunctions_informations_providers_releases extends Model
         }
     }
 
+    public function getReleasesByProviderInformation($id)
+    {
+        $sql = "SELECT * 
+        FROM maturityecusoftwarefunctions_informations_providers_releases       
+        WHERE maturityecusoftwarefunctions_software_informations_providers_id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return [];
+        }
+    }
+
     public function deleteBySoftwareIntegrationsId($id) {
         $sql = "DELETE FROM maturityecusoftwarefunctions_informations_providers_releases WHERE maturityecusoftwarefunctions_software_informations_providers_id = :id";
         $sql = $this->db->prepare($sql);

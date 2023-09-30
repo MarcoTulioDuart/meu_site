@@ -79,7 +79,7 @@
                                         <label for="motivation_applying_function_software" class="field prepend-icon">
 
                                             <textarea name="motivation_applying_function_software" id="motivation_applying_function_software" cols="30" rows="10" class="gui-textarea" placeholder="Descreva em até duas linhas:" required>
-                                            <?= (isset($maturityecusoftwarefunctions_software_informations_providers['description_function_software'])) ? $maturityecusoftwarefunctions_software_informations_providers['description_function_software'] : ""; ?>
+                                            <?= (isset($maturityecusoftwarefunctions_software_informations_providers['motivation_applying_function_software'])) ? $maturityecusoftwarefunctions_software_informations_providers['motivation_applying_function_software'] : ""; ?>
                                             </textarea>
                                             <span class="field-icon">
                                                 <i class="fa fa-list"></i>
@@ -104,15 +104,21 @@
                                                 </thead>
                                                 <tbody id="parent_parameters">
                                                     <?php if (isset($maturityecusoftwarefunctions_software_informations_providers['parameters'])) : ?>
-                                                        <?php foreach ($maturityecusoftwarefunctions_software_informations_providers['parameters']['pid'] as $key => $item) : ?>
+                                                        <?php foreach ($maturityecusoftwarefunctions_software_informations_providers['parameters'] as $key => $item) : ?>
                                                             <tr class="row-parameters">
-                                                                <td><input type="text" name="pid[]" value="<?= $item ?>"></td>
-                                                                <td><input type="text" name="fragment[]" value="<?= $$maturityecusoftwarefunctions_software_informations_providers['parameters']['fragment'][$key]; ?>"></td>
-                                                                <td><input type="text" name="values[]" value="<?= $$maturityecusoftwarefunctions_software_informations_providers['parameters']['values_p'][$key]; ?>"></td>
+                                                                <td><input type="text" name="pid[]" value="<?= $item['pid'] ?>"></td>
+                                                                <td><input type="text" name="fragment[]" value="<?= $item['fragment']; ?>"></td>
+                                                                <td><input type="text" name="values[]" value="<?= $item['values_p']; ?>"></td>
                                                                 <td>
-                                                                    <button class="btn btn-primary btn-add" type="button">
-                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                    </button>
+                                                                    <?php if ($key == 0) : ?>
+                                                                        <button class="btn btn-primary btn-add" type="button">
+                                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    <?php else : ?>
+                                                                        <button onclick="this.closest('.row-parameters').remove();" class="btn btn-danger" type="button">
+                                                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    <?php endif; ?>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>
@@ -151,18 +157,18 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['responsible_name'])) ? $maturityecusoftwarefunctions_software_informations_providers['responsible_name'] : ""; ?>" required></td>
-                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['responsible_name'])) ? $maturityecusoftwarefunctions_software_informations_providers['responsible_name'] : ""; ?>" required></td>
-                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['responsible_name'])) ? $maturityecusoftwarefunctions_software_informations_providers['responsible_name'] : ""; ?>" required></td>
-                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['responsible_name'])) ? $maturityecusoftwarefunctions_software_informations_providers['responsible_name'] : ""; ?>" required></td>
+                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? date('d/m/Y', strtotime($maturityecusoftwarefunctions_software_informations_providers['releases'][0]['releases_date'])) : ""; ?>" required></td>
+                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? date('d/m/Y', strtotime($maturityecusoftwarefunctions_software_informations_providers['releases'][1]['releases_date'])) : ""; ?>" required></td>
+                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? date('d/m/Y', strtotime($maturityecusoftwarefunctions_software_informations_providers['releases'][2]['releases_date'])) : ""; ?>" required></td>
+                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? date('d/m/Y', strtotime($maturityecusoftwarefunctions_software_informations_providers['releases'][3]['releases_date'])) : ""; ?>" required></td>
 
 
                                                     </tr>
                                                     <tr>
-                                                        <td><input type="text" name="releases_desc[]" required value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['responsible_name'])) ? $maturityecusoftwarefunctions_software_informations_providers['responsible_name'] : ""; ?>"></td>
-                                                        <td><input type="text" name="releases_desc[]" required value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['responsible_name'])) ? $maturityecusoftwarefunctions_software_informations_providers['responsible_name'] : ""; ?>"></td>
-                                                        <td><input type="text" name="releases_desc[]" required value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['responsible_name'])) ? $maturityecusoftwarefunctions_software_informations_providers['responsible_name'] : ""; ?>"></td>
-                                                        <td><input type="text" name="releases_desc[]" required value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['responsible_name'])) ? $maturityecusoftwarefunctions_software_informations_providers['responsible_name'] : ""; ?>"></td>
+                                                        <td><input type="text" name="releases_desc[]" required value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? $maturityecusoftwarefunctions_software_informations_providers['releases'][0]['releases_desc'] : ""; ?>"></td>
+                                                        <td><input type="text" name="releases_desc[]" required value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? $maturityecusoftwarefunctions_software_informations_providers['releases'][1]['releases_desc'] : ""; ?>"></td>
+                                                        <td><input type="text" name="releases_desc[]" required value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? $maturityecusoftwarefunctions_software_informations_providers['releases'][2]['releases_desc'] : ""; ?>"></td>
+                                                        <td><input type="text" name="releases_desc[]" required value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? $maturityecusoftwarefunctions_software_informations_providers['releases'][3]['releases_desc'] : ""; ?>"></td>
                                                     </tr>
 
                                                 </tbody>
@@ -181,7 +187,7 @@
 
                                                 <input type="file" name="report1" required class="gui-file" onchange="document.getElementById('report1').value = this.value;" accept=".png, .pdf, .jpeg, .jpg, .doc, .docx, .xls, .xlsx">
 
-                                                <input type="text" id="report1" name="report1" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                                                <input type="text" id="report1" name="report1" class="gui-input fluid-width" placeholder="selecione um arquivo" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['report1'])) ? $maturityecusoftwarefunctions_software_informations_providers['report1'] : ""; ?>">
                                                 <i class="fa fa-upload"></i>
                                             </label>
 
@@ -199,7 +205,7 @@
 
                                                 <input type="file" name="report2" required class="gui-file" onchange="document.getElementById('report2').value = this.value;" accept=".png, .pdf, .jpeg, .jpg, .doc, .docx, .xls, .xlsx">
 
-                                                <input type="text" id="report2" name="report2" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                                                <input type="text" id="report2" name="report2" class="gui-input fluid-width" placeholder="selecione um arquivo" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['report2'])) ? $maturityecusoftwarefunctions_software_informations_providers['report2'] : ""; ?>">
                                                 <i class="fa fa-upload"></i>
                                             </label>
 
@@ -216,6 +222,7 @@
 
                                     <?php elseif (count($maturityecusoftwarefunctions_software_informations_providers) > 0) : ?>
                                         <input type="hidden" name="type_form" value="edit">
+                                        <input type="hidden" name="maturityecusoftwarefunctions_software_informations_providers_id" value="edit">
                                         <button type="submit" class="btn btn-primary">Atualizar</button>
                                         <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/complete_stage?step=step_1&percentage=20&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-info">Aprovar</a>
                                         <div id="animation-switcher" style="margin-top:10px;">
