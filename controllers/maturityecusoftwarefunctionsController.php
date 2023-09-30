@@ -162,8 +162,43 @@ class maturityecusoftwarefunctionsController extends Controller
     $data['page'] = 'maturityecusoftwarefunctions';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
-    $data['list_projects'] = $projects->getAll($id);
+    $data['list_projects'] = $projects->getAll($id); 
+
+
+    if(isset($_POST['maturityecusoftwarefunctions_id']) && !empty($_POST['description_function_software'])){
+      $maturityecusoftwarefunctions_id = addslashes($_POST['maturityecusoftwarefunctions_id']);
+      $list_ecu_function = addslashes($_POST['list_ecu_function']);
+      $description_function_software = addslashes($_POST['description_function_software']);
+      $motivation_applying_function_software = addslashes($_POST['motivation_applying_function_software']);
+      $parameters['pid'] = $_POST['pid'];
+      $parameters['fragment'] = $_POST['fragment'];
+      $parameters['values'] = $_POST['values'];
+      $releases_date = $_POST['releases_date'];
+      $releases_desc = $_POST['releases_desc'];
+
+      $upload = $_FILES['report1']; //pega todos os campos que contem um arquivo enviado
+      $dir = "assets/upload/maturityecusoftwarefunctions/report/"; //endereço da pasta pra onde serão enviados os arquivos
+      $location = "Location: " . BASE_URL . "maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id;
+      //envia os arquivo para a pasta determinada      
+      $report1 = $site->uploadPdf($dir, $upload, $location);
+
+      $upload = $_FILES['report2']; //pega todos os campos que contem um arquivo enviado
+      $dir = "assets/upload/maturityecusoftwarefunctions/report/"; //endereço da pasta pra onde serão enviados os arquivos
+      $location = "Location: " . BASE_URL . "maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id;
+      //envia os arquivo para a pasta determinada      
+      $report2 = $site->uploadPdf($dir, $upload, $location);
+      $maturityecusoftwarefunctions_software_informations_providers->add($maturityecusoftwarefunctions_id, $list_ecu_function, $description_function_software, $motivation_applying_function_software, $parameters, $releases_date, $releases_desc, $report1, $report2);
+      header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
+      exit;
+    }
+
     
+
+    if (!isset($_GET['maturityecusoftwarefunctions_id']) || empty($_GET['maturityecusoftwarefunctions_id'])) {
+      header("Location: " . BASE_URL . "maturityecusoftwarefunctions");
+      exit;
+    }
+
     $data['info_maturityecusoftwarefunctions'] = $maturityecusoftwarefunctions->get($_GET['maturityecusoftwarefunctions_id']);
     $data['list_ecu'] = $list_ecu->getAll($filters, $data['info_maturityecusoftwarefunctions']['project_id']);
     $data['info_maturityecusoftwarefunctions_software_informations'] = $maturityecusoftwarefunctions_software_informations->getByMaturityecusoftwarefunctionId($_GET['maturityecusoftwarefunctions_id']);
@@ -172,11 +207,11 @@ class maturityecusoftwarefunctionsController extends Controller
 
     $data['maturityecusoftwarefunctions_software_informations_providers'] = $maturityecusoftwarefunctions_software_informations_providers->getByMaturityecusoftwarefunctionId($_GET['maturityecusoftwarefunctions_id']);
 
+    echo "<pre>";
+    print_r($data['maturityecusoftwarefunctions_software_informations_providers']);
+    exit;
 
-    if (!isset($_GET['maturityecusoftwarefunctions_id']) || empty($_GET['maturityecusoftwarefunctions_id'])) {
-      header("Location: " . BASE_URL . "maturityecusoftwarefunctions");
-      exit;
-    }
+
 
     $this->loadTemplate("home", "maturityecusoftwarefunctions/software_information_provider", $data);
   } 

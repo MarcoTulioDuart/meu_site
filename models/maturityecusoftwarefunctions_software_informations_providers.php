@@ -3,18 +3,33 @@
 class maturityecusoftwarefunctions_software_informations_providers extends Model
 {
 
-    public function add($maturityecusoftwarefunctions_id, $responsible_name, $selected_ecu, $list_ecu_function)
+    public function add($maturityecusoftwarefunctions_id, $list_ecu_function, $description_function_software, $motivation_applying_function_software, $parameters, $releases_date, $releases_desc, $report1, $report2)
     {
-        $sql = "INSERT INTO maturityecusoftwarefunctions_software_informations_providers (maturityecusoftwarefunctions_id, responsible_name, selected_ecu, list_ecu_function) VALUES (:maturityecusoftwarefunctions_id, :responsible_name, :selected_ecu, :list_ecu_function)";
+        $sql = "INSERT INTO maturityecusoftwarefunctions_software_informations_providers (maturityecusoftwarefunctions_id, list_ecu_function, description_function_software, motivation_applying_function_software, report1, report2) VALUES (:maturityecusoftwarefunctions_id, :list_ecu_function, :description_function_software, :motivation_applying_function_software, :report1, :report2)";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":maturityecusoftwarefunctions_id", $maturityecusoftwarefunctions_id);
-        $sql->bindValue(":responsible_name", $responsible_name);
-        $sql->bindValue(":selected_ecu", $selected_ecu);
         $sql->bindValue(":list_ecu_function", $list_ecu_function);
+        $sql->bindValue(":description_function_software", $description_function_software);
+        $sql->bindValue(":motivation_applying_function_software", $motivation_applying_function_software);
+        $sql->bindValue(":report1", $report1);
+        $sql->bindValue(":report2", $report2);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
-          return $this->db->lastInsertId();
+            $maturityecusoftwarefunctions_software_informations_providers_id = $this->db->lastInsertId();
+            $maturityecusoftwarefunctions_informations_providers_releases = new maturityecusoftwarefunctions_informations_providers_releases();
+            foreach($releases_date as $key => $item){
+                $maturityecusoftwarefunctions_informations_providers_releases->add($maturityecusoftwarefunctions_software_informations_providers_id, $item, $releases_desc[$key]);
+            }
+            $maturityecusoftwarefunctions_software_information_provider_param = new maturityecusoftwarefunctions_software_information_provider_param();//continuar
+            
+                        
+            foreach($parameters['pid'] as $key => $item){
+                $maturityecusoftwarefunctions_software_information_provider_param->add($maturityecusoftwarefunctions_software_informations_providers_id, $item, $parameters['fragment'][$key], $parameters['values'][$key]);
+               
+            }         
+            
+
         } else {
             return false;
         }
@@ -45,7 +60,10 @@ class maturityecusoftwarefunctions_software_informations_providers extends Model
 
     public function getByMaturityecusoftwarefunctionId($maturityecusoftwarefunctions_id)
     {
-        $sql = "SELECT * FROM maturityecusoftwarefunctions_software_informations_providers WHERE maturityecusoftwarefunctions_id = :maturityecusoftwarefunctions_id";
+        $sql = "SELECT * 
+        FROM maturityecusoftwarefunctions_software_informations_providers
+        INNER JOIN maturityecusoftwarefunctions_software_information_provider_param ON (maturityecusoftwarefunctions_software_informations_providers.id = maturityecusoftwarefunctions_software_information_provider_param.maturityecusoftwarefunctions_software_informations_providers_id)
+        WHERE maturityecusoftwarefunctions_software_informations_providers.maturityecusoftwarefunctions_id = :maturityecusoftwarefunctions_id";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":maturityecusoftwarefunctions_id", $maturityecusoftwarefunctions_id);
         $sql->execute();
@@ -56,8 +74,7 @@ class maturityecusoftwarefunctions_software_informations_providers extends Model
         } else {
             return [];
         }
-    }   
-
+    }  
 
     public function editStep($id, $step, $percentage)
     {
