@@ -40,6 +40,23 @@ class maturityecusoftwarefunctions_software_information_provider_param extends M
         }
     }
 
+    public function getParametersByProviderInformation($id)
+    {
+        $sql = "SELECT * 
+        FROM maturityecusoftwarefunctions_software_information_provider_param       
+        WHERE maturityecusoftwarefunctions_software_informations_providers_id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } else {
+            return [];
+        }
+    }
+
     public function deleteBySoftwareIntegrationsId($id) {
         $sql = "DELETE FROM maturityecusoftwarefunctions_software_information_provider_param WHERE maturityecusoftwarefunctions_software_informations_providers_id = :id";
         $sql = $this->db->prepare($sql);

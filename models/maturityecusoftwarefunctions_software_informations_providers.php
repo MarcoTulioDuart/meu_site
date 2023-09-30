@@ -35,7 +35,7 @@ class maturityecusoftwarefunctions_software_informations_providers extends Model
         }
     }
 
-    public function edit($responsible_name, $selected_ecu, $list_ecu_function, $id)
+    public function edit($maturityecusoftwarefunctions_id, $list_ecu_function, $description_function_software, $motivation_applying_function_software, $parameters, $releases_date, $releases_desc, $report1, $report2)
     {
       
         $sql = "UPDATE maturityecusoftwarefunctions_software_informations_providers 
@@ -62,7 +62,6 @@ class maturityecusoftwarefunctions_software_informations_providers extends Model
     {
         $sql = "SELECT * 
         FROM maturityecusoftwarefunctions_software_informations_providers
-        INNER JOIN maturityecusoftwarefunctions_software_information_provider_param ON (maturityecusoftwarefunctions_software_informations_providers.id = maturityecusoftwarefunctions_software_information_provider_param.maturityecusoftwarefunctions_software_informations_providers_id)
         WHERE maturityecusoftwarefunctions_software_informations_providers.maturityecusoftwarefunctions_id = :maturityecusoftwarefunctions_id";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":maturityecusoftwarefunctions_id", $maturityecusoftwarefunctions_id);
@@ -70,6 +69,11 @@ class maturityecusoftwarefunctions_software_informations_providers extends Model
 
         if ($sql->rowCount() > 0) {
             $array = $sql->fetch(PDO::FETCH_ASSOC);
+            $maturityecusoftwarefunctions_software_information_provider_param = new maturityecusoftwarefunctions_software_information_provider_param();
+            $array['parameters'] = $maturityecusoftwarefunctions_software_information_provider_param->getParametersByProviderInformation($array['id']);
+            $maturityecusoftwarefunctions_informations_providers_releases = new maturityecusoftwarefunctions_informations_providers_releases();
+            $array['releases'] = $maturityecusoftwarefunctions_informations_providers_releases->getReleasesByProviderInformation($array['id']);
+            
             return $array;
         } else {
             return [];

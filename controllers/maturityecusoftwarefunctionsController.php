@@ -35,25 +35,85 @@ class maturityecusoftwarefunctionsController extends Controller
 
     $data['list_projects'] = $projects->getAll($id);
 
-    if(isset($_GET['project_id'])){     
-        $maturityecusoftwarefunctions_id = $maturityecusoftwarefunctions->add($_GET['project_id']);
-        header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
-        exit;
-    }  
+    $data['info_latest_maturity_ecu_software_functions'] = $maturityecusoftwarefunctions->getLatestMaturityEcuSoftwareFunctions();
+
+    if (isset($_GET['project_id'])) {
+      $maturityecusoftwarefunctions_id = $maturityecusoftwarefunctions->add($_GET['project_id']);
+      header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseMaturity?project_id=" . $_GET['project_id']);
+      exit;
+    }
 
 
     if (isset($_GET['project_id']) && !empty($_GET['project_id'])) {
 
-        header("Location: " . BASE_URL . "maturityecusoftwarefunctions");
-        exit;
-    
+      header("Location: " . BASE_URL . "maturityecusoftwarefunctions");
+      exit;
     }
 
 
 
     //template, view, data
     $this->loadTemplate("home", "maturityecusoftwarefunctions/choose_project_processing", $data);
-  } 
+  }
+
+  public function addMaturity()
+  {
+    $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
+    if (isset($_GET['project_id'])) {
+      $maturityecusoftwarefunctions_id = $maturityecusoftwarefunctions->add($_GET['project_id']);
+      header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
+      exit;
+    }
+  }
+
+  public function chooseMaturity()
+  {
+    //básico
+
+    $data  = array();
+    $filters = array();
+    $accounts = new accounts();
+    $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
+    $projects = new projects();
+
+    $data['page'] = 'maturityecusoftwarefunctions';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
+    }
+
+    if (isset($_COOKIE['error']) && !empty($_COOKIE['error'])) {
+      unset($_COOKIE['error']);
+    }
+
+    if (isset($_GET['maturityecusoftwarefunctions_id']) && !empty($_GET['maturityecusoftwarefunctions_id'])) {
+
+      header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $_GET['maturityecusoftwarefunctions_id']);
+      exit;
+    }
+
+
+    
+
+
+    if (!isset($_GET['project_id']) || empty($_GET['project_id'])) {
+
+      header("Location: " . BASE_URL . "maturityecusoftwarefunctions");
+      exit;
+    }
+
+    $filters['project_id'] = $_GET['project_id'];
+    $filters['order'] = "maturityecusoftwarefunctions.id DESC";
+
+
+    $data['info_maturity_ecu_software_functions'] = $maturityecusoftwarefunctions->getAll($filters);
+
+
+
+    //template, view, data
+    $this->loadTemplate("home", "maturityecusoftwarefunctions/choose_maturity", $data);
+  }
 
 
   public function chooseStep()
@@ -62,7 +122,7 @@ class maturityecusoftwarefunctionsController extends Controller
     $accounts = new accounts();
     $projects = new projects();
     $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
-    
+
 
     $data['page'] = 'maturityecusoftwarefunctions';
     $id = $_SESSION['proTSA_online'];
@@ -103,16 +163,16 @@ class maturityecusoftwarefunctionsController extends Controller
       $responsible_name = (isset($_POST['responsible_name'])) ? addslashes($_POST['responsible_name']) : "";
       $info_ecu = $data_ecu->get(addslashes($_POST['info_ecu']));
       $list_ecu_function = implode(", ", $_POST['list_ecu_function']);
-      $project_id = $_POST['project_id'];    
-      
+      $project_id = $_POST['project_id'];
 
-      if(isset($_POST['type_form']) && $_POST['type_form'] == "edit"){    
-        $data['info_maturityecusoftwarefunctions_software_informations'] = $maturityecusoftwarefunctions_software_informations->getByMaturityecusoftwarefunctionId($_POST['maturityecusoftwarefunctions_id']);    
+
+      if (isset($_POST['type_form']) && $_POST['type_form'] == "edit") {
+        $data['info_maturityecusoftwarefunctions_software_informations'] = $maturityecusoftwarefunctions_software_informations->getByMaturityecusoftwarefunctionId($_POST['maturityecusoftwarefunctions_id']);
         $maturityecusoftwarefunctions_software_informations->edit($responsible_name, $info_ecu['id'], $list_ecu_function, $data['info_maturityecusoftwarefunctions_software_informations']['id']);
-      }else{
+      } else {
         $maturityecusoftwarefunctions_software_informations->add($_POST['maturityecusoftwarefunctions_id'], $responsible_name, $info_ecu['id'], $list_ecu_function);
       }
-      
+
       if ($responsible_name != "") {
         $email_responsible_name = explode(";", $responsible_name);
 
@@ -128,12 +188,11 @@ class maturityecusoftwarefunctionsController extends Controller
           $site->sendMessage($email, $name[0], $subject, $message);
           header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?project_id=" . $project_id . "&maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id']);
           exit;
-         
         }
       }
     }
 
-   
+
 
     $data['list_ecu'] = $list_ecu->getAll($filters, $data['info_maturityecusoftwarefunctions']['project_id']);
     $data['info_maturityecusoftwarefunctions_software_informations'] = $maturityecusoftwarefunctions_software_informations->getByMaturityecusoftwarefunctionId($_GET['maturityecusoftwarefunctions_id']);
@@ -162,10 +221,10 @@ class maturityecusoftwarefunctionsController extends Controller
     $data['page'] = 'maturityecusoftwarefunctions';
     $id = $_SESSION['proTSA_online'];
     $data['info_user'] = $accounts->get($id);
-    $data['list_projects'] = $projects->getAll($id); 
+    $data['list_projects'] = $projects->getAll($id);
 
 
-    if(isset($_POST['maturityecusoftwarefunctions_id']) && !empty($_POST['description_function_software'])){
+    if (isset($_POST['maturityecusoftwarefunctions_id']) && !empty($_POST['description_function_software'])) {
       $maturityecusoftwarefunctions_id = addslashes($_POST['maturityecusoftwarefunctions_id']);
       $list_ecu_function = addslashes($_POST['list_ecu_function']);
       $description_function_software = addslashes($_POST['description_function_software']);
@@ -187,12 +246,19 @@ class maturityecusoftwarefunctionsController extends Controller
       $location = "Location: " . BASE_URL . "maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id;
       //envia os arquivo para a pasta determinada      
       $report2 = $site->uploadPdf($dir, $upload, $location);
-      $maturityecusoftwarefunctions_software_informations_providers->add($maturityecusoftwarefunctions_id, $list_ecu_function, $description_function_software, $motivation_applying_function_software, $parameters, $releases_date, $releases_desc, $report1, $report2);
+
+      if (isset($_POST['type_form']) && $_POST['type_form'] == "edit") {
+        $data['info_maturityecusoftwarefunctions_software_informations'] = $maturityecusoftwarefunctions_software_informations->getByMaturityecusoftwarefunctionId($_POST['maturityecusoftwarefunctions_id']);
+        $maturityecusoftwarefunctions_software_informations_providers->edit($maturityecusoftwarefunctions_id, $list_ecu_function, $description_function_software, $motivation_applying_function_software, $parameters, $releases_date, $releases_desc, $report1, $report2);
+      } else {
+        $maturityecusoftwarefunctions_software_informations_providers->add($maturityecusoftwarefunctions_id, $list_ecu_function, $description_function_software, $motivation_applying_function_software, $parameters, $releases_date, $releases_desc, $report1, $report2);
+      }
+
       header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
       exit;
     }
 
-    
+
 
     if (!isset($_GET['maturityecusoftwarefunctions_id']) || empty($_GET['maturityecusoftwarefunctions_id'])) {
       header("Location: " . BASE_URL . "maturityecusoftwarefunctions");
@@ -202,21 +268,19 @@ class maturityecusoftwarefunctionsController extends Controller
     $data['info_maturityecusoftwarefunctions'] = $maturityecusoftwarefunctions->get($_GET['maturityecusoftwarefunctions_id']);
     $data['list_ecu'] = $list_ecu->getAll($filters, $data['info_maturityecusoftwarefunctions']['project_id']);
     $data['info_maturityecusoftwarefunctions_software_informations'] = $maturityecusoftwarefunctions_software_informations->getByMaturityecusoftwarefunctionId($_GET['maturityecusoftwarefunctions_id']);
-    
+
     $data['info_maturityecusoftwarefunctions_software_informations']['list_ecu_function'] = explode(", ", $data['info_maturityecusoftwarefunctions_software_informations']['list_ecu_function']);
 
     $data['maturityecusoftwarefunctions_software_informations_providers'] = $maturityecusoftwarefunctions_software_informations_providers->getByMaturityecusoftwarefunctionId($_GET['maturityecusoftwarefunctions_id']);
 
-    echo "<pre>";
-    print_r($data['maturityecusoftwarefunctions_software_informations_providers']);
-    exit;
 
 
 
     $this->loadTemplate("home", "maturityecusoftwarefunctions/software_information_provider", $data);
-  } 
+  }
 
-  public function complete_stage(){
+  public function complete_stage()
+  {
     $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
     $percentage = $_GET['percentage'];
     $current_stage = $_GET['step'];
@@ -225,13 +289,5 @@ class maturityecusoftwarefunctionsController extends Controller
     $maturityecusoftwarefunctions->complete_stage($current_stage, $percentage, $maturityecusoftwarefunctions_id);
     header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?project_id=" . $project_id . "&maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
     exit;
-    
-
-
-
   }
-
- 
-
-  
 }
