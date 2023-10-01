@@ -69,4 +69,12 @@ class maturityecusoftwarefunctions_software_information_provider_param extends M
             return false;
         }
     }
+
+    public function deleteAllByMaturityEcuSoftwareFunctionsSoftwareInformationsProvidersId($maturityecusoftwarefunctions_software_informations_providers_id){
+        $sql = "DELETE FROM maturityecusoftwarefunctions_software_information_provider_param WHERE maturityecusoftwarefunctions_software_informations_providers_id = :maturityecusoftwarefunctions_software_informations_providers_id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":maturityecusoftwarefunctions_software_informations_providers_id", $maturityecusoftwarefunctions_software_informations_providers_id);
+        $sql->execute();
+
+    }
 }

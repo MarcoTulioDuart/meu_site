@@ -35,28 +35,43 @@ class maturityecusoftwarefunctions_software_informations_providers extends Model
         }
     }
 
-    public function edit($maturityecusoftwarefunctions_id, $list_ecu_function, $description_function_software, $motivation_applying_function_software, $parameters, $releases_date, $releases_desc, $report1, $report2)
+    public function edit($maturityecusoftwarefunctions_software_informations_providers_id, $list_ecu_function, $description_function_software, $motivation_applying_function_software, $parameters, $releases_date, $releases_desc, $report1, $report2)
     {
       
         $sql = "UPDATE maturityecusoftwarefunctions_software_informations_providers 
-        SET responsible_name = :responsible_name, selected_ecu = :selected_ecu, list_ecu_function = :list_ecu_function  WHERE id = :id";
+        SET list_ecu_function = :list_ecu_function, description_function_software = :description_function_software, motivation_applying_function_software = :motivation_applying_function_software, report1 = :report1, report2 = :report2 WHERE id = :id";
          
         $sql = $this->db->prepare($sql);
-        $sql->bindValue(":responsible_name", $responsible_name);
-        $sql->bindValue(":selected_ecu", $selected_ecu);
         $sql->bindValue(":list_ecu_function", $list_ecu_function);
-        $sql->bindValue(":id", $id);
+        $sql->bindValue(":description_function_software", $description_function_software);
+        $sql->bindValue(":motivation_applying_function_software", $motivation_applying_function_software);
+        $sql->bindValue(":report1", $report1);
+        $sql->bindValue(":report2", $report2);
+        $sql->bindValue(":id", $maturityecusoftwarefunctions_software_informations_providers_id);
         $sql->execute();
      
 
         if ($sql->rowCount() > 0) {
-        
-            return true;
+            $maturityecusoftwarefunctions_software_information_provider_param = new maturityecusoftwarefunctions_software_information_provider_param();//continuar
+            $maturityecusoftwarefunctions_software_information_provider_param->deleteAllByMaturityEcuSoftwareFunctionsSoftwareInformationsProvidersId($maturityecusoftwarefunctions_software_informations_providers_id);
+                        
+            foreach($parameters['pid'] as $key => $item){
+                $maturityecusoftwarefunctions_software_information_provider_param->add($maturityecusoftwarefunctions_software_informations_providers_id, $item, $parameters['fragment'][$key], $parameters['values'][$key]);
+               
+            }  
+
+            $maturityecusoftwarefunctions_informations_providers_releases = new maturityecusoftwarefunctions_informations_providers_releases();
+            $maturityecusoftwarefunctions_informations_providers_releases->deleteAllByMaturityEcuSoftwareFunctionsSoftwareInformationsProvidersId($maturityecusoftwarefunctions_software_informations_providers_id);
+            foreach($releases_date as $key => $item){
+                $maturityecusoftwarefunctions_informations_providers_releases->add($maturityecusoftwarefunctions_software_informations_providers_id, $item, $releases_desc[$key]);
+            }
         } else {
           
             return false;
         }
     }
+
+    
 
     public function getByMaturityecusoftwarefunctionId($maturityecusoftwarefunctions_id)
     {

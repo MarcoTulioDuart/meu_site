@@ -149,14 +149,14 @@ class maturityecusoftwarefunctions extends Model
         }
     }
 
-    public function complete_stage($current_stage, $percentage, $id)
+    public function complete_stage($current_stage, $percentual_step, $maturityecusoftwarefunctions_id)
     {
       
         $sql = "UPDATE maturityecusoftwarefunctions 
-        SET $current_stage = 1, total_step = total_step + :percentage  WHERE id = :id";
+        SET $current_stage = 1, total_step = total_step + :percentual_step  WHERE id = :id";
         $sql = $this->db->prepare($sql);
-        $sql->bindValue(":id", $id);
-        $sql->bindValue(":percentage", $percentage);
+        $sql->bindValue(":id", $maturityecusoftwarefunctions_id);
+        $sql->bindValue(":percentual_step", $percentual_step);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {

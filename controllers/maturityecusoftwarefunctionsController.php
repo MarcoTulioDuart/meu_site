@@ -94,7 +94,7 @@ class maturityecusoftwarefunctionsController extends Controller
     }
 
 
-    
+
 
 
     if (!isset($_GET['project_id']) || empty($_GET['project_id'])) {
@@ -225,7 +225,9 @@ class maturityecusoftwarefunctionsController extends Controller
 
 
     if (isset($_POST['maturityecusoftwarefunctions_id']) && !empty($_POST['description_function_software'])) {
+
       $maturityecusoftwarefunctions_id = addslashes($_POST['maturityecusoftwarefunctions_id']);
+      $data['maturityecusoftwarefunctions_software_informations_providers'] = $maturityecusoftwarefunctions_software_informations_providers->getByMaturityecusoftwarefunctionId($maturityecusoftwarefunctions_id);
       $list_ecu_function = addslashes($_POST['list_ecu_function']);
       $description_function_software = addslashes($_POST['description_function_software']);
       $motivation_applying_function_software = addslashes($_POST['motivation_applying_function_software']);
@@ -235,27 +237,63 @@ class maturityecusoftwarefunctionsController extends Controller
       $releases_date = $_POST['releases_date'];
       $releases_desc = $_POST['releases_desc'];
 
-      $upload = $_FILES['report1']; //pega todos os campos que contem um arquivo enviado
-      $dir = "assets/upload/maturityecusoftwarefunctions/report/"; //endereço da pasta pra onde serão enviados os arquivos
-      $location = "Location: " . BASE_URL . "maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id;
-      //envia os arquivo para a pasta determinada      
-      $report1 = $site->uploadPdf($dir, $upload, $location);
+      if ($_FILES['report1']['full_path'] != "") {
+        $upload = $_FILES['report1']; //pega todos os campos que contem um arquivo enviado
+        $dir = "assets/upload/maturityecusoftwarefunctions/report/"; //endereço da pasta pra onde serão enviados os arquivos
+        $location = "Location: " . BASE_URL . "maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id;
+        //envia os arquivo para a pasta determinada      
+        $report1 = $site->uploadPdf($dir, $upload, $location);
+      } else if (isset($data['maturityecusoftwarefunctions_software_informations_providers']) && count($data['maturityecusoftwarefunctions_software_informations_providers']) > 0) {
+        $report1 = $data['maturityecusoftwarefunctions_software_informations_providers']['report1'];
+      } else {
+        $report1 = "";
+      }
 
-      $upload = $_FILES['report2']; //pega todos os campos que contem um arquivo enviado
-      $dir = "assets/upload/maturityecusoftwarefunctions/report/"; //endereço da pasta pra onde serão enviados os arquivos
-      $location = "Location: " . BASE_URL . "maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id;
-      //envia os arquivo para a pasta determinada      
-      $report2 = $site->uploadPdf($dir, $upload, $location);
+      if ($_FILES['report2']['full_path'] != "") {
+        $upload = $_FILES['report2']; //pega todos os campos que contem um arquivo enviado
+        $dir = "assets/upload/maturityecusoftwarefunctions/report/"; //endereço da pasta pra onde serão enviados os arquivos
+        $location = "Location: " . BASE_URL . "maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id;
+        //envia os arquivo para a pasta determinada      
+        $report2 = $site->uploadPdf($dir, $upload, $location);
+      } else if (isset($data['maturityecusoftwarefunctions_software_informations_providers']) && count($data['maturityecusoftwarefunctions_software_informations_providers']) > 0) {
+        $report2 = $data['maturityecusoftwarefunctions_software_informations_providers']['report2'];
+      } else {
+        $report2 = "";
+      }
 
       if (isset($_POST['type_form']) && $_POST['type_form'] == "edit") {
+
         $data['info_maturityecusoftwarefunctions_software_informations'] = $maturityecusoftwarefunctions_software_informations->getByMaturityecusoftwarefunctionId($_POST['maturityecusoftwarefunctions_id']);
-        $maturityecusoftwarefunctions_software_informations_providers->edit($maturityecusoftwarefunctions_id, $list_ecu_function, $description_function_software, $motivation_applying_function_software, $parameters, $releases_date, $releases_desc, $report1, $report2);
+        $maturityecusoftwarefunctions_software_informations_providers->edit($data['maturityecusoftwarefunctions_software_informations_providers']['id'], $list_ecu_function, $description_function_software, $motivation_applying_function_software, $parameters, $releases_date, $releases_desc, $report1, $report2);
       } else {
         $maturityecusoftwarefunctions_software_informations_providers->add($maturityecusoftwarefunctions_id, $list_ecu_function, $description_function_software, $motivation_applying_function_software, $parameters, $releases_date, $releases_desc, $report1, $report2);
       }
 
       header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
       exit;
+    }
+
+    if (isset($_POST['responsible_name']) && !empty($_POST['maturityecusoftwarefunctions_id'])) {
+
+      $responsible_name = (isset($_POST['responsible_name'])) ? addslashes($_POST['responsible_name']) : "";
+      $reason_rejection = $_POST['reason_rejection'];
+
+      if ($responsible_name != "") {
+        $email_responsible_name = explode(";", $responsible_name);
+
+        foreach ($email_responsible_name as $key => $value) {
+          $name = explode("@", $value);
+          $email = $value;
+          $subject = "Informações do Software - Maturidade de ECU's, Softwares e Funções | Protsa";
+          $message =
+            "<b>Motivo da reprovação: </b>" . $reason_rejection . "<br> <br>" .
+            "<a target='_blank' href='" . BASE_URL . "maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id'] . "'>Clique no Link para responder</a>";
+
+          $site->sendMessage($email, $name[0], $subject, $message);
+          header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id']);
+          exit;
+        }
+      }
     }
 
 
@@ -282,12 +320,11 @@ class maturityecusoftwarefunctionsController extends Controller
   public function complete_stage()
   {
     $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
-    $percentage = $_GET['percentage'];
     $current_stage = $_GET['step'];
-    $project_id = $_GET['project_id'];
+    $percentual_step = 20;
     $maturityecusoftwarefunctions_id = $_GET['maturityecusoftwarefunctions_id'];
-    $maturityecusoftwarefunctions->complete_stage($current_stage, $percentage, $maturityecusoftwarefunctions_id);
-    header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?project_id=" . $project_id . "&maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
+    $maturityecusoftwarefunctions->complete_stage($current_stage, $percentual_step, $maturityecusoftwarefunctions_id);
+    header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
     exit;
   }
 }

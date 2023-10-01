@@ -95,8 +95,7 @@
                                     <?php
                                     if ($info_maturityecusoftwarefunctions['step_1'] == 1) :
                                     ?>                                        
-                                        <button type="button" class="btn btn-primary">ETAPA CONCLUÍDA</button>
-                                        <a href="<?= BASE_URL; ?>">VISUALIZAR</a>
+                                        <a href="" class="btn btn-primary" title="Clique para abrir o PDF">ETAPA CONCLUÍDA</a>
                                     <?php elseif(isset($info_maturityecusoftwarefunctions_software_informations['selected_ecu'])): ?>
                                         <input type="hidden" name="type_form" value="edit">
                                         <button type="submit" class="btn btn-primary">Atualizar</button>                                        

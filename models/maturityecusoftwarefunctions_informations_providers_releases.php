@@ -58,16 +58,11 @@ class maturityecusoftwarefunctions_informations_providers_releases extends Model
         }
     }
 
-    public function deleteBySoftwareIntegrationsId($id) {
-        $sql = "DELETE FROM maturityecusoftwarefunctions_informations_providers_releases WHERE maturityecusoftwarefunctions_software_informations_providers_id = :id";
+    public function deleteAllByMaturityEcuSoftwareFunctionsSoftwareInformationsProvidersId($maturityecusoftwarefunctions_software_informations_providers_id){
+        $sql = "DELETE FROM maturityecusoftwarefunctions_informations_providers_releases WHERE maturityecusoftwarefunctions_software_informations_providers_id = :maturityecusoftwarefunctions_software_informations_providers_id";
         $sql = $this->db->prepare($sql);
-        $sql->bindValue(":id", $id);
+        $sql->bindValue(":maturityecusoftwarefunctions_software_informations_providers_id", $maturityecusoftwarefunctions_software_informations_providers_id);
         $sql->execute();
 
-        if ($sql->rowCount() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    }                                 
 }

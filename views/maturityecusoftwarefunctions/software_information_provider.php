@@ -157,10 +157,10 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? date('d/m/Y', strtotime($maturityecusoftwarefunctions_software_informations_providers['releases'][0]['releases_date'])) : ""; ?>" required></td>
-                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? date('d/m/Y', strtotime($maturityecusoftwarefunctions_software_informations_providers['releases'][1]['releases_date'])) : ""; ?>" required></td>
-                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? date('d/m/Y', strtotime($maturityecusoftwarefunctions_software_informations_providers['releases'][2]['releases_date'])) : ""; ?>" required></td>
-                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? date('d/m/Y', strtotime($maturityecusoftwarefunctions_software_informations_providers['releases'][3]['releases_date'])) : ""; ?>" required></td>
+                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? date('Y-m-d', strtotime($maturityecusoftwarefunctions_software_informations_providers['releases'][0]['releases_date'])) : ""; ?>" required></td>
+                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? date('Y-m-d', strtotime($maturityecusoftwarefunctions_software_informations_providers['releases'][1]['releases_date'])) : ""; ?>" required></td>
+                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? date('Y-m-d', strtotime($maturityecusoftwarefunctions_software_informations_providers['releases'][2]['releases_date'])) : ""; ?>" required></td>
+                                                        <td><input type="date" name="releases_date[]" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['releases'])) ? date('Y-m-d', strtotime($maturityecusoftwarefunctions_software_informations_providers['releases'][3]['releases_date'])) : ""; ?>" required></td>
 
 
                                                     </tr>
@@ -185,7 +185,7 @@
 
                                             <label class="field prepend-icon file mb20 mt10">
 
-                                                <input type="file" name="report1" required class="gui-file" onchange="document.getElementById('report1').value = this.value;" accept=".png, .pdf, .jpeg, .jpg, .doc, .docx, .xls, .xlsx">
+                                                <input type="file" name="report1" class="gui-file" onchange="document.getElementById('report1').value = this.value;" accept=".png, .pdf, .jpeg, .jpg, .doc, .docx, .xls, .xlsx">
 
                                                 <input type="text" id="report1" name="report1" class="gui-input fluid-width" placeholder="selecione um arquivo" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['report1'])) ? $maturityecusoftwarefunctions_software_informations_providers['report1'] : ""; ?>">
                                                 <i class="fa fa-upload"></i>
@@ -203,7 +203,7 @@
 
                                             <label class="field prepend-icon file mb20 mt10">
 
-                                                <input type="file" name="report2" required class="gui-file" onchange="document.getElementById('report2').value = this.value;" accept=".png, .pdf, .jpeg, .jpg, .doc, .docx, .xls, .xlsx">
+                                                <input type="file" name="report2" class="gui-file" onchange="document.getElementById('report2').value = this.value;" accept=".png, .pdf, .jpeg, .jpg, .doc, .docx, .xls, .xlsx">
 
                                                 <input type="text" id="report2" name="report2" class="gui-input fluid-width" placeholder="selecione um arquivo" value="<?= (isset($maturityecusoftwarefunctions_software_informations_providers['report2'])) ? $maturityecusoftwarefunctions_software_informations_providers['report2'] : ""; ?>">
                                                 <i class="fa fa-upload"></i>
@@ -219,12 +219,13 @@
                                     if (!isset($maturityecusoftwarefunctions_software_informations_providers) || count($maturityecusoftwarefunctions_software_informations_providers) <= 0) :
                                     ?>
                                         <button type="submit" class="btn btn-primary">Enviar</button>
-
+                                    <?php elseif ($info_maturityecusoftwarefunctions['step_1'] == 1) : ?>
+                                        <a href="" class="btn btn-primary" title="Clique para abrir o PDF">ETAPA CONCLUÍDA</a> 
                                     <?php elseif (count($maturityecusoftwarefunctions_software_informations_providers) > 0) : ?>
                                         <input type="hidden" name="type_form" value="edit">
                                         <input type="hidden" name="maturityecusoftwarefunctions_software_informations_providers_id" value="edit">
                                         <button type="submit" class="btn btn-primary">Atualizar</button>
-                                        <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/complete_stage?step=step_1&percentage=20&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-info">Aprovar</a>
+                                        <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/complete_stage?step=step_1&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-info">Aprovar</a>
                                         <div id="animation-switcher" style="margin-top:10px;">
                                             <a class="holder-active" href="#modal-form">
                                                 <button type="button" class="btn btn-danger btn-bordered" data-effect="mfp-zoomIn">
@@ -260,15 +261,15 @@
             </span>
         </div>
         <!-- /Panel Heading -->
-        <form method="post" action="<?= BASE_URL; ?>meeting" id="form-order" enctype="multipart/form-data">
-            <input type="hidden" value="<?= $info_maturityecusoftwarefunctions['project_id']; ?>" name="project_id">
+        <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information_provider" id="form-order" enctype="multipart/form-data">
+            <input type="hidden" value="<?= $_GET['maturityecusoftwarefunctions_id']; ?>" name="maturityecusoftwarefunctions_id">
             <div class="panel-body">
 
                 <div class="section row">
                     <h6 class="text-center mtn pt10 pb10">Emails do fornecedor</h6>
                     <h6 class="text-muted text-center">Digite corretamente seus emails no campo abaixo, separando por ' ; ' sem espaços.</h6>
-                    <label for="participant" class="field prepend-icon">
-                        <input type="text" name="participant" id="participant" class="gui-input">
+                    <label for="responsible_name" class="field prepend-icon">
+                        <input type="text" name="responsible_name" id="responsible_name" class="gui-input">
                         <span class="field-icon">
                             <i class="fa fa-envelope"></i>
                         </span>
@@ -278,8 +279,8 @@
                 <div class="section row">
                     <h6 class="text-center mtn pt10 pb10">Descreva o motivo da reprovação:</h6>
                     <h6 class="text-muted text-center">A mensagem digitada aparecerá abaixo do link de reunião no email.</h6>
-                    <label for="recommendation" class="field prepend-icon">
-                        <textarea type="text" name="recommendation" id="recommendation" class="gui-textarea"></textarea>
+                    <label for="reason_rejection" class="field prepend-icon">
+                        <textarea type="text" name="reason_rejection" id="reason_rejection" class="gui-textarea"></textarea>
                         <span class="field-icon">
                             <i class="fa fa-list"></i>
                         </span>
