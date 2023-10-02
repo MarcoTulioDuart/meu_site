@@ -220,7 +220,14 @@
                                     ?>
                                         <button type="submit" class="btn btn-primary">Enviar</button>
                                     <?php elseif ($info_maturityecusoftwarefunctions['step_1'] == 1) : ?>
-                                        <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/softwareInformationProviderDownload?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-primary" title="Clique para abrir o PDF">ETAPA CONCLUÍDA</a> 
+                                        <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/softwareInformationProviderDownload?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-primary" title="Clique para abrir o PDF">ETAPA CONCLUÍDA</a> <br> <br>
+                                        <?php if (isset($maturityecusoftwarefunctions_software_informations_providers['report1'])) : ?>
+                                            <a href="<?= BASE_URL; ?><?= $maturityecusoftwarefunctions_software_informations_providers['report1']; ?>" download class="btn btn-info">Modelo Relatório 1</a>
+                                        <?php endif; ?>
+                                        <?php if (isset($maturityecusoftwarefunctions_software_informations_providers['report2'])) : ?>
+                                            <a href="<?= BASE_URL; ?><?= $maturityecusoftwarefunctions_software_informations_providers['report2']; ?>" download class="btn btn-info">Modelo Relatório 2</a>
+                                        <?php endif; ?>
+                                        
                                     <?php elseif (count($maturityecusoftwarefunctions_software_informations_providers) > 0) : ?>
                                         <input type="hidden" name="type_form" value="edit">
                                         <input type="hidden" name="maturityecusoftwarefunctions_software_informations_providers_id" value="edit">
@@ -234,9 +241,6 @@
                                             </a>
                                         </div>
 
-
-                                    <?php else : ?>
-                                        <button type="button" class="btn btn-primary">ETAPA CONCLUÍDA</button>
                                     <?php endif; ?>
                                 </div>
                             </div>
