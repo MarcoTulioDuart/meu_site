@@ -47,7 +47,7 @@
                                 </div>
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary " title="Insira as informações solicitadas.">Testes unitários ou conceito.</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/unit_concept_tests_provider?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary " title="Insira as informações solicitadas.">Testes unitários ou conceito.</a>
                                 </div>
 
                                 <div class="col-md-4  mb5">

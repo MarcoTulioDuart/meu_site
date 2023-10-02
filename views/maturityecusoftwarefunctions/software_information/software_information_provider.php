@@ -232,7 +232,7 @@
                                         <input type="hidden" name="type_form" value="edit">
                                         <input type="hidden" name="maturityecusoftwarefunctions_software_informations_providers_id" value="edit">
                                         <button type="submit" class="btn btn-primary">Atualizar</button>
-                                        <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/complete_stage?step=step_1&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-info">Aprovar</a>
+                                        <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/complete_stage?step=step_1&percentual_step=10maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-info">Aprovar</a>
                                         <div id="animation-switcher" style="margin-top:10px;">
                                             <a class="holder-active" href="#modal-form">
                                                 <button type="button" class="btn btn-danger btn-bordered" data-effect="mfp-zoomIn">

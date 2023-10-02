@@ -183,10 +183,10 @@ class maturityecusoftwarefunctionsController extends Controller
           $message =
             "<b>Nome ECU: </b>" . $info_ecu['name'] . "<br> <br>" .
             "<b>Funções da ECU: </b>" . $list_ecu_function . "<br> <br>" .
-            "<a target='_blank' href='" . BASE_URL . "maturityecusoftwarefunctions/software_information_provider?project_id=" . $project_id . "&maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id'] . "'>Clique no Link para responder</a>";
+            "<a target='_blank' href='" . BASE_URL . "maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id'] . "'>Clique no Link para responder</a>";
 
           $site->sendMessage($email, $name[0], $subject, $message);
-          header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?project_id=" . $project_id . "&maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id']);
+          header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id']);
           exit;
         }
       }
@@ -204,7 +204,7 @@ class maturityecusoftwarefunctionsController extends Controller
     }
 
 
-    $this->loadTemplate("home", "maturityecusoftwarefunctions/software_information", $data);
+    $this->loadTemplate("home", "maturityecusoftwarefunctions/software_information/software_information", $data);
   }
 
   public function software_information_provider()
@@ -314,14 +314,14 @@ class maturityecusoftwarefunctionsController extends Controller
 
 
 
-    $this->loadTemplate("home", "maturityecusoftwarefunctions/software_information_provider", $data);
+    $this->loadTemplate("home", "maturityecusoftwarefunctions/software_information/software_information_provider", $data);
   }
 
   public function complete_stage()
   {
     $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
     $current_stage = $_GET['step'];
-    $percentual_step = 20;
+    $percentual_step = $_GET['percentual_step'];
     $maturityecusoftwarefunctions_id = $_GET['maturityecusoftwarefunctions_id'];
     $maturityecusoftwarefunctions->complete_stage($current_stage, $percentual_step, $maturityecusoftwarefunctions_id);
     header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
@@ -343,10 +343,10 @@ class maturityecusoftwarefunctionsController extends Controller
     $data['info_user'] = $accounts->get($id);
     $data['info_maturityecusoftwarefunctions'] = $maturityecusoftwarefunctions->get($_GET['maturityecusoftwarefunctions_id']);
 
-   
+
     $data['info_maturityecusoftwarefunctions_software_informations'] = $maturityecusoftwarefunctions_software_informations->getByMaturityecusoftwarefunctionId($_GET['maturityecusoftwarefunctions_id']);
     $data['info_maturityecusoftwarefunctions_software_informations']['selected_ecu'] = $type_ecu->getName($data['info_maturityecusoftwarefunctions_software_informations']['selected_ecu'])['name'];
-   
+
 
 
     if (!isset($_GET['maturityecusoftwarefunctions_id']) || empty($_GET['maturityecusoftwarefunctions_id'])) {
@@ -355,21 +355,20 @@ class maturityecusoftwarefunctionsController extends Controller
     }
 
 
-    
-    
-    ob_start();//inicia a inclusão da view na memória
-    $this->loadTemplate("download", "maturityecusoftwarefunctions/result/software_information_download", $data);
-    $html = ob_get_contents();//armazena a view invés de mostrar
-    ob_end_clean();//finaliza a inclusão da view na memória
 
-    $name_file = 'Informações do Fornecedor - Etapa1.pdf';
+
+    ob_start(); //inicia a inclusão da view na memória
+    $this->loadTemplate("download", "maturityecusoftwarefunctions/software_information/result/software_information_download", $data);
+    $html = ob_get_contents(); //armazena a view invés de mostrar
+    ob_end_clean(); //finaliza a inclusão da view na memória
+
+    $name_file = 'Informações do Montadora - Etapa1.pdf';
     $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-L', 'orientation' => 'L']);
     exit;
-    
   }
 
   public function softwareInformationProviderDownload()
-  {   
+  {
     $data  = array();
     $filters  = array();
     $accounts = new accounts();
@@ -396,18 +395,164 @@ class maturityecusoftwarefunctionsController extends Controller
     $data['info_maturityecusoftwarefunctions_software_informations']['list_ecu_function'] = explode(", ", $data['info_maturityecusoftwarefunctions_software_informations']['list_ecu_function']);
 
     $data['info_maturityecusoftwarefunctions_software_informations_providers'] = $maturityecusoftwarefunctions_software_informations_providers->getByMaturityecusoftwarefunctionId($_GET['maturityecusoftwarefunctions_id']);
-    
-    
-    ob_start();//inicia a inclusão da view na memória
-    $this->loadTemplate("download", "maturityecusoftwarefunctions/result/software_information_provider_download", $data);
-    $html = ob_get_contents();//armazena a view invés de mostrar
-    ob_end_clean();//finaliza a inclusão da view na memória
+
+
+    ob_start(); //inicia a inclusão da view na memória
+    $this->loadTemplate("download", "maturityecusoftwarefunctions/software_information/result/software_information_provider_download", $data);
+    $html = ob_get_contents(); //armazena a view invés de mostrar
+    ob_end_clean(); //finaliza a inclusão da view na memória
 
     $name_file = 'Informações do Fornecedor - Etapa1.pdf';
     $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-L', 'orientation' => 'L']);
     exit;
-   
-    
   }
 
+  /* ----------- TESTE UNITÁRIOS OU CONCEITO -------------------*/
+
+  public function unit_concept_tests_provider()
+  {
+    $data = array();
+    $accounts = new accounts();
+    $site = new site();
+    $maturityecusoftwarefunctions_unit_concept_tests_provider = new maturityecusoftwarefunctions_unit_concept_tests_provider();
+    $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
+
+    $data['page'] = 'maturityecusoftwarefunctions';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
+    }
+
+    if (isset($_COOKIE['error']) && !empty($_COOKIE['error'])) {
+      unset($_COOKIE['error']);
+    }
+
+    if (isset($_POST['suppliers_email']) && !empty($_POST['maturityecusoftwarefunctions_id'])) {
+
+      $suppliers_email = (isset($_POST['suppliers_email'])) ? addslashes($_POST['suppliers_email']) : "";
+      $maturityecusoftwarefunctions_id = addslashes($_POST['maturityecusoftwarefunctions_id']);
+      $reason_email = $_POST['reason_email'];
+
+      if ($suppliers_email != "") {
+        $suppliers_email_individual = explode(";", $suppliers_email);
+        $link = "<a target='_blank' href='" . BASE_URL . "maturityecusoftwarefunctions/unit_concept_tests_provider?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id . "'>Clique para responder.</a>";
+        $maturityecusoftwarefunctions_unit_concept_tests_provider->addLink($maturityecusoftwarefunctions_id, $reason_email, $suppliers_email, $link);
+        foreach ($suppliers_email_individual as $key => $value) {
+          $name = explode("@", $value);
+          $email = $value;
+          $subject = "Testes unitários ou conceito - Maturidade de ECU's, Softwares e Funções | Protsa";
+          $message =
+            "<b>Descrição: </b>" . $reason_email . "<br> <br>" .
+            $link;
+
+          $site->sendMessage($email, $name[0], $subject, $message);
+
+          header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
+          exit;
+        }
+      }
+    }
+
+    if (isset($_POST['assembler_email']) && !empty($_POST['maturityecusoftwarefunctions_id'])) {
+
+      $assembler_email = (isset($_POST['assembler_email'])) ? addslashes($_POST['assembler_email']) : "";
+      $maturityecusoftwarefunctions_id = addslashes($_POST['maturityecusoftwarefunctions_id']);
+      $email_description = $_POST['email_description'];
+      $data['info_maturityecusoftwarefunctions_unit_concept_tests_provider'] = $maturityecusoftwarefunctions_unit_concept_tests_provider->getByMaturityEcuSoftwareFunctions_id($maturityecusoftwarefunctions_id);
+      if ($_FILES['result_file']['full_path'] != "") {
+        $upload = $_FILES['result_file']; //pega todos os campos que contem um arquivo enviado
+        $dir = "assets/upload/unit_concept_tests_provider/result_file/"; //endereço da pasta pra onde serão enviados os arquivos
+        $location = "Location: " . BASE_URL . "maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id;
+        //envia os arquivo para a pasta determinada      
+        $result_file = $site->uploadPdf($dir, $upload, $location);
+      } else if (isset($data['info_maturityecusoftwarefunctions_unit_concept_tests_provider']) && count($data['info_maturityecusoftwarefunctions_unit_concept_tests_provider']) > 0) {
+        $result_file = $data['info_maturityecusoftwarefunctions_unit_concept_tests_provider']['result_file'];
+      } else {
+        $result_file = "";
+      }
+
+
+      $maturityecusoftwarefunctions_unit_concept_tests_provider->addInfoProvider($data['info_maturityecusoftwarefunctions_unit_concept_tests_provider']['id'], $assembler_email, $email_description, $result_file);
+
+
+      if ($assembler_email != "") {
+        $email_responsible_name = explode(";", $assembler_email);
+
+        foreach ($email_responsible_name as $key => $value) {
+          $name = explode("@", $value);
+          $email = $value;
+          $subject = "Testes unitários ou conceito - Maturidade de ECU's, Softwares e Funções | Protsa";
+          $message =
+            "<b>Descrição: </b>" . $email_description . "<br> <br>" .
+            "<a target='_blank' href='" . BASE_URL . "maturityecusoftwarefunctions/unit_concept_tests_provider?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id'] . "'>Clique para visualizar.</a>";
+
+          $site->sendMessage($email, $name[0], $subject, $message);
+          header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id']);
+          exit;
+        }
+      }
+    }
+
+    if (isset($_POST['suppliers_email']) && !empty($_POST['reason_rejection'])) {
+
+      $suppliers_email = (isset($_POST['suppliers_email'])) ? addslashes($_POST['suppliers_email']) : "";
+      $reason_rejection = $_POST['reason_rejection'];
+
+      if ($suppliers_email != "") {
+        $email_responsible_name = explode(";", $suppliers_email);
+
+        foreach ($email_responsible_name as $key => $value) {
+          $name = explode("@", $value);
+          $email = $value;
+          $subject = "Testes unitários ou conceito - Maturidade de ECU's, Softwares e Funções | Protsa";
+          $message =
+            "<b>Motivo da reprovação: </b>" . $reason_rejection . "<br> <br>" .
+            "<a target='_blank' href='" . BASE_URL . "maturityecusoftwarefunctions/unit_concept_tests_provider?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id'] . "'>Clique no Link para responder</a>";
+
+          $site->sendMessage($email, $name[0], $subject, $message);
+          header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id']);
+          exit;
+        }
+      }
+    }
+
+    $data['info_maturityecusoftwarefunctions_unit_concept_tests_provider'] = $maturityecusoftwarefunctions_unit_concept_tests_provider->getByMaturityEcuSoftwareFunctions_id($_GET['maturityecusoftwarefunctions_id']);
+    $data['info_maturityecusoftwarefunctions'] = $maturityecusoftwarefunctions->get($_GET['maturityecusoftwarefunctions_id']);
+
+    $this->loadTemplate("home", "maturityecusoftwarefunctions/unit_concept_tests/provider", $data);
+  }
+
+  public function unitConceptTestsProviderDownload()
+  {
+    $data = array();
+    $accounts = new accounts();
+    $site = new site();
+    $maturityecusoftwarefunctions_unit_concept_tests_provider = new maturityecusoftwarefunctions_unit_concept_tests_provider();
+    $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
+
+    $data['page'] = 'maturityecusoftwarefunctions';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
+    }
+
+    if (isset($_COOKIE['error']) && !empty($_COOKIE['error'])) {
+      unset($_COOKIE['error']);
+    }
+
+    $data['info_maturityecusoftwarefunctions_unit_concept_tests_provider'] = $maturityecusoftwarefunctions_unit_concept_tests_provider->getByMaturityEcuSoftwareFunctions_id($_GET['maturityecusoftwarefunctions_id']);
+    $data['info_maturityecusoftwarefunctions'] = $maturityecusoftwarefunctions->get($_GET['maturityecusoftwarefunctions_id']);
+
+    
+    ob_start(); //inicia a inclusão da view na memória
+    $this->loadTemplate("download", "maturityecusoftwarefunctions/unit_concept_tests/result/provider", $data);
+    $html = ob_get_contents(); //armazena a view invés de mostrar
+    ob_end_clean(); //finaliza a inclusão da view na memória
+
+    $name_file = 'Informações do Fornecedor - Etapa1.pdf';
+    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-L', 'orientation' => 'L']);
+    exit;
+  }
 }

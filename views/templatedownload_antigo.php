@@ -46,14 +46,23 @@
 
 <body class="sales-stats-page sb-top sb-top-lg">
 
-    
-   
+    <!-- Body Wrap -->
+    <div id="main">
 
+
+        <section class="content_container">
             <?php $this->loadViewInTemplate($viewName, $viewData); ?>
             <!-- aqui chamamos nossa view -->
 
 
-      
+            <!-- /Page Footer -->
+        </section>
+
+        <!-- /Main Wrapper -->
+    </div>
+    <!-- /Body Wrap  -->
+    <!-- Scripts -->
+    <!-- Validates -->
 
     <?php if ($viewData['page'] == 'new_password') : ?>
         <script src="<?= BASE_URL; ?>assets/js/pages/validation/new_password.js"></script>
