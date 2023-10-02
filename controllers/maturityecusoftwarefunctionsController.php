@@ -327,4 +327,87 @@ class maturityecusoftwarefunctionsController extends Controller
     header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
     exit;
   }
+
+  public function softwareInformationDownload()
+  {
+    $data  = array();
+    $filters  = array();
+    $accounts = new accounts();
+    $type_ecu = new type_ecu();
+    $site = new site();
+    $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
+    $maturityecusoftwarefunctions_software_informations = new maturityecusoftwarefunctions_software_informations();
+
+    $data['page'] = 'maturityecusoftwarefunctions';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    $data['info_maturityecusoftwarefunctions'] = $maturityecusoftwarefunctions->get($_GET['maturityecusoftwarefunctions_id']);
+
+   
+    $data['info_maturityecusoftwarefunctions_software_informations'] = $maturityecusoftwarefunctions_software_informations->getByMaturityecusoftwarefunctionId($_GET['maturityecusoftwarefunctions_id']);
+    $data['info_maturityecusoftwarefunctions_software_informations']['selected_ecu'] = $type_ecu->getName($data['info_maturityecusoftwarefunctions_software_informations']['selected_ecu'])['name'];
+   
+
+
+    if (!isset($_GET['maturityecusoftwarefunctions_id']) || empty($_GET['maturityecusoftwarefunctions_id'])) {
+      header("Location: " . BASE_URL . "maturityecusoftwarefunctions");
+      exit;
+    }
+
+
+    
+    
+    ob_start();//inicia a inclusão da view na memória
+    $this->loadTemplate("download", "maturityecusoftwarefunctions/result/software_information_download", $data);
+    $html = ob_get_contents();//armazena a view invés de mostrar
+    ob_end_clean();//finaliza a inclusão da view na memória
+
+    $name_file = 'Informações do Fornecedor - Etapa1.pdf';
+    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-L', 'orientation' => 'L']);
+    exit;
+    
+  }
+
+  public function softwareInformationProviderDownload()
+  {   
+    $data  = array();
+    $filters  = array();
+    $accounts = new accounts();
+    $projects = new projects();
+    $list_ecu = new list_ecu();
+    $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
+    $maturityecusoftwarefunctions_software_informations = new maturityecusoftwarefunctions_software_informations();
+    $maturityecusoftwarefunctions_software_informations_providers = new maturityecusoftwarefunctions_software_informations_providers();
+    $site = new site();
+    $data['page'] = 'maturityecusoftwarefunctions';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    $data['list_projects'] = $projects->getAll($id);
+
+    if (!isset($_GET['maturityecusoftwarefunctions_id']) || empty($_GET['maturityecusoftwarefunctions_id'])) {
+      header("Location: " . BASE_URL . "maturityecusoftwarefunctions");
+      exit;
+    }
+
+    $data['info_maturityecusoftwarefunctions'] = $maturityecusoftwarefunctions->get($_GET['maturityecusoftwarefunctions_id']);
+    $data['list_ecu'] = $list_ecu->getAll($filters, $data['info_maturityecusoftwarefunctions']['project_id']);
+    $data['info_maturityecusoftwarefunctions_software_informations'] = $maturityecusoftwarefunctions_software_informations->getByMaturityecusoftwarefunctionId($_GET['maturityecusoftwarefunctions_id']);
+
+    $data['info_maturityecusoftwarefunctions_software_informations']['list_ecu_function'] = explode(", ", $data['info_maturityecusoftwarefunctions_software_informations']['list_ecu_function']);
+
+    $data['info_maturityecusoftwarefunctions_software_informations_providers'] = $maturityecusoftwarefunctions_software_informations_providers->getByMaturityecusoftwarefunctionId($_GET['maturityecusoftwarefunctions_id']);
+    
+    
+    ob_start();//inicia a inclusão da view na memória
+    $this->loadTemplate("download", "maturityecusoftwarefunctions/result/software_information_provider_download", $data);
+    $html = ob_get_contents();//armazena a view invés de mostrar
+    ob_end_clean();//finaliza a inclusão da view na memória
+
+    $name_file = 'Informações do Fornecedor - Etapa1.pdf';
+    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-L', 'orientation' => 'L']);
+    exit;
+   
+    
+  }
+
 }

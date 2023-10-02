@@ -95,7 +95,8 @@
                                     <?php
                                     if ($info_maturityecusoftwarefunctions['step_1'] == 1) :
                                     ?>                                        
-                                        <a href="" class="btn btn-primary" title="Clique para abrir o PDF">ETAPA CONCLUÍDA</a>
+                                        <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/softwareInformationDownload?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-primary" title="Clique para abrir o PDF">ETAPA CONCLUÍDA</a> 
+                                        <a target="_blank" href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>"  class="btn btn-primary">Fornecedor</a>
                                     <?php elseif(isset($info_maturityecusoftwarefunctions_software_informations['selected_ecu'])): ?>
                                         <input type="hidden" name="type_form" value="edit">
                                         <button type="submit" class="btn btn-primary">Atualizar</button>                                        
