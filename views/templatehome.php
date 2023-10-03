@@ -208,7 +208,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="<?= ($viewData['page'] == 'maturityecusoftwareunctions') ? 'active' : ''; ?>">
+                    <li class="<?= ($viewData['page'] == 'maturityecusoftwarefunctions') ? 'active' : ''; ?>">
                         <a class="accordion-toggle">
                             <span class="caret"></span>
                             <span class="sb-menu-icon fa fa-clipboard"></span>
@@ -216,10 +216,10 @@
                         </a>
                         <ul class="nav sub-nav">
                             <li>
-                                <a href="<?= BASE_URL; ?>maturityecusoftwareunctions">Maturidade de ECU's, Softwares e Funções</a>
+                                <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions">Maturidade de ECU's, Softwares e Funções</a>
                             </li>
                             <li>
-                                <a href="<?= BASE_URL; ?>maturityecusoftwareunctions/chooseProjectResults">Resultados de Testes</a>
+                                <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/chooseProjectResults">Resultados de Testes</a>
                             </li>
 
                         </ul>

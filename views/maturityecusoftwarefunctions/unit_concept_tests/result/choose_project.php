@@ -10,7 +10,8 @@
             <li class="breadcrumb-icon breadcrumb-link">
                 <a href="<?= BASE_URL; ?>home/home_page">Início</a>
             </li>
-            <li class="breadcrumb-current-item">Integração entre Software</li>
+            <li class="breadcrumb-current-item">Maturidade de ECU's, Softwares e Funções</li>
+            <li class="breadcrumb-current-item">Resultado</li>
         </ol>
     </div>
 </header>
@@ -35,15 +36,9 @@
                             <div class="panel-heading text-center">
                                 <span class="panel-title pn">Escolha um projeto</span><br>
                                 <span class="fa fa-circle"></span>
-                                <span class="fa fa-circle-o"></span>
-                                <span class="fa fa-circle-o"></span>
-                                <span class="fa fa-circle-o"></span>
-                                <span class="fa fa-circle-o"></span>
-                                <span class="fa fa-circle-o"></span>
-                                <span class="fa fa-circle-o"></span>
                             </div>
 
-                            <form action="<?= BASE_URL; ?>softwareintegration/chooseProjectResults" id="form-order">
+                            <form action="<?= BASE_URL; ?>maturityecusoftwarefunctions/chooseProjectResults" id="form-order">
                                 <div class="panel-body pn">
                                     <div class="section row">
                                         <div class="col-md-12 ph10 mb5">
