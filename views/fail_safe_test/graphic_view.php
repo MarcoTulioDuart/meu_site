@@ -23,12 +23,12 @@
     <div class="content-left">
 
     </div>
-    <div class="content-right table-layout">
+    <div class="content-right table-layout" id="modal-content">
         <!-- Column Center -->
         <div class="chute chute-center pbn">
             <!-- Lists -->
             <div class="row">
-                <div class="allcp-form tab-pane mw700 mauto" id="order" role="tabpanel">
+                <div class="allcp-form tab-pane mw1000 mauto" id="order" role="tabpanel">
                     <div class="panel" id="shortcut">
 
                         <div class="panel-heading text-center">
@@ -38,15 +38,25 @@
 
                         <div class="panel-body pn">
                             <div class="section row">
-                                <canvas id="graphic_chart" class="mw500"></canvas>
+                                <canvas id="myChart" class="m20 p10"></canvas>
                             </div>
 
-                            <div class="section text-center">
-                                <a href="<?= BASE_URL; ?>failsafetest/graphic_download?fail_safe_id=<?= $_GET['fail_safe_id']; ?>" class="button btn-primary">Download</a>
-                            </div>
-                            <hr>
-                            <div class="section text-center">
-                                <a href="<?= BASE_URL; ?>failsafetest/vehicle_result_download?fail_safe_id=<?= $_GET['fail_safe_id']; ?>">Agendar Reunião</a>
+                            <div class="section text-center row">
+                                <div class="col-md-7">
+                                    <button class="btn btn-primary btn-bordered ph20" id="gerar_imagem">Download</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <div id="animation-switcher" class="ph20">
+                                        <div class="col-xs-12 col-sm-4 text-right">
+                                            <a class="holder-active" href="#modal-form">
+                                                <button class="btn btn-primary btn-bordered" data-effect="mfp-zoomIn">
+                                                    <b>AGENDAR REUNIÃO</b>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
@@ -60,21 +70,172 @@
     </div>
 </section>
 
-<script src="<?= BASE_URL; ?>assets\chartjs\chart.js"></script>
+
+<div id="modal-form" class="popup-basic allcp-form mfp-with-anim mfp-hide">
+    <div class="panel">
+        <div class="panel-heading text-center">
+            <span class="panel-title">
+                Crie uma reunião
+            </span>
+        </div>
+        <!-- /Panel Heading -->
+        <form method="post" action="<?= BASE_URL; ?>failsafetest/add_meeting" id="form-order" enctype="multipart/form-data">
+            <div class="panel-body">
+                <div class="section row">
+                    <h6 class="text-muted text-center">É obrigatório preencher os campos com asterisco.</h6>
+                </div>
+                <div class="section row">
+                    <div class="col-md-12 ph10 mb5">
+                        <label for="title" class="field prepend-icon">
+                            <input type="text" name="title" id="title" class="gui-input" placeholder="Digite o tema da reunião *" required>
+                            <span class="field-icon">
+                                <i class="fa fa-file"></i>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="section row text-center">
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <span class="field-icon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            <h6 class="text-center mtn pt10 pb20">Escolha uma data e horário para a reunião *</h6>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div id="datetimepicker3">
+                                <input type="text" name="date_meeting" class="form-control" style="max-width: 250px;" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="section row">
+                    <h6 class="text-center mtn pt10 pb10">Convide outras pessoas para a reunião</h6>
+                    <h6 class="text-muted text-center">Digite corretamente seus emails no campo abaixo, separando por ' ; ' sem espaços.</h6>
+                    <label for="participant" class="field prepend-icon">
+                        <input type="text" name="participant" id="participant" class="gui-input">
+                        <span class="field-icon">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="section row">
+                    <h6 class="text-center mtn pt10 pb10">Deseja fazer um comentário ou recomendação?</h6>
+                    <h6 class="text-muted text-center">A mensagem digitada aparecerá abaixo do link de reunião no email.</h6>
+                    <label for="recommendation" class="field prepend-icon">
+                        <textarea type="text" name="recommendation" id="recommendation" class="gui-textarea"></textarea>
+                        <span class="field-icon">
+                            <i class="fa fa-list"></i>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="section">
+                    <h6 class="text-center">Envie os arquivos necessários para a reunião *</h6>
+                    <div class="section row">
+                        <h6 class="text-center text-muted">Selecione o PDF do primeiro resultado do Ecu que você quer analisar na reunião</h6>
+                        <label class="field prepend-icon file mb20 mt10">
+
+                            <input type="file" name="pdf_first_result" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
+
+                            <input type="text" id="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                            <i class="fa fa-upload"></i>
+
+                        </label>
+                    </div>
+
+                    <div class="section row">
+                        <h6 class="text-center text-muted">Selecione o PDF do segundo resultado que você baixou</h6>
+                        <label class="field prepend-icon file mb20 mt10">
+
+                            <input type="file" name="pdf_second_result" class="gui-file" onchange="document.getElementById('uploader2').value = this.value;">
+
+                            <input type="text" id="uploader2" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                            <i class="fa fa-upload"></i>
+
+                        </label>
+                    </div>
+                    <div class="section row">
+                        <h6 class="text-center text-muted">Selecione a imagem do Gráfico que você baixou</h6>
+                        <label class="field prepend-icon file mb20 mt10">
+
+                            <input type="file" name="graphic_result" class="gui-file" onchange="document.getElementById('uploader3').value = this.value;">
+
+                            <input type="text" id="uploader3" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                            <i class="fa fa-upload"></i>
+
+                        </label>
+                    </div>
+                </div>
+
+                <div class="section text-center">
+                    <button type="submit" class="btn fs14 btn-primary">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- /Panel -->
+</div>
+
+
+<script src="<?= BASE_URL; ?>node_modules/chart.js/dist/chart.umd.js"></script>
+<script type="module" src="<?= BASE_URL; ?>node_modules/chart.js/dist/chart.js"></script>
+<script src="<?= BASE_URL; ?>node_modules/canvas-toBlob.js"></script>
+<script src="<?= BASE_URL; ?>node_modules/FileSaver.min.js"></script>
+
 
 <script>
-    const ctx = document.getElementById('myChart');
+    $("#gerar_imagem").click(function() {
+        $("#myChart").get(0).toBlob(function(blob) {
+            saveAs(blob, "grafico-do-Modulo-6.png");
+        });
+    });
 
-    //configuração do gráfico
-    const config = {
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    let not_relevant = <?= $graphic_result['not_relevant']; ?>;
+    let unsolved = <?= $graphic_result['unsolved']; ?>;
+    let solved = <?= $graphic_result['solved']; ?>;
+
+    new Chart(ctx, {
         type: 'line',
-        data: data,
+        data: {
+            labels: ['', ''],
+            datasets: [{
+                label: 'Irrelevante',
+                data: [0, not_relevant],
+                fill: false,
+                borderWidth: 2,
+                cubicInterpolationMode: 'monotone',
+                tension: 0.1
+            }, {
+                label: 'Em trabalho',
+                data: [0, unsolved],
+                fill: false,
+                borderWidth: 4,
+                cubicInterpolationMode: 'monotone',
+                tension: 0.1
+            }, {
+                label: 'Resolvido',
+                data: [0, solved],
+                fill: false,
+                borderWidth: 4,
+                cubicInterpolationMode: 'monotone',
+                tension: 0.1
+            }]
+        },
+
         options: {
             responsive: true,
             plugins: {
                 title: {
                     display: true,
-                    text: 'Gráfico de Resolução de falhas encontradas em Veículos'
+                    text: 'Gráfico de Status de saídas de falhas por ECU'
                 },
             },
             interaction: {
@@ -84,58 +245,17 @@
                 x: {
                     display: true,
                     title: {
-                        display: true,
-                        text: 'Mês e Ano'
-                    },
-                    suggestedMin: 1,
-                    suggestedMax: 12
+                        display: true
+                    }
                 },
                 y: {
                     display: true,
                     title: {
                         display: true,
-                        text: 'Quantidade de falhas'
-                    },
-                    suggestedMin: 0,
-                    suggestedMax: 200
+                        text: 'Value'
+                    }
                 }
             }
         },
-    };
-
-    //Dados do gráfico
-    const DATA_COUNT = 2;
-    const labels = [];
-    for (let i = 0; i < DATA_COUNT; ++i) {
-        labels.push(i.toString());
-    }
-
-    const not_relevant = [0, <?= $value; ?>, NaN]; //alterar esses dados pelo valor de resultado de status
-    const unsolved = [0, <?= $value; ?>, NaN];
-    const solved = [0, <?= $value; ?>, NaN];
-
-    const data = {
-        labels: labels,
-        datasets: [{ //linhas começam aqui
-            label: 'Irrelevante',
-            data: not_relevant,
-            borderColor: Utils.CHART_COLORS.red,
-            fill: false,
-            cubicInterpolationMode: 'monotone',
-            tension: 0.4
-        }, {
-            label: 'Em trabalho',
-            data: unsolved,
-            borderColor: Utils.CHART_COLORS.blue,
-            fill: false,
-            tension: 0.4
-        }, {
-            label: 'Resolvidas',
-            data: solved,
-            borderColor: Utils.CHART_COLORS.green,
-            fill: false
-        }]
-    };
-
-    new Chart(ctx, config, data);
+    });
 </script>

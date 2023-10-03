@@ -1,6 +1,7 @@
 <?php
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class failsafetestController extends Controller
 {
@@ -152,8 +153,6 @@ class failsafetestController extends Controller
     }
   }
 
-  //até aqui perfeito
-
   public function basic_info_upload()
   {
     //básico
@@ -197,24 +196,35 @@ class failsafetestController extends Controller
     $list_basic_info = new list_basic_info();
     $site = new site();
     $fail_code = new fail_code();
+    if (!empty($_FILES['upload_ecu_reference_full']) && !empty($_FILES['upload_ecu_reference'])) {
 
-    if (isset($_FILES['upload_ecu_reference']) && !empty($_FILES['upload_ecu_reference'])) {
+      $file_reference_full = $_FILES['upload_ecu_reference_full'];
+      $file_reference = $_FILES['upload_ecu_reference'];
 
-      $files = $_FILES['upload_ecu_reference'];
-
-      $dir = "assets/upload/failsafetest/reference_fail_ecu/teste_" . $fail_safe_id . "/"; //endereço da pasta pra onde serão enviados os arquivos
+      $dir_reference_full = "assets/upload/failsafetest/full_spreadsheet/teste_" . $fail_safe_id . "/"; //endereço da pasta
 
       $location = "Location: " . BASE_URL . "failsafetest/basic_info_upload?fail_safe_id=" . $fail_safe_id;
 
+      $delete = true;
+
+      $file_1 = $site->uploadPdf($dir_reference_full, $file_reference_full, $location, $delete);
+
+      $dir = "assets/upload/failsafetest/reference_fail_ecu/teste_" . $fail_safe_id . "/"; //endereço da pasta
+
       //envia os arquivo para a pasta determinada
-      if ($file = $site->uploadPdf($dir, $files, $location)) {
-        setcookie("error", "", time() -200);
-        $list_basic_info->upload($file, $fail_safe_id);
+      if ($file_2 = $site->uploadPdf($dir, $file_reference, $location, $delete)) {
+        setcookie("error", "", time() - 200);
 
-        ini_set('memory_limit', '18000M');
-        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($dir . $_FILES['upload_ecu_reference']['name']);
+        $list_basic_info->upload($file_1, $file_2, $fail_safe_id);
 
-        $spreadsheet = $reader->load($dir . $_FILES['upload_ecu_reference']['name']);
+        ini_set('memory_limit', '1024M');
+
+        // Arquivo XLSX a ser lido
+        $dir_upload = $dir . $_FILES['upload_ecu_reference']['name'];
+
+        $reader = IOFactory::createReaderForFile($dir_upload);
+
+        $spreadsheet = $reader->load($dir_upload);
 
         $worksheet = $spreadsheet->getActiveSheet(); //pega somente a aba ativa
         //pega a quantidade total de linhas
@@ -223,7 +233,7 @@ class failsafetestController extends Controller
         for ($row = 36; $row < $highestRow; ++$row) {
 
           $vehicle = $worksheet->getCell("A" . $row)->getValue();
-          $date = $worksheet->getCell("B" . $row)->getValue();
+          $date = $worksheet->getCell("B" . $row)->getFormattedValue();
           $ecu = $worksheet->getCell("C" . $row)->getValue();
           $fc = $worksheet->getCell("D" . $row)->getValue();
           $fc_description = $worksheet->getCell("E" . $row)->getValue();
@@ -234,12 +244,15 @@ class failsafetestController extends Controller
           if ($fail_code->add($vehicle, $date, $ecu, $fc, $fc_description, $cw, $fail_status, $solution, $fail_safe_id)) {
             //continuar...
           } else {
-            setcookie("failed_data_excell", "Ocorreu um erro com a tranferencia de dados, verifique as dicas da página, ou entre em contato com o suporte técnico.", time() +100);
+            setcookie("failed_data_excell", "Ocorreu um erro com a tranferencia de dados, verifique as dicas da página, ou entre em contato com o suporte técnico.", time() + 100);
             header("Location: " . BASE_URL . "failsafetest/basic_info_upload?fail_safe_id=" . $fail_safe_id);
             exit;
           }
         }
-        setcookie("failed_data_excell", "", time() -100);
+        //deleta as linhas que nulas que foram registradas
+        $fail_code->deleteNull($fail_safe_id);
+
+        setcookie("failed_data_excell", "", time() - 100);
         header("Location: " . BASE_URL . "failsafetest/select_ecu_output?fail_safe_id=" . $fail_safe_id);
         exit;
       } else {
@@ -342,8 +355,8 @@ class failsafetestController extends Controller
     $basic_info_id = $_GET['basic_info_id'];
 
     $fail_code = new fail_code();
-    $list_basic_info = new list_basic_info();
     $list_test_ecu = new list_test_ecu();
+    $list_basic_info = new list_basic_info();
 
     $basic_info = $list_basic_info->get($basic_info_id);
 
@@ -353,7 +366,7 @@ class failsafetestController extends Controller
 
       $fail_code = $_POST['fail_code'];
 
-      for ($i = 0; $i < $fail_code; $i++) {
+      for ($i = 0; $i < count($fail_code); $i++) {
         $code_id = $fail_code[$i];
 
         $list_test_ecu->add($code_id, $basic_info_id, $fail_safe_id);
@@ -418,6 +431,7 @@ class failsafetestController extends Controller
   public function single_ecu_download()
   {
     $data = array();
+    $data['page'] = "fail_test";
     $site = new site();
 
     //etapa 6
@@ -425,6 +439,9 @@ class failsafetestController extends Controller
     $fail_safe_id = $_GET['fail_safe_id'];
     $basic_info_id = $_GET['basic_info_id'];
     $list_test_ecu = new list_test_ecu();
+    $list_basic_info = new list_basic_info();
+
+    $basic_info = $list_basic_info->get($basic_info_id);
 
     $data['result'] = $list_test_ecu->getResultEcu($fail_safe_id, $basic_info_id);
 
@@ -433,8 +450,8 @@ class failsafetestController extends Controller
     $html = ob_get_contents(); //armazena a view invés de mostrar
     ob_end_clean(); //finaliza a inclusão da view na memória
 
-    $name_file = 'resultado-de-teste-de-ecu-Modulo-6.pdf';
-    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-P', 'orientation' => 'P']);
+    $name_file = 'resultado-de-teste-de-ecu-' . $basic_info['ecu_name'] . '-Modulo-6.pdf';
+    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-L', 'orientation' => 'L']);
     exit;
   }
 
@@ -496,17 +513,17 @@ class failsafetestController extends Controller
     if (isset($_POST['vehicle_id']) && !empty($_POST['vehicle_id'])) {
       $vehicles = $_POST['vehicle_id'];
 
-      for ($i = 0; $i < $vehicles; $i++) {
+      for ($i = 0; $i < count($vehicles); $i++) {
         $vehicle_id = $vehicles[$i];
 
         $list_test_vehicle->add($vehicle_id, $fail_safe_id);
       }
-      header("Location: " . BASE_URL . "failsafetest/vehicle_ou_put_result");
+      header("Location: " . BASE_URL . "failsafetest/vehicle_out_put_result?fail_safe_id=" . $fail_safe_id);
       exit;
     }
   }
 
-  public function vehicle_ou_put_result()
+  public function vehicle_out_put_result()
   {
     //básico
     if (!isset($_SESSION['proTSA_online'])) {
@@ -556,6 +573,7 @@ class failsafetestController extends Controller
   public function vehicle_result_download()
   {
     $data = array();
+    $data['page'] = "fail_test";
     $site = new site();
 
     //etapa 8
@@ -612,11 +630,59 @@ class failsafetestController extends Controller
 
     //fim do básico
 
+    $fail_safe_id = $_GET['fail_safe_id'];
 
+    $list_test_ecu = new list_test_ecu();
 
+    $data['graphic_result'] = $list_test_ecu->getSolutions($fail_safe_id);
 
     //template, view, data
     $this->loadTemplate("home", "fail_safe_test/graphic_view", $data);
+  }
+
+  public function meeting()
+  {
+
+    if (!empty($_POST['title']) && !empty($_POST['date_meeting'])) {
+      $title = addslashes($_POST['title']);
+      $date_meeting = addslashes($_POST['date_meeting']);
+
+      $site = new site();
+
+      $attachmens = [
+        $_FILES['pdf_first_result'],
+        $_FILES['pdf_second_result'],
+        $_FILES['graphic_result'],
+      ];
+
+      if (isset($_POST['participant']) && !empty($_POST['participant'])) {
+        $participants = addslashes($_POST['participant']);
+        $emails = explode(';', $participants);
+
+        for ($i = 0; $i < count($emails); $i++) {
+          $name = ' ';
+          $email = $emails[$i];
+
+          $subject = "Uma reunião foi agendada!";
+          $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
+          O tema da reunião será: ' . $title . '. <br>
+          Os arquivos em anexo contém os resultados da etapa de Integração entre funções - Classificação de funções (Cliente e Serviço), Mensagens das funções, Descrição das funções e Mensagens em comum. <br>
+          Aconselhamos que salve este email até o dia da reunião <br>';
+
+          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
+            $recommendation = addslashes($_POST['recommendation']);
+
+            $message .= $recommendation . '<br>';
+          }
+
+          $message .= 'Aguardamos sua presença na reunião!';
+          $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
+        }
+      }
+
+      header("Location: " . BASE_URL . "functionintegration/second_result");
+      exit;
+    }
   }
 
   public function results()
@@ -642,10 +708,8 @@ class failsafetestController extends Controller
     if (isset($_SESSION['integration_id_proTSA'])) {
       unset($_SESSION['integration_id_proTSA']);
     }
-    //Session do Segundo Módulo
-
     //Session do Terceiro Módulo
-    if (isset($_SESSION['signals_id_proTSA'])) {
+    if (isset($_SESSION['signals_id_proTSA']) || isset($_SESSION['signal_integration_id_proTSA'])) {
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
       unset($_SESSION['signal_integration_id_proTSA']);
@@ -655,23 +719,18 @@ class failsafetestController extends Controller
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
     }
-    //Session do Quinto Módulo
 
     //fim do básico
-    $list_basic_info = new list_basic_info();
+
+    $fail_safe_test = new fail_safe_test();
 
     if (!isset($_GET['safe_test_id']) || empty($_GET['safe_test_id'])) {
-
-      $fail_safe_id = $_GET['safe_test_id'];
-      $data['list_fail_safe_test'] = $list_basic_info->getAll($fail_safe_id);
+      $data['list_fail_safe_test'] = $fail_safe_test->getAll($id);
     }
 
-    if (isset($_GET['safe_test_id']) && !empty($_GET['safe_test_id'])) {
-      $_SESSION['safe_test_id_proTSA'] = $_GET['safe_test_id'];
-    }
 
     //template, view, data
-    $this->loadTemplate("home", "fail_safe_test/results", $data);
+    $this->loadTemplate("home", "fail_safe_test/process_results/results", $data);
   }
 
   public function choose_test()
@@ -680,14 +739,16 @@ class failsafetestController extends Controller
 
     if (isset($_POST['safe_test_id']) && !empty($_POST['safe_test_id'])) {
 
-      $_SESSION['safe_test_id_proTSA'] = $_POST['safe_test_id'];
+      $safe_test_id = $_POST['safe_test_id'];
 
-      header("Location: " . BASE_URL . "failsafetest/results");
+      header("Location: " . BASE_URL . "failsafetest/results?safe_test_id=" . $safe_test_id);
       exit;
     }
   }
 
-  public function first_result()
+  //até aqui perfeito
+
+  public function all_results()
   {
     //básico
     if (!isset($_SESSION['proTSA_online'])) {
@@ -710,10 +771,8 @@ class failsafetestController extends Controller
     if (isset($_SESSION['integration_id_proTSA'])) {
       unset($_SESSION['integration_id_proTSA']);
     }
-    //Session do Segundo Módulo
-
     //Session do Terceiro Módulo
-    if (isset($_SESSION['signals_id_proTSA'])) {
+    if (isset($_SESSION['signals_id_proTSA']) || isset($_SESSION['signal_integration_id_proTSA'])) {
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
       unset($_SESSION['signal_integration_id_proTSA']);
@@ -723,17 +782,53 @@ class failsafetestController extends Controller
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
     }
-    //Session do Quinto Módulo
 
     //fim do básico
 
-    $list_parameters_vehicles = new list_parameters_vehicles();
-    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
+    $safe_test_id = $_GET['safe_test_id'];
 
-    $data['list_classification_vehicles'] = $list_parameters_vehicles->getAllProcess($parameters_integration_id);
+    $list_test_ecu = new list_test_ecu();
+
+    $data['result_ecu'] = $list_test_ecu->getAllResults($safe_test_id);
+
+    $list_test_vehicle = new list_test_vehicle();
+
+    $data['vehicles_result'] = $list_test_vehicle->getAllResults($safe_test_id);
+
+    $fail_safe_test = new fail_safe_test();
+
+    $data['graphic_image'] = $fail_safe_test->getGraphic($safe_test_id);
 
     //template, view, data
-    $this->loadTemplate("home", "parameters_integration/first_result", $data);
+    $this->loadTemplate("home", "fail_safe_test/process_results/all_results", $data);
+  }
+
+  public function add_graphic_upload()
+  {
+    
+    $safe_test_id = $_GET['safe_test_id'];
+
+    $site = new site();
+    $fail_safe_test = new fail_safe_test();
+   
+    if (isset($_FILES['graphic_result']) && !empty($_FILES['graphic_result'])) {
+      $graphic_result = $_FILES['graphic_result'];
+ 
+      $location = "Location: " . BASE_URL . "failsafetest/all_results?safe_test_id=" . $safe_test_id;
+
+      $delete = true;
+
+      $dir = "assets/upload/failsafetest/graphic_chart/teste_" . $safe_test_id . "/"; //endereço da pasta
+
+      //envia os arquivo para a pasta determinada
+      if ($file = $site->uploadPdf($dir, $graphic_result, $location, $delete)) {
+
+        $fail_safe_test->editGraphic($safe_test_id, $file);
+        header("Location: " . BASE_URL . "failsafetest/all_results?safe_test_id=" . $safe_test_id);
+        exit;
+
+      }
+    }
   }
 
   public function download_first_result()
@@ -757,7 +852,7 @@ class failsafetestController extends Controller
     exit;
   }
 
-  public function second_result()
+  public function graphic_result()
   {
     //básico
     if (!isset($_SESSION['proTSA_online'])) {
@@ -780,10 +875,8 @@ class failsafetestController extends Controller
     if (isset($_SESSION['integration_id_proTSA'])) {
       unset($_SESSION['integration_id_proTSA']);
     }
-    //Session do Segundo Módulo
-
     //Session do Terceiro Módulo
-    if (isset($_SESSION['signals_id_proTSA'])) {
+    if (isset($_SESSION['signals_id_proTSA']) || isset($_SESSION['signal_integration_id_proTSA'])) {
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
       unset($_SESSION['signal_integration_id_proTSA']);
@@ -793,13 +886,12 @@ class failsafetestController extends Controller
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
     }
-    //Session do Quinto Módulo
 
     //fim do básico
 
 
     //template, view, data
-    $this->loadTemplate("home", "parameters_integration/second_result/choose_format", $data);
+    $this->loadTemplate("home", "fail_safe_test/process_results/choose_format", $data);
   }
 
   public function second_download()
@@ -862,10 +954,8 @@ class failsafetestController extends Controller
     if (isset($_SESSION['integration_id_proTSA'])) {
       unset($_SESSION['integration_id_proTSA']);
     }
-    //Session do Segundo Módulo
-
     //Session do Terceiro Módulo
-    if (isset($_SESSION['signals_id_proTSA'])) {
+    if (isset($_SESSION['signals_id_proTSA']) || isset($_SESSION['signal_integration_id_proTSA'])) {
       unset($_SESSION['signals_id_proTSA']);
       unset($_SESSION['project_signals_id_proTSA']);
       unset($_SESSION['signal_integration_id_proTSA']);
@@ -875,88 +965,9 @@ class failsafetestController extends Controller
       unset($_SESSION['parameters_id_proTSA']);
       unset($_SESSION['parameters_project_id_proTSA']);
     }
-    //Session do Quinto Módulo
 
     //fim do básico
 
-    $meetings = new meetings();
-    $project_id = $_SESSION['parameters_project_id_proTSA'];
-
-    if (!empty($_POST['title']) && !empty($_POST['date_meeting']) && !empty($_POST['participant'])) {
-      $title = addslashes($_POST['title']);
-      $date_meeting = addslashes($_POST['date_workshop']);
-      $model = 4;
-
-      $meetings->addMeeting($project_id, $title, $date_meeting, $model);
-
-      $site = new site();
-
-      $attachmens = [$_FILES['pdf_upload']];
-      $link = addslashes($_POST['link']);
-      $version = addslashes($_POST['version']);
-      $open_points = addslashes($_POST['open_points']);
-      $test_vehicle = addslashes($_POST['test_vehicle']);
-
-      if (isset($_POST['participant_test']) && !empty($_POST['participant_test'])) {
-        $participants = addslashes($_POST['participant_test']);
-        $emails = explode(';', $participants);
-
-        for ($i = 0; $i < count($emails); $i++) {
-          $name = ' ';
-          $email = $emails[$i];
-
-          $subject = "Uma reunião foi agendada!";
-          $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
-          O tema da reunião será: ' . $title . '. <br>
-          Versão: ' . $version . '<br>
-          Pontos em aberto: ' . $open_points . '<br>
-          Veículos de teste: ' . $test_vehicle . '<br>
-          Link onde serão armazenadas as informações: <a href="' . $link . '" target="_blank">Clique aqui</a> <br>
-          Aconselhamos que salve este email até o dia da reunião <br>';
-
-          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
-            $recommendation = addslashes($_POST['recommendation']);
-
-            $message .= $recommendation . '<br>';
-          }
-
-          $message .= 'Aguardamos sua presença na reunião!';
-          $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
-        }
-      }
-
-      if (isset($_POST['participant_parameter']) && !empty($_POST['participant_parameter'])) {
-        $participants = addslashes($_POST['participant_parameter']);
-        $emails = explode(';', $participants);
-
-        for ($i = 0; $i < count($emails); $i++) {
-          $name = ' ';
-          $email = $emails[$i];
-
-          $subject = "Uma reunião foi agendada!";
-          $message = 'Foi marcada uma reunião para o seguinte dia e horário: ' . $date_meeting . '. <br>
-          O tema da reunião será: ' . $title . '. <br>
-          Versão: ' . $version . '<br>
-          Pontos em aberto: ' . $open_points . '<br>
-          Veículos de teste: ' . $test_vehicle . '<br>
-          Link onde serão armazenadas as informações: <a href="' . $link . '" target="_blank">Clique aqui</a> <br>
-          Aconselhamos que salve este email até o dia da reunião <br>';
-
-          if (isset($_POST['recommendation']) && !empty($_POST['recommendation'])) {
-            $recommendation = addslashes($_POST['recommendation']);
-
-            $message .= $recommendation . '<br>';
-          }
-
-          $message .= 'Aguardamos sua presença na reunião!';
-          $site->sendMessageAttachment($email, $name, $subject, $message, $attachmens);
-        }
-      }
-
-      header("Location: " . BASE_URL . "parametersintegration/results");
-      exit;
-    }
-
-    $this->loadTemplate("home", "parameters_integration/workshop_meeting", $data);
+    $this->loadTemplate("home", "fail_safe_test/process_results/workshop_meeting", $data);
   }
 }

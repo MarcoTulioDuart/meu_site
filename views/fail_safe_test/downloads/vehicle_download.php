@@ -8,12 +8,13 @@
 
             <div class="panel-body pn">
                 <?php foreach ($vehicles_result as $value) : ?>
-                    <div class="section row">
-                        <h5>Veículo: <?= $value['vehicle']; ?></h5>
+                    <div class="section row text-center mb5">
+                        <h5 class="text-primary">Veículo: <?= $value['vehicle']; ?></h5>
+                        <p class="text-muted">Ecu: Código de falha -> Responsável</p>
                     </div>
-                    <div class="section row">
+                    <div class="section row text-center">
                         <div class="col-md-12">
-                            <h6><?= $value['ecus']; ?>:</h6>
+                            <h6><?= $value['ecus']; ?></h6>
                         </div>
                     </div>
 

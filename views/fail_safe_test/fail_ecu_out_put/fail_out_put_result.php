@@ -38,41 +38,45 @@
                             <span class="fa fa-circle"></span>
                         </div>
 
-                        <div class="panel-body pn">
-                            <div class="section row">
-                                <div class="col-md-4 text-center">
-                                    <h6>ECU:</h6>
+                        <div class="panel-body">
+                            <?php foreach ($result as $key => $value) : ?>
+                                <div class="section row">
+                                    <div class="col-md-4 text-center">
+                                        <h6 class="text-primary">ECU:</h6>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <h6 class="text-primary">Código de falha:</h6>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <h6 class="text-primary">Status de código:</h6>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 text-center">
-                                    <h6>Código de falha:</h6>
+                                <div class="section row">
+                                    <div class="col-md-4 text-center">
+                                        <p class="p15" style="border-radius: 15px; box-shadow: 1px 1px 3px #888;"><?= $value['fc_ecu']; ?></p>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <p class="p15" style="border-radius: 15px; box-shadow: 1px 1px 3px #888;"><?= $value['fc']; ?></p>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <p class="p15" style="border-radius: 15px; box-shadow: 1px 1px 3px #888;"><?= $value['fail_status']; ?></p>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 text-center">
-                                    <h6>Status de código:</h6>
+                                <div class="section row">
+                                    <div class="col-md-12 text-center">
+                                        <h6 class="text-primary">Descrição de código:</h6>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="section row">
-                                <div class="col-md-4 text-center">
-                                    <p><?= $result['ecu']; ?></p>
+                                <div class="section row">
+                                    <div class="col-md-12 text-center">
+                                        <p class="p15" style="border-radius: 15px; box-shadow: 1px 1px 3px #888;"><?= $value['fc_description']; ?></p>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 text-center">
-                                    <p><?= $result['fc']; ?></p>
-                                </div>
-                                <div class="col-md-4 text-center">
-                                    <p><?= $result['fail_status']; ?></p>
-                                </div>
-                            </div>
-                            <div class="section row">
-                                <div class="col-md-12">
-                                    <h6>Descrição de código:</h6>
-                                </div>
-                            </div>
-                            <div class="section row">
-                                <div class="col-md-12">
-                                    <p><?= $result['fc_description']; ?></p>
-                                </div>
-                            </div>
+                                <hr>
+                            <?php endforeach; ?>
+
                             <div class="section text-center mt20">
-                                <a href="<?= BASE_URL; ?>failsafetest/single_ecu_download?fail_safe_id=<?= $_GET['fail_safe_id']; ?>&basic_info_id=<?= $_GET['basic_info_id']; ?>" class="btn btn-primary"></a>
+                                <a href="<?= BASE_URL; ?>failsafetest/single_ecu_download?fail_safe_id=<?= $_GET['fail_safe_id']; ?>&basic_info_id=<?= $_GET['basic_info_id']; ?>" class="btn btn-primary">Download</a>
                             </div>
                             <hr>
                             <div class="section text-center">
@@ -82,7 +86,7 @@
                                         <a href="<?= BASE_URL; ?>failsafetest/select_vehicle_out_put?fail_safe_id=<?= $_GET['fail_safe_id']; ?>" class="btn btn-primary">Sim</a>
                                     </div>
                                     <div class="col-md-6 text-center">
-                                        <a href="<?= BASE_URL; ?>failsafetest/select_ecu_output?fail_safe_id=<?= $_GET['fail_safe_id']; ?>" class="btn btn-primary">Sim</a>
+                                        <a href="<?= BASE_URL; ?>failsafetest/select_ecu_output?fail_safe_id=<?= $_GET['fail_safe_id']; ?>" class="btn btn-primary">Não</a>
                                     </div>
                                 </div>
                             </div>

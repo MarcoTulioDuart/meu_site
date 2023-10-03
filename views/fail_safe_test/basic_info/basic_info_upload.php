@@ -83,12 +83,23 @@
                                     </div>
                                 <?php endif; ?>
                                 <div class="section row">
-                                    <p class="fs14 m20">Carregue o arquivo de falhas referente a ECU:</p>
+                                    <p class="fs14 m20">Carregue o arquivo de falhas completo referente a ECU:</p>
                                     <p class="text-muted ml20">O arquivo deve ter a extenção 'xlsx'</p>
                                     <div class="col-md-12 ph10 mb15">
                                         <label class="field prepend-icon file">
-                                            <input type="file" name="upload_ecu_reference" id="upload_ecu_reference" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
+                                            <input type="file" name="upload_ecu_reference_full" id="upload_ecu_reference" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
                                             <input type="text" name="uploader" id="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                                            <i class="fa fa-upload"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="section row">
+                                    <p class="fs14 m20">Carregue o arquivo de falhas somente com a aba com os dados FC LOG:</p>
+                                    <p class="text-muted ml20">O arquivo deve ter a extenção 'xlsx'</p>
+                                    <div class="col-md-12 ph10 mb15">
+                                        <label class="field prepend-icon file">
+                                            <input type="file" name="upload_ecu_reference" id="upload_ecu_reference" class="gui-file" onchange="document.getElementById('uploader2').value = this.value;">
+                                            <input type="text" name="uploader2" id="uploader2" class="gui-input fluid-width" placeholder="selecione um arquivo">
                                             <i class="fa fa-upload"></i>
                                         </label>
                                     </div>

@@ -43,7 +43,7 @@
                                 <div class="section row">
                                     <div class="col-md-12 ph10 mb5">
                                         <div class="panel mb50" id="p5" data-panel-remove="false" data-panel-color="false" data-panel-fullscreen="false" data-panel-title="false" data-panel-collapse="false">
-                                            <div class="panel-heading">
+                                            <div class="panel-heading text-center">
                                                 <span class="panel-title">Escolha um ou mais códigos de falha:</span>
                                             </div>
                                             <div class="panel-body panel-scroller scroller-sm pn mt20">
@@ -52,7 +52,7 @@
                                                         <label class="block mt20 option option-info">
                                                             <input type="checkbox" name="fail_code[]" value="<?= $value['id']; ?>">
                                                             <span class="checkbox"></span>
-                                                            <span><?= $value['fc']; ?> : <?= $value['fc_description']; ?></span>
+                                                            <span class="fs14"><b>Código:</b> <?= $value['fc']; ?>; <b>Descrição:</b> <?= $value['fc_description']; ?>; <b>Veículo:</b> <?= $value['vehicle']; ?>; </span>
                                                         </label>
                                                     <?php endforeach; ?>
                                                 </div>
@@ -62,7 +62,7 @@
                                 </div>
 
                                 <div class="section text-center">
-                                    <button type="submit" class="button btn-primary">Enviar</button>
+                                    <button type="submit" class="btn btn-primary">Enviar</button>
                                 </div>
                             </div>
                             <!-- /Panel Body -->

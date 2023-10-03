@@ -35,10 +35,13 @@ class list_basic_info extends Model
         }
     }
 
-    public function upload($upload_ecu_reference, $fail_safe_id)
+    public function upload($upload_full_spreadsheet, $upload_ecu_reference, $fail_safe_id)
     {
-        $sql = "UPDATE list_basic_info SET upload_ecu_reference = :upload_ecu_reference WHERE fail_safe_id = :fail_safe_id";
+        $sql = "UPDATE list_basic_info 
+        SET upload_full_spreadsheet = :upload_full_spreadsheet, upload_ecu_reference = :upload_ecu_reference 
+        WHERE fail_safe_id = :fail_safe_id";
         $sql = $this->db->prepare($sql);
+        $sql->bindValue(":upload_full_spreadsheet", $upload_full_spreadsheet);
         $sql->bindValue(":upload_ecu_reference", $upload_ecu_reference);
         $sql->bindValue(":fail_safe_id", $fail_safe_id);
         $sql->execute();

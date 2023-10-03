@@ -191,6 +191,7 @@ class site extends Model
         $upload['extension'] = array('pdf', 'drawio', 'png', 'svg', 'html', 'xml', 'doc', 'docx', 'jpg', 'xlsx');
 
         // Renomeia o arquivo? (Se true, o arquivo será salvo como .jpg e um nome único)
+
         $upload['rename'] = false;
 
         // Array com os tipos de erros de upload do PHP
@@ -240,6 +241,7 @@ class site extends Model
             // Depois verifica se é possível mover o arquivo para a pasta escolhida
             if (move_uploaded_file($file['tmp_name'], $dir . $final_name)) {
                 setcookie("error", "", time() - 100);
+
                 return $dir . $final_name; //o caminho que a imagem foi salva
             } else {
                 // Não foi possível fazer o upload, provavelmente a pasta está incorreta

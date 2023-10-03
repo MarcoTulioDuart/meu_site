@@ -270,7 +270,7 @@
                         </label>
                     </div>
                     <div class="section row">
-                        <h6 class="text-center text-muted">Selecione o PDF do primeiro resultado que vocÊ baixou</h6>
+                        <h6 class="text-center text-muted">Selecione o PDF do primeiro resultado que você baixou</h6>
                         <label class="field prepend-icon file mb20 mt10">
 
                             <input type="file" name="pdf_first_result" class="gui-file" onchange="document.getElementById('uploader2').value = this.value;">

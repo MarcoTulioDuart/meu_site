@@ -61,7 +61,7 @@
                                 </div>
 
                                 <div class="section text-center">
-                                    <button type="submit" class="button btn-primary">Enviar</button>
+                                    <button type="submit" class="btn btn-primary">Enviar</button>
                                 </div>
                             </div>
                             <!-- /Panel Body -->

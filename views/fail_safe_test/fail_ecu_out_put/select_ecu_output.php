@@ -39,6 +39,7 @@
                         </div>
 
                         <form method="GET" action="<?= BASE_URL; ?>failsafetest/select_fail_code?fail_safe_id=<?= $_GET['fail_safe_id']; ?>" id="form-order">
+                        <input type="hidden" name="fail_safe_id" value="<?= $_GET['fail_safe_id']; ?>">
                             <div class="panel-body pn">
                                 <div class="section row">
                                     <div class="col-md-12 ph10 mb5">
@@ -57,7 +58,7 @@
                                 </div>
 
                                 <div class="section text-center">
-                                    <button type="submit" class="button btn-primary">Enviar</button>
+                                    <button type="submit" class="btn btn-primary">Enviar</button>
                                 </div>
                             </div>
                             <!-- /Panel Body -->

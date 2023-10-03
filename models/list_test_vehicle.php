@@ -26,8 +26,9 @@ class list_test_vehicle extends Model
                 CONCAT_WS(' ', '♦', fca.ecu, ':', fca.fc, ' ➠ ', 'Responsável : ', 
                     (SELECT lbi.responsible_name
                     FROM list_basic_info AS lbi
-                    INNER JOIN type_ecu AS te ON (te.id = lbi.list_ecu_id)
-                    WHERE te.name LIKE fca.ecu)
+                    INNER JOIN type_ecu AS te ON (te.id = lbi.type_ecu_id)
+                    WHERE te.name LIKE fca.ecu
+                    AND lbi.fail_safe_id = :fail_safe_id)
                 ) SEPARATOR ' <br> ') 
             FROM list_test_vehicle AS ltva
             INNER JOIN fail_code AS fca ON (fca.id = ltva.vehicle_code_id)

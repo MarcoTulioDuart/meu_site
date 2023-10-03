@@ -70,7 +70,8 @@ class fail_code extends Model
         $sql = "SELECT DISTINCT fc.id, fc.vehicle
         FROM fail_code AS fc
         WHERE fc.fail_safe_id = :fail_safe_id
-        GROUP by fc.vehicle";
+        GROUP BY fc.vehicle
+        ORDER BY fc.vehicle";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":fail_safe_id", $fail_safe_id);
         $sql->execute();
@@ -97,6 +98,28 @@ class fail_code extends Model
             return $array;
         } else {
             return 0;
+        }
+    }
+
+    public function deleteNull($fail_safe_id)
+    {
+        $sql = "DELETE FROM fail_code
+        WHERE fail_safe_id = :fail_safe_id
+        AND vehicle IS NULL
+        AND ecu IS NULL
+        AND fc IS NULL
+        AND fc_description IS NULL
+        AND cw IS NULL
+        AND fail_status IS NULL
+        AND solution IS NULL";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":fail_safe_id", $fail_safe_id);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 

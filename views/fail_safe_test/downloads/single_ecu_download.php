@@ -1,5 +1,5 @@
 <div class="row mn pn">
-    <div class="allcp-form tab-pane mw700 mauto" id="order" role="tabpanel">
+    <div class="allcp-form tab-pane mauto" id="order" role="tabpanel">
         <div class="panel" id="shortcut">
 
             <div class="panel-heading text-center">
@@ -7,40 +7,32 @@
             </div>
 
             <div class="panel-body pn">
-                <div class="section row">
-                    <div class="col-md-4 text-center">
-                        <h6>ECU:</h6>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <h6>Código de falha:</h6>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <h6>Status de código:</h6>
-                    </div>
-                </div>
-                <div class="section row">
-                    <div class="col-md-4 text-center">
-                        <p><?= $result['ecu']; ?></p>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <p><?= $result['fc']; ?></p>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <p><?= $result['fail_status']; ?></p>
-                    </div>
-                </div>
-                <div class="section row">
-                    <div class="col-md-12">
-                        <h6>Descrição de código:</h6>
+                <div class="col-md-12 col-xs-12 mb20">
+                    <div class="table-responsive">
+                        <table class="table table-striped btn-gradient-grey">
+                            <thead>
+                                <tr class="alert">
+                                    <th class="text-center p15">ECU</th>
+                                    <th class="text-center p15">Código de falha</th>
+                                    <th class="text-center p15">Status de código</th>
+                                    <th class="text-center p15">Descrição de código</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($result as $key => $value) : ?>
+                                    <tr>
+                                        <td class="text-center fs12 p15"><?= $value['fc_ecu']; ?></td>
+                                        <td class="text-center fs12 p15"><?= $value['fc']; ?></td>
+                                        <td class="text-center fs12 p15"><?= $value['fail_status']; ?></td>
+                                        <td class="text-center fs12 p15"><?= $value['fc_description']; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="section row">
-                    <div class="col-md-12">
-                        <p><?= $result['fc_description']; ?></p>
-                    </div>
-                </div>
-            </div>
 
+            </div>
         </div>
     </div>
 </div>
