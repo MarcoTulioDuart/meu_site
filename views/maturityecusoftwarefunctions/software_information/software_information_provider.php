@@ -10,7 +10,7 @@
             <li class="breadcrumb-icon breadcrumb-link">
                 <a href="<?= BASE_URL; ?>home/home_page">Início</a>
             </li>
-            <li class="breadcrumb-current-item">Maturidade de ECU's, Softwares e Funções</li>
+            <li class="breadcrumb-current-item"><a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>">Maturidade de ECU's, Softwares e Funções - ETAPAS</a></li>
             <li class="breadcrumb-current-item">Informações do software - Fornecedor</li>
         </ol>
     </div>
@@ -124,7 +124,7 @@
                                                         <?php endforeach; ?>
                                                     <?php else : ?>
                                                         <tr class="row-parameters">
-                                                            <td><input type="text" name="pid[]" value="aqui"></td>
+                                                            <td><input type="text" name="pid[]"></td>
                                                             <td><input type="text" name="fragment[]"></td>
                                                             <td><input type="text" name="values[]"></td>
                                                             <td>

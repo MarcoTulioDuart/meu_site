@@ -51,7 +51,7 @@
                                 </div>
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="fs14 btn btn-primary " style="white-space: normal;" title="Insira as informações solicitadas.">Testes em Hill no fornecedor ou montadora</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/hill_tests_supplier_assembler?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="fs14 btn btn-primary " style="white-space: normal;" title="Insira as informações solicitadas.">Testes em Hill no fornecedor ou montadora</a>
                                 </div>
 
 
@@ -64,7 +64,7 @@
                             <div class="section row text-center">
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary " title="Insira as informações solicitadas.">Testes de aplicação</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/applicationTest?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary " title="Insira as informações solicitadas.">Testes de aplicação</a>
                                 </div>
 
                                 <div class="col-md-4  mb5">
