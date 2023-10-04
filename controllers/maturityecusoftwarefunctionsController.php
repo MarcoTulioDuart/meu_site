@@ -723,23 +723,35 @@ class maturityecusoftwarefunctionsController extends Controller
       unset($_COOKIE['error']);
     }
 
-    if (isset($_POST['suppliers_email']) && !empty($_POST['reason_email'])) {
+    if (isset($_POST['assembler_email']) && !empty($_POST['email_description'])) {
 
-      $suppliers_email = (isset($_POST['suppliers_email'])) ? addslashes($_POST['suppliers_email']) : "";
+      $assembler_email = (isset($_POST['assembler_email'])) ? addslashes($_POST['assembler_email']) : "";
       $maturityecusoftwarefunctions_id = addslashes($_POST['maturityecusoftwarefunctions_id']);
-      $reason_email = $_POST['reason_email'];
+      $email_description = $_POST['email_description'];
 
-      if ($suppliers_email != "") {
-        $suppliers_email_individual = explode(";", $suppliers_email);
-        $link = "<a target='_blank' href='" . BASE_URL . "maturityecusoftwarefunctions/application_test?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id . "'>Clique para responder.</a>";
-        $maturityecusoftwarefunctions_application_test->addLink($maturityecusoftwarefunctions_id, $reason_email, $suppliers_email, $link);
-        foreach ($suppliers_email_individual as $key => $value) {
+      if ($_FILES['result_file']['full_path'] != "") {
+        $upload = $_FILES['result_file']; //pega todos os campos que contem um arquivo enviado
+        $dir = "assets/upload/application_test/result_file/"; //endereço da pasta pra onde serão enviados os arquivos
+        $location = "Location: " . BASE_URL . "maturityecusoftwarefunctions/application_test?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id;
+        //envia os arquivo para a pasta determinada      
+        $result_file = $site->uploadPdf($dir, $upload, $location);
+      } else if (isset($data['info_maturityecusoftwarefunctions_application_test']) && count($data['info_maturityecusoftwarefunctions_application_test']) > 0) {
+        $result_file = $data['info_maturityecusoftwarefunctions_application_test']['result_file'];
+      } else {
+        $result_file = "";
+      }
+      
+
+      if ($assembler_email != "") {
+        $assembler_email_individual = explode(";", $assembler_email);
+        $maturityecusoftwarefunctions_application_test->add($maturityecusoftwarefunctions_id, $assembler_email, $email_description, $result_file);
+        
+        foreach ($assembler_email_individual as $key => $value) {
           $name = explode("@", $value);
           $email = $value;
-          $subject = "Testes unitários ou conceito - Maturidade de ECU's, Softwares e Funções | Protsa";
+          $subject = "Teste de aplicação | Protsa";
           $message =
-            "<b>Descrição: </b>" . $reason_email . "<br> <br>" .
-            $link;
+            "<b>Descrição: </b>" . $email_description . "<br> <br>";
 
           $site->sendMessage($email, $name[0], $subject, $message);
 
@@ -748,28 +760,11 @@ class maturityecusoftwarefunctionsController extends Controller
         }
       }
     }
-
-    if (isset($_POST['assembler_email']) && !empty($_POST['maturityecusoftwarefunctions_id'])) {
-
+    
+    if (isset($_POST['assembler_email']) && !empty($_POST['reason_rejection'])) {
+    
       $assembler_email = (isset($_POST['assembler_email'])) ? addslashes($_POST['assembler_email']) : "";
-      $maturityecusoftwarefunctions_id = addslashes($_POST['maturityecusoftwarefunctions_id']);
-      $email_description = $_POST['email_description'];
-      $data['info_maturityecusoftwarefunctions_application_test'] = $maturityecusoftwarefunctions_application_test->getByMaturityEcuSoftwareFunctions_id($maturityecusoftwarefunctions_id);
-      if ($_FILES['result_file']['full_path'] != "") {
-        $upload = $_FILES['result_file']; //pega todos os campos que contem um arquivo enviado
-        $dir = "assets/upload/application_test/result_file/"; //endereço da pasta pra onde serão enviados os arquivos
-        $location = "Location: " . BASE_URL . "maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id;
-        //envia os arquivo para a pasta determinada      
-        $result_file = $site->uploadPdf($dir, $upload, $location);
-      } else if (isset($data['info_maturityecusoftwarefunctions_application_test']) && count($data['info_maturityecusoftwarefunctions_application_test']) > 0) {
-        $result_file = $data['info_maturityecusoftwarefunctions_application_test']['result_file'];
-      } else {
-        $result_file = "";
-      }
-
-
-      $maturityecusoftwarefunctions_application_test->addInfoProvider($data['info_maturityecusoftwarefunctions_application_test']['id'], $assembler_email, $email_description, $result_file);
-
+      $reason_rejection = $_POST['reason_rejection'];
 
       if ($assembler_email != "") {
         $email_responsible_name = explode(";", $assembler_email);
@@ -777,33 +772,10 @@ class maturityecusoftwarefunctionsController extends Controller
         foreach ($email_responsible_name as $key => $value) {
           $name = explode("@", $value);
           $email = $value;
-          $subject = "Testes unitários ou conceito - Maturidade de ECU's, Softwares e Funções | Protsa";
-          $message =
-            "<b>Descrição: </b>" . $email_description . "<br> <br>" .
-            "<a target='_blank' href='" . BASE_URL . "maturityecusoftwarefunctions/application_test?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id'] . "'>Clique para visualizar.</a>";
-
-          $site->sendMessage($email, $name[0], $subject, $message);
-          header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id']);
-          exit;
-        }
-      }
-    }
-
-    if (isset($_POST['suppliers_email']) && !empty($_POST['reason_rejection'])) {
-
-      $suppliers_email = (isset($_POST['suppliers_email'])) ? addslashes($_POST['suppliers_email']) : "";
-      $reason_rejection = $_POST['reason_rejection'];
-
-      if ($suppliers_email != "") {
-        $email_responsible_name = explode(";", $suppliers_email);
-
-        foreach ($email_responsible_name as $key => $value) {
-          $name = explode("@", $value);
-          $email = $value;
-          $subject = "Testes unitários ou conceito - Maturidade de ECU's, Softwares e Funções | Protsa";
+          $subject = "Teste de aplicação | Protsa";
           $message =
             "<b>Motivo da reprovação: </b>" . $reason_rejection . "<br> <br>" .
-            "<a target='_blank' href='" . BASE_URL . "maturityecusoftwarefunctions/application_test?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id'] . "'>Clique no Link para responder</a>";
+            "<a target='_blank' href='" . BASE_URL . "maturityecusoftwarefunctions/application_test?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id'] . "'>Clique no Link para visualizar</a>";
 
           $site->sendMessage($email, $name[0], $subject, $message);
           header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id']);
@@ -815,7 +787,7 @@ class maturityecusoftwarefunctionsController extends Controller
     $data['info_maturityecusoftwarefunctions_application_test'] = $maturityecusoftwarefunctions_application_test->getByMaturityEcuSoftwareFunctions_id($_GET['maturityecusoftwarefunctions_id']);
     $data['info_maturityecusoftwarefunctions'] = $maturityecusoftwarefunctions->get($_GET['maturityecusoftwarefunctions_id']);
 
-    $this->loadTemplate("home", "maturityecusoftwarefunctions/application_test/provider", $data);
+    $this->loadTemplate("home", "maturityecusoftwarefunctions/application_test/automaker", $data);
   }
 
   public function applicationTestDownload()

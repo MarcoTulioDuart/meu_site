@@ -3,14 +3,14 @@
 class maturityecusoftwarefunctions_application_test extends Model
 {
 
-    public function addLink($maturityecusoftwarefunctions_id, $reason_email, $suppliers_email, $link)
+    public function add($maturityecusoftwarefunctions_id, $assembler_email, $email_description, $result_file)
     {
-        $sql = "INSERT INTO maturityecusoftwarefunctions_application_test (maturityecusoftwarefunctions_id, suppliers_email, reason_email, link) VALUES (:maturityecusoftwarefunctions_id, :suppliers_email, :reason_email, :link)";
+        $sql = "INSERT INTO maturityecusoftwarefunctions_application_test (maturityecusoftwarefunctions_id, assembler_email, email_description, result_file) VALUES (:maturityecusoftwarefunctions_id, :assembler_email, :email_description, :result_file)";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":maturityecusoftwarefunctions_id", $maturityecusoftwarefunctions_id);
-        $sql->bindValue(":suppliers_email", $suppliers_email);
-        $sql->bindValue(":reason_email", $reason_email);
-        $sql->bindValue(":link", $link);
+        $sql->bindValue(":assembler_email", $assembler_email);
+        $sql->bindValue(":email_description", $email_description);
+        $sql->bindValue(":result_file", $result_file);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
@@ -21,31 +21,7 @@ class maturityecusoftwarefunctions_application_test extends Model
             return false;
         }
     }
-
-
-    public function addInfoProvider($maturityecusoftwarefunctions_application_test_id, $assembler_email, $reason_email, $result_file)
-    {
-      
-        $sql = "UPDATE maturityecusoftwarefunctions_application_test 
-        SET assembler_email = :assembler_email, result_file = :result_file, reason_email = :reason_email  WHERE id = :id";
-         
-        $sql = $this->db->prepare($sql);
-        $sql->bindValue(":assembler_email", $assembler_email);
-        $sql->bindValue(":result_file", $result_file);
-        $sql->bindValue(":reason_email", $reason_email);
-        $sql->bindValue(":id", $maturityecusoftwarefunctions_application_test_id);
-        $sql->execute();
-     
-
-        if ($sql->rowCount() > 0) {
-
-            return true;
-        } else {
-          
-            return false;
-        }
-    }  
-
+   
     public function edit($maturityecusoftwarefunctions_application_test_id, $list_ecu_function, $description_function_software, $motivation_applying_function_software, $parameters, $releases_date, $releases_desc, $report1, $report2)
     {
       

@@ -20,23 +20,7 @@
 
 <!-- /Topbar -->
 
-<!-- Content -->
-<?php if (!isset($info_maturityecusoftwarefunctions_application_test) || count($info_maturityecusoftwarefunctions_application_test) <= 0) : ?>
-    <section class="container mb100 mt100 animated fadeIn pt35">
-        <div class="row text-center">
-            <div class="col-md-12" id="modal-content">
-                <div id="animation-switcher" style="margin-top:10px;">
-                    <a class="holder-active" href="#modal-request-supplier">
-                        <button type="button" class="btn btn-info btn-bordered" data-effect="mfp-zoomIn">
-                            <b>SOLICITAR FORNECEDOR</b>
-                        </button>
-                    </a>
-                </div>
-            </div>
-        </div>
 
-    </section>
-<?php else : ?>
     <section id="content" class="animated fadeIn pt35">
         <div class="content-left">
 
@@ -51,7 +35,7 @@
 
                             <!-- FORM 1: Escolha de projeto -->
                             <div class="panel-heading text-center">
-                                <span class="panel-title pn">Teste de aplicação - Fornecedor</span><br>
+                                <span class="panel-title pn">Teste de aplicação</span><br>
                                 <span class="fa fa-circle"></span>
                             </div>
 
@@ -110,11 +94,10 @@
 
                                     <div class="section text-center">
 
-                                        <?php if (isset($info_maturityecusoftwarefunctions_application_test) && $info_maturityecusoftwarefunctions_application_test['link'] != "" && $info_maturityecusoftwarefunctions_application_test['assembler_email'] == "") :
-                                        ?>
+                                        <?php if (count($info_maturityecusoftwarefunctions_application_test) < 0) : ?>
                                             <button type="submit" class="btn btn-primary">Enviar</button>
 
-                                        <?php elseif ($info_maturityecusoftwarefunctions['step_3'] == 1) : ?>
+                                        <?php elseif ($info_maturityecusoftwarefunctions['step_4'] == 1) : ?>
                                             <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/applicationTestDownload?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-primary" title="Clique para abrir o PDF">ETAPA CONCLUÍDA</a> <br> <br>
                                             <?php if (isset($info_maturityecusoftwarefunctions_application_test['result_file'])) : ?>
                                                 <a href="<?= BASE_URL; ?><?= $info_maturityecusoftwarefunctions_application_test['result_file']; ?>" download class="btn btn-info">Resultado </a>
@@ -146,6 +129,8 @@
             <!-- /Column Center -->
         </div>
     </section>
+
+
     <div id="modal-form" class="popup-basic allcp-form mfp-with-anim mfp-hide">
         <div class="panel">
             <div class="panel-heading text-center">
@@ -154,15 +139,15 @@
                 </span>
             </div>
             <!-- /Panel Heading -->
-            <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/application_test" id="form-order" enctype="multipart/form-data">
+            <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/applicationTest" id="form-order" enctype="multipart/form-data">
                 <input type="hidden" value="<?= $_GET['maturityecusoftwarefunctions_id']; ?>" name="maturityecusoftwarefunctions_id">
                 <div class="panel-body">
 
                     <div class="section row">
                         <h6 class="text-center mtn pt10 pb10">Emails do fornecedor</h6>
                         <h6 class="text-muted text-center">Digite corretamente seus emails no campo abaixo, separando por ' ; ' sem espaços.</h6>
-                        <label for="suppliers_email" class="field prepend-icon">
-                            <input type="text" name="suppliers_email" id="suppliers_email" class="gui-input">
+                        <label for="assembler_email" class="field prepend-icon">
+                            <input type="text" name="assembler_email" id="assembler_email" class="gui-input">
                             <span class="field-icon">
                                 <i class="fa fa-envelope"></i>
                             </span>
@@ -188,49 +173,3 @@
         </div>
         <!-- /Panel -->
     </div>
-<?php endif; ?>
-
-
-
-<div id="modal-request-supplier" class="popup-basic allcp-form mfp-with-anim mfp-hide">
-    <div class="panel">
-        <div class="panel-heading text-center">
-            <span class="panel-title">
-                Solicitar resposta do fornecedor.
-            </span>
-        </div>
-        <!-- /Panel Heading -->
-        <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/application_test" id="form-order" enctype="multipart/form-data">
-            <input type="hidden" value="<?= $_GET['maturityecusoftwarefunctions_id']; ?>" name="maturityecusoftwarefunctions_id">
-            <div class="panel-body">
-
-                <div class="section row">
-                    <h6 class="text-center mtn pt10 pb10">Emails do fornecedor</h6>
-                    <h6 class="text-muted text-center">Digite corretamente seus emails no campo abaixo, separando por ' ; ' sem espaços.</h6>
-                    <label for="suppliers_email" class="field prepend-icon">
-                        <input type="text" name="suppliers_email" id="suppliers_email" class="gui-input">
-                        <span class="field-icon">
-                            <i class="fa fa-envelope"></i>
-                        </span>
-                    </label>
-                </div>
-
-                <div class="section row">
-                    <h6 class="text-center mtn pt10 pb10">Descreva o motivo do e-mail:</h6>
-                    <h6 class="text-muted text-center">A mensagem digitada aparecerá no corpo do e-mail.</h6>
-                    <label for="reason_email" class="field prepend-icon">
-                        <textarea type="text" name="reason_email" id="reason_email" class="gui-textarea"></textarea>
-                        <span class="field-icon">
-                            <i class="fa fa-list"></i>
-                        </span>
-                    </label>
-                </div>
-
-                <div class="section text-center">
-                    <button type="submit" class="btn fs14 btn-primary">Enviar</button>
-                </div>
-            </div>
-        </form>
-    </div>
-    <!-- /Panel -->
-</div>
