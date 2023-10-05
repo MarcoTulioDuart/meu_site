@@ -319,6 +319,7 @@ class maturityecusoftwarefunctionsController extends Controller
     $percentual_step = $_GET['percentual_step'];
     $maturityecusoftwarefunctions_id = $_GET['maturityecusoftwarefunctions_id'];
     $maturityecusoftwarefunctions->complete_stage($current_stage, $percentual_step, $maturityecusoftwarefunctions_id);
+   
     header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
     exit;
   }
@@ -424,7 +425,7 @@ class maturityecusoftwarefunctionsController extends Controller
     }
 
     if (isset($_POST['suppliers_email']) && !empty($_POST['maturityecusoftwarefunctions_id'])) {
-
+     
       $suppliers_email = (isset($_POST['suppliers_email'])) ? addslashes($_POST['suppliers_email']) : "";
       $maturityecusoftwarefunctions_id = addslashes($_POST['maturityecusoftwarefunctions_id']);
       $reason_email = $_POST['reason_email'];
@@ -553,8 +554,9 @@ class maturityecusoftwarefunctionsController extends Controller
 
   /* ----------- Testes em Hill no fornecedor ou montadora -------------------*/
 
-  public function hill_tests_supapplication_testplier_assembler()
+  public function hillTestsSupplierAssembler()
   {
+   
     $data = array();
     $accounts = new accounts();
     $site = new site();
@@ -572,6 +574,8 @@ class maturityecusoftwarefunctionsController extends Controller
       unset($_COOKIE['error']);
     }
 
+   
+
     if (isset($_POST['suppliers_email']) && !empty($_POST['reason_email'])) {
 
       $suppliers_email = (isset($_POST['suppliers_email'])) ? addslashes($_POST['suppliers_email']) : "";
@@ -585,7 +589,7 @@ class maturityecusoftwarefunctionsController extends Controller
         foreach ($suppliers_email_individual as $key => $value) {
           $name = explode("@", $value);
           $email = $value;
-          $subject = "Testes unitários ou conceito - Maturidade de ECU's, Softwares e Funções | Protsa";
+          $subject = "Testes em Hill no fornecedor ou montadora - Maturidade de ECU's, Softwares e Funções | Protsa";
           $message =
             "<b>Descrição: </b>" . $reason_email . "<br> <br>" .
             $link;
@@ -626,7 +630,7 @@ class maturityecusoftwarefunctionsController extends Controller
         foreach ($email_responsible_name as $key => $value) {
           $name = explode("@", $value);
           $email = $value;
-          $subject = "Testes unitários ou conceito - Maturidade de ECU's, Softwares e Funções | Protsa";
+          $subject = "Testes em Hill no fornecedor ou montadora - Maturidade de ECU's, Softwares e Funções | Protsa";
           $message =
             "<b>Descrição: </b>" . $email_description . "<br> <br>" .
             "<a target='_blank' href='" . BASE_URL . "maturityecusoftwarefunctions/hill_tests_supplier_assembler?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id'] . "'>Clique para visualizar.</a>";
@@ -649,7 +653,7 @@ class maturityecusoftwarefunctionsController extends Controller
         foreach ($email_responsible_name as $key => $value) {
           $name = explode("@", $value);
           $email = $value;
-          $subject = "Testes unitários ou conceito - Maturidade de ECU's, Softwares e Funções | Protsa";
+          $subject = "Testes em Hill no fornecedor ou montadora - Maturidade de ECU's, Softwares e Funções | Protsa";
           $message =
             "<b>Motivo da reprovação: </b>" . $reason_rejection . "<br> <br>" .
             "<a target='_blank' href='" . BASE_URL . "maturityecusoftwarefunctions/hill_tests_supplier_assembler?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id'] . "'>Clique no Link para responder</a>";
@@ -815,6 +819,133 @@ class maturityecusoftwarefunctionsController extends Controller
 
     ob_start(); //inicia a inclusão da view na memória
     $this->loadTemplate("download", "maturityecusoftwarefunctions/application_test/result/provider", $data);
+    $html = ob_get_contents(); //armazena a view invés de mostrar
+    ob_end_clean(); //finaliza a inclusão da view na memória
+
+    $name_file = 'Informações do Fornecedor - Etapa1.pdf';
+    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-L', 'orientation' => 'L']);
+    exit;
+  }
+
+  /* ----------- Testes de homologação -------------------*/
+
+  public function approvalTest()
+  {
+    $data = array();
+    $accounts = new accounts();
+    $site = new site();
+    $maturityecusoftwarefunctions_approval_test = new maturityecusoftwarefunctions_approval_test();
+    $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
+
+    $data['page'] = 'maturityecusoftwarefunctions';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
+    }
+
+    if (isset($_COOKIE['error']) && !empty($_COOKIE['error'])) {
+      unset($_COOKIE['error']);
+    }
+
+    if (isset($_POST['assembler_email']) && !empty($_POST['email_description'])) {
+    
+      $assembler_email = (isset($_POST['assembler_email'])) ? addslashes($_POST['assembler_email']) : "";
+      $maturityecusoftwarefunctions_id = addslashes($_POST['maturityecusoftwarefunctions_id']);
+      $email_description = $_POST['email_description'];
+      
+      if ($_FILES['result_file']['full_path'] != "") {
+        $upload = $_FILES['result_file']; //pega todos os campos que contem um arquivo enviado
+        $dir = "assets/upload/approval_test/result_file/"; //endereço da pasta pra onde serão enviados os arquivos
+        $location = "Location: " . BASE_URL . "maturityecusoftwarefunctions/approval_test?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id;
+        //envia os arquivo para a pasta determinada      
+        $result_file = $site->uploadPdf($dir, $upload, $location);
+      } else if (isset($data['info_maturityecusoftwarefunctions_approval_test']) && count($data['info_maturityecusoftwarefunctions_approval_test']) > 0) {
+        $result_file = $data['info_maturityecusoftwarefunctions_approval_test']['result_file'];
+      } else {
+        $result_file = "";
+      }
+      
+      
+      if ($assembler_email != "") {
+        $assembler_email_individual = explode(";", $assembler_email);
+        if (isset($_POST['type_form']) && $_POST['type_form'] == "edit") {
+          $data['info_maturityecusoftwarefunctions_approval_test'] = $maturityecusoftwarefunctions_approval_test->getByMaturityEcuSoftwareFunctions_id($_POST['maturityecusoftwarefunctions_id']);
+          $maturityecusoftwarefunctions_approval_test->edit($data['info_maturityecusoftwarefunctions_approval_test']['id'], $assembler_email, $email_description, $result_file);
+        } else {
+          $maturityecusoftwarefunctions_approval_test->add($maturityecusoftwarefunctions_id, $assembler_email, $email_description, $result_file);
+        }
+        
+  
+        foreach ($assembler_email_individual as $key => $value) {
+          $name = explode("@", $value);
+          $email = $value;
+          $subject = "Testes de Homologação | Protsa";
+          $message =
+            "<b>Descrição: </b>" . $email_description . "<br> <br>";
+
+          $site->sendMessage($email, $name[0], $subject, $message);
+
+          header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $maturityecusoftwarefunctions_id);
+          exit;
+        }
+      }
+    }
+    
+    if (isset($_POST['assembler_email']) && !empty($_POST['reason_rejection'])) {
+    
+      $assembler_email = (isset($_POST['assembler_email'])) ? addslashes($_POST['assembler_email']) : "";
+      $reason_rejection = $_POST['reason_rejection'];
+
+      if ($assembler_email != "") {
+        $email_responsible_name = explode(";", $assembler_email);
+
+        foreach ($email_responsible_name as $key => $value) {
+          $name = explode("@", $value);
+          $email = $value;
+          $subject = "Teste de aplicação | Protsa";
+          $message =
+            "<b>Motivo da reprovação: </b>" . $reason_rejection . "<br> <br>" .
+            "<a target='_blank' href='" . BASE_URL . "maturityecusoftwarefunctions/approval_test?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id'] . "'>Clique no Link para visualizar</a>";
+
+          $site->sendMessage($email, $name[0], $subject, $message);
+          header("Location: " . BASE_URL . "maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=" . $_POST['maturityecusoftwarefunctions_id']);
+          exit;
+        }
+      }
+    }
+
+    $data['info_maturityecusoftwarefunctions_approval_test'] = $maturityecusoftwarefunctions_approval_test->getByMaturityEcuSoftwareFunctions_id($_GET['maturityecusoftwarefunctions_id']);
+    $data['info_maturityecusoftwarefunctions'] = $maturityecusoftwarefunctions->get($_GET['maturityecusoftwarefunctions_id']);
+
+    $this->loadTemplate("home", "maturityecusoftwarefunctions/approval_test/automaker", $data);
+  }
+
+  public function approvalTestDownload()
+  {
+    $data = array();
+    $accounts = new accounts();
+    $site = new site();
+    $maturityecusoftwarefunctions_approval_test = new maturityecusoftwarefunctions_approval_test();
+    $maturityecusoftwarefunctions = new maturityecusoftwarefunctions();
+
+    $data['page'] = 'maturityecusoftwarefunctions';
+    $id = $_SESSION['proTSA_online'];
+    $data['info_user'] = $accounts->get($id);
+    if (isset($_SESSION['project_protsa'])) {
+      unset($_SESSION['project_protsa']);
+    }
+
+    if (isset($_COOKIE['error']) && !empty($_COOKIE['error'])) {
+      unset($_COOKIE['error']);
+    }
+
+    $data['info_maturityecusoftwarefunctions_approval_test'] = $maturityecusoftwarefunctions_approval_test->getByMaturityEcuSoftwareFunctions_id($_GET['maturityecusoftwarefunctions_id']);
+    $data['info_maturityecusoftwarefunctions'] = $maturityecusoftwarefunctions->get($_GET['maturityecusoftwarefunctions_id']);
+
+
+    ob_start(); //inicia a inclusão da view na memória
+    $this->loadTemplate("download", "maturityecusoftwarefunctions/approval_test/result/provider", $data);
     $html = ob_get_contents(); //armazena a view invés de mostrar
     ob_end_clean(); //finaliza a inclusão da view na memória
 

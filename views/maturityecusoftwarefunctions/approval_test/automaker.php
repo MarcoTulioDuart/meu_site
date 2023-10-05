@@ -13,7 +13,7 @@
             <li class="breadcrumb-current-item">
                 <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/chooseStep?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>">Maturidade de ECU's, Softwares e Funções - ETAPAS</a>
             </li>
-            <li class="breadcrumb-current-item">Teste de aplicação</li>
+            <li class="breadcrumb-current-item">Testes de Homologação</li>
         </ol>
     </div>
 </header>
@@ -35,11 +35,11 @@
 
                             <!-- FORM 1: Escolha de projeto -->
                             <div class="panel-heading text-center">
-                                <span class="panel-title pn">Teste de aplicação</span><br>
+                                <span class="panel-title pn">Testes de Homologação</span><br>
                                 <span class="fa fa-circle"></span>
                             </div>
 
-                            <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/applicationTest" id="form-order" enctype="multipart/form-data">
+                            <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/approvalTest" id="form-order" enctype="multipart/form-data">
                                 <div class="panel-body pn">
                                     <input type="hidden" name="maturityecusoftwarefunctions_id" value="<?= $_GET['maturityecusoftwarefunctions_id']; ?>">
 
@@ -47,7 +47,7 @@
                                         <p class="fs14">Informe os e-mails:</p>
                                         <div class="col-md-12 ph10 mb5">
                                             <label for="assembler_email" class="field prepend-icon">
-                                                <input type="text" name="assembler_email" id="assembler_email" class="gui-input" placeholder="Separe com ; (ponto e vírgula) os e-mails." required value="<?= (isset($info_maturityecusoftwarefunctions_application_test['assembler_email'])) ? $info_maturityecusoftwarefunctions_application_test['assembler_email'] : ""; ?>">
+                                                <input type="text" name="assembler_email" id="assembler_email" class="gui-input" placeholder="Separe com ; (ponto e vírgula) os e-mails." required value="<?= (isset($info_maturityecusoftwarefunctions_approval_test['assembler_email'])) ? $info_maturityecusoftwarefunctions_approval_test['assembler_email'] : ""; ?>">
                                                 <span class="field-icon">
                                                     <i class="fa fa-file"></i>
                                                 </span>
@@ -62,7 +62,7 @@
                                             <label for="email_description" class="field prepend-icon">
 
                                                 <textarea name="email_description" id="email_description" cols="30" rows="10" class="gui-textarea" placeholder="Descreva em até duas linhas:" required>
-                                            <?= (isset($info_maturityecusoftwarefunctions_application_test['reason_email'])) ? $info_maturityecusoftwarefunctions_application_test['reason_email'] : ""; ?>
+                                            <?= (isset($info_maturityecusoftwarefunctions_approval_test['email_description'])) ? $info_maturityecusoftwarefunctions_approval_test['email_description'] : ""; ?>
                                             </textarea>
                                                 <span class="field-icon">
                                                     <i class="fa fa-list"></i>
@@ -82,7 +82,7 @@
 
                                                     <input type="file" name="result_file" class="gui-file" onchange="document.getElementById('result_file').value = this.value;" accept=".png, .pdf, .jpeg, .jpg, .doc, .docx, .xls, .xlsx">
 
-                                                    <input type="text" id="result_file" name="result_file" class="gui-input fluid-width" placeholder="selecione um arquivo" value="<?= (isset($info_maturityecusoftwarefunctions_application_test['result_file'])) ? $info_maturityecusoftwarefunctions_application_test['result_file'] : ""; ?>">
+                                                    <input type="text" id="result_file" name="result_file" class="gui-input fluid-width" placeholder="selecione um arquivo" value="<?= (isset($info_maturityecusoftwarefunctions_approval_test['result_file'])) ? $info_maturityecusoftwarefunctions_approval_test['result_file'] : ""; ?>">
                                                     <i class="fa fa-upload"></i>
                                                 </label>
 
@@ -94,19 +94,19 @@
 
                                     <div class="section text-center">
 
-                                        <?php if (count($info_maturityecusoftwarefunctions_application_test) <= 0) : ?>
+                                        <?php if (count($info_maturityecusoftwarefunctions_approval_test) <= 0) : ?>
                                             <button type="submit" class="btn btn-primary">Enviar</button>
 
-                                        <?php elseif ($info_maturityecusoftwarefunctions['step_4'] == 1) : ?>
-                                            <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/applicationTestDownload?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-primary" title="Clique para abrir o PDF">ETAPA CONCLUÍDA</a> <br> <br>
-                                            <?php if (isset($info_maturityecusoftwarefunctions_application_test['result_file'])) : ?>
-                                                <a href="<?= BASE_URL; ?><?= $info_maturityecusoftwarefunctions_application_test['result_file']; ?>" download class="btn btn-info">Resultado </a>
+                                        <?php elseif ($info_maturityecusoftwarefunctions['step_6'] == 1) : ?>
+                                            <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/approvalTestDownload?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-primary" title="Clique para abrir o PDF">ETAPA CONCLUÍDA</a> <br> <br>
+                                            <?php if (isset($info_maturityecusoftwarefunctions_approval_test['result_file'])) : ?>
+                                                <a href="<?= BASE_URL; ?><?= $info_maturityecusoftwarefunctions_approval_test['result_file']; ?>" download class="btn btn-info">Resultado </a>
                                             <?php endif; ?>
 
-                                        <?php elseif (count($info_maturityecusoftwarefunctions_application_test) > 0) : ?>
+                                        <?php elseif (count($info_maturityecusoftwarefunctions_approval_test) > 0) : ?>
                                             <input type="hidden" name="type_form" value="edit">
                                             <button type="submit" class="btn btn-primary">Atualizar</button>
-                                            <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/complete_stage?step=step_4&percentual_step=20&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-info">Aprovar</a>
+                                            <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/complete_stage?step=step_6&percentual_step=20&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-info">Aprovar</a>
                                             <div id="animation-switcher" style="margin-top:10px;">
                                                 <a class="holder-active" href="#modal-form">
                                                     <button type="button" class="btn btn-danger btn-bordered" data-effect="mfp-zoomIn">
@@ -140,7 +140,7 @@
                 </span>
             </div>
             <!-- /Panel Heading -->
-            <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/applicationTest" id="form-order" enctype="multipart/form-data">
+            <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/approvalTest" id="form-order" enctype="multipart/form-data">
                 <input type="hidden" value="<?= $_GET['maturityecusoftwarefunctions_id']; ?>" name="maturityecusoftwarefunctions_id">
                 <div class="panel-body">
 
