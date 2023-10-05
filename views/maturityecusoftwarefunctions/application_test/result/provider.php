@@ -23,7 +23,7 @@
                             <div class="section row">
                                 <h4 class="fs14">Informe os e-mails:</h4>
                                 <div class="col-md-12 ph10 mb5">
-                                    <?= $info_maturityecusoftwarefunctions_hill_tests_supplier_assembler['assembler_email']; ?>
+                                    <?= $info_maturityecusoftwarefunctions_application_test['assembler_email']; ?>
 
                                 </div>
                             </div>
@@ -32,7 +32,7 @@
                             <div class="section row">
                                 <h4 class="mb15">Conteúdo do e-mail:</h4>
                                 <div class="col-md-12 ph10 mb5">
-                                    <?= $info_maturityecusoftwarefunctions_hill_tests_supplier_assembler['reason_email']; ?>
+                                    <?= $info_maturityecusoftwarefunctions_application_test['email_description']; ?>
 
                                 </div>
                             </div>

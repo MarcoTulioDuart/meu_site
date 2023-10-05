@@ -62,7 +62,7 @@
                                             <label for="email_description" class="field prepend-icon">
 
                                                 <textarea name="email_description" id="email_description" cols="30" rows="10" class="gui-textarea" placeholder="Descreva em até duas linhas:" required>
-                                            <?= (isset($info_maturityecusoftwarefunctions_application_test['reason_email'])) ? $info_maturityecusoftwarefunctions_application_test['reason_email'] : ""; ?>
+                                            <?= (isset($info_maturityecusoftwarefunctions_application_test['email_description'])) ? $info_maturityecusoftwarefunctions_application_test['email_description'] : ""; ?>
                                             </textarea>
                                                 <span class="field-icon">
                                                     <i class="fa fa-list"></i>
@@ -99,7 +99,7 @@
 
                                         <?php elseif ($info_maturityecusoftwarefunctions['step_4'] == 1) : ?>
                                             <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/applicationTestDownload?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-primary" title="Clique para abrir o PDF">ETAPA CONCLUÍDA</a> <br> <br>
-                                            <?php if (isset($info_maturityecusoftwarefunctions_application_test['result_file'])) : ?>
+                                            <?php if (isset($info_maturityecusoftwarefunctions_application_test['result_file']) && $info_maturityecusoftwarefunctions_application_test['result_file'] != "") : ?>
                                                 <a href="<?= BASE_URL; ?><?= $info_maturityecusoftwarefunctions_application_test['result_file']; ?>" download class="btn btn-info">Resultado </a>
                                             <?php endif; ?>
 

@@ -732,6 +732,7 @@ class maturityecusoftwarefunctionsController extends Controller
       $assembler_email = (isset($_POST['assembler_email'])) ? addslashes($_POST['assembler_email']) : "";
       $maturityecusoftwarefunctions_id = addslashes($_POST['maturityecusoftwarefunctions_id']);
       $email_description = $_POST['email_description'];
+      $data['info_maturityecusoftwarefunctions_application_test'] = $maturityecusoftwarefunctions_application_test->getByMaturityEcuSoftwareFunctions_id($_POST['maturityecusoftwarefunctions_id']);
 
       if ($_FILES['result_file']['full_path'] != "") {
         $upload = $_FILES['result_file']; //pega todos os campos que contem um arquivo enviado
@@ -748,7 +749,13 @@ class maturityecusoftwarefunctionsController extends Controller
 
       if ($assembler_email != "") {
         $assembler_email_individual = explode(";", $assembler_email);
-        $maturityecusoftwarefunctions_application_test->add($maturityecusoftwarefunctions_id, $assembler_email, $email_description, $result_file);
+        if (isset($_POST['type_form']) && $_POST['type_form'] == "edit") {
+          
+          $maturityecusoftwarefunctions_application_test->edit($data['info_maturityecusoftwarefunctions_application_test']['id'], $assembler_email, $email_description, $result_file);
+        } else {
+          $maturityecusoftwarefunctions_application_test->add($maturityecusoftwarefunctions_id, $assembler_email, $email_description, $result_file);
+        }
+        
         
         foreach ($assembler_email_individual as $key => $value) {
           $name = explode("@", $value);
@@ -853,7 +860,7 @@ class maturityecusoftwarefunctionsController extends Controller
       $assembler_email = (isset($_POST['assembler_email'])) ? addslashes($_POST['assembler_email']) : "";
       $maturityecusoftwarefunctions_id = addslashes($_POST['maturityecusoftwarefunctions_id']);
       $email_description = $_POST['email_description'];
-      
+      $data['info_maturityecusoftwarefunctions_approval_test'] = $maturityecusoftwarefunctions_approval_test->getByMaturityEcuSoftwareFunctions_id($_POST['maturityecusoftwarefunctions_id']);
       if ($_FILES['result_file']['full_path'] != "") {
         $upload = $_FILES['result_file']; //pega todos os campos que contem um arquivo enviado
         $dir = "assets/upload/approval_test/result_file/"; //endereço da pasta pra onde serão enviados os arquivos
@@ -869,8 +876,7 @@ class maturityecusoftwarefunctionsController extends Controller
       
       if ($assembler_email != "") {
         $assembler_email_individual = explode(";", $assembler_email);
-        if (isset($_POST['type_form']) && $_POST['type_form'] == "edit") {
-          $data['info_maturityecusoftwarefunctions_approval_test'] = $maturityecusoftwarefunctions_approval_test->getByMaturityEcuSoftwareFunctions_id($_POST['maturityecusoftwarefunctions_id']);
+        if (isset($_POST['type_form']) && $_POST['type_form'] == "edit") {          
           $maturityecusoftwarefunctions_approval_test->edit($data['info_maturityecusoftwarefunctions_approval_test']['id'], $assembler_email, $email_description, $result_file);
         } else {
           $maturityecusoftwarefunctions_approval_test->add($maturityecusoftwarefunctions_id, $assembler_email, $email_description, $result_file);
