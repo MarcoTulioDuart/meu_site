@@ -119,7 +119,7 @@
                                     </div>
                                     <hr>
                                     <div class="section row text-center">
-                                        <a href="<?= BASE_URL; ?>failsafetest/all_results_download?safe_test_id=<?= $_GET['safe_test_id']; ?>" class="btn btn-primary btn-bordered">Download</a>
+                                        <a href="<?= BASE_URL; ?>failsafetest/download_all_result?safe_test_id=<?= $_GET['safe_test_id']; ?>" class="btn btn-primary btn-bordered">Download</a>
                                     </div>
                                 <?php else : ?>
                                     <form action="<?= BASE_URL; ?>failsafetest/add_graphic_upload?safe_test_id=<?= $_GET['safe_test_id']; ?>" method="post" enctype="multipart/form-data">

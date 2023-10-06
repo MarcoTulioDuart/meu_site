@@ -138,24 +138,26 @@
                 <div class="section">
                     <h6 class="text-center">Envie os arquivos necessários para a reunião *</h6>
                     <div class="section row">
-                        <h6 class="text-center text-muted">Selecione o PDF do primeiro resultado do Ecu que você quer analisar na reunião</h6>
-                        <label class="field prepend-icon file mb20 mt10">
+                        <?php foreach ($list_info as $key => $value) : ?>
+                            <label class="field prepend-icon file mb20 mt10">
+                            <h6 class="text-center text-muted">Selecione os PDF do primeiro resultado referente a ECU <?= $value['fc_ecu']; ?></h6>
+                                <input type="file" name="results[]" class="gui-file" onchange="document.getElementById('uploader_<?= $key; ?>').value = this.value;">
 
-                            <input type="file" name="pdf_first_result" class="gui-file" onchange="document.getElementById('uploader').value = this.value;">
+                                <input type="text" id="uploader_<?= $key; ?>" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                                <i class="fa fa-upload"></i>
 
-                            <input type="text" id="uploader" class="gui-input fluid-width" placeholder="selecione um arquivo">
-                            <i class="fa fa-upload"></i>
+                            </label>
+                        <?php endforeach; ?>
 
-                        </label>
                     </div>
 
                     <div class="section row">
                         <h6 class="text-center text-muted">Selecione o PDF do segundo resultado que você baixou</h6>
                         <label class="field prepend-icon file mb20 mt10">
 
-                            <input type="file" name="pdf_second_result" class="gui-file" onchange="document.getElementById('uploader2').value = this.value;">
+                            <input type="file" name="results[]" class="gui-file" onchange="document.getElementById('uploader4').value = this.value;">
 
-                            <input type="text" id="uploader2" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                            <input type="text" id="uploader4" class="gui-input fluid-width" placeholder="selecione um arquivo">
                             <i class="fa fa-upload"></i>
 
                         </label>
@@ -164,9 +166,9 @@
                         <h6 class="text-center text-muted">Selecione a imagem do Gráfico que você baixou</h6>
                         <label class="field prepend-icon file mb20 mt10">
 
-                            <input type="file" name="graphic_result" class="gui-file" onchange="document.getElementById('uploader3').value = this.value;">
+                            <input type="file" name="results[]" class="gui-file" onchange="document.getElementById('uploader5').value = this.value;">
 
-                            <input type="text" id="uploader3" class="gui-input fluid-width" placeholder="selecione um arquivo">
+                            <input type="text" id="uploader5" class="gui-input fluid-width" placeholder="selecione um arquivo">
                             <i class="fa fa-upload"></i>
 
                         </label>

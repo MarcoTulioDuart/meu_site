@@ -633,8 +633,10 @@ class failsafetestController extends Controller
     $fail_safe_id = $_GET['fail_safe_id'];
 
     $list_test_ecu = new list_test_ecu();
+    $list_basic_info = new list_basic_info();
 
     $data['graphic_result'] = $list_test_ecu->getSolutions($fail_safe_id);
+    $data['list_info'] = $list_basic_info->getAllEcus($fail_safe_id);
 
     //template, view, data
     $this->loadTemplate("home", "fail_safe_test/graphic_view", $data);
@@ -642,18 +644,17 @@ class failsafetestController extends Controller
 
   public function meeting()
   {
+    $fail_safe_id = $_GET['fail_safe_id'];
+    $site = new site();
+    $list_basic_info = new list_basic_info();
+
+    $list_info = $list_basic_info->getAllEcus($fail_safe_id);
 
     if (!empty($_POST['title']) && !empty($_POST['date_meeting'])) {
       $title = addslashes($_POST['title']);
       $date_meeting = addslashes($_POST['date_meeting']);
-
-      $site = new site();
-
-      $attachmens = [
-        $_FILES['pdf_first_result'],
-        $_FILES['pdf_second_result'],
-        $_FILES['graphic_result'],
-      ];
+      
+      $attachmens = $_FILES['results'];
 
       if (isset($_POST['participant']) && !empty($_POST['participant'])) {
         $participants = addslashes($_POST['participant']);
@@ -746,8 +747,6 @@ class failsafetestController extends Controller
     }
   }
 
-  //até aqui perfeito
-
   public function all_results()
   {
     //básico
@@ -831,23 +830,33 @@ class failsafetestController extends Controller
     }
   }
 
-  public function download_first_result()
+  public function download_all_result()
   {
     $data  = array();
 
     $data['page'] = 'first_result';
     $site = new site();
-    $list_parameters_vehicles = new list_parameters_vehicles();
-    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
 
-    $data['list_classification_vehicles'] = $list_parameters_vehicles->getAllProcess($parameters_integration_id);
+    $safe_test_id = $_GET['safe_test_id'];
+
+    $list_test_ecu = new list_test_ecu();
+
+    $data['result_ecu'] = $list_test_ecu->getAllResults($safe_test_id);
+    
+    $list_test_vehicle = new list_test_vehicle();
+
+    $data['vehicles_result'] = $list_test_vehicle->getAllResults($safe_test_id);
+
+    $fail_safe_test = new fail_safe_test();
+
+    $data['graphic_image'] = $fail_safe_test->getGraphic($safe_test_id);
 
     ob_start(); //inicia a inclusão da view na memória
-    $this->loadTemplate("download", "parameters_integration/downloads/first_download", $data);
+    $this->loadTemplate("download", "fail_safe_test/downloads/all_results_download", $data);
     $html = ob_get_contents(); //armazena a view invés de mostrar
     ob_end_clean(); //finaliza a inclusão da view na memória
 
-    $name_file = 'primeiro-resultado-Modulo-4.pdf';
+    $name_file = 'todos-os-resultados-Modulo-6.pdf';
     $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-P', 'orientation' => 'P']);
     exit;
   }
@@ -887,51 +896,22 @@ class failsafetestController extends Controller
       unset($_SESSION['parameters_project_id_proTSA']);
     }
 
-    //fim do básico
+     //fim do básico
+
+     $safe_test_id = $_GET['safe_test_id'];
+
+     $list_test_ecu = new list_test_ecu();
+ 
+     $data['graphic_result'] = $list_test_ecu->getSolutions($safe_test_id);
 
 
     //template, view, data
-    $this->loadTemplate("home", "fail_safe_test/process_results/choose_format", $data);
+    $this->loadTemplate("home", "fail_safe_test/process_results/dynamic_graphic", $data);
   }
 
-  public function second_download()
-  {
-    $data  = array();
+  //até aqui perfeito
 
-    $data['page'] = 'first_result';
-
-    //fim do básico
-    $site = new site();
-
-    $list_parameters_compare = new list_parameters_compare();
-    $project_id = $_SESSION['parameters_project_id_proTSA'];
-    $parameters_integration_id = $_SESSION['parameters_id_proTSA'];
-
-    if ($_GET['format'] == "like") {
-      $data['title_format'] = "em comum";
-
-      $format = 'IN';
-
-      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
-    } elseif ($_GET['format'] == "unlike") {
-      $data['title_format'] = "diferentes";
-
-      $format = "NOT IN";
-
-      $data['list_parameters'] = $list_parameters_compare->getResultParameters($parameters_integration_id, $project_id, $format);
-    }
-
-    ob_start(); //inicia a inclusão da view na memória
-    $this->loadTemplate("download", "parameters_integration/downloads/second_download", $data);
-    $html = ob_get_contents(); //armazena a view invés de mostrar
-    ob_end_clean(); //finaliza a inclusão da view na memória
-
-    $name_file = 'segundo-resultado-Modulo-4.pdf';
-    $site->create_PDF($html, $name_file, ['mode' => 'utf-8', 'format' => 'A4-L', 'orientation' => 'L']);
-    exit;
-  }
-
-  public function send_workshop()
+  public function workshop_meeting()
   {
     //básico
     if (!isset($_SESSION['proTSA_online'])) {
@@ -968,6 +948,31 @@ class failsafetestController extends Controller
 
     //fim do básico
 
+    $safe_test_id = $_GET['safe_test_id'];
+
+    $list_basic_info = new list_basic_info();
+    $list_test_ecu = new list_test_ecu();
+
+    $data['list_info'] = $list_basic_info->getAllEcus($safe_test_id);
+
+    if (isset($_GET['basic_info_id']) && !empty($_GET['basic_info_id'])) {
+      $basic_info_id = $_GET['basic_info_id'];
+      $name_ecu = $list_basic_info->get($basic_info_id);
+
+      $data['selected'] = $name_ecu['ecu_name'];
+      $data['code'] = $list_test_ecu->getResultEcu($safe_test_id, $basic_info_id);
+    }
+
     $this->loadTemplate("home", "fail_safe_test/process_results/workshop_meeting", $data);
+  }
+
+  public function send_workshop()
+  {
+    $safe_test_id = $_GET['safe_test_id'];
+
+    $fail_code = new fail_code();
+
+
+
   }
 }
