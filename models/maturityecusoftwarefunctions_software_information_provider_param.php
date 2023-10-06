@@ -6,7 +6,6 @@ class maturityecusoftwarefunctions_software_information_provider_param extends M
      
     public function add($maturityecusoftwarefunctions_software_informations_providers_id, $pid, $fragment, $values_p)
     {
-        echo "<pre>";
         $sql = "INSERT INTO maturityecusoftwarefunctions_software_information_provider_param (maturityecusoftwarefunctions_software_informations_providers_id, pid, fragment, values_p) VALUES (:maturityecusoftwarefunctions_software_informations_providers_id, :pid, :fragment, :values_p)";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":maturityecusoftwarefunctions_software_informations_providers_id", $maturityecusoftwarefunctions_software_informations_providers_id);

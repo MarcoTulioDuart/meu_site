@@ -11,6 +11,7 @@
                 <a href="<?= BASE_URL; ?>home/home_page">Início</a>
             </li>
             <li class="breadcrumb-current-item">Maturidade de ECU's, Softwares e Funções</li>
+            <li class="breadcrumb-current-item">Resultado</li>
         </ol>
     </div>
 </header>
@@ -30,57 +31,52 @@
                 <div class="allcp-form tab-pane mw1000 mauto" id="order" role="tabpanel">
                     <div class="panel" id="shortcut">
 
-                        <div class="panel-heading text-center">
-                            <span class="panel-title pn">Escolha maturidade: </span><br>
-                            <span class="fa fa-circle"></span>
-                        </div>
+                        <!-- FORM 1: Escolha de projeto -->
+                        <?php if (!isset($_GET['form'])) : ?>
+                            <div class="panel-heading text-center">
+                                <span class="panel-title pn">Escolha um projeto</span><br>
+                                <span class="fa fa-circle"></span>
+                            </div>
 
-                        <?php if (!isset($info_maturity_ecu_software_functions) || $info_maturity_ecu_software_functions <= 0) : ?>
-                            <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/addMaturity?project_id=<?= $_GET['project_id']; ?>" class="btn fs14 btn-info">CRIAR</a>
-                        <?php else : ?>
-                            <form action="<?= BASE_URL; ?>maturityecusoftwarefunctions/chooseMaturity" id="form-order">
+                            <form action="<?= BASE_URL; ?>maturityecusoftwarefunctions/chooseProjectResults" id="form-order">
                                 <div class="panel-body pn">
                                     <div class="section row">
                                         <div class="col-md-12 ph10 mb5">
-                                            <label for="maturityecusoftwarefunctions_id" class="field select">
+                                            <label for="project_id" class="field select">
 
-                                                <select name="maturityecusoftwarefunctions_id" id="maturityecusoftwarefunctions_id" class="gui-input" required>
-                                                    <?php foreach ($info_maturity_ecu_software_functions as $value) : ?>
-                                                        <option value="<?= $value['id']; ?>">Maturidade #<?= $value['id']; ?> criada em: <?= date('d/m/Y H:i:s', strtotime($value['creation_date'])); ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
+                                                <?php if ($list_projects == 0) : ?>
+                                                    <p class="gui-input text-center">Você não está participando de nenhum
+                                                        projeto</p>
+                                                <?php else : ?>
+                                                    <select name="project_id" id="project_id" class="gui-input" required>
+
+                                                        <?php foreach ($list_projects as $value) : ?>
+
+                                                            <option value="<?= $value['id']; ?>"><?= $value['pro_name']; ?></option>
+
+                                                        <?php endforeach; ?>
+
+                                                    </select>
+                                                <?php endif; ?>
 
                                             </label>
                                         </div>
                                     </div>
                                     <!-- /section -->
                                     <div class="section text-center">
-                                        <button type="submit" class="btn fs14 btn-primary">Próximo</button>
+                                        <?php if ($list_projects != 0) : ?>
+                                            <button type="submit" class="btn fs14 btn-primary">Próximo</button>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 <!-- /Panel Body -->
                             </form>
                         <?php endif; ?>
 
-
-                        <?php if (isset($info_maturity_ecu_software_functions) && $info_maturity_ecu_software_functions != 0) : ?>
-                            <!-- /section -->
-                            <div class="section text-center">
-
-                            </div>
-
-                        <?php endif; ?>
-
                     </div>
-
-
                     <!-- /Panel -->
                 </div>
             </div>
-
-
-
-
 
         </div>
         <!-- /Column Center -->
