@@ -405,7 +405,7 @@ class maturityecusoftwarefunctionsController extends Controller
 
   /* ----------- TESTE UNITÁRIOS OU CONCEITO -------------------*/
 
-  public function unit_concept_tests_provider()
+  public function unitConceptTestsProvider()
   {
     $data = array();
     $accounts = new accounts();

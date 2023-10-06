@@ -55,7 +55,7 @@
                                 <span class="fa fa-circle"></span>
                             </div>
 
-                            <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/unit_concept_tests_provider" id="form-order" enctype="multipart/form-data">
+                            <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/unitConceptTestsProvider" id="form-order" enctype="multipart/form-data">
                                 <div class="panel-body pn">
                                     <input type="hidden" name="maturityecusoftwarefunctions_id" value="<?= $_GET['maturityecusoftwarefunctions_id']; ?>">
 
@@ -154,7 +154,7 @@
                 </span>
             </div>
             <!-- /Panel Heading -->
-            <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/unit_concept_tests_provider" id="form-order" enctype="multipart/form-data">
+            <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/unitConceptTestsProvider" id="form-order" enctype="multipart/form-data">
                 <input type="hidden" value="<?= $_GET['maturityecusoftwarefunctions_id']; ?>" name="maturityecusoftwarefunctions_id">
                 <div class="panel-body">
 
@@ -200,7 +200,7 @@
             </span>
         </div>
         <!-- /Panel Heading -->
-        <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/unit_concept_tests_provider" id="form-order" enctype="multipart/form-data">
+        <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/unitConceptTestsProvider" id="form-order" enctype="multipart/form-data">
             <input type="hidden" value="<?= $_GET['maturityecusoftwarefunctions_id']; ?>" name="maturityecusoftwarefunctions_id">
             <div class="panel-body">
 
