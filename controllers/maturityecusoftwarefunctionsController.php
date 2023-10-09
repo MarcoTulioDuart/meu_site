@@ -776,12 +776,9 @@ class maturityecusoftwarefunctionsController extends Controller
 
       if ($assembler_email != "") {
         $assembler_email_individual = explode(";", $assembler_email);
-        if (isset($_POST['type_form']) && $_POST['type_form'] == "edit") {
           
           $maturityecusoftwarefunctions_application_test->edit($data['info_maturityecusoftwarefunctions_application_test']['id'], $assembler_email, $email_description, $result_file);
-        } else {
-          $maturityecusoftwarefunctions_application_test->add($maturityecusoftwarefunctions_id, $assembler_email, $email_description, $result_file);
-        }
+       
         
         
         foreach ($assembler_email_individual as $key => $value) {

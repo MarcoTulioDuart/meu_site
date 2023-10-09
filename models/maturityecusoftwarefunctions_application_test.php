@@ -2,14 +2,14 @@
 
 class maturityecusoftwarefunctions_application_test extends Model
 {
-    public function add($maturityecusoftwarefunctions_id, $assembler_email, $email_description, $result_file)
+    public function addLink($maturityecusoftwarefunctions_id, $email_description, $assembler_email, $link)
     {
-        $sql = "INSERT INTO maturityecusoftwarefunctions_application_test (maturityecusoftwarefunctions_id, assembler_email, email_description, result_file) VALUES (:maturityecusoftwarefunctions_id, :assembler_email, :email_description, :result_file)";
+        $sql = "INSERT INTO maturityecusoftwarefunctions_application_test (maturityecusoftwarefunctions_id, assembler_email, email_description, link) VALUES (:maturityecusoftwarefunctions_id, :assembler_email, :email_description, :link)";
         $sql = $this->db->prepare($sql);
         $sql->bindValue(":maturityecusoftwarefunctions_id", $maturityecusoftwarefunctions_id);
         $sql->bindValue(":assembler_email", $assembler_email);
         $sql->bindValue(":email_description", $email_description);
-        $sql->bindValue(":result_file", $result_file);
+        $sql->bindValue(":link", $link);
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
@@ -20,7 +20,7 @@ class maturityecusoftwarefunctions_application_test extends Model
             return false;
         }
     }
-   
+
     public function edit($maturityecusoftwarefunctions_application_test_id, $assembler_email, $email_description, $result_file)
     {
       
