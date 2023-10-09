@@ -2,7 +2,6 @@
 
 class maturityecusoftwarefunctions_application_test extends Model
 {
-
     public function add($maturityecusoftwarefunctions_id, $assembler_email, $email_description, $result_file)
     {
         $sql = "INSERT INTO maturityecusoftwarefunctions_application_test (maturityecusoftwarefunctions_id, assembler_email, email_description, result_file) VALUES (:maturityecusoftwarefunctions_id, :assembler_email, :email_description, :result_file)";

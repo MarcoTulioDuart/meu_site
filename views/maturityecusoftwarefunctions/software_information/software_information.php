@@ -37,7 +37,7 @@
                             <span class="fa fa-circle"></span>
                         </div>
 
-                        <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information" id="form-order" enctype="multipart/form-data">
+                        <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/softwareInformation" id="form-order" enctype="multipart/form-data">
                             <div class="panel-body pn">
                                 <div class="section row">
                                     <p class="fs14">Informe os e-mails:</p>
@@ -96,11 +96,11 @@
                                     if ($info_maturityecusoftwarefunctions['step_1'] == 1) :
                                     ?>                                        
                                         <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/softwareInformationDownload?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-primary" title="Clique para abrir o PDF">ETAPA CONCLUÍDA</a> 
-                                        <a target="_blank" href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>"  class="btn btn-primary">Fornecedor</a>
+                                        <a target="_blank" href="<?= BASE_URL; ?>maturityecusoftwarefunctions/softwareInformationProvider?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>"  class="btn btn-primary">Fornecedor</a>
                                     <?php elseif(isset($info_maturityecusoftwarefunctions_software_informations['selected_ecu'])): ?>
                                         <input type="hidden" name="type_form" value="edit">
                                         <button type="submit" class="btn btn-primary">Atualizar</button>                                        
-                                        <a target="_blank" href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information_provider?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>"  class="btn btn-primary">Fornecedor</a>
+                                        <a target="_blank" href="<?= BASE_URL; ?>maturityecusoftwarefunctions/softwareInformationProvider?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>"  class="btn btn-primary">Fornecedor</a>
                                     <?php else : ?>
                                         <button type="submit" class="btn btn-primary">Enviar</button>
                                     <?php endif; ?>

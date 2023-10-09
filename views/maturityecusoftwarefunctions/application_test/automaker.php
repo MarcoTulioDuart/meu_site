@@ -19,7 +19,22 @@
 </header>
 
 <!-- /Topbar -->
+<?php if (!isset($maturityecusoftwarefunctions_application_test) || count($maturityecusoftwarefunctions_application_test) <= 0) : ?>
+    <section class="container mb100 mt100 animated fadeIn pt35">
+        <div class="row text-center">
+            <div class="col-md-12" id="modal-content">
+                <div id="animation-switcher" style="margin-top:10px;">
+                    <a class="holder-active" href="#modal-request-supplier">
+                        <button type="button" class="btn btn-info btn-bordered" data-effect="mfp-zoomIn">
+                            <b>SOLICITAR RESPOSTA</b>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
 
+    </section>
+<?php else : ?>
 
     <section id="content" class="animated fadeIn pt35">
         <div class="content-left">
@@ -106,7 +121,7 @@
                                         <?php elseif (count($info_maturityecusoftwarefunctions_application_test) > 0) : ?>
                                             <input type="hidden" name="type_form" value="edit">
                                             <button type="submit" class="btn btn-primary">Atualizar</button>
-                                            <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/complete_stage?step=step_4&percentual_step=20&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-info">Aprovar</a>
+                                            <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/completeStage?step=step_4&percentual_step=20&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-info">Aprovar</a>
                                             <div id="animation-switcher" style="margin-top:10px;">
                                                 <a class="holder-active" href="#modal-form">
                                                     <button type="button" class="btn btn-danger btn-bordered" data-effect="mfp-zoomIn">
@@ -174,3 +189,49 @@
         </div>
         <!-- /Panel -->
     </div>
+<?php endif; ?>
+
+
+
+<div id="modal-request-supplier" class="popup-basic allcp-form mfp-with-anim mfp-hide">
+    <div class="panel">
+        <div class="panel-heading text-center">
+            <span class="panel-title">
+                Solicitar resposta.
+            </span>
+        </div>
+        <!-- /Panel Heading -->
+        <form method="post" action="<?= BASE_URL; ?>maturityecusoftwarefunctions/applicationTest" id="form-order" enctype="multipart/form-data">
+            <input type="hidden" value="<?= $_GET['maturityecusoftwarefunctions_id']; ?>" name="maturityecusoftwarefunctions_id">
+            <div class="panel-body">
+
+                <div class="section row">
+                    <h6 class="text-center mtn pt10 pb10">Emails:</h6>
+                    <h6 class="text-muted text-center">Digite corretamente seus emails no campo abaixo, separando por ' ; ' sem espaços.</h6>
+                    <label for="assembler_email" class="field prepend-icon">
+                        <input type="text" name="assembler_email" id="assembler_email" class="gui-input">
+                        <span class="field-icon">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="section row">
+                    <h6 class="text-center mtn pt10 pb10">Descreva o motivo do e-mail:</h6>
+                    <h6 class="text-muted text-center">A mensagem digitada aparecerá no corpo do e-mail.</h6>
+                    <label for="reason_email" class="field prepend-icon">
+                        <textarea type="text" name="reason_email" id="reason_email" class="gui-textarea"></textarea>
+                        <span class="field-icon">
+                            <i class="fa fa-list"></i>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="section text-center">
+                    <button type="submit" class="btn fs14 btn-primary">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- /Panel -->
+</div>

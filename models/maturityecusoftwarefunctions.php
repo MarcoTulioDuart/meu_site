@@ -149,7 +149,7 @@ class maturityecusoftwarefunctions extends Model
         }
     }
 
-    public function complete_stage($current_stage, $percentual_step, $maturityecusoftwarefunctions_id)
+    public function completeStage($current_stage, $percentual_step, $maturityecusoftwarefunctions_id)
     {
       
         $sql = "UPDATE maturityecusoftwarefunctions 

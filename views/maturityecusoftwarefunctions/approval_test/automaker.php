@@ -106,7 +106,7 @@
                                         <?php elseif (count($info_maturityecusoftwarefunctions_approval_test) > 0) : ?>
                                             <input type="hidden" name="type_form" value="edit">
                                             <button type="submit" class="btn btn-primary">Atualizar</button>
-                                            <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/complete_stage?step=step_6&percentual_step=20&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-info">Aprovar</a>
+                                            <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/completeStage?step=step_6&percentual_step=20&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-info">Aprovar</a>
                                             <div id="animation-switcher" style="margin-top:10px;">
                                                 <a class="holder-active" href="#modal-form">
                                                     <button type="button" class="btn btn-danger btn-bordered" data-effect="mfp-zoomIn">

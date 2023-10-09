@@ -43,7 +43,7 @@
                             </div>
                             <div class="section row text-center">
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary" title="Insira as informações solicitadas.">Informações do Software</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/softwareInformation?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary" title="Insira as informações solicitadas.">Informações do Software</a>
                                 </div>
 
                                 <div class="col-md-4  mb5">
@@ -68,7 +68,7 @@
                                 </div>
 
                                 <div class="col-md-4  mb5">
-                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/software_information?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary " title="Insira as informações solicitadas.">Testes de durabilidade</a>
+                                    <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/durabilityTest?maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn fs14 btn-primary " title="Insira as informações solicitadas.">Testes de durabilidade</a>
                                 </div>
 
                                 <div class="col-md-4  mb5">

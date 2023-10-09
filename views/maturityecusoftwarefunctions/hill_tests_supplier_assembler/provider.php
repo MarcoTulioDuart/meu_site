@@ -122,7 +122,7 @@
 
                                         <?php elseif (count($info_maturityecusoftwarefunctions_hill_tests_supplier_assembler) > 0) : ?>
                                             <button type="submit" class="btn btn-primary">Atualizar</button>
-                                            <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/complete_stage?step=step_3&percentual_step=20&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-info">Aprovar</a>
+                                            <a href="<?= BASE_URL; ?>maturityecusoftwarefunctions/completeStage?step=step_3&percentual_step=20&maturityecusoftwarefunctions_id=<?= $_GET['maturityecusoftwarefunctions_id']; ?>" class="btn btn-info">Aprovar</a>
                                             <div id="animation-switcher" style="margin-top:10px;">
                                                 <a class="holder-active" href="#modal-form">
                                                     <button type="button" class="btn btn-danger btn-bordered" data-effect="mfp-zoomIn">
