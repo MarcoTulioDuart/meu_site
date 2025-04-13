@@ -7,22 +7,22 @@ global $db;
 $config = array();
 if(ENVIRONMENT == 'development') {
 	define("BASE_URL", "http://localhost/protsa/");
-	$config['dbname'] = 'republ85_protsa_teste';
-	$config['host'] = 'br968.hostgator.com.br';//em geral o servidor é localhost
-	$config['dbuser'] = 'republ85_admin';//em geral o usuário é root
-	$config['dbpass'] = 'vemcaver_23_info';
+	$config['dbname'] = 'bd_name';
+	$config['host'] = 'localhost';//em geral o servidor é localhost
+	$config['dbuser'] = 'user';//em geral o usuário é root
+	$config['dbpass'] = 'pass';
 } else {
-	define("BASE_URL", "https://protsa.infocept.com.br/");
-	$config['dbname'] = 'republ85_protsa';
+	define("BASE_URL", "");
+	$config['dbname'] = 'bd_online';
 	$config['host'] = 'localhost';
-	$config['dbuser'] = 'republ85_admin';
-	$config['dbpass'] = 'vemcaver_23_info';
+	$config['dbuser'] = 'user_online';
+	$config['dbpass'] = 'pass_online';
 }
 	/*Informações de e-mail*/
-	$config['hostmail'] = 'br968.hostgator.com.br';
-	$config['Usermail'] = 'contato@protsa.infocept.com.br';
-	$config['Username'] = 'PROTSA';
-	$config['Password'] = 'infocept23';
+	$config['hostmail'] = 'servidor_email';
+	$config['Usermail'] = 'email';
+	$config['Username'] = 'username';
+	$config['Password'] = 'password_email';
 
 try {
     $db = new PDO("mysql:charset=utf8;host=" . $config['host'] . ";dbname=" . $config['dbname'], $config['dbuser'], $config['dbpass']);
