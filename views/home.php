@@ -6,6 +6,12 @@
     <title>Página Inicial</title>
 </head>
 <body>
-    Página Inicial
+    
+<p>Olá, Marco Túlio! Seu primeiro site com XAMPP está funcionando!;
+</p>
+
+
+
+
 </body>
 </html>
